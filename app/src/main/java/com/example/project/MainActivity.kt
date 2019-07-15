@@ -56,11 +56,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnSettings.setOnClickListener {
-            val intent : Intent = Intent(this, SettingsActivity::class.java)
+            val intent : Intent = Intent(this, SignInActivity::class.java)
+            //val intent : Intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
-
-        val intent : Intent = Intent(this, SignInActivity::class.java)
 
     }
 }
