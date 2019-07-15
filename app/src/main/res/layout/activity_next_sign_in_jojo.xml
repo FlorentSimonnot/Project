@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".NextSignInJojoActivity"
+>
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary"
+            tools:ignore="MissingConstraints"
+            android:padding="12dp"
+            android:id="@+id/toolbar">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="New account"
+                android:textColor="#fff"
+                android:textSize="24dp"
+                android:fontFamily="@font/rubik"
+        />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_name"
+            android:src="@drawable/app_logo"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_sexe"
+            android:layout_below="@id/app_name">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sexe"
+                android:text="sexe"
+                android:layout_below="@id/app_name"
+                android:layout_weight="0.5"
+                android:textAlignment="center"
+        />
+
+        <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sexe_spinner"
+                android:entries="@array/sexe"
+                android:layout_alignBottom="@id/sexe"
+                android:layout_toRightOf="@id/sexe"
+                android:layout_weight="0.5"
+        />
+    </LinearLayout>
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:id="@+id/birthday"
+            android:layout_below="@id/edit_sexe"
+            android:hint="birthday"
+    />
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/description"
+            android:layout_below="@id/birthday"
+            android:gravity="start"
+            android:hint="description"
+    />
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/city"
+            android:layout_below="@id/description"
+            android:hint="city"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/city"
+            android:gravity="bottom|center">
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/create_account"
+                android:text="create account"/>
+    </LinearLayout>
+
+</RelativeLayout>

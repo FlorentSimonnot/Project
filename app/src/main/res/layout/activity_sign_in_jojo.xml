@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+>
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary"
+            tools:ignore="MissingConstraints"
+            android:padding="12dp"
+            android:id="@+id/toolbar">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="New account"
+                android:textColor="#fff"
+                android:textSize="24dp"
+                android:fontFamily="@font/rubik"
+        />
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/app_name"
+            android:src="@drawable/app_logo"
+            android:layout_centerHorizontal="true"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:id="@+id/name_and_first_name"
+            android:layout_below="@id/app_name">
+
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/name"
+                android:layout_weight="0.5"
+                android:hint="name"
+        />
+
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/first_name"
+                android:layout_weight="0.5"
+                android:layout_toRightOf="@id/name"
+                android:hint="first name"
+        />
+    </LinearLayout>
+
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email_address"
+            android:layout_alignLeft="@id/name_and_first_name"
+            android:layout_below="@id/name_and_first_name"
+            android:hint="email address"
+    />
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password"
+            android:inputType="textPassword"
+            android:layout_below="@id/email_address"
+            android:hint="password"
+    />
+
+    <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/confirm_password"
+            android:inputType="textPassword"
+            android:layout_below="@id/password"
+            android:hint="confirm password"
+    />
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/terms_of_use"
+            android:text='By clicking "NEXT" below, you agree to our Terms of use bla bla bla'
+            android:layout_below="@id/confirm_password"
+            android:textSize="12dp"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/terms_of_use"
+            android:gravity="bottom|center">
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/next"
+                android:text="next"/>
+    </LinearLayout>
+
+</RelativeLayout>

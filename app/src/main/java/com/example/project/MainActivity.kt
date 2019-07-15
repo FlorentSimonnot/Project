@@ -2,6 +2,7 @@ package com.example.project
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -60,6 +61,16 @@ class MainActivity : AppCompatActivity() {
             //val intent : Intent = Intent(this, SettingsActivity::class.java)
             startActivity(intent)
         }
+
+
+
+        /*test de mes layout*/
+        val sign_in_jojo = findViewById<Button>(R.id.sign_in_jojo)
+        sign_in_jojo.setOnClickListener {
+            val next_sign_in_jojo = Intent(this, SignInJojoActivity::class.java)
+            startActivity(next_sign_in_jojo)
+        }
+
 
     }
 }
