@@ -25,20 +25,19 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <ImageView
+    <!--<ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/app_name"
-            android:src="@drawable/app_logo"
             android:layout_centerHorizontal="true"
-    />
+    />-->
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:id="@+id/name_and_first_name"
-            android:layout_below="@id/app_name">
+    >
 
         <EditText
                 android:layout_width="0dp"
@@ -58,47 +57,64 @@
         />
     </LinearLayout>
 
+    <LinearLayout
 
-    <EditText
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/email_address"
-            android:layout_alignLeft="@id/name_and_first_name"
+            android:id="@+id/body"
             android:layout_below="@id/name_and_first_name"
-            android:hint="email address"
-    />
+    >
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/password"
-            android:inputType="textPassword"
-            android:layout_below="@id/email_address"
-            android:hint="password"
-    />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/email_address"
+                android:layout_alignLeft="@id/name_and_first_name"
+                android:hint="email address"
+        />
 
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/confirm_password"
-            android:inputType="textPassword"
-            android:layout_below="@id/password"
-            android:hint="confirm password"
-    />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/password"
+                android:inputType="textPassword"
+                android:layout_below="@id/email_address"
+                android:hint="password"
+        />
 
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/terms_of_use"
-            android:text='By clicking "NEXT" below, you agree to our Terms of use bla bla bla'
-            android:layout_below="@id/confirm_password"
-            android:textSize="12dp"
-    />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/confirm_password"
+                android:inputType="textPassword"
+                android:layout_below="@id/password"
+                android:hint="confirm password"
+        />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/terms_of_use"
+                android:text='By clicking "NEXT" below, you agree to our Terms of use bla bla bla'
+                android:layout_below="@id/confirm_password"
+                android:textSize="12dp"
+        />
+
+        <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/terms_of_use"
+                android:layout_marginTop="20dp"
+                android:textColor="#d63031"
+        />
+    </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/terms_of_use"
+            android:layout_below="@id/body"
             android:gravity="bottom|center">
 
         <Button
