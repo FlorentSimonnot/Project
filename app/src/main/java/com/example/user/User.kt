@@ -17,9 +17,11 @@ data class User (
     val city : String = ""
 ){
 
+    /**createAccount insert into database a new user.
+     *
+     */
     fun createAccount(auth : FirebaseAuth) : Boolean{
         var res = false
-        // [START create_user_with_email]
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener() {
                 if(it.isSuccessful){
