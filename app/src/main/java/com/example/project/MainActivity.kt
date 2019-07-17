@@ -8,12 +8,7 @@ import android.widget.LinearLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.TextView
-import androidx.annotation.NonNull
 import com.example.session.SessionUser
-import com.google.android.gms.auth.api.credentials.CredentialPickerConfig.Prompt.SIGN_IN
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_activiy)
+        setContentView(R.layout.activity_main_activity)
 
         if (session.isLogin()) {
             println("   YOU ARE ALREADY CONNECTED !!")
@@ -55,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        println("What's up ${session.getCurrentUser().name}")
+        println("What's up ${session.getCurrentUser()}")
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -89,12 +84,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        /*test de mes layout
+        /*test de mes layout*/
         val sign_in_jojo = findViewById<Button>(R.id.sign_in_jojo)
         sign_in_jojo.setOnClickListener {
             val next_sign_in_jojo = Intent(this, LoginActivity::class.java)
             startActivity(next_sign_in_jojo)
-        }*/
+        }
 
 
     }

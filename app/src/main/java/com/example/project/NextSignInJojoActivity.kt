@@ -77,7 +77,12 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 var currentSession = SessionUser()
                 println("CURRENT USER ${currentSession.getIdFromUser()}")
                 //session.insertUser(user)*/
+
             }
+
+            /*partie de jojo*/
+            val main_menu = Intent(this, MainMenuActivity::class.java)
+            startActivity(main_menu)
         }
 
 
