@@ -1,9 +1,11 @@
 package com.example.project
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import com.example.form.FormSignInSecond
+import com.example.session.SessionUser
 import com.example.user.Gender
 import com.example.user.User
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +17,7 @@ class NextSignInJojoActivity : AppCompatActivity() {
     private var firstName : String = ""
     private var password : String = ""
     private var email : String = ""
+    var SIGN_IN = 1
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +62,21 @@ class NextSignInJojoActivity : AppCompatActivity() {
                     findViewById<EditText>(R.id.description).text.toString(),
                     findViewById<EditText>(R.id.city).text.toString()
                 )
-                user.createAccount(auth)
+
+                if(user.createAccount(auth, this)){
+                    println("LETS GO !!")
+                }
+                else{
+                    println("   BEURK !!!! ")
+                }
+                /*println("SESSION : ${FirebaseAuth.getInstance().currentUser?.uid}")
+                //Error login
+                if(!session.login(user.email, user.password)){
+                    println("   DOESN'T WORK !")
+                }
+                var currentSession = SessionUser()
+                println("CURRENT USER ${currentSession.getIdFromUser()}")
+                //session.insertUser(user)*/
             }
         }
 
