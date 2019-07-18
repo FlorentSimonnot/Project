@@ -13,8 +13,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
+
+
 class SessionUser {
     private val user = FirebaseAuth.getInstance().currentUser
+    var currentUser : User = User()
 
     /** isLogin verify if a user is connected
      *  @return true if user is connected. False else
@@ -65,18 +68,4 @@ class SessionUser {
         }
     }
 
-    fun getCurrentUser() {
-        var user = User()
-        val path = FirebaseDatabase.getInstance().getReference("users/${this.user?.uid}")
-        path.addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                user = p0.getValue(User::class.java)!!
-            }
-
-        })
-    }
 }

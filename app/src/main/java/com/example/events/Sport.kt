@@ -6,5 +6,14 @@ enum class Sport() {
     CROSSFIT,
     HANDBALL,
     CANOE,
-    GOLF
+    GOLF,
+    INIT; //Add for instantiate sport and use whichSport
+
+    fun whichSport(sport : String) : Sport{
+        when(sport){
+            "FOOTBALL" -> return Sport.FOOTBALL
+            "BASKETBALL" -> return Sport.BASKETBALL
+            else -> throw Exception("Oups")
+        }
+    }
 }

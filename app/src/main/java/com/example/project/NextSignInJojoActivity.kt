@@ -17,7 +17,6 @@ class NextSignInJojoActivity : AppCompatActivity() {
     private var firstName : String = ""
     private var password : String = ""
     private var email : String = ""
-    var SIGN_IN = 1
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,20 +68,12 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 else{
                     println("   BEURK !!!! ")
                 }
-                /*println("SESSION : ${FirebaseAuth.getInstance().currentUser?.uid}")
-                //Error login
-                if(!session.login(user.email, user.password)){
-                    println("   DOESN'T WORK !")
-                }
-                var currentSession = SessionUser()
-                println("CURRENT USER ${currentSession.getIdFromUser()}")
-                //session.insertUser(user)*/
 
             }
 
             /*partie de jojo*/
-            val main_menu = Intent(this, MainMenuActivity::class.java)
-            startActivity(main_menu)
+            val mainMenu = Intent(this, MainActivity::class.java)
+            startActivity(mainMenu)
         }
 
 

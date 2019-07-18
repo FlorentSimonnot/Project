@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.TextView
 import com.example.form.FormSignInFirst
 import com.example.validator.validateInputPassword
-import kotlinx.android.synthetic.main.activity_sign_in.view.*
 
 class SignInJojoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

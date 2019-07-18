@@ -3,6 +3,8 @@ package com.example.user
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.EditText
+import android.widget.TextView
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
@@ -13,18 +15,18 @@ import com.example.session.SessionUser
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import java.util.*
 
 data class User (
-    val firstName : String = "",
-    val name : String = "",
-    val email : String = "",
-    val password : String = "",
-    val sex : Gender = Gender.ALIEN,
-    val birthday : String = "",
-    val describe : String = "",
-    val city : String = ""
+    var firstName : String = "",
+    var name : String = "",
+    var email : String = "",
+    var password : String = "",
+    var sex : Gender = Gender.ALIEN,
+    var birthday : String = "",
+    var describe : String = "",
+    var city : String = ""
 ){
 
     /**createAccount insert into database a new user.
@@ -56,6 +58,25 @@ data class User (
 
     }
 
+    /**
+     *
+     */
+    fun writeInfoUser(uid : String?,textView: TextView, action : String, message : String?){
+        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
+            ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val value = dataSnapshot.getValue(User::class.java)
+                    if(value != null){
+                        when(action){
+                            "name" -> textView.text = "$message ${value.name}"
+                            else -> println("ERROR")
+                        }
+                    }
+                }
 
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+
+    }
 }
 

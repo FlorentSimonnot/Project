@@ -8,7 +8,6 @@ import com.example.login.FacebookLogin
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.EditText
-import com.example.login.EmailLogin
 import com.example.session.SessionUser
 
 
