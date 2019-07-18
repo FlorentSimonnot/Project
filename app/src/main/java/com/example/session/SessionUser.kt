@@ -1,11 +1,8 @@
 package com.example.session
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
+import android.widget.TextView
 import com.example.login.EmailLogin
-import com.example.project.MainActivity
-import com.example.user.Gender
 import com.example.user.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -13,11 +10,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
-
-class SessionUser {
-    private val user = FirebaseAuth.getInstance().currentUser
-    var currentUser : User = User()
+class SessionUser{
+    val user = FirebaseAuth.getInstance().currentUser
 
     /** isLogin verify if a user is connected
      *  @return true if user is connected. False else
@@ -58,6 +52,7 @@ class SessionUser {
         return user.uid.toString()
     }
 
+    /*180719*/
     fun login(email: String, password : String, context: Context){
         if(user != null){
             throw Exception("Impossible")
@@ -66,6 +61,31 @@ class SessionUser {
             val emailLogin = EmailLogin(email, password)
             emailLogin.login(context)
         }
+    }
+
+    fun writeInfoUser(uid: String?, textView: TextView, action: String, message: String?) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    when (action) {
+                        "firstName" -> textView.text = "$message ${value.firstName}"
+                        "name" -> textView.text = "$message ${value.name}"
+                        "email" -> textView.text = "$message ${value.name}"
+                        "password" -> textView.text = "$message ${value.name}"
+                        "sex" -> textView.text = "$message ${value.name}"
+                        "birthday" -> textView.text = "$message ${value.name}"
+                        "describe" -> textView.text = "$message ${value.name}"
+                        "city" -> textView.text = "$message ${value.name}"
+                        else -> println("ERROR")
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
     }
 
 }

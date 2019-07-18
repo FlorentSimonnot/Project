@@ -10,13 +10,14 @@ import com.example.events.Privacy
 import com.example.events.Sport
 import com.example.session.SessionUser
 import com.example.user.User
-
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var textMessage: TextView
-    private var session : SessionUser = SessionUser()
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    /*180719*/
+    var session : SessionUser = SessionUser()
+    private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
                 textMessage.text = R.string.bottom_navigation_menu_home.toString()
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.navigation_account -> {
                 textMessage.text = R.string.bottom_navigation_menu_account.toString()
+
+                val checkAccountIntent = Intent(this, UserInfoActivity::class.java)
+                startActivity(checkAccountIntent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_chat -> {
@@ -37,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         }
         false
     }
-    var currentUser : User = User()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +48,13 @@ class MainActivity : AppCompatActivity() {
 
         if (session.isLogin()) {
             println("   YOU ARE ALREADY CONNECTED !!")
+            val test = findViewById<TextView>(R.id.test)
             //currentUser.writeInfoUser(session.getIdFromUser(), findViewById(R.id.whatsUp), "name", "What's up")
         } else {
-            val intent = Intent(this, LoginActivity::class.java)
+            val logInIntent = Intent(this, LoginActivity::class.java)
             //Flags allow to block come back
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
+            logInIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(logInIntent)
         }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
