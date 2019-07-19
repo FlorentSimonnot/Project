@@ -1,16 +1,24 @@
 package com.example.project
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.events.Event
 import com.example.events.Privacy
 import com.example.events.Sport
 import com.example.session.SessionUser
 import com.example.user.User
+import com.example.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class MainActivity : AppCompatActivity() {
@@ -46,11 +54,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_activity)
 
-        if (session.isLogin()) {
-            println("   YOU ARE ALREADY CONNECTED !!")
-            val test = findViewById<TextView>(R.id.test)
-            //currentUser.writeInfoUser(session.getIdFromUser(), findViewById(R.id.whatsUp), "name", "What's up")
-        } else {
+        if (!session.isLogin()) {
             val logInIntent = Intent(this, LoginActivity::class.java)
             //Flags allow to block come back
             logInIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -89,99 +93,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }*/
 
-        /* ----------- EVENTS LIST ---------------*/
-        val events = listOf<Event>(
-            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            ),            Event(
-                "five a lognes",
-                Sport.FOOTBALL,
-                "22/01/2020",
-                "Lognes",
-                10,
-                "que des pros svp",
-                Privacy.PUBLIC
-            )
-
-        )
-
+        /* ----------- SHOW EVENTS ---------------*/
         val listView = findViewById<ListView>(R.id.events_listview)
-        val adapter = ArrayAdapter<Event>(
-            this,
-            android.R.layout.simple_list_item_1,
-            events
-        )
-        listView.adapter = adapter
+        val relativeLayout = findViewById<RelativeLayout>(R.id.layoutEventsView)
+        showAllEvents(this, relativeLayout, listView)
 
         val createEvent = findViewById<Button>(R.id.create_event)
         createEvent.setOnClickListener {
@@ -193,6 +108,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+    }
+
+    /**
+     * Get All of events from Database and show them in listView
+     */
+    private fun showAllEvents(activity: Activity, layout : RelativeLayout,  listView : ListView){
+        val ref = FirebaseDatabase.getInstance().getReference("events")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                var events : ArrayList<Event> = ArrayList()
+                data.forEach {
+                    val event = it.getValue(Event::class.java) //Get event in a Event class
+                    //Add event in list if it isn't null
+                    if(event != null){
+                        events.add(event)
+                    }
+                }
+                val adapter = ArrayAdapterCustom(activity, R.layout.my_list, events)
+                listView.adapter = adapter
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
 

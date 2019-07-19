@@ -6,6 +6,6 @@
     <color name="background_light">#dedede</color>
     <color name="colorAccentDark">#fff</color>
     <color name="colorButtonAdded">#fdcb6e</color>
-    <color name="colorDarkMode">#69779b</color>
+    <color name="colorDarkMode">#5588a3</color>
     <color name="colorTextDarkMode">#f0ece2</color>
 </resources>
