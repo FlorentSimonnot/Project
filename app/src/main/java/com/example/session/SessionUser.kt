@@ -72,12 +72,12 @@ class SessionUser{
                     when (action) {
                         "firstName" -> textView.text = "$message ${value.firstName}"
                         "name" -> textView.text = "$message ${value.name}"
-                        "email" -> textView.text = "$message ${value.name}"
-                        "password" -> textView.text = "$message ${value.name}"
-                        "sex" -> textView.text = "$message ${value.name}"
-                        "birthday" -> textView.text = "$message ${value.name}"
-                        "describe" -> textView.text = "$message ${value.name}"
-                        "city" -> textView.text = "$message ${value.name}"
+                        "email" -> textView.text = "$message ${value.email}"
+                        "password" -> textView.text = "$message ${value.password}"
+                        "sex" -> textView.text = "$message ${value.sex}"
+                        "birthday" -> textView.text = "$message ${value.birthday}"
+                        "describe" -> textView.text = "$message ${value.describe}"
+                        "city" -> textView.text = "$message ${value.city}"
                         else -> println("ERROR")
                     }
                 }
