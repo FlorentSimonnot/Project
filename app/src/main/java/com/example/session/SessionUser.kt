@@ -107,14 +107,14 @@ class SessionUser{
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
                     when (action) {
-                        "firstName" -> textView.text = "$message ${value.firstName}"
-                        "name" -> textView.text = "$message ${value.name}"
-                        "email" -> textView.text = "$message ${value.email}"
-                        "password" -> textView.text = "$message ${value.password}"
-                        "sex" -> textView.text = "$message ${value.sex}"
-                        "birthday" -> textView.text = "$message ${value.birthday}"
-                        "describe" -> textView.text = "$message ${value.describe}"
-                        "city" -> textView.text = "$message ${value.city}"
+                        "firstName" -> textView.text = "$message${value.firstName}"
+                        "name" -> textView.text = "$message${value.name}"
+                        "email" -> textView.text = "$message${value.email}"
+                        "password" -> textView.text = "$message${value.password}"
+                        "sex" -> textView.text = "$message${value.sex}"
+                        "birthday" -> textView.text = "$message${value.birthday}"
+                        "describe" -> textView.text = "$message${value.describe}"
+                        "city" -> textView.text = "$message${value.city}"
                         else -> println("ERROR")
                     }
                 }
