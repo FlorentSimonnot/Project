@@ -23,5 +23,9 @@
 
     <string name="facebook_app_id">298040347653666</string>
     <string name="fb_login_protocol_scheme">fb298040347653666</string>
+    <string name="resetPassword">
+        Please supply your email. You will receive an email in order to reset your password.
+    </string>
 
+    <string name="client_id">314370239409-n8rhasb1b0pfjjm2f13qq6du7e0mho5m.apps.googleusercontent.com</string>
 </resources>

@@ -7,7 +7,6 @@
         android:layout_height="match_parent"
         tools:context=".UserInfoActivity">
 
-    <!--TOOLBAR-->
     <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -31,7 +30,6 @@
                 android:layout_marginRight="10dp"
         />
     </androidx.appcompat.widget.Toolbar>
-    <!--============================================================-->
 
     <!--PROFILE PHOTO-->
     <ImageView
@@ -41,8 +39,8 @@
             android:src="@drawable/com_facebook_profile_picture_blank_portrait"
             android:layout_below="@id/toolbar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="60dp"
     />
 
     <!--NAME + FIRSTNAME-->
@@ -232,7 +230,7 @@
         />
         <TextView
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:id="@+id/describe_account"
                 android:textSize="15dp"
                 android:layout_marginLeft="7dp"
@@ -245,19 +243,12 @@
             android:layout_height="match_parent"
             android:layout_below="@id/describe_layout"
             android:gravity="bottom"
-            android:orientation="vertical"
     >
         <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_profile_button"
                 android:text="edit profile"
-        />
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/log_out_button"
-                android:text="log out"
         />
     </LinearLayout>
 

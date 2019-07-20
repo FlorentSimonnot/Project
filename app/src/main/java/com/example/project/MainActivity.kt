@@ -28,22 +28,17 @@ class MainActivity : AppCompatActivity() {
     private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                textMessage.text = R.string.bottom_navigation_menu_home.toString()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {
-                textMessage.text = R.string.bottom_navigation_menu_map.toString()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_account -> {
-                textMessage.text = R.string.bottom_navigation_menu_account.toString()
-
                 val checkAccountIntent = Intent(this, UserInfoActivity::class.java)
                 startActivity(checkAccountIntent)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_chat -> {
-                textMessage.text = R.string.bottom_navigation_menu_chat.toString()
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -63,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        textMessage = findViewById(R.id.message)
+        //textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         /* ----------- BUTTON ACTIONS -------------*/

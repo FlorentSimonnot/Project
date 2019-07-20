@@ -1,8 +1,12 @@
 package com.example.session
 
 import android.content.Context
+import android.content.Intent
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
+import com.example.project.LoginActivity
 import com.example.user.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -60,6 +64,39 @@ class SessionUser{
         else{
             val emailLogin = EmailLogin(email, password)
             emailLogin.login(context)
+        }
+    }
+
+    /**deleteUser delete the current user from database
+     * @param context for intent
+     * @author Florent
+     */
+    fun deleteUser(context: Context){
+        user?.delete()
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    println("DELETE ACCOUNT WITH SUCCESS")
+                    val intent : Intent = Intent(context, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    context.startActivity(intent)
+                }
+                else{
+                    println("ERROR : ${task.exception}")
+                }
+            }
+    }
+
+    /**resetPassword send an email to reset password.
+     *
+     */
+    fun resetPassword(context: Context, auth : FirebaseAuth, emailAddress : String){
+        if(user == null){
+            auth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(context, "Check your email now ;)", Toast.LENGTH_SHORT).show()
+                    }
+                }
         }
     }
 

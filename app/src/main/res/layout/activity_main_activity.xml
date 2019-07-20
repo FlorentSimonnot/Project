@@ -136,83 +136,6 @@
                 android:layout_marginTop="100dp"
         />
 
-
-        <!--appartient a flo-->
-        <!--<Button
-            android:id="@+id/btnSignOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="log out"
-        />-->
-        <!--================================-->
-        <!-- No need here. Login already in login activity-->
-        <!--<ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/app_logo"
-            android:src="@drawable/logo"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="50dp"
-        />
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/id"
-                android:layout_gravity="center_horizontal"
-                android:hint="id or email (c'est flo qui choisit)"
-                android:layout_marginRight="25dp"
-                android:layout_marginLeft="25dp"
-        />
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/password"
-                android:layout_gravity="center_horizontal"
-                android:hint="password"
-                android:layout_marginRight="25dp"
-                android:layout_marginLeft="25dp"
-        />
-
-        <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/keep_logged"
-                android:text="keep logged"
-                android:layout_marginLeft="25dp"
-        />
-
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/log_in"
-                android:text="log in"
-                android:layout_gravity="center_horizontal"
-        />
-
-        <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/sign_in_jojo"
-                android:text="sign in"
-                android:layout_gravity="center_horizontal"
-        />-->
-
-        <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="100dp">
-
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Flonathan Coorp"
-                    android:layout_gravity="bottom"
-                    android:textAlignment="center"
-            />
-        </LinearLayout>-->
-
     </LinearLayout>
 
     <!-- ***********BOTTOM MENU************* -->
@@ -229,6 +152,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled"
     />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
