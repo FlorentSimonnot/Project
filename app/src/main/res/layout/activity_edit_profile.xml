@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".UserInfoActivity">
+        tools:context=".EditProfileActivity">
 
     <!--TOOLBAR-->
     <androidx.appcompat.widget.Toolbar
@@ -17,19 +17,20 @@
             app:navigationIcon="?attr/homeAsUpIndicator"
             android:theme="@style/Toolbar"
             app:titleTextColor="#fff"
-    >
+            >
 
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:id="@+id/toolbar_textview"
+                android:text="Edit Profile"
                 android:textColor="#fff"
                 android:textSize="24dp"
                 android:fontFamily="@font/rubik"
                 android:gravity="end|center_vertical"
                 android:textAlignment="textEnd"
                 android:layout_marginRight="10dp"
-        />
+                />
     </androidx.appcompat.widget.Toolbar>
     <!--============================================================-->
 
@@ -43,7 +44,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:layout_marginBottom="50dp"
-    />
+            />
 
     <!--NAME + FIRSTNAME-->
     <LinearLayout
@@ -58,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="0.5"
-        >
+                >
+            <!--NAME-->
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,15 +68,15 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     style="?android:attr/listSeparatorTextViewStyle"
-            />
-            <TextView
+                    />
+            <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/name_account"
                     android:textSize="15dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginBottom="20dp"
-            />
+                    />
         </LinearLayout>
 
         <LinearLayout
@@ -82,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:orientation="vertical"
-        >
+                >
+            <!--FIRST NAME-->
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,15 +93,15 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     style="?android:attr/listSeparatorTextViewStyle"
-            />
-            <TextView
+                    />
+            <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/firstName_account"
                     android:textSize="15dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginBottom="20dp"
-            />
+                    />
         </LinearLayout>
 
     </LinearLayout>
@@ -111,7 +114,8 @@
             android:id="@+id/email_layout"
             android:orientation="vertical"
             android:layout_below="@id/name_and_firstName_layout"
-    >
+            >
+        <!--EMAIL-->
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,8 +123,8 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
                 style="?android:attr/listSeparatorTextViewStyle"
-        />
-        <TextView
+                />
+        <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/email_account"
@@ -128,7 +132,7 @@
                 android:textSize="15dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginBottom="20dp"
-        />
+                />
     </LinearLayout>
     <!--=============================================================-->
 
@@ -140,13 +144,14 @@
             android:id="@+id/sex_and_birthday_and_city_layout"
             android:layout_below="@id/email_layout"
             android:orientation="horizontal"
-    >
+            >
         <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="0.3"
-        >
+                >
+            <!--SEX-->
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,15 +159,23 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     style="?android:attr/listSeparatorTextViewStyle"
-            />
-            <TextView
+                    />
+            <!--<EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/sex_account"
                     android:textSize="15dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginBottom="20dp"
-            />
+                    />-->
+            <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sex_spinner"
+                    android:entries="@array/sexe"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginBottom="20dp"
+                    />
         </LinearLayout>
 
         <LinearLayout
@@ -170,7 +183,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="0.3"
-        >
+                >
+            <!--BIRTHDAY-->
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -178,15 +192,16 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     style="?android:attr/listSeparatorTextViewStyle"
-            />
-            <TextView
+                    />
+            <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/birthday_account"
+                    android:inputType="date"
                     android:textSize="15dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginBottom="20dp"
-            />
+                    />
         </LinearLayout>
 
         <LinearLayout
@@ -194,7 +209,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="0.3"
-        >
+                >
+            <!--CITY-->
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -202,15 +218,15 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     style="?android:attr/listSeparatorTextViewStyle"
-            />
-            <TextView
+                    />
+            <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/city_account"
                     android:textSize="15dp"
                     android:layout_marginLeft="7dp"
                     android:layout_marginBottom="20dp"
-            />
+                    />
         </LinearLayout>
     </LinearLayout>
     <!--=========================================================-->
@@ -221,7 +237,8 @@
             android:id="@+id/describe_layout"
             android:layout_below="@id/sex_and_birthday_and_city_layout"
             android:orientation="vertical"
-    >
+            >
+        <!--DESCRIPTION-->
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -229,36 +246,15 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
                 style="?android:attr/listSeparatorTextViewStyle"
-        />
-        <TextView
+                />
+        <EditText
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:id="@+id/describe_account"
                 android:textSize="15dp"
                 android:layout_marginLeft="7dp"
                 android:layout_marginBottom="20dp"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/describe_layout"
-            android:gravity="bottom"
-            android:orientation="vertical"
-    >
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_profile_button"
-                android:text="edit profile"
-        />
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/log_out_button"
-                android:text="log out"
-        />
+                />
     </LinearLayout>
 
 </RelativeLayout>

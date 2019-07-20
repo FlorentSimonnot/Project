@@ -1,7 +1,9 @@
 package com.example.project
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import com.example.session.SessionUser
 import com.example.user.User
@@ -27,6 +29,9 @@ class UserInfoActivity : AppCompatActivity() {
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val editProfileButton = findViewById<Button>(R.id.edit_profile_button)
+        val logOutButton = findViewById<Button>(R.id.log_out_button)
 
         toolbarTextView.text = session.writeInfoUser(
             session.getIdFromUser(),
@@ -88,6 +93,17 @@ class UserInfoActivity : AppCompatActivity() {
             "describe",
             ""
         ).toString()
+
+        editProfileButton.setOnClickListener {
+            val editProfileIntent = Intent(this, EditProfileActivity::class.java)
+            startActivity(editProfileIntent)
+        }
+
+        logOutButton.setOnClickListener {
+            val logOutIntent = Intent(this, LoginActivity::class.java)
+            session.signOut()
+            startActivity(logOutIntent)
+        }
 
     }
 
