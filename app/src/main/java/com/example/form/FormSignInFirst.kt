@@ -14,7 +14,6 @@ data class FormSignInFirst (
     private var size : Int = 255
 
     override fun isFormValid(): Boolean {
-        println(" -----------email  :::::  $email")
         return validateInputText(firstName, size).fieldIsValid() &&
                 validateInputText(name, size).fieldIsValid() &&
                 validateInputEmail(email, size).fieldIsValid() &&

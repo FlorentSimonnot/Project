@@ -8,19 +8,39 @@ import com.example.login.FacebookLogin
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.EditText
+import com.example.login.GoogleLogin
 import com.example.session.SessionUser
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
 
 
 class LoginActivity : AppCompatActivity() {
     private val sessionUser = SessionUser()
+    private val RC_SIGN_IN = 9001
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        //Config Google sign in
+        val googleSigninOptions =
+            GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id))
+                .requestEmail()
+                .build()
+        googleSignInClient = GoogleSignIn.getClient(this, googleSigninOptions)
+
+
         val buttonFacebookLogin : LoginButton = this.findViewById(R.id.facebookLoginButton)
+        val buttonGoogleLogin : SignInButton = this.findViewById(R.id.googleLoginButton)
+        val passwordForgot : Button = findViewById(R.id.forgotPassword)
         val buttonLogin : Button = this.findViewById(R.id.buttonLogin)
         val notAMember : Button = findViewById(R.id.notAMember)
+
 
         buttonFacebookLogin.setOnClickListener{
             val facebookLogin = FacebookLogin(buttonFacebookLogin)
@@ -34,10 +54,36 @@ class LoginActivity : AppCompatActivity() {
             sessionUser.login(email, password, this)
         }
 
+        buttonGoogleLogin.setOnClickListener {
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_SIGN_IN)
+        }
+
         notAMember.setOnClickListener {
             val intent = Intent(this, SignInJojoActivity::class.java)
             startActivity(intent)
         }
 
+        passwordForgot.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                var googleLogin = GoogleLogin(googleSignInClient, account!!)
+                googleLogin.login(this)
+            } catch (e: ApiException) {
+                println("Google sign in failed : ${e.statusCode}")
+            }
+        }
+    }
+
 }

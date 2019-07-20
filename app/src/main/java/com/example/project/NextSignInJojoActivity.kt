@@ -70,10 +70,6 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 }
 
             }
-
-            /*partie de jojo*/
-            val mainMenu = Intent(this, MainActivity::class.java)
-            startActivity(mainMenu)
         }
 
 

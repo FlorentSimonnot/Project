@@ -51,6 +51,7 @@ class FacebookLogin (private val buttonFacebookLogin: LoginButton){
                 if (it.isSuccessful) {
                     val user = auth.currentUser
                     res = true
+                    println("YESSS ")
                 } else {
                     println("ERRROR 2 ::: ${it.exception}")
                 }

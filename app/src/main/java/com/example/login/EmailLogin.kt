@@ -14,7 +14,7 @@ class EmailLogin (private val email : String = "", private val password : String
             .addOnCompleteListener() {
                 result = it.isSuccessful
                 if(result){
-                    val intent = Intent(context,   MainActivity::class.java)
+                    val intent = Intent(context, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)
                 }
