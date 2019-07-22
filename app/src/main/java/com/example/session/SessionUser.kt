@@ -56,7 +56,6 @@ class SessionUser{
         return user.uid.toString()
     }
 
-    /*180719*/
     fun login(email: String, password : String, context: Context){
         if(user != null){
             throw Exception("Impossible")

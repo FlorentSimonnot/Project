@@ -48,29 +48,6 @@ data class User(
             }
 
     }
-
-    /**
-     *
-     */
-    fun writeInfoUser(uid: String?, textView: TextView, action: String, message: String?) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(User::class.java)
-                if (value != null) {
-                    when (action) {
-                        "name" -> textView.text = "$message ${value.name}"
-                        "firstName" -> textView.text = "$message ${value.firstName}"
-                        else -> println("ERROR")
-                    }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-
-    }
-
 }
 
 
