@@ -17,7 +17,9 @@ data class User(
     var sex : Gender = Gender.ALIEN,
     var birthday : String = "",
     var describe : String = "",
-    var city : String = ""
+    var city : String = "",
+    var typeLog : String = "Email",
+    var idServiceLog : String = ""
 ){
 
     /**createAccount insert into database a new user.
@@ -44,7 +46,7 @@ data class User(
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.setValue(this)
             .addOnSuccessListener {
-                println("DATA INSERTED !!!!")
+                //Done
             }
 
     }

@@ -30,7 +30,7 @@ class SignInJojoActivity : AppCompatActivity() {
             if(form.isFormValid()){
                 val nextSignInJojo = Intent(this, NextSignInJojoActivity::class.java)
                 nextSignInJojo.action = Context.INPUT_SERVICE
-                nextSignInJojo.addCategory("UserSignIn")
+                nextSignInJojo.addCategory("UserSignInWithEmail")
                 nextSignInJojo.putExtra("firstName", form.firstName)
                 nextSignInJojo.putExtra("name", form.name)
                 nextSignInJojo.putExtra("email", form.email)

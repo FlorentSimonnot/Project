@@ -4,25 +4,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorDarkMode"
+        android:padding="10dp"
 >
-
-    <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/colorPrimary"
-            tools:ignore="MissingConstraints"
-            android:padding="12dp"
-            android:id="@+id/toolbar">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:text="New account"
-                android:textColor="#fff"
-                android:textSize="24dp"
-                android:fontFamily="@font/rubik"
-        />
-    </androidx.appcompat.widget.Toolbar>
 
 
     <ImageView
@@ -30,7 +14,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/app_logo"
             android:src="@drawable/logo"
-            android:layout_below="@id/toolbar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
     />
@@ -49,6 +32,9 @@
                 android:id="@+id/name"
                 android:layout_weight="0.5"
                 android:hint="name"
+                android:background="@drawable/basic_input_rectangle"
+                android:padding="5dp"
+                android:layout_marginRight="10dp"
         />
 
         <EditText
@@ -58,6 +44,8 @@
                 android:layout_weight="0.5"
                 android:layout_toRightOf="@id/name"
                 android:hint="first name"
+                android:background="@drawable/basic_input_rectangle"
+                android:padding="5dp"
         />
     </LinearLayout>
 
@@ -68,6 +56,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/body"
             android:layout_below="@id/name_and_first_name"
+
     >
 
         <EditText
@@ -76,6 +65,13 @@
                 android:id="@+id/email_address"
                 android:layout_alignLeft="@id/name_and_first_name"
                 android:hint="email address"
+                android:background="@drawable/basic_input_rectangle"
+                android:layout_marginTop="15dp"
+                android:padding="7dp"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/rubik"
+                android:drawableLeft="@drawable/ic_mail_24dp"
+                android:drawableStart="@drawable/ic_mail_24dp"
         />
 
         <EditText
@@ -85,6 +81,13 @@
                 android:inputType="textPassword"
                 android:layout_below="@id/email_address"
                 android:hint="password"
+                android:background="@drawable/basic_input_rectangle"
+                android:layout_marginTop="15dp"
+                android:padding="7dp"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/rubik"
+                android:drawableLeft="@drawable/ic_lock_24dp"
+                android:drawableStart="@drawable/ic_lock_24dp"
         />
 
         <EditText
@@ -94,6 +97,13 @@
                 android:inputType="textPassword"
                 android:layout_below="@id/password"
                 android:hint="confirm password"
+                android:background="@drawable/basic_input_rectangle"
+                android:layout_marginTop="15dp"
+                android:padding="7dp"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/rubik"
+                android:drawableLeft="@drawable/ic_lock_24dp"
+                android:drawableStart="@drawable/ic_lock_24dp"
         />
 
         <TextView
@@ -102,7 +112,10 @@
                 android:id="@+id/terms_of_use"
                 android:text='By clicking "NEXT" below, you agree to our Terms of use bla bla bla'
                 android:layout_below="@id/confirm_password"
-                android:textSize="12dp"
+                android:textSize="14sp"
+                android:layout_marginTop="25dp"
+                android:textColor="#fff"
+
         />
 
         <TextView
@@ -112,6 +125,7 @@
                 android:layout_below="@id/terms_of_use"
                 android:layout_marginTop="20dp"
                 android:textColor="#d63031"
+
         />
     </LinearLayout>
 

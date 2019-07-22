@@ -5,34 +5,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".NextSignInJojoActivity"
+        android:background="@color/colorDarkMode"
+        android:padding="10dp"
 >
 
-    <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/colorPrimary"
-            tools:ignore="MissingConstraints"
-            android:padding="12dp"
-            android:id="@+id/toolbar">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:text="New account"
-                android:textColor="#fff"
-                android:textSize="24dp"
-                android:fontFamily="@font/rubik"
-        />
-    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/app_logo"
             android:src="@drawable/logo"
-            android:layout_below="@id/toolbar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
     />
 
     <LinearLayout
@@ -46,6 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textInfos"
+            android:fontFamily="@font/rubik"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:gravity="center"
         />
 
     </LinearLayout>
@@ -56,6 +43,8 @@
             android:id="@+id/edit_sexe"
             android:layout_marginTop="20dp"
             android:layout_below="@id/layoutText"
+            android:fontFamily="@font/rubik"
+            android:background="#fff"
             >
 
         <TextView
@@ -65,6 +54,8 @@
                 android:text="sexe"
                 android:layout_weight="0.5"
                 android:layout_marginLeft="3dp"
+                android:textSize="18sp"
+                android:padding="10dp"
         />
 
         <Spinner
@@ -84,6 +75,9 @@
             android:id="@+id/birthday"
             android:layout_below="@id/edit_sexe"
             android:hint="birthday"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/basic_input_rectangle"
+            android:padding="10dp"
     />
 
     <EditText
@@ -93,6 +87,9 @@
             android:layout_below="@id/birthday"
             android:gravity="start"
             android:hint="description"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/basic_input_rectangle"
+            android:padding="10dp"
     />
 
     <EditText
@@ -101,6 +98,9 @@
             android:id="@+id/city"
             android:layout_below="@id/description"
             android:hint="city"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/basic_input_rectangle"
+            android:padding="10dp"
     />
 
     <TextView
@@ -110,22 +110,39 @@
             android:layout_below="@id/city"
             android:text="radius around"
             android:layout_marginTop="20dp"
+            android:textColor="#fff"
+            android:fontFamily="@font/rubik"
+            android:textSize="18dp"
     />
 
     <SeekBar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="18dp"
             android:id="@+id/distance_seekbar"
+            android:layout_marginTop="5dp"
             android:layout_below="@id/city"
             android:max="25"
             android:progress="5"
             android:layout_alignTop="@id/distance"
             android:layout_toRightOf="@id/distance"
+            android:thumbTint="#fff"
+            android:progressTint="#fff"
     />
+
+    <TextView
+        android:layout_below="@id/distance_seekbar"
+        android:id="@+id/distance_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="150dp"
+        android:textColor="#fff"
+        android:paddingLeft="10dp"
+    />
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/city"
+            android:layout_below="@id/distance_value"
             android:gravity="bottom|center">
 
 
