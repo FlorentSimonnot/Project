@@ -30,55 +30,40 @@ class EditProfileActivity : AppCompatActivity() {
         nameEditText.hint = session.writeInfoUser(
             session.getIdFromUser(),
             nameEditText,
-            "name",
-            ""
+            "name"
         ).toString()
 
         firstNameEditText.hint = session.writeInfoUser(
             session.getIdFromUser(),
             firstNameEditText,
-            "firstName",
-            ""
+            "firstName"
         ).toString()
 
 
         emailEditText.hint = session.writeInfoUser(
             session.getIdFromUser(),
             emailEditText,
-            "email",
-            ""
+            "email"
         ).toString()
-
-
-        /*sexSpinner.hint = session.writeInfoUser(
-            session.getIdFromUser(),
-            sexSpinner,
-            "sex",
-            ""
-        ).toString()*/
-
 
         birthdayEditText.hint = session.writeInfoUser(
             session.getIdFromUser(),
             birthdayEditText,
-            "birthday",
-            ""
+            "birthday"
         ).toString()
 
 
         cityEditText.hint = session.writeInfoUser(
             session.getIdFromUser(),
             cityEditText,
-            "city",
-            ""
+            "city"
         ).toString()
 
 
         describeEditText.hint = session.writeInfoUser(
             session.getIdFromUser(),
             describeEditText,
-            "describe",
-            ""
+            "describe"
         ).toString()
     }
 }

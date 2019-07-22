@@ -20,6 +20,7 @@ data class User(
     var city : String = "",
     var typeLog : String = "Email",
     var idServiceLog : String = ""
+
 ){
 
     /**createAccount insert into database a new user.

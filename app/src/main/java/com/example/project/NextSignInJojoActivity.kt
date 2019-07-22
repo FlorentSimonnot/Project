@@ -75,6 +75,7 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 "Female" -> Gender.FEMALE
                 else -> Gender.ALIEN
             }
+
             var form = FormSignInSecond(
                 sex,
                 findViewById<EditText>(R.id.birthday).text.toString(),
@@ -97,7 +98,9 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 )
 
                 when(typeLog){
-                    "Email" -> user.createAccount(auth, this)
+                    "Email" -> {
+                        user.createAccount(auth, this)
+                    }
                     "Google" -> {
                         user.insertUser(auth.currentUser?.uid)
                         val intent = Intent(this, MainActivity::class.java)

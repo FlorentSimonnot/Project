@@ -68,8 +68,9 @@
                     android:src="@drawable/com_facebook_profile_picture_blank_portrait"
                     app:civ_border_width="2dp"
                     app:civ_border_color="#FF000000"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginBottom="60dp"/>
+                    android:layout_marginTop="40dp"
+                    android:layout_marginBottom="5dp"
+                    />
 
 
             <!--NAME + FIRSTNAME-->
@@ -80,28 +81,34 @@
                     android:layout_below="@id/profile_photo"
                     android:orientation="horizontal">
 
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name_and_firstName_account"
+                        android:textAlignment="center"
+                        />
                 <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="0.5"
                 >
-                    <TextView
+                    <!--<TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="name"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
                             style="?android:attr/listSeparatorTextViewStyle"
-                    />
-                    <TextView
+                    />-->
+                    <!--<TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/name_account"
                             android:textSize="15dp"
                             android:layout_marginLeft="7dp"
                             android:layout_marginBottom="20dp"
-                    />
+                    />-->
                 </LinearLayout>
 
                 <LinearLayout
@@ -110,22 +117,22 @@
                         android:layout_weight="0.5"
                         android:orientation="vertical"
                 >
-                    <TextView
+                    <!--<TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="first name"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
                             style="?android:attr/listSeparatorTextViewStyle"
-                    />
-                    <TextView
+                    />-->
+                    <!--<TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/firstName_account"
                             android:textSize="15dp"
                             android:layout_marginLeft="7dp"
                             android:layout_marginBottom="20dp"
-                    />
+                    />-->
                 </LinearLayout>
 
             </LinearLayout>
@@ -263,7 +270,6 @@
                         android:id="@+id/describe_account"
                         android:textSize="15dp"
                         android:layout_marginLeft="7dp"
-                        android:layout_marginBottom="20dp"
                 />
             </LinearLayout>
 
@@ -271,7 +277,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/describe_layout"
-                    android:gravity="bottom"
                     android:orientation="vertical">
                 <Button
                         android:layout_width="match_parent"

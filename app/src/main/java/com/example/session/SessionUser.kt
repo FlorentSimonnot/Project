@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import java.lang.StringBuilder
 
 class SessionUser{
     val user = FirebaseAuth.getInstance().currentUser
@@ -106,21 +107,21 @@ class SessionUser{
         }
     }
 
-    fun writeInfoUser(uid: String?, textView: TextView, action: String, message: String?) {
+    fun writeInfoUser(uid: String?, textView: TextView, action: String) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
                     when (action) {
-                        "firstName" -> textView.text = "$message${value.firstName}"
-                        "name" -> textView.text = "$message${value.name}"
-                        "email" -> textView.text = "$message${value.email}"
-                        "password" -> textView.text = "$message${value.password}"
-                        "sex" -> textView.text = "$message${value.sex}"
-                        "birthday" -> textView.text = "$message${value.birthday}"
-                        "describe" -> textView.text = "$message${value.describe}"
-                        "city" -> textView.text = "$message${value.city}"
+                        "firstName" -> textView.text = value.firstName
+                        "name" -> textView.text = value.name
+                        "email" -> textView.text = value.email
+                        "password" -> textView.text = value.password
+                        "sex" -> textView.text = "${value.sex}"
+                        "birthday" -> textView.text = value.birthday
+                        "describe" -> textView.text = value.describe
+                        "city" -> textView.text = value.city
                         else -> println("ERROR")
                     }
                 }
@@ -162,6 +163,22 @@ class SessionUser{
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
+    }
+
+    fun identity(uid: String?, textView: TextView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    var builder = StringBuilder()
+                    builder.append(value.firstName).append(" ").append(value.name)
+                    textView.text = builder
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
 }

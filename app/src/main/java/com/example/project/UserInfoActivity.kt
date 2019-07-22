@@ -1,13 +1,12 @@
 package com.example.project
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.example.session.SessionUser
 import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
@@ -16,9 +15,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
+import kotlinx.android.synthetic.main.activity_sign_in_jojo.*
+import java.lang.StringBuilder
 
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
+
     var session : SessionUser = SessionUser()
+    val positiveButtonClick = {dialog: DialogInterface, which: Int ->
+        session.deleteUser(this)
+    }
+    val negativeButtonClick = {dialog: DialogInterface, which: Int ->
+    }
+
     private lateinit var googleSignInClient : GoogleSignInClient
 
     private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
@@ -61,69 +69,54 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.btn_delete_account).setOnClickListener(this)
         findViewById<Button>(R.id.edit_profile_button).setOnClickListener(this)
 
-        val nameTextView = findViewById<TextView>(R.id.name_account)
-        val firstNameTextView = findViewById<TextView>(R.id.firstName_account)
+        val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
         val emailTextView = findViewById<TextView>(R.id.email_account)
         val sexTextView = findViewById<TextView>(R.id.sex_account)
         val birthdayTextView = findViewById<TextView>(R.id.birthday_account)
         val cityTextView = findViewById<TextView>(R.id.city_account)
         val describeTextView = findViewById<TextView>(R.id.describe_account)
         val photoImageView = findViewById<ImageView>(R.id.profile_photo)
+        var myAccountBuilder = StringBuilder()
 
         session.showPhotoUser(this, photoImageView)
 
-        nameTextView.text = session.writeInfoUser(
+        nameAndFirstnameTextView.text = session.identity(
             session.getIdFromUser(),
-            nameTextView,
-            "name",
-            ""
+            nameAndFirstnameTextView
         ).toString()
-
-        firstNameTextView.text = session.writeInfoUser(
-            session.getIdFromUser(),
-            firstNameTextView,
-            "firstName",
-            ""
-        ).toString()
-
 
         emailTextView.text = session.writeInfoUser(
             session.getIdFromUser(),
             emailTextView,
-            "email",
-            ""
+            "email"
         ).toString()
 
 
         sexTextView.text = session.writeInfoUser(
             session.getIdFromUser(),
             sexTextView,
-            "sex",
-            ""
+            "sex"
         ).toString()
 
 
         birthdayTextView.text = session.writeInfoUser(
             session.getIdFromUser(),
             birthdayTextView,
-            "birthday",
-            ""
+            "birthday"
         ).toString()
 
 
         cityTextView.text = session.writeInfoUser(
             session.getIdFromUser(),
             cityTextView,
-            "city",
-            ""
+            "city"
         ).toString()
 
 
         describeTextView.text = session.writeInfoUser(
             session.getIdFromUser(),
             describeTextView,
-            "describe",
-            ""
+            "describe"
         ).toString()
 
     }
@@ -140,7 +133,13 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(Intent(this, EditProfileActivity::class.java))
             }
             R.id.btn_delete_account -> {
-                session.deleteUser(this)
+
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Delete user account")
+                builder.setMessage("Do you really want to delete your account?")
+                builder.setPositiveButton("Confirm", DialogInterface.OnClickListener(function = positiveButtonClick))
+                builder.setNegativeButton("No", negativeButtonClick)
+                builder.show()
             }
         }
     }
