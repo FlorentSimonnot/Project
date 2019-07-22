@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
 
 
         val buttonFacebookLogin : Button = this.findViewById(R.id.facebookLoginButton)
-        val buttonGoogleLogin : SignInButton = this.findViewById(R.id.googleLoginButton)
+        val buttonGoogleLogin : Button = this.findViewById(R.id.googleLoginButton)
         val passwordForgot : Button = findViewById(R.id.forgotPassword)
         val buttonLogin : Button = this.findViewById(R.id.buttonLogin)
         val notAMember : Button = findViewById(R.id.notAMember)

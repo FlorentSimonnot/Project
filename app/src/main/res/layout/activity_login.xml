@@ -186,7 +186,9 @@
                         android:textSize="16sp"
                         android:paddingLeft="30dp"
                         android:background="@drawable/button_with_corners"
-                        android:layout_marginStart="26dp"/>
+                        android:layout_marginStart="26dp"
+                        style="?android:attr/borderlessButtonStyle"
+                />
                 <TextView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -229,7 +231,9 @@
                         android:textSize="16sp"
                         android:paddingLeft="30dp"
                         android:background="@drawable/button_with_corners_red"
-                        android:layout_marginStart="26dp"/>
+                        android:layout_marginStart="26dp"
+                        style="?android:attr/borderlessButtonStyle"
+                />
                 <TextView
                         android:layout_width="50dp"
                         android:layout_height="50dp"
