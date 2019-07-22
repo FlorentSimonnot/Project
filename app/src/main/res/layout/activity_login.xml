@@ -83,34 +83,16 @@
 
     </LinearLayout>
 
-    <!-- ===========LOGIN BUTTON=========== -->
-    <LinearLayout
-            android:id="@+id/buttonLoginLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/inputLogin"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
-    >
-
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonLogin"
-                android:text="LOGIN"
-        />
-    </LinearLayout>
-
     <!-- =========PASSWORD FORGOT========== -->
     <LinearLayout
             android:id="@+id/buttonForgotPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/buttonLoginLayout"
+            android:layout_below="@id/inputLogin"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="5dp"
+            android:gravity="start"
     >
 
         <Button
@@ -121,18 +103,72 @@
                 android:fontFamily="@font/rubik"
                 android:background="@color/colorDarkMode"
                 android:textColor="@color/colorTextDarkMode"
+                android:gravity="start"
+                android:paddingTop="10dp"
         />
     </LinearLayout>
 
+    <!-- ===========LOGIN BUTTON=========== -->
     <LinearLayout
+            android:id="@+id/buttonLoginLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/buttonForgotPassword"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="5dp"
+    >
+
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonLogin"
+                android:background="#fff"
+                android:textColor="@color/colorDarkMode"
+                android:text="LOGIN"
+                android:textSize="18sp"
+        />
+    </LinearLayout>
+
+    <!-- ===========SEPARATOR============== -->
+    <LinearLayout
+            android:id="@+id/separator"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/buttonForgotPassword"
-        android:background="#fff"
+        android:layout_height="50dp"
+        android:layout_below="@id/buttonLoginLayout"
         android:orientation="horizontal"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
+        android:layout_marginTop="25dp"
+            android:layout_gravity="center"
     >
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        >
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="OR"
+                android:textSize="18sp"
+                android:padding="12dp"
+                android:background="@drawable/rounded_separator"
+                android:layout_gravity="center"
+                android:elevation="100dp"
+                android:textColor="@color/colorDarkMode"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#fff"
+                android:layout_marginTop="24dp"
+            >
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -141,29 +177,19 @@
             android:id="@+id/buttonsLoginSocialNetworks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/buttonForgotPassword"
+            android:layout_below="@id/separator"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             android:gravity="center"
             android:orientation="vertical"
     >
-
-        <TextView
-                android:hint="OR USE SOCIAL NETWORK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:color="@color/colorTextDarkMode"
-                android:textColorHint="@color/colorTextDarkMode"
-                android:fontFamily="@font/rubik"
-                android:textSize="16sp"
-        />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:layout_marginBottom="10dp"
         >
             <FrameLayout
@@ -219,14 +245,14 @@
             >
                 <Button
                         android:id="@+id/googleLoginButton"
-                        android:hint="USE MY FACEBOOK ACCOUNT"
+                        android:hint="USE MY GOOGLE ACCOUNT"
                         android:layout_width="326dp"
                         android:layout_height="46dp"
                         android:paddingStart="30dp"
                         android:layout_marginTop="1dp"
                         android:layout_marginLeft="26dp"
                         android:color="@color/colorTextDarkMode"
-                        android:textColorHint="#3b5998"
+                        android:textColorHint="#db4437"
                         android:fontFamily="@font/rubik"
                         android:textSize="16sp"
                         android:paddingLeft="30dp"
