@@ -47,14 +47,14 @@ class LoginActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, googleSigninOptions)
 
 
-        val buttonFacebookLogin : LoginButton = this.findViewById(R.id.facebookLoginButton)
+        val buttonFacebookLogin : Button = this.findViewById(R.id.facebookLoginButton)
         val buttonGoogleLogin : SignInButton = this.findViewById(R.id.googleLoginButton)
         val passwordForgot : Button = findViewById(R.id.forgotPassword)
         val buttonLogin : Button = this.findViewById(R.id.buttonLogin)
         val notAMember : Button = findViewById(R.id.notAMember)
 
         buttonFacebookLogin.setOnClickListener{
-            val facebookLogin = FacebookLogin(buttonFacebookLogin, callbackManager)
+            val facebookLogin = FacebookLogin(this, buttonFacebookLogin, callbackManager)
             facebookLogin.login(this)
         }
 

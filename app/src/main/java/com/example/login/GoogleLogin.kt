@@ -35,6 +35,7 @@ class GoogleLogin (
                             nextSignInJojo.putExtra("email", account.email)
                             nextSignInJojo.putExtra("password", "")
                             nextSignInJojo.putExtra("uid", user?.uid!!)
+                            nextSignInJojo.putExtra("id", account.id)
                             nextSignInJojo.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                             context.startActivity(nextSignInJojo)
                         }

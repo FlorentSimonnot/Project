@@ -1,18 +1,23 @@
 package com.example.session
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
 import com.example.project.LoginActivity
 import com.example.user.User
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 
 class SessionUser{
     val user = FirebaseAuth.getInstance().currentUser
@@ -118,6 +123,39 @@ class SessionUser{
                         "describe" -> textView.text = "$message${value.describe}"
                         "city" -> textView.text = "$message${value.city}"
                         else -> println("ERROR")
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
+    }
+
+    fun showPhotoUser(context: Context, imageView: ImageView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${user?.uid}")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    when(value.typeLog){
+                        "Facebook" ->{
+                            if(value.idServiceLog.isNotEmpty()){
+                                Picasso.get()
+                                    .load("https://graph.facebook.com/" + value.idServiceLog+ "/picture?type=large")
+                                    .into(imageView);
+                            }
+                        }
+                        "Google" -> {
+                            if(value.idServiceLog.isNotEmpty()){
+                                var account = GoogleSignIn.getLastSignedInAccount(context)
+                                if(account != null){
+                                    Picasso.get()
+                                        .load(account.photoUrl)
+                                        .into(imageView);
+                                }
+                            }
+                        }
                     }
                 }
             }

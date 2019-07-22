@@ -27,6 +27,7 @@ class NextSignInJojoActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         val action = intent.action
+        val infos : Bundle? = intent.extras
         if(intent.hasCategory("UserSignInWithEmail")){
             typeLog = "Email"
         }
@@ -36,11 +37,11 @@ class NextSignInJojoActivity : AppCompatActivity() {
         else{
             typeLog = "Google"
         }
-        val infos : Bundle? = intent.extras
         firstName = infos?.getString("firstName").toString()
         name = infos?.getString("name").toString()
         password = infos?.getString("password").toString()
         email = infos?.getString("email").toString()
+        var idServiceLogin = infos?.getString("id").toString()
 
         val textViewInfos : TextView = findViewById(R.id.textInfos)
         textViewInfos.text = "Hi $firstName please complete your profil before sign in !"
@@ -90,7 +91,9 @@ class NextSignInJojoActivity : AppCompatActivity() {
                     sex,
                     findViewById<EditText>(R.id.birthday).text.toString(),
                     findViewById<EditText>(R.id.description).text.toString(),
-                    findViewById<EditText>(R.id.city).text.toString()
+                    findViewById<EditText>(R.id.city).text.toString(),
+                    typeLog,
+                    idServiceLogin
                 )
 
                 when(typeLog){

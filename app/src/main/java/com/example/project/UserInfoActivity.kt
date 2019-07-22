@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.session.SessionUser
+import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -66,6 +68,9 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         val birthdayTextView = findViewById<TextView>(R.id.birthday_account)
         val cityTextView = findViewById<TextView>(R.id.city_account)
         val describeTextView = findViewById<TextView>(R.id.describe_account)
+        val photoImageView = findViewById<ImageView>(R.id.profile_photo)
+
+        session.showPhotoUser(this, photoImageView)
 
         nameTextView.text = session.writeInfoUser(
             session.getIdFromUser(),

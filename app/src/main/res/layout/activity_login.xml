@@ -159,21 +159,97 @@
                 android:textSize="16sp"
         />
 
-        <com.facebook.login.widget.LoginButton
-                android:id="@+id/facebookLoginButton"
-                android:layout_width="200dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginRight="35dp"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+        >
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="UselessParent"
+                    android:gravity="center"
+            >
+                <Button
+                        android:id="@+id/facebookLoginButton"
+                        android:hint="USE MY FACEBOOK ACCOUNT"
+                        android:layout_width="326dp"
+                        android:layout_height="46dp"
+                        android:paddingStart="30dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="26dp"
+                        android:color="@color/colorTextDarkMode"
+                        android:textColorHint="#3b5998"
+                        android:fontFamily="@font/rubik"
+                        android:textSize="16sp"
+                        android:paddingLeft="30dp"
+                        android:background="@drawable/button_with_corners"
+                        android:layout_marginStart="26dp"/>
+                <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_gravity="start"
+                        android:background="@drawable/rounded_button_facebook_signin"
+                        android:drawableLeft="@drawable/ic_facebook_logo_white"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:drawableStart="@drawable/ic_facebook_logo_white"
+                        android:paddingLeft="12dp"
+                        android:elevation="100dp"
+                />
+            </FrameLayout>
+        </LinearLayout>
 
-        <com.google.android.gms.common.SignInButton
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+        >
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="UselessParent"
+                    android:gravity="center"
+            >
+                <Button
+                        android:id="@+id/googleLoginButton"
+                        android:hint="USE MY FACEBOOK ACCOUNT"
+                        android:layout_width="326dp"
+                        android:layout_height="46dp"
+                        android:paddingStart="30dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginLeft="26dp"
+                        android:color="@color/colorTextDarkMode"
+                        android:textColorHint="#3b5998"
+                        android:fontFamily="@font/rubik"
+                        android:textSize="16sp"
+                        android:paddingLeft="30dp"
+                        android:background="@drawable/button_with_corners_red"
+                        android:layout_marginStart="26dp"/>
+                <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="30dp"
+                        android:layout_gravity="start"
+                        android:background="@drawable/rounded_button_google_signin"
+                        android:drawableLeft="@drawable/ic_google_logo_white"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:drawableStart="@drawable/ic_google_logo_white"
+                        android:paddingLeft="12dp"
+                        android:elevation="100dp"
+                />
+            </FrameLayout>
+        </LinearLayout>
+
+
+        <!--<com.google.android.gms.common.SignInButton
                 android:id="@+id/googleLoginButton"
                 android:layout_width="200dp"
-                android:layout_height="45dp" />
+                android:layout_height="45dp" />-->
     </LinearLayout>
 
     <LinearLayout
