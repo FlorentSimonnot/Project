@@ -1,8 +1,12 @@
 package com.example.project
 
 import android.content.Intent
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.widget.Button
 import com.example.login.FacebookLogin
 import com.facebook.login.widget.LoginButton
@@ -10,21 +14,29 @@ import com.google.firebase.auth.FirebaseAuth
 import android.widget.EditText
 import com.example.login.GoogleLogin
 import com.example.session.SessionUser
+import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import java.security.MessageDigest
+import com.google.android.gms.common.util.IOUtils.toByteArray
+import java.security.NoSuchAlgorithmException
 
 
 class LoginActivity : AppCompatActivity() {
     private val sessionUser = SessionUser()
     private val RC_SIGN_IN = 9001
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var callbackManager: CallbackManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val mAuth = FirebaseAuth.getInstance()
+        callbackManager = CallbackManager.Factory.create()
 
         //Config Google sign in
         val googleSigninOptions =
@@ -41,12 +53,10 @@ class LoginActivity : AppCompatActivity() {
         val buttonLogin : Button = this.findViewById(R.id.buttonLogin)
         val notAMember : Button = findViewById(R.id.notAMember)
 
-
         buttonFacebookLogin.setOnClickListener{
-            val facebookLogin = FacebookLogin(buttonFacebookLogin)
-            facebookLogin.login()
+            val facebookLogin = FacebookLogin(buttonFacebookLogin, callbackManager)
+            facebookLogin.login(this)
         }
-        val mAuth = FirebaseAuth.getInstance()
 
         buttonLogin.setOnClickListener {
             val email : String = findViewById<EditText>(R.id.email).text.toString()
@@ -74,6 +84,7 @@ class LoginActivity : AppCompatActivity() {
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        //Google
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
@@ -83,6 +94,10 @@ class LoginActivity : AppCompatActivity() {
             } catch (e: ApiException) {
                 println("Google sign in failed : ${e.statusCode}")
             }
+        }
+        //Facebook
+        else{
+            callbackManager.onActivityResult(requestCode, resultCode, data)
         }
     }
 

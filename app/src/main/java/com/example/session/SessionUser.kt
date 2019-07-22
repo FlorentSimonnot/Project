@@ -76,6 +76,8 @@ class SessionUser{
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     println("DELETE ACCOUNT WITH SUCCESS")
+                    val database = FirebaseDatabase.getInstance().reference
+                    database.child("users").child(user.uid).removeValue()
                     val intent : Intent = Intent(context, LoginActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)

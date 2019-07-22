@@ -9,11 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.events.Event
-import com.example.events.Privacy
-import com.example.events.Sport
 import com.example.session.SessionUser
-import com.example.user.User
-import com.example.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,7 +18,6 @@ import com.google.firebase.database.ValueEventListener
 
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var textMessage: TextView
     /*180719*/
     var session : SessionUser = SessionUser()
     private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
@@ -57,8 +52,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        //textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         /* ----------- BUTTON ACTIONS -------------*/
@@ -81,12 +74,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /*btnSignOut.setOnClickListener {
-            session.signOut()
-            val intent = Intent(this, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-        }*/
 
         /* ----------- SHOW EVENTS ---------------*/
         val listView = findViewById<ListView>(R.id.events_listview)
@@ -99,10 +86,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(createEventIntent)
         }
 
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     /**

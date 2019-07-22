@@ -44,7 +44,7 @@ data class User(
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.setValue(this)
             .addOnSuccessListener {
-                println("DATA INSERTED !!!!")
+                //Done
             }
 
     }

@@ -3,6 +3,7 @@ package com.example.login
 import android.content.Context
 import android.content.Intent
 import com.example.project.MainActivity
+import com.example.project.NextSignInJojoActivity
 import com.example.user.Gender
 import com.example.user.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -23,9 +24,25 @@ class GoogleLogin (
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     val user = auth.currentUser
-                    val userGoogle = User(account.givenName!!, account.familyName!!, account.email!!)
-                    userGoogle.insertUser(user?.uid!!)
-                    context.startActivity(Intent(context, MainActivity::class.java))
+                    if(it.result != null){
+                        if(it.result!!.additionalUserInfo.isNewUser){
+                            println("FIRST VISIT")
+                            val nextSignInJojo = Intent(context, NextSignInJojoActivity::class.java)
+                            nextSignInJojo.action = Context.INPUT_SERVICE
+                            nextSignInJojo.addCategory("UserSignInWithGoogle")
+                            nextSignInJojo.putExtra("firstName", account.givenName)
+                            nextSignInJojo.putExtra("name", account.familyName)
+                            nextSignInJojo.putExtra("email", account.email)
+                            nextSignInJojo.putExtra("password", "")
+                            nextSignInJojo.putExtra("uid", user?.uid!!)
+                            nextSignInJojo.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            context.startActivity(nextSignInJojo)
+                        }
+                        else{
+                            context.startActivity(Intent(context, MainActivity::class.java))
+                        }
+                    }
+                    //context.startActivity(Intent(context, MainActivity::class.java))
                 } else {
                     println("CONNEXION FAILED !!! ${it.result}")
                 }

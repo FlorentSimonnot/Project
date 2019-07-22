@@ -39,13 +39,13 @@
     >
 
         <TextView
-            android:hint="LOGIN TO YOUR ACCOUNT"
+            android:hint="LOGIN WITH YOUR EMAIL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:color="@color/colorTextDarkMode"
             android:textColorHint="@color/colorTextDarkMode"
             android:fontFamily="@font/rubik"
-            android:textSize="18sp"
+            android:textSize="16sp"
         />
 
         <!--pour les connexions-->
@@ -59,8 +59,10 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/basic_input_rectangle"
                 android:padding="7dp"
+                android:drawablePadding="15dp"
                 android:fontFamily="@font/rubik"
-        />
+                android:drawableLeft="@drawable/ic_mail_24dp"
+                android:drawableStart="@drawable/ic_mail_24dp"/>
 
         <EditText
                 android:layout_width="match_parent"
@@ -73,7 +75,10 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/basic_input_rectangle"
                 android:padding="7dp"
+                android:drawablePadding="15dp"
                 android:fontFamily="@font/rubik"
+                android:drawableLeft="@drawable/ic_lock_24dp"
+                android:drawableStart="@drawable/ic_lock_24dp"
         />
 
     </LinearLayout>
@@ -119,6 +124,18 @@
         />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/buttonForgotPassword"
+        android:background="#fff"
+        android:orientation="horizontal"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+    >
+
+    </LinearLayout>
+
     <!-- ====LOGIN WITH SOCIAL NETWORKS==== -->
     <LinearLayout
             android:id="@+id/buttonsLoginSocialNetworks"
@@ -131,6 +148,16 @@
             android:gravity="center"
             android:orientation="vertical"
     >
+
+        <TextView
+                android:hint="OR USE SOCIAL NETWORK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:color="@color/colorTextDarkMode"
+                android:textColorHint="@color/colorTextDarkMode"
+                android:fontFamily="@font/rubik"
+                android:textSize="16sp"
+        />
 
         <com.facebook.login.widget.LoginButton
                 android:id="@+id/facebookLoginButton"
@@ -154,6 +181,7 @@
             android:layout_height="match_parent"
             android:gravity="bottom|center"
     >
+
 
         <Button
                 android:layout_width="334dp"
