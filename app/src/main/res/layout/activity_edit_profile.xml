@@ -257,4 +257,13 @@
                 />
     </LinearLayout>
 
+    <!--EDIT PASSWORD-->
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/modify_password_button"
+            android:text="modify password"
+            android:layout_below="@id/describe_layout"
+            />
+
 </RelativeLayout>
