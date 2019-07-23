@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".CreateEventActivityStep2">
+
+    <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary"
+            tools:ignore="MissingConstraints"
+            android:padding="12dp"
+            android:id="@+id/toolbar">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="New event"
+                android:textColor="#fff"
+                android:textSize="24dp"
+                android:fontFamily="@font/rubik"
+        />
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:ignore="MissingConstraints">
+
+        <!--<EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_event"
+                android:hint="name"
+        />-->
+
+        <!--<AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sport"
+                android:layout_below="@id/name_event"
+                android:hint="sport"
+        />
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/date"
+                android:layout_below="@id/sport"
+                android:hint="date"
+                android:inputType="date"
+        />
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/place"
+                android:layout_below="@id/date"
+                android:hint="place"
+        />-->
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linear_number"
+        >
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/numberText"
+                    android:text="number of people"
+                    android:layout_below="@id/description"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="5dp"
+            />
+            <EditText
+                    android:id="@+id/number"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:hint="1-20"
+            />
+            <!--<Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/description"
+                    android:layout_toRightOf="@id/privacy"
+                    android:layout_weight="0.5"
+                    android:entries="@array/number_of_people"
+            >
+            </Spinner>-->
+
+        </LinearLayout>
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/description"
+                android:layout_below="@id/linear_number"
+                android:hint="description"
+                android:gravity="start"
+                android:textAlignment="textStart"
+        />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/description"
+                android:id="@+id/linear_privacy"
+        >
+
+            <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/privacyText"
+                    android:text="privacy"
+                    android:layout_below="@id/description"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="5dp"
+            />
+            <Spinner
+                    android:id="@+id/privacy"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/description"
+                    android:layout_toRightOf="@id/privacy"
+                    android:layout_weight="0.5"
+                    android:entries="@array/privacy"
+            >
+            </Spinner>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <!--<EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nb_people"
+            android:layout_below="@id/place"
+            android:hint="number of people"
+            android:inputType="number"
+    />-->
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/linear_privacy"
+            tools:ignore="NotSibling">
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/create_event"
+                android:text="create event"
+                android:layout_gravity="bottom"
+        />
+    </LinearLayout>
+
+</RelativeLayout>

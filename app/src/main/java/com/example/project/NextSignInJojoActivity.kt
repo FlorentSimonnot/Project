@@ -70,13 +70,12 @@ class NextSignInJojoActivity : AppCompatActivity() {
 
         val buttonJoinUs : Button = findViewById(R.id.create_account)
         buttonJoinUs.setOnClickListener{
-            var sex : Gender = when(findViewById<Spinner>(R.id.sexe_spinner).selectedItem.toString()){
+            val sex : Gender = when(findViewById<Spinner>(R.id.sexe_spinner).selectedItem.toString()){
                 "Male" -> Gender.MALE
                 "Female" -> Gender.FEMALE
                 else -> Gender.ALIEN
             }
-
-            var form = FormSignInSecond(
+            val form = FormSignInSecond(
                 sex,
                 findViewById<EditText>(R.id.birthday).text.toString(),
                 findViewById<EditText>(R.id.description).text.toString(),
@@ -84,7 +83,7 @@ class NextSignInJojoActivity : AppCompatActivity() {
             )
 
             if(form.isFormValid()){
-                var user = User(
+                val user = User(
                     firstName,
                     name,
                     email,
@@ -98,9 +97,7 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 )
 
                 when(typeLog){
-                    "Email" -> {
-                        user.createAccount(auth, this)
-                    }
+                    "Email" -> user.createAccount(auth, this)
                     "Google" -> {
                         user.insertUser(auth.currentUser?.uid)
                         val intent = Intent(this, MainActivity::class.java)

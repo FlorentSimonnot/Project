@@ -1,14 +1,7 @@
 package com.example.events
 
-import android.content.Context
-import com.example.login.EmailLogin
-import com.example.user.User
-import com.example.utils.Utils
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.example.sport.Sport
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 /**
  * File created by Jonathan CHU on 17/07/19

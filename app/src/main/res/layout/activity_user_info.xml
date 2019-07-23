@@ -19,7 +19,6 @@
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
         >
             <TextView
                     android:layout_width="wrap_content"
@@ -29,6 +28,7 @@
                     android:textColor="#fff"
                     android:textSize="20dp"
                     android:fontFamily="@font/rubik"
+                    android:paddingTop="15dp"
             />
 
             <ImageButton
@@ -38,10 +38,10 @@
                     android:text="Logout"
                     android:textSize="30sp"
                     android:textColor="#fff"
-                    android:padding="10dp"
                     android:background="@color/colorPrimary"
                     android:fontFamily="@font/rubik"
-                    app:srcCompat="@drawable/ic_logout_white_24dp"
+                    app:srcCompat="@drawable/ic_logout_white"
+                    android:layout_marginTop="15dp"
                     android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
             />
