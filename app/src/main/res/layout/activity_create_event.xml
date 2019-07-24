@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".CreateEventActivity"
-        android:background="@color/colorDarkMode"
+        android:background="@color/colorGrey100"
 >
 
     <androidx.appcompat.widget.Toolbar
@@ -26,21 +26,21 @@
         />
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         android:orientation="vertical"
         android:padding="10dp"
-        android:gravity="center"
     >
 
         <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
-                android:layout_marginTop="30dp"
                 android:layout_marginBottom="50dp"
                 android:orientation="vertical"
+                android:id="@+id/step"
+                android:layout_centerHorizontal="true"
         >
             <ImageView
                     android:layout_width="300dp"
@@ -116,17 +116,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/name_event"
+                android:layout_below="@id/step"
                 android:hint="Name"
                 android:background="@drawable/basic_input_rectangle"
                 android:padding="10dp"/>
 
-        <AutoCompleteTextView
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sport"
                 android:layout_below="@id/name_event"
-                android:hint="Select a sport"
-                android:completionThreshold="1"
+                android:text="Select a sport"
                 android:background="@drawable/basic_input_rectangle"
                 android:padding="10dp"
                 android:layout_marginTop="30dp"
@@ -135,8 +135,10 @@
 
         <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:id="@+id/dateAndTime"
+                android:layout_below="@id/sport"
         >
 
             <TextView
@@ -179,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/place"
-                android:layout_below="@id/date"
+                android:layout_below="@id/dateAndTime"
                 android:hint="place"
                 android:background="@drawable/basic_input_rectangle"
                 android:padding="10dp"
@@ -189,34 +191,6 @@
                 android:drawableStart="@drawable/ic_placeholder"
         />
 
-        <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/linear_number"
-        >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/numberText"
-                    android:text="number of people"
-                    android:layout_below="@id/description"
-                    android:layout_weight="0.5"
-                    android:layout_marginLeft="5dp"
-            />
-
-        </LinearLayout>-->
-
-
-    </LinearLayout>
-
-
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/linear_privacy"
-            tools:ignore="NotSibling">
         <Button
                 android:layout_width="70dp"
                 android:layout_height="70dp"
@@ -230,6 +204,78 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
                 android:drawableLeft="@drawable/ic_arrow_next" android:paddingStart="25dp"/>
+
+
+
+    </RelativeLayout>
+
+    <!-- ==========Dialog=========== -->
+    <RelativeLayout
+        android:id="@+id/dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:background="@color/colorBlueGrey900"
+        android:alpha="0"
+        android:orientation="vertical"
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#fff"
+            android:id="@+id/layout1"
+            android:padding="20dp"
+            android:fontFamily="@font/rubik"
+        >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Choose sport"
+                    android:id="@+id/titleDialog"
+                    />
+
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/layout2"
+                android:layout_below="@id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="60dp"
+                android:background="#fff"
+
+        >
+
+            <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/listView"
+                    android:layout_below="@id/titleDialog"
+                    >
+
+            </ListView>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#fff"
+                android:id="@+id/layout3"
+                android:layout_below="@id/layout2"
+                android:layout_marginTop="-60dp"
+                android:gravity="center"
+                >
+
+            <Button
+                    android:id="@+id/btnCancelDialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Cancel"
+                    >
+
+            </Button>
+        </LinearLayout>
+
     </RelativeLayout>
 
 

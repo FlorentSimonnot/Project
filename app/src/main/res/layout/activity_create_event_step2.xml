@@ -5,7 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".CreateEventActivityStep2">
+        tools:context=".CreateEventActivityStep2"
+        android:background="@color/colorGrey100"
+        >
 
     <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
@@ -31,84 +33,126 @@
             android:layout_marginTop="60dp"
             android:orientation="vertical"
             android:padding="10dp"
-            tools:ignore="MissingConstraints">
-
-        <!--<EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/name_event"
-                android:hint="name"
-        />-->
-
-        <!--<AutoCompleteTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sport"
-                android:layout_below="@id/name_event"
-                android:hint="sport"
-        />
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/date"
-                android:layout_below="@id/sport"
-                android:hint="date"
-                android:inputType="date"
-        />
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/place"
-                android:layout_below="@id/date"
-                android:hint="place"
-        />-->
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/linear_number"
+            tools:ignore="MissingConstraints"
+            android:gravity="center"
         >
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/numberText"
-                    android:text="number of people"
-                    android:layout_below="@id/description"
-                    android:layout_weight="0.5"
-                    android:layout_marginLeft="5dp"
-            />
-            <EditText
-                    android:id="@+id/number"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:hint="1-20"
-            />
-            <!--<Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/description"
-                    android:layout_toRightOf="@id/privacy"
-                    android:layout_weight="0.5"
-                    android:entries="@array/number_of_people"
-            >
-            </Spinner>-->
+        <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                android:orientation="vertical"
+                >
+            <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="5dp"
+                    android:src="@drawable/dotted"
+                    android:layerType="software"
+                    android:layout_marginTop="30dp"
+                    />
+            <LinearLayout
+                    android:layout_width="300dp"
+                    android:layout_height="120dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+                <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        tools:ignore="UselessParent"
+                        android:orientation="vertical"
+                        android:layout_gravity="center"
+                        android:padding="5dp"
+                        android:layout_marginRight="80dp"
 
-        </LinearLayout>
+                        >
+                    <ImageView
+                            android:id="@+id/step1"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:srcCompat="@drawable/ic_one"
+                            android:background="@drawable/border_image"
+                            android:layout_gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:contentDescription="step1"/>
+                    <TextView
+                            android:layout_below="@id/step1"
+                            android:layout_width="50dp"
+                            android:layout_height="60dp"
+                            android:text="Create your event"
+                            android:gravity="center"
+                            android:fontFamily="@font/rubik"
+                            />
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:layout_width="60dp"
+                        android:layout_height="match_parent"
+                        tools:ignore="UselessParent"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        >
+                    <ImageView
+                            android:id="@+id/step2"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            app:srcCompat="@drawable/ic_two"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_centerHorizontal="true"
+                            android:contentDescription="step2"/>
+                    <TextView
+                            android:layout_below="@id/step2"
+                            android:layout_width="50dp"
+                            android:layout_height="60dp"
+                            android:text="Set options"
+                            android:gravity="center"
+                            android:fontFamily="@font/rubik"
+                            />
+                </RelativeLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/numberPeople"
+                android:text="Choose number of people"
+                android:padding="10dp"
+                android:background="@drawable/basic_input_rectangle"
+                android:drawableLeft="@drawable/ic_people"
+                android:drawablePadding="20dp"
+                android:drawableStart="@drawable/ic_people"
+                />
 
         <EditText
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:id="@+id/description"
-                android:layout_below="@id/linear_number"
                 android:hint="description"
                 android:gravity="start"
                 android:textAlignment="textStart"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
+                android:background="@drawable/basic_input_rectangle"
         />
 
-        <LinearLayout
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/privacy"
+                android:text="Which privacy"
+                android:layout_below="@id/description"
+                android:padding="10dp"
+                android:background="@drawable/basic_input_rectangle"
+                android:drawableLeft="@drawable/ic_people"
+                android:drawablePadding="20dp"
+                android:layout_marginTop="20dp"
+                android:drawableStart="@drawable/ic_people"
+                />
+
+        <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description"
@@ -135,7 +179,7 @@
             >
             </Spinner>
 
-        </LinearLayout>
+        </LinearLayout>-->
     </LinearLayout>
 
 
@@ -153,7 +197,6 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/linear_privacy"
             tools:ignore="NotSibling">
         <Button
                 android:layout_width="match_parent"
@@ -161,6 +204,12 @@
                 android:id="@+id/create_event"
                 android:text="create event"
                 android:layout_gravity="bottom"
+                android:background="@color/colorPrimary"
+                android:textColor="#fff"
+                android:fontFamily="@font/rubik"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
         />
     </LinearLayout>
 

@@ -1,7 +1,10 @@
 package com.example.project
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -17,27 +20,26 @@ import com.example.picker.DatePicker
 import com.example.session.SessionUser
 import com.example.utils.Utils
 import android.widget.TextView
-import com.example.autocompleteAdapterCustom.AutocompleteSportAdapter
+import com.example.arrayAdapterCustom.ArrayAdapterSport
 import com.example.sport.ItemSport
 import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import android.provider.Contacts.People
-import android.widget.AdapterView
-
 
 
 
 class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     private val session = SessionUser()
-    private var sportList : ArrayList<ItemSport> = ArrayList()
+    private var sportList : ArrayList<Sport> = ArrayList()
+    private lateinit var autoCompleteSport : TextView
+    private lateinit var sport : Sport
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
-        var autoCompleteSport : AutoCompleteTextView = findViewById(R.id.sport)
-        var sport : ItemSport = ItemSport("", -1)
+        autoCompleteSport = findViewById(R.id.sport)
+
         createSportList()
 
         val time = findViewById<TextView>(R.id.time)
@@ -52,60 +54,38 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
             datePicker.show(supportFragmentManager, "Choose date")
         }
 
-        val adapterSport = AutocompleteSportAdapter(
-            this,
-            sportList as List<ItemSport>
-        )
-        autoCompleteSport.setAdapter(adapterSport)
-        autoCompleteSport.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, pos, id ->
-            sport = adapterView.getItemAtPosition(pos) as ItemSport
+        val cancelBtn = findViewById<Button>(R.id.btnCancelDialog)
+        cancelBtn.setOnClickListener {
+            findViewById<RelativeLayout>(R.id.dialog).alpha = 0F
         }
 
-        /* When data is change, add or delete from autocompleteTextView */
-        autoCompleteSport.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(p0: Editable?) {
-                autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(Sport.INIT.whichSport(p0!!.toString().toUpperCase()).getLogo(), 0, 0, 0)
+        autoCompleteSport.setOnClickListener{
+            findViewById<RelativeLayout>(R.id.dialog).alpha = 100F
+            val adapter = ArrayAdapterSport(this, R.layout.list_item_sport, sportList)
+            val listView = findViewById<ListView>(R.id.listView)
+            listView.adapter = adapter
+            listView.setOnItemClickListener { adapterView, view, i, l ->
+                sport = Sport.valueOf(sportList[i].toString())
+                autoCompleteSport.text = sport.name
+                autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(sport.getLogo(), 0, 0, 0)
+                listView.adapter = null
+                findViewById<RelativeLayout>(R.id.dialog).alpha = 0F
             }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //Nothing
-            }
-
-            /* Remove the sport logo if user erase his choice */
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                /*if(p0!!.isEmpty()){
-                    autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                }
-                adapterSport.filter.filter(p0);*/
-            }
-
-        });
+        }
 
         val buttonCreate : Button = findViewById(R.id.create_event)
         buttonCreate.setOnClickListener {
             val form = FormCreateEvent(
                 findViewById<EditText>(R.id.name_event).text.toString(),
-                sport.getSportName(),
-                findViewById<EditText>(R.id.date).text.toString(),
-                findViewById<EditText>(R.id.place).text.toString(),
-                findViewById<EditText>(R.id.number).text.toString().toInt(),
-                findViewById<EditText>(R.id.description).text.toString(),
-                findViewById<Spinner>(R.id.privacy).selectedItemId.toString()
+                "Football",
+                findViewById<TextView>(R.id.date).text.toString(),
+                findViewById<TextView>(R.id.place).text.toString()
             )
 
             if(form.isFormValid()){
-                val event = Event(
-                    Utils().generatePassword(70),
-                    findViewById<EditText>(R.id.name_event).text.toString(),
-                    Sport.INIT.whichSport(findViewById<EditText>(R.id.sport).text.toString().toUpperCase()),
-                    findViewById<EditText>(R.id.date).text.toString(),
-                    findViewById<EditText>(R.id.place).text.toString(),
-                    findViewById<EditText>(R.id.number).text.toString().toInt(),
-                    findViewById<EditText>(R.id.description).text.toString(),
-                    Privacy.INIT.whichPrivacy(findViewById<Spinner>(R.id.privacy).selectedItemId.toInt()),
-                    session.getIdFromUser()
-                )
-                event.insertEvent()
+                val intent = Intent(this, CreateEventActivityStep2::class.java)
+                intent.putExtra("name", form.name)
+                startActivity(intent)
             }
         }
     }
@@ -128,12 +108,12 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
         textView.text = currentDateString
     }
 
+
     private fun createSportList(){
-        Sport.values().forEach {
-            if(it != Sport.INIT) {
-                sportList.add(ItemSport(it.toString().toLowerCase(), it.getLogo()))
+        Sport.values().forEach{
+            if(it != Sport.INIT){
+                sportList.add(it)
             }
         }
     }
-
 }

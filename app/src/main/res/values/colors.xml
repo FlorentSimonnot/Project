@@ -8,4 +8,7 @@
     <color name="colorButtonAdded">#fdcb6e</color>
     <color name="colorTextDarkMode">#487eb0</color>
     <color name="colorDarkMode">#B3E5FC</color>
+    <color name="colorGrey100">#F5F5F5</color>
+    <color name="colorGrey100Alpha50">#E6F5F5F5</color>
+    <color name="colorBlueGrey900">#80263238</color>
 </resources>
