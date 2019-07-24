@@ -148,11 +148,11 @@ class SessionUser{
                         }
                         "Google" -> {
                             if(value.idServiceLog.isNotEmpty()){
-                                var account = GoogleSignIn.getLastSignedInAccount(context)
+                                val account = GoogleSignIn.getLastSignedInAccount(context)
                                 if(account != null){
                                     Picasso.get()
                                         .load(account.photoUrl)
-                                        .into(imageView);
+                                        .into(imageView)
                                 }
                             }
                         }
@@ -179,6 +179,39 @@ class SessionUser{
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    fun checkPassword(oldPassword: String, textView: TextView): Boolean {
+        val currentPassword = this.writeInfoUser(
+            this.getIdFromUser(),
+            textView,
+            "password").toString()
+        if (currentPassword == oldPassword) {
+            return true
+        }
+        return false
+    }
+
+    fun setNewPassword(uid: String, newPassword: String) {
+        val ref = FirebaseDatabase.getInstance().getReference("users")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    value.password = newPassword
+                    println(value.password)
+                    println(value.firstName)
+
+                    val postValues = value.toMap()
+                    val childUpdates = HashMap<String, Any>()
+                    childUpdates.put(uid, postValues)
+                    ref.updateChildren(childUpdates)
+
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
     }
 
 }

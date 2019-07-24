@@ -8,6 +8,8 @@ import com.example.login.EmailLogin
 import com.example.project.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.util.*
+import kotlin.collections.HashMap
 
 data class User(
     var firstName : String = "",
@@ -51,6 +53,23 @@ data class User(
             }
 
     }
+
+    fun toMap(): Map<String, Any> {
+        val result = HashMap<String, Any>()
+        result.put("firstName", firstName)
+        result.put("name", name)
+        result.put("email", email)
+        result.put("password", password)
+        result.put("sex", sex)
+        result.put("birthday", birthday)
+        result.put("describe", describe)
+        result.put("city", city)
+        result.put("typeLog", typeLog)
+        result.put("idServiceLog", idServiceLog)
+
+        return result
+    }
+
 }
 
 

@@ -97,7 +97,9 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 )
 
                 when(typeLog){
-                    "Email" -> user.createAccount(auth, this)
+                    "Email" -> {
+                        user.createAccount(auth, this)
+                    }
                     "Google" -> {
                         user.insertUser(auth.currentUser?.uid)
                         val intent = Intent(this, MainActivity::class.java)
