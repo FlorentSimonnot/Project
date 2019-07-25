@@ -92,7 +92,24 @@
             android:padding="10dp"
     />
 
-    <EditText
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/basic_input_rectangle"
+            android:drawableLeft="@drawable/ic_placeholder"
+            android:drawableStart="@drawable/ic_placeholder"
+            android:id="@+id/city"
+            >
+        <fragment android:id="@+id/autocomplete_fragment"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                />
+    </LinearLayout>
+
+    <!--<EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/city"
@@ -101,7 +118,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/basic_input_rectangle"
             android:padding="10dp"
-    />
+    />-->
 
     <TextView
             android:layout_width="wrap_content"

@@ -5,12 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import com.example.form.FormSignInSecond
+import com.example.place.SessionGooglePlace
 import com.example.session.SessionUser
 import com.example.user.Gender
 import com.example.user.User
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 import java.time.LocalDate.*
+import java.util.*
 
 class NextSignInJojoActivity : AppCompatActivity() {
     private var name : String = ""
@@ -19,12 +26,45 @@ class NextSignInJojoActivity : AppCompatActivity() {
     private var email : String = ""
     private lateinit var auth: FirebaseAuth
     private lateinit var typeLog : String
+    private var placeId : String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_next_sign_in_jojo)
 
         auth = FirebaseAuth.getInstance()
+        //Init google place
+        val gg = SessionGooglePlace(applicationContext)
+        gg.init()
+        val placesClient = gg.createClient()
+
+        //Autocomplete city
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
+        autocompleteFragment?.setHint("Choose your city")
+
+
+        // Specify the types of place data to return.
+        autocompleteFragment!!
+            .setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME))
+
+        autocompleteFragment
+            .setTypeFilter(TypeFilter.CITIES)
+
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onError(p0: Status) {
+                println("AN ERROR OCCURED $p0")
+                placeId = ""
+            }
+
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                placeId = place.id
+            }
+
+        })
 
         val action = intent.action
         val infos : Bundle? = intent.extras
@@ -79,7 +119,7 @@ class NextSignInJojoActivity : AppCompatActivity() {
                 sex,
                 findViewById<EditText>(R.id.birthday).text.toString(),
                 findViewById<EditText>(R.id.description).text.toString(),
-                findViewById<EditText>(R.id.city).text.toString()
+                placeId.toString()
             )
 
             if(form.isFormValid()){
@@ -91,7 +131,7 @@ class NextSignInJojoActivity : AppCompatActivity() {
                     sex,
                     findViewById<EditText>(R.id.birthday).text.toString(),
                     findViewById<EditText>(R.id.description).text.toString(),
-                    findViewById<EditText>(R.id.city).text.toString(),
+                    placeId.toString(),
                     typeLog,
                     idServiceLogin
                 )

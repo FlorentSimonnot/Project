@@ -32,6 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:drawableLeft="@drawable/ic_placeholder"
+                android:drawablePadding="10dp"
+                android:padding="3dp"
                 android:layout_marginLeft="10dp"/>
     </LinearLayout>
 </LinearLayout>

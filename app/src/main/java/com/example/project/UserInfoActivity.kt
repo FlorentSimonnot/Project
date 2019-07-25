@@ -7,16 +7,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.example.place.SessionGooglePlace
 import com.example.session.SessionUser
 import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 import kotlinx.android.synthetic.main.activity_sign_in_jojo.*
 import java.lang.StringBuilder
+import java.util.*
 
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -86,6 +90,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         ).toString()
 
         emailTextView.text = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             emailTextView,
             "email"
@@ -93,6 +98,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
 
         sexTextView.text = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             sexTextView,
             "sex"
@@ -100,6 +106,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
 
         birthdayTextView.text = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             birthdayTextView,
             "birthday"
@@ -107,6 +114,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
 
         cityTextView.text = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             cityTextView,
             "city"
@@ -114,6 +122,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
 
         describeTextView.text = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             describeTextView,
             "describe"

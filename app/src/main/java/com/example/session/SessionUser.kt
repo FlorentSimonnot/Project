@@ -8,10 +8,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
+import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
 import com.example.user.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -109,7 +112,7 @@ class SessionUser{
         }
     }
 
-    fun writeInfoUser(uid: String?, textView: TextView, action: String) {
+    fun writeInfoUser(context: Context, uid: String?, textView: TextView, action: String) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -123,7 +126,29 @@ class SessionUser{
                         "sex" -> textView.text = "${value.sex}"
                         "birthday" -> textView.text = value.birthday
                         "describe" -> textView.text = value.describe
-                        "city" -> textView.text = value.city
+                        "city" ->{
+                            //INIT GOOGLE PLACE
+                            //Init google place
+                            val gg = SessionGooglePlace(context)
+                            gg.init()
+                            val placesClient = gg.createClient()
+
+                            //Search place in according to the ID
+                            val placeId : String = value.city!!
+                            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME)
+                            val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+
+                            placesClient.fetchPlace(request)
+                                .addOnSuccessListener {
+                                    val place : Place = it.place
+                                    textView.text = place.name
+                                }
+                                .addOnFailureListener {
+                                    //textView1.text = it.message
+                                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
                         else -> println("ERROR")
                     }
                 }
@@ -183,7 +208,7 @@ class SessionUser{
         })
     }
 
-    fun checkPassword(oldPassword: String, textView: TextView): Boolean {
+    /*fun checkPassword(oldPassword: String, textView: TextView): Boolean {
         val currentPassword = this.writeInfoUser(
             this.getIdFromUser(),
             textView,
@@ -193,7 +218,7 @@ class SessionUser{
             return true
         }
         return false
-    }
+    }*/
 
     fun setNewPassword(uid: String, oldPassword: String, newPassword: String) {
         val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")

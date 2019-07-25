@@ -29,12 +29,14 @@ class EditProfileActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         nameEditText.hint = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             nameEditText,
             "name"
         ).toString()
 
         firstNameEditText.hint = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             firstNameEditText,
             "firstName"
@@ -42,12 +44,14 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         emailEditText.hint = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             emailEditText,
             "email"
         ).toString()
 
         birthdayEditText.hint = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             birthdayEditText,
             "birthday"
@@ -55,6 +59,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         cityEditText.hint = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             cityEditText,
             "city"
@@ -62,6 +67,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
         describeEditText.hint = session.writeInfoUser(
+            applicationContext,
             session.getIdFromUser(),
             describeEditText,
             "describe"
