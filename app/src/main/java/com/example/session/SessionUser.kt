@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
 import com.example.place.SessionGooglePlace
+import com.example.project.EditProfileActivity
 import com.example.project.LoginActivity
+import com.example.user.Gender
 import com.example.user.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -134,7 +136,7 @@ class SessionUser{
                             val placesClient = gg.createClient()
 
                             //Search place in according to the ID
-                            val placeId : String = value.city!!
+                            val placeId : String = value.city
                             val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME)
                             val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
 
@@ -220,7 +222,7 @@ class SessionUser{
         return false
     }*/
 
-    fun setNewPassword(uid: String, oldPassword: String, newPassword: String) {
+    fun setNewPassword(oldPassword: String, newPassword: String) {
         val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -242,7 +244,51 @@ class SessionUser{
             }
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
 
+    fun updateAccount(
+        newName: String,
+        newFirstName: String,
+        newEmail: String,
+        newSex: Gender,
+        newBirthday: String,
+        newCity: String,
+        newDescription: String
+    ) {
+        val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    val postValues = HashMap<String, Any>()
+                    dataSnapshot.children.forEach {
+                        postValues.put(it.key!!, it.value!!)
+                    }
+
+                    //Update firebase
+                    user?.updateEmail(newEmail)
+                    //Update Database
+                    postValues.put("name", newName)
+                    postValues.put("firstName", newFirstName)
+                    postValues.put("email", newEmail)
+                    postValues.put("sex", newSex)
+                    postValues.put("birthday", newBirthday)
+                    postValues.put("city", newCity)
+                    postValues.put("describe", newDescription)
+                    ref.updateChildren(postValues)
+
+                    value.name = newName
+                    value.firstName = newFirstName
+                    value.email = newEmail
+                    value.sex = newSex
+                    value.birthday = newBirthday
+                    value.city = newCity
+                    value.describe = newDescription
+
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
 }

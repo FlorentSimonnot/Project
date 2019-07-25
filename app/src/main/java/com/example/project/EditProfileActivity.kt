@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
+import androidx.appcompat.app.AlertDialog
 import com.example.session.SessionUser
+import com.example.user.Gender
 
 class EditProfileActivity : AppCompatActivity() {
     var session : SessionUser = SessionUser()
@@ -20,7 +23,7 @@ class EditProfileActivity : AppCompatActivity() {
         /*val sexSpinner = findViewById<Spinner>(R.id.sex_spinner)*/
         val birthdayEditText = findViewById<EditText>(R.id.birthday_account)
         val cityEditText = findViewById<EditText>(R.id.city_account)
-        val describeEditText = findViewById<EditText>(R.id.describe_account)
+        val descriptionEditText = findViewById<EditText>(R.id.describe_account)
         val modifyPasswordButton = findViewById<Button>(R.id.modify_password_button)
         val confirmChangesButton = findViewById<Button>(R.id.confirm_changes)
 
@@ -66,10 +69,10 @@ class EditProfileActivity : AppCompatActivity() {
         ).toString()
 
 
-        describeEditText.hint = session.writeInfoUser(
+        descriptionEditText.hint = session.writeInfoUser(
             applicationContext,
             session.getIdFromUser(),
-            describeEditText,
+            descriptionEditText,
             "describe"
         ).toString()
 
@@ -78,7 +81,31 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         confirmChangesButton.setOnClickListener {
-            startActivity(Intent(this, UserInfoActivity::class.java))
+            val sex : Gender = when(findViewById<Spinner>(R.id.sex_spinner).selectedItem.toString()){
+                "Male" -> Gender.MALE
+                "Female" -> Gender.FEMALE
+                else -> Gender.ALIEN
+            }
+
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Confirm changes")
+            builder.setMessage("Your profile will be updated.\nConfirm?")
+            builder.setPositiveButton("Yes"){_, _ ->
+                session.updateAccount(
+                    nameEditText.text.toString(),
+                    firstNameEditText.text.toString(),
+                    emailEditText.text.toString(),
+                    sex,
+                    birthdayEditText.text.toString(),
+                    cityEditText.text.toString(),
+                    descriptionEditText.text.toString()
+                )
+                startActivity(Intent(this, UserInfoActivity::class.java))
+            }
+            builder.setNegativeButton("No"){_, _ ->
+
+            }
+            builder.show()
         }
 
     }
