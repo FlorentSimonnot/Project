@@ -6,6 +6,7 @@
         android:layout_height="match_parent"
         tools:context=".CreateEventActivity"
         android:background="@color/colorGrey100"
+        android:id="@+id/bg"
 >
 
     <androidx.appcompat.widget.Toolbar
@@ -32,8 +33,8 @@
         android:layout_marginTop="60dp"
         android:orientation="vertical"
         android:padding="10dp"
+        android:id="@+id/infoLayout"
     >
-
         <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="120dp"
@@ -119,7 +120,8 @@
                 android:layout_below="@id/step"
                 android:hint="Name"
                 android:background="@drawable/basic_input_rectangle"
-                android:padding="10dp"/>
+                android:padding="10dp"
+                />
 
         <TextView
                 android:layout_width="match_parent"
@@ -127,6 +129,7 @@
                 android:id="@+id/sport"
                 android:layout_below="@id/name_event"
                 android:text="Select a sport"
+                android:textSize="18sp"
                 android:background="@drawable/basic_input_rectangle"
                 android:padding="10dp"
                 android:layout_marginTop="30dp"
@@ -177,19 +180,23 @@
 
         </LinearLayout>
 
-        <EditText
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/place"
                 android:layout_below="@id/dateAndTime"
-                android:hint="place"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/basic_input_rectangle"
-                android:padding="10dp"
-                android:layout_marginTop="30dp"
                 android:drawableLeft="@drawable/ic_placeholder"
-                android:drawablePadding="20dp"
                 android:drawableStart="@drawable/ic_placeholder"
-        />
+                >
+            <fragment android:id="@+id/autocomplete_fragment"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    />
+        </LinearLayout>
+
 
         <Button
                 android:layout_width="70dp"
@@ -214,9 +221,12 @@
         android:id="@+id/dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        android:background="@color/colorBlueGrey900"
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/corners"
         android:alpha="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical"
     >
         <LinearLayout
@@ -262,7 +272,7 @@
                 android:id="@+id/layout3"
                 android:layout_below="@id/layout2"
                 android:layout_marginTop="-60dp"
-                android:gravity="center"
+                android:gravity="right"
                 >
 
             <Button
@@ -271,6 +281,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Cancel"
+                    android:background="#fff"
+                    style="?android:attr/borderlessButtonStyle"
                     >
 
             </Button>

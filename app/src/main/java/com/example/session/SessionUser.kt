@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import java.lang.StringBuilder
+import java.util.*
+import kotlin.collections.HashMap
 
 class SessionUser{
     val user = FirebaseAuth.getInstance().currentUser
@@ -67,7 +69,7 @@ class SessionUser{
             throw Exception("Impossible")
         }
         else{
-            val emailLogin = EmailLogin(email, password)
+            val emailLogin = EmailLogin(context, email, password)
             emailLogin.login(context)
         }
     }
@@ -186,26 +188,30 @@ class SessionUser{
             this.getIdFromUser(),
             textView,
             "password").toString()
+        //println("CURRENT PASSWORD $currentPassword") -> NULL
         if (currentPassword == oldPassword) {
             return true
         }
         return false
     }
 
-    fun setNewPassword(uid: String, newPassword: String) {
-        val ref = FirebaseDatabase.getInstance().getReference("users")
+    fun setNewPassword(uid: String, oldPassword: String, newPassword: String) {
+        val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
-                    value.password = newPassword
-                    println(value.password)
-                    println(value.firstName)
-
-                    val postValues = value.toMap()
-                    val childUpdates = HashMap<String, Any>()
-                    childUpdates.put(uid, postValues)
-                    ref.updateChildren(childUpdates)
+                    val postValues = HashMap<String, Any>()
+                    dataSnapshot.children.forEach {
+                        postValues.put(it.key!!, it.value!!)
+                    }
+                    if(oldPassword == postValues["password"]){
+                        //Update firebase
+                        user?.updatePassword(newPassword)
+                        //Update Database
+                        postValues.put("password", newPassword)
+                        ref.updateChildren(postValues)
+                    }
 
                 }
             }

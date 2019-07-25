@@ -184,15 +184,6 @@
 
 
 
-    <!--<EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/nb_people"
-            android:layout_below="@id/place"
-            android:hint="number of people"
-            android:inputType="number"
-    />-->
-
 
     <LinearLayout
             android:layout_width="match_parent"

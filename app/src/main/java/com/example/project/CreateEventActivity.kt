@@ -25,6 +25,18 @@ import com.example.sport.ItemSport
 import java.text.DateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
+import android.R.attr.apiKey
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import java.util.Arrays.asList
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+
+
+
+
 
 
 
@@ -34,13 +46,44 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
     private var sportList : ArrayList<Sport> = ArrayList()
     private lateinit var autoCompleteSport : TextView
     private lateinit var sport : Sport
+    private lateinit var listView : ListView
+    private val API_KEY = "AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
+    private var placeId : String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
-        autoCompleteSport = findViewById(R.id.sport)
 
+        // Initialize the SDK
+        Places.initialize(applicationContext, API_KEY)
+        // Create a new Places client instance
+        val placesClient = Places.createClient(this)
+        // Initialize the AutocompleteSupportFragment.
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
+        autocompleteFragment?.setHint("Search your place")
+
+
+        // Specify the types of place data to return.
+        autocompleteFragment!!.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME))
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onError(p0: Status) {
+                println("AN ERROR OCCURED $p0")
+                placeId = ""
+            }
+
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                placeId = place.id
+            }
+
+        })
+
+        autoCompleteSport = findViewById(R.id.sport)
         createSportList()
+
 
         val time = findViewById<TextView>(R.id.time)
         time.setOnClickListener {
@@ -57,12 +100,18 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
         val cancelBtn = findViewById<Button>(R.id.btnCancelDialog)
         cancelBtn.setOnClickListener {
             findViewById<RelativeLayout>(R.id.dialog).alpha = 0F
+            findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorGrey100)
+            findViewById<RelativeLayout>(R.id.infoLayout).alpha = 100F
+            listView = findViewById<ListView>(R.id.listView)
+            listView.adapter = null
         }
 
         autoCompleteSport.setOnClickListener{
             findViewById<RelativeLayout>(R.id.dialog).alpha = 100F
+            findViewById<RelativeLayout>(R.id.infoLayout).alpha = 0F
+            findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorDark)
             val adapter = ArrayAdapterSport(this, R.layout.list_item_sport, sportList)
-            val listView = findViewById<ListView>(R.id.listView)
+            listView = findViewById<ListView>(R.id.listView)
             listView.adapter = adapter
             listView.setOnItemClickListener { adapterView, view, i, l ->
                 sport = Sport.valueOf(sportList[i].toString())
@@ -70,6 +119,8 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
                 autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(sport.getLogo(), 0, 0, 0)
                 listView.adapter = null
                 findViewById<RelativeLayout>(R.id.dialog).alpha = 0F
+                findViewById<RelativeLayout>(R.id.infoLayout).alpha = 100F
+                findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorGrey100)
             }
         }
 
@@ -77,14 +128,19 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
         buttonCreate.setOnClickListener {
             val form = FormCreateEvent(
                 findViewById<EditText>(R.id.name_event).text.toString(),
-                "Football",
+                findViewById<TextView>(R.id.sport).text.toString(),
                 findViewById<TextView>(R.id.date).text.toString(),
-                findViewById<TextView>(R.id.place).text.toString()
+                findViewById<TextView>(R.id.time).text.toString(),
+                placeId
             )
 
             if(form.isFormValid()){
                 val intent = Intent(this, CreateEventActivityStep2::class.java)
                 intent.putExtra("name", form.name)
+                intent.putExtra("place", form.place)
+                intent.putExtra("sport", form.sport)
+                intent.putExtra("date", form.date)
+                intent.putExtra("time", form.time)
                 startActivity(intent)
             }
         }

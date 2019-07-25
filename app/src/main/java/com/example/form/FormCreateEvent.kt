@@ -6,7 +6,8 @@ class FormCreateEvent (
     val name : String = "",
     val sport : String = "",
     val date : String = "",
-    val place : String = ""
+    val time : String = "",
+    val place : String? = ""
 ) : Form{
     override fun isFormValid(): Boolean {
         return  validateInputText(name, 255).fieldIsValid() &&

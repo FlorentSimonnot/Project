@@ -21,11 +21,12 @@ class ModifyPasswordActivity : AppCompatActivity() {
         val check = TextView(this)
 
         confirmPasswordChangesButton.setOnClickListener {
-            if (session.checkPassword(currentPasswordEditText.text.toString(), check)) {
-                if (newPasswordEditText.text.toString() == confirNewPasswordEditText.text.toString()) {
-                    session.setNewPassword(session.getIdFromUser(), confirNewPasswordEditText.text.toString())
-                }
+            if (newPasswordEditText.text.toString() == confirNewPasswordEditText.text.toString()) {
+                session.setNewPassword(session.getIdFromUser(), currentPasswordEditText.text.toString(), confirNewPasswordEditText.text.toString())
             }
+            /*if (session.checkPassword(currentPasswordEditText.text.toString(), check)) {
+
+            }*/
         }
 
     }

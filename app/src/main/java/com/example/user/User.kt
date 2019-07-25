@@ -35,7 +35,7 @@ data class User(
                 result = it.isSuccessful
                 if (result) {
                     insertUser(it.result?.user?.uid)
-                    val emailLogin = EmailLogin(email, password)
+                    val emailLogin = EmailLogin(context, email, password)
                     emailLogin.login(context)
                 }
             }
