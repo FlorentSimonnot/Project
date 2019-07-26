@@ -51,7 +51,6 @@ class CreateEventActivityStep2 : AppCompatActivity(), NumberPicker.OnValueChange
             val numberPicker = StringPickerCustom(0, 2, "Choose max number people", "Select a value", stringPrivacy)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "People picker")
-
         }
 
         findViewById<Button>(R.id.create_event).setOnClickListener {

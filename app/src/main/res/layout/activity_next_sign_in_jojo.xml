@@ -6,169 +6,207 @@
         android:layout_height="match_parent"
         tools:context=".NextSignInJojoActivity"
         android:background="@color/colorDarkMode"
-        android:padding="10dp"
 >
 
 
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/app_logo"
-            android:src="@drawable/logo"
-            android:layout_centerHorizontal="true"
-    />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:id="@+id/layoutText"
-        android:layout_below="@id/app_logo"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp"
     >
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textInfos"
-            android:fontFamily="@font/rubik"
-            android:textSize="18sp"
-            android:textColor="#fff"
-            android:gravity="center"
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/app_logo"
+                android:src="@drawable/logo"
+                android:layout_centerHorizontal="true"
         />
 
-    </LinearLayout>
-
-    <LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_sexe"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/layoutText"
-            android:fontFamily="@font/rubik"
-            android:background="#fff"
-            >
+            android:layout_height="50dp"
+            android:id="@+id/layoutText"
+            android:layout_below="@id/app_logo"
+        >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textInfos"
+                android:fontFamily="@font/rubik"
+                android:textSize="18sp"
+                android:textColor="#fff"
+                android:gravity="center"
+            />
+
+        </LinearLayout>
 
         <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sexe"
-                android:text="sexe"
-                android:layout_weight="0.5"
-                android:layout_marginLeft="3dp"
-                android:textSize="18sp"
+                android:id="@+id/edit_sexe"
+                android:layout_below="@id/layoutText"
+                android:text="Define your sex"
+                android:padding="10dp"
+                android:background="@drawable/basic_input_rectangle"
+                />
+
+        <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_sexe"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/layoutText"
+                android:fontFamily="@font/rubik"
+                android:background="#fff"
+                >
+
+            <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sexe"
+                    android:text="sexe"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="3dp"
+                    android:textSize="18sp"
+                    android:padding="10dp"
+            />
+
+            <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sexe_spinner"
+                    android:entries="@array/sexe"
+                    android:layout_toRightOf="@id/sexe"
+                    android:layout_weight="0.5"
+            />
+        </LinearLayout>-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/birthday"
+            android:layout_below="@id/edit_sexe"
+            android:hint="Birthday"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/basic_input_rectangle"
+            android:drawableLeft="@drawable/ic_birthday"
+            android:drawablePadding="20dp"
+            android:padding="10dp"
+            android:drawableStart="@drawable/ic_birthday"
+            android:freezesText="true"
+                />
+
+
+        <!--<EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:id="@+id/birthday"
+                android:layout_below="@id/edit_sexe"
+                android:hint="birthday"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/basic_input_rectangle"
+                android:padding="10dp"
+        />-->
+
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/description"
+                android:layout_below="@id/birthday"
+                android:gravity="start"
+                android:hint="description"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/basic_input_rectangle"
                 android:padding="10dp"
         />
 
-        <Spinner
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/sexe_spinner"
-                android:entries="@array/sexe"
-                android:layout_toRightOf="@id/sexe"
-                android:layout_weight="0.5"
-        />
-    </LinearLayout>
-
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:id="@+id/birthday"
-            android:layout_below="@id/edit_sexe"
-            android:hint="birthday"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/basic_input_rectangle"
-            android:padding="10dp"
-    />
-
-    <EditText
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/description"
-            android:layout_below="@id/birthday"
-            android:gravity="start"
-            android:hint="description"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/basic_input_rectangle"
-            android:padding="10dp"
-    />
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/description"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/basic_input_rectangle"
-            android:drawableLeft="@drawable/ic_placeholder"
-            android:drawableStart="@drawable/ic_placeholder"
-            android:id="@+id/city"
-            >
-        <fragment android:id="@+id/autocomplete_fragment"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                />
-    </LinearLayout>
-
-    <!--<EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/city"
-            android:layout_below="@id/description"
-            android:hint="city"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/basic_input_rectangle"
-            android:padding="10dp"
-    />-->
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/distance"
-            android:layout_below="@id/city"
-            android:text="radius around"
-            android:layout_marginTop="20dp"
-            android:textColor="#fff"
-            android:fontFamily="@font/rubik"
-            android:textSize="18dp"
-    />
-
-    <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="18dp"
-            android:id="@+id/distance_seekbar"
-            android:layout_marginTop="5dp"
-            android:layout_below="@id/city"
-            android:max="25"
-            android:progress="5"
-            android:layout_alignTop="@id/distance"
-            android:layout_toRightOf="@id/distance"
-            android:thumbTint="#fff"
-            android:progressTint="#fff"
-    />
-
-    <TextView
-        android:layout_below="@id/distance_seekbar"
-        android:id="@+id/distance_value"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:textColor="#fff"
-        android:paddingLeft="10dp"
-    />
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/distance_value"
-            android:gravity="bottom|center">
-
-
-        <Button
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/create_account"
-                android:text="sign in"
+                android:layout_below="@id/description"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/basic_input_rectangle"
+                android:drawableLeft="@drawable/ic_placeholder"
+                android:drawableStart="@drawable/ic_placeholder"
+                android:id="@+id/city"
+                >
+            <fragment android:id="@+id/autocomplete_fragment"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    />
+        </LinearLayout>
+
+        <!--<EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/city"
+                android:layout_below="@id/description"
+                android:hint="city"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/basic_input_rectangle"
+                android:padding="10dp"
+        />-->
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/distance"
+                android:layout_below="@id/city"
+                android:text="radius around"
+                android:layout_marginTop="20dp"
+                android:textColor="#fff"
+                android:fontFamily="@font/rubik"
+                android:textSize="18dp"
         />
+
+        <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:id="@+id/distance_seekbar"
+                android:layout_marginTop="5dp"
+                android:layout_below="@id/city"
+                android:max="25"
+                android:progress="5"
+                android:layout_alignTop="@id/distance"
+                android:layout_toRightOf="@id/distance"
+                android:thumbTint="#fff"
+                android:progressTint="#fff"
+        />
+
+        <TextView
+            android:layout_below="@id/distance_seekbar"
+            android:id="@+id/distance_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:textColor="#fff"
+            android:paddingLeft="10dp"
+        />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/distance_value"
+                android:gravity="bottom|center">
+
+
+            <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/create_account"
+                    android:text="create my account"
+                    android:textColor="#fff"
+                    android:fontFamily="@font/rubik"
+                    android:background="@color/colorPrimary"
+            />
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

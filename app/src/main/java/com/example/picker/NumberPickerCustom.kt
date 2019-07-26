@@ -31,7 +31,7 @@ class NumberPickerCustom(
 
         builder.setNegativeButton("CANCEL") { p0, p1 ->
             //valueChange.onValueChange(numberPicker, numberPicker.value, numberPicker.value)
-        };
+        }
 
         builder.setView(numberPicker);
         return builder.create();
