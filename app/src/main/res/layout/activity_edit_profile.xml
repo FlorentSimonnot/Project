@@ -168,11 +168,14 @@
                     android:layout_marginLeft="7dp"
                     android:layout_marginBottom="20dp"
                     />-->
-            <Spinner
+
+            <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/sex_spinner"
-                    android:entries="@array/sexe"
+                    android:id="@+id/edit_sexe"
+                    android:textSize="15dp"
+                    android:padding="10dp"
+                    android:background="@drawable/basic_input_rectangle"
                     android:layout_marginLeft="7dp"
                     android:layout_marginBottom="20dp"
                     />
@@ -219,13 +222,11 @@
                     android:layout_marginRight="2dp"
                     style="?android:attr/listSeparatorTextViewStyle"
                     />
-            <EditText
+            <fragment
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/city_account"
-                    android:textSize="15dp"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginBottom="20dp"
+                    android:id="@+id/autocomplete_fragment"
+                    android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                     />
         </LinearLayout>
     </LinearLayout>

@@ -34,6 +34,7 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
     private var firstName : String = ""
     private var password : String = ""
     private var email : String = ""
+    private var sex: Gender = Gender.Other
     private lateinit var auth: FirebaseAuth
     private lateinit var typeLog : String
     private var placeId : String? = ""
@@ -52,17 +53,18 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         textViewSex = findViewById(R.id.edit_sexe)
 
         textViewSex.setOnClickListener {
-            val numberPicker = StringPickerCustom(0, 2, "Define your sex", "Select a value", stringSex)
+            val numberPicker = StringPickerCustom(0, 2, "Gender", "", stringSex)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "Sex picker")
-
         }
 
         auth = FirebaseAuth.getInstance()
         //Init google place
         val gg = SessionGooglePlace(applicationContext)
         gg.init()
+/*
         val placesClient = gg.createClient()
+*/
 
         //Autocomplete city
         val autocompleteFragment =
@@ -92,7 +94,9 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
 
 
 
+/*
         val action = intent.action
+*/
         val infos : Bundle? = intent.extras
         if(intent.hasCategory("UserSignInWithEmail")){
             typeLog = "Email"
@@ -150,11 +154,12 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
 
         val buttonJoinUs : Button = findViewById(R.id.create_account)
         buttonJoinUs.setOnClickListener{
-            val sex : Gender = when(findViewById<TextView>(R.id.edit_sexe).toString()){
-                "Male" -> Gender.MALE
-                "Female" -> Gender.FEMALE
-                else -> Gender.ALIEN
+            sex = when(textViewSex.text) {
+                "Male" -> Gender.Male
+                "Female" -> Gender.Female
+                else -> Gender.Other
             }
+
             val form = FormSignInSecond(
                 sex,
                 findViewById<TextView>(R.id.birthday).text.toString(),

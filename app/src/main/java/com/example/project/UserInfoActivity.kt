@@ -18,6 +18,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
+import kotlinx.android.synthetic.main.activity_create_event.*
 import kotlinx.android.synthetic.main.activity_sign_in_jojo.*
 import java.lang.StringBuilder
 import java.util.*
@@ -25,11 +26,6 @@ import java.util.*
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
     var session : SessionUser = SessionUser()
-    val positiveButtonClick = {dialog: DialogInterface, which: Int ->
-        session.deleteUser(this)
-    }
-    val negativeButtonClick = {dialog: DialogInterface, which: Int ->
-    }
 
     private lateinit var googleSignInClient : GoogleSignInClient
 
@@ -80,7 +76,6 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         val cityTextView = findViewById<TextView>(R.id.city_account)
         val describeTextView = findViewById<TextView>(R.id.describe_account)
         val photoImageView = findViewById<ImageView>(R.id.profile_photo)
-        var myAccountBuilder = StringBuilder()
 
         session.showPhotoUser(this, photoImageView)
 
@@ -146,8 +141,12 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Delete user account")
                 builder.setMessage("Do you really want to delete your account?")
-                builder.setPositiveButton("Confirm", DialogInterface.OnClickListener(function = positiveButtonClick))
-                builder.setNegativeButton("No", negativeButtonClick)
+                builder.setPositiveButton("Confirm"){_, _ ->
+                    session.deleteUser(this)
+                }
+                builder.setNegativeButton("No"){_, _ ->
+
+                }
                 builder.show()
             }
         }

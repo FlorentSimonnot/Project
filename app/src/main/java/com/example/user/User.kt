@@ -16,7 +16,7 @@ data class User(
     var name : String = "",
     var email : String = "",
     var password : String = "",
-    var sex : Gender = Gender.ALIEN,
+    var sex : Gender = Gender.Other,
     var birthday : String = "",
     var describe : String = "",
     var city : String = "",

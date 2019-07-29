@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/edit_sexe"
                 android:layout_below="@id/layoutText"
-                android:text="Define your sex"
+                android:text="Gender"
                 android:padding="10dp"
                 android:background="@drawable/basic_input_rectangle"
                 />
