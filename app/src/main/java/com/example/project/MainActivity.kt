@@ -8,6 +8,7 @@ import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
+import com.example.dateCustom.DateCustom
 import com.example.events.Event
 import com.example.session.SessionUser
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
@@ -43,6 +44,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_activity)
+
+        val date = DateCustom("11/06/1998")
+        println("AFTER ? ${date.isAfter(DateCustom("10/06/1998"))}")
 
         if (!session.isLogin()) {
             val logInIntent = Intent(this, LoginActivity::class.java)

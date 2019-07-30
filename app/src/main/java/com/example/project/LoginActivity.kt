@@ -12,6 +12,8 @@ import com.example.login.FacebookLogin
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.EditText
+import android.widget.Toast
+import com.example.form.FormLoginEmail
 import com.example.login.GoogleLogin
 import com.example.session.SessionUser
 import com.facebook.CallbackManager
@@ -61,7 +63,13 @@ class LoginActivity : AppCompatActivity() {
         buttonLogin.setOnClickListener {
             val email : String = findViewById<EditText>(R.id.email).text.toString()
             val password : String = findViewById<EditText>(R.id.password).text.toString()
-            sessionUser.login(email, password, this)
+            val loginValid = FormLoginEmail(email, password)
+            if(loginValid.isFormValid()){
+                sessionUser.login(email, password, this)
+            }
+            else{
+                Toast.makeText(this, "Complete all fields", Toast.LENGTH_LONG).show()
+            }
         }
 
         buttonGoogleLogin.setOnClickListener {

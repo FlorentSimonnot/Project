@@ -1,20 +1,17 @@
 package com.example.arrayAdapterCustom
 
-import android.content.ContentValues.TAG
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.content.Context
-import android.graphics.ColorSpace
-import android.util.Log
+import android.content.Intent
 import android.view.View
 import android.widget.*
 import com.example.events.Event
 import com.example.place.SessionGooglePlace
+import com.example.project.EventInfoActivity
 import com.example.project.R
-import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.PlacesClient
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -33,6 +30,9 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
 
         imageView.setImageDrawable(ctx.resources.getDrawable(events[position].sport.getLogo()))
         textView.text = events[position].name
+        view.setOnClickListener {
+            context.startActivity(Intent(context, EventInfoActivity::class.java).addCategory("eventInfo").putExtra("key", events[position].key))
+        }
 
         //Init google place
         val gg = SessionGooglePlace(ctx)

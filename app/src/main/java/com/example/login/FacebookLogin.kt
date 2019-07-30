@@ -91,6 +91,7 @@ class FacebookLogin (
                             }
                         } else {
                             println("ERRROR ::: ${it.exception}")
+                            Toast.makeText(context, "Can't login ! ${it.exception}", Toast.LENGTH_SHORT).show()
                         }
                     }
 

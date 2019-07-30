@@ -2,6 +2,7 @@ package com.example.login
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import com.example.project.MainActivity
 import com.example.project.NextSignInJojoActivity
 import com.example.user.Gender
@@ -47,6 +48,7 @@ class GoogleLogin (
                     }
                 } else {
                     println("CONNEXION FAILED !!! ${it.result}")
+                    Toast.makeText(context, "Can't login ! ${it.exception}", Toast.LENGTH_SHORT).show()
                 }
 
             }

@@ -28,4 +28,5 @@
     </string>
 
     <string name="client_id">314370239409-n8rhasb1b0pfjjm2f13qq6du7e0mho5m.apps.googleusercontent.com</string>
+    <string name="title_activity_event_info">EventInfoActivity</string>
 </resources>
