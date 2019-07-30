@@ -15,19 +15,6 @@ enum class Sport() {
     TRAIL,
     INIT; //Add for instantiate sport and use whichSport
 
-    fun whichSport(sport : String) : Sport {
-        return when(sport){
-            "FOOTBALL" -> FOOTBALL
-            "BASKETBALL" -> BASKETBALL
-            "GOLF" -> GOLF
-            "HANDBALL" -> HANDBALL
-            "MUSCULATION" -> MUSCULATION
-            "TENNIS" -> TENNIS
-            "TENNISDETABLE" ->TENNISDETABLE
-            else -> {println(" SPORT !!! : ${sport}"); return INIT}
-        }
-    }
-
     fun getLogo() : Int{
         return when(this){
             FOOTBALL -> R.drawable.ic_football

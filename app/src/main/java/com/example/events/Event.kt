@@ -12,6 +12,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.w3c.dom.Text
+import java.lang.StringBuilder
 import java.util.*
 
 /**
@@ -23,7 +25,7 @@ data class Event (
     var sport: Sport = Sport.INIT,
     var date: String = "",
     var time : String = "",
-    var place: String? = "",
+    var place: String = "",
     var nb_people: Int = 0,
     var description: String = "",
     var privacy : Privacy = Privacy.INIT,
@@ -60,7 +62,35 @@ data class Event (
                 val value = dataSnapshot.getValue(Event::class.java)
                 if (value != null) {
                     when (action) {
-                        "title" -> textView.text = value.name
+                        "name" -> textView.text = value.name
+                        "place" -> {
+                            //INIT GOOGLE PLACE
+                            //Init google place
+                            val gg = SessionGooglePlace(context)
+                            gg.init()
+                            val placesClient = gg.createClient()
+
+                            //Search place in according to the ID
+                            val placeId : String = value.place
+                            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME)
+                            val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+
+                            placesClient.fetchPlace(request)
+                                .addOnSuccessListener {
+                                    val place : Place = it.place
+                                    textView.text = place.name
+                                }
+                                .addOnFailureListener {
+                                    //textView1.text = it.message
+                                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                        "date" -> textView.text = value.date
+                        "time" -> textView.text = value.time
+                        "nb_people" -> textView.text = value.nb_people.toString()
+                        "description" -> textView.text = value.description
+                        "sport" -> textView.text = value.sport.toString()
                         else -> textView.text = "NULL"
                     }
                 }
@@ -70,5 +100,36 @@ data class Event (
         })
 
     }
+
+    fun getCreator(uid: String?, textView: TextView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    var builder = StringBuilder()
+                    builder.append(value.firstName).append(" ").append(value.name)
+                    textView.text = builder
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun getSport(sport : String) : Sport {
+        return when(sport){
+            "FOOTBALL" -> Sport.FOOTBALL
+            "BASKETBALL" -> Sport.BASKETBALL
+            "GOLF" -> Sport.GOLF
+            "HANDBALL" -> Sport.HANDBALL
+            "MUSCULATION" -> Sport.MUSCULATION
+            "TENNIS" -> Sport.TENNIS
+            "TENNISDETABLE" -> Sport.TENNISDETABLE
+            else -> {println(" SPORT !!! : ${sport}"); return Sport.INIT
+            }
+        }
+    }
+
 
 }

@@ -9,6 +9,7 @@ import android.widget.*
 import com.example.events.Event
 import com.example.place.SessionGooglePlace
 import com.example.project.EventInfoActivity
+import com.example.project.EventInfoJojoActivity
 import com.example.project.R
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
@@ -31,7 +32,7 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
         imageView.setImageDrawable(ctx.resources.getDrawable(events[position].sport.getLogo()))
         textView.text = events[position].name
         view.setOnClickListener {
-            context.startActivity(Intent(context, EventInfoActivity::class.java).addCategory("eventInfo").putExtra("key", events[position].key))
+            context.startActivity(Intent(context, EventInfoJojoActivity::class.java).addCategory("eventInfo").putExtra("key", events[position].key))
         }
 
         //Init google place

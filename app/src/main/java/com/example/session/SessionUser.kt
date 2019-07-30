@@ -128,7 +128,7 @@ class SessionUser{
                         "sex" -> textView.text = "${value.sex}"
                         "birthday" -> textView.text = value.birthday
                         "describe" -> textView.text = value.describe
-                        "city" ->{
+                        "city" -> {
                             //INIT GOOGLE PLACE
                             //Init google place
                             val gg = SessionGooglePlace(context)
@@ -209,18 +209,6 @@ class SessionUser{
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
-
-    /*fun checkPassword(oldPassword: String, textView: TextView): Boolean {
-        val currentPassword = this.writeInfoUser(
-            this.getIdFromUser(),
-            textView,
-            "password").toString()
-        //println("CURRENT PASSWORD $currentPassword") -> NULL
-        if (currentPassword == oldPassword) {
-            return true
-        }
-        return false
-    }*/
 
     fun setNewPassword(oldPassword: String, newPassword: String) {
         val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
