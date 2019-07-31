@@ -121,11 +121,13 @@ class SessionUser{
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
                     when (action) {
+                        "identity" -> textView.text = value.firstName+" "+value.name
                         "firstName" -> textView.text = value.firstName
                         "name" -> textView.text = value.name
                         "email" -> textView.text = value.email
                         "password" -> textView.text = value.password
-                        "sex" -> textView.text = "${value.sex}"
+                        "sex" -> textView.text = "${value.sex
+                        }"
                         "birthday" -> textView.text = value.birthday
                         "describe" -> textView.text = value.describe
                         "city" -> {

@@ -79,6 +79,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
         session.showPhotoUser(this, photoImageView)
 
+
         nameAndFirstnameTextView.text = session.identity(
             session.getIdFromUser(),
             nameAndFirstnameTextView

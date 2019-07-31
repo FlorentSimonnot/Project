@@ -2,11 +2,16 @@ package com.example.project
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.events.Event
+import com.example.session.SessionUser
 
 class EventInfoJojoActivity : AppCompatActivity() {
+    private val session = SessionUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,14 +23,15 @@ class EventInfoJojoActivity : AppCompatActivity() {
         val titleTextView : TextView = findViewById(R.id.event_name)
         val sportLogoImageView = findViewById<ImageView>(R.id.sport_logo)
         val sportTextView = findViewById<TextView>(R.id.sport)
-        val creatorId = TextView(this)
         val creatorTextView = findViewById<TextView>(R.id.creator)
         val placeTextView = findViewById<TextView>(R.id.place)
         val dateTextView = findViewById<TextView>(R.id.date)
         val timeTextView = findViewById<TextView>(R.id.time)
         val nbPeopleTextView = findViewById<TextView>(R.id.nb_people)
         val descriptionTextView = findViewById<TextView>(R.id.description)
-
+        val button_delete = findViewById<ImageButton>(R.id.button_delete)
+        val button_edit = findViewById<ImageButton>(R.id.button_edit)
+        val button_participate = findViewById<Button>(R.id.button_participate)
 
         Event().writeInfoEvent(
             this,
@@ -34,8 +40,6 @@ class EventInfoJojoActivity : AppCompatActivity() {
             "name"
         ).toString()
 
-        sportLogoImageView.setImageDrawable(getDrawable(Event().getSport(sportTextView.text.toString()).getLogo()))
-
         Event().writeInfoEvent(
             this,
             keyEvent,
@@ -43,16 +47,15 @@ class EventInfoJojoActivity : AppCompatActivity() {
             "sport"
         )
 
+        Event().writeLogoSport(this, keyEvent, sportLogoImageView)
+
+        //sportLogoImageView.setImageDrawable(getDrawable(Event().getSport(sportTextView.text.toString()).getLogo()))
+
         Event().writeInfoEvent(
             this,
             keyEvent,
-            creatorId,
+            creatorTextView,
             "creator"
-        )
-
-        Event().getCreator(
-            creatorId.text.toString(),
-            creatorTextView
         )
 
         Event().writeInfoEvent(
@@ -90,5 +93,7 @@ class EventInfoJojoActivity : AppCompatActivity() {
             "description"
         )
 
+
+        Event().getButton(this, keyEvent, button_edit, button_delete, button_participate)
     }
 }

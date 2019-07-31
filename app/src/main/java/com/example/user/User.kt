@@ -9,6 +9,7 @@ import com.example.project.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 data class User(
@@ -21,7 +22,8 @@ data class User(
     var describe : String = "",
     var city : String = "",
     var typeLog : String = "Email",
-    var idServiceLog : String = ""
+    var idServiceLog : String = "",
+    var eventsCreated : HashMap<String, String> = HashMap()
 
 ){
 

@@ -1,9 +1,11 @@
 package com.example.events
 
 import android.content.Context
-import android.widget.TextView
-import android.widget.Toast
+import android.graphics.Color
+import android.view.View
+import android.widget.*
 import com.example.place.SessionGooglePlace
+import com.example.session.SessionUser
 import com.example.sport.Sport
 import com.example.user.User
 import com.google.android.libraries.places.api.model.Place
@@ -12,6 +14,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.collection.LLRBNode
 import org.w3c.dom.Text
 import java.lang.StringBuilder
 import java.util.*
@@ -63,6 +66,12 @@ data class Event (
                 if (value != null) {
                     when (action) {
                         "name" -> textView.text = value.name
+                        "creator" -> {
+                            getCreator(key, value.creator, textView)
+                            /*val user = SessionUser()
+                            user.writeInfoUser(context, value.creator, textView, "identity")*/
+
+                        }
                         "place" -> {
                             //INIT GOOGLE PLACE
                             //Init google place
@@ -101,20 +110,60 @@ data class Event (
 
     }
 
-    fun getCreator(uid: String?, textView: TextView) {
+
+    fun getCreator(key: String?, uid: String?, textView: TextView) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
-                    var builder = StringBuilder()
-                    builder.append(value.firstName).append(" ").append(value.name)
-                    textView.text = builder
+                    if(SessionUser().getIdFromUser() != uid) {
+                        var builder = StringBuilder()
+                        builder.append(value.firstName).append(" ").append(value.name)
+                        textView.text = builder
+                    }
+                    else{
+                        textView.text = "Me"
+                    }
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    fun writeLogoSport(context: Context, key: String?, imageView : ImageView){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                if (value != null) {
+                    imageView.setImageDrawable(context.getDrawable(getSport(value.sport.toString()).getLogo()))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
+    }
+
+    fun getButton(context: Context, key: String?, button_edit : ImageButton, button_delete : ImageButton, button: Button){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                if (value != null) {
+                    if(value.creator == SessionUser().getIdFromUser()){
+                        button_edit.visibility = View.VISIBLE
+                        button_delete.visibility = View.VISIBLE
+                        button.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
     }
 
     fun getSport(sport : String) : Sport {
