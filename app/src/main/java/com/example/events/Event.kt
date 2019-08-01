@@ -1,10 +1,14 @@
 package com.example.events
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import android.widget.*
 import com.example.place.SessionGooglePlace
+import com.example.project.EventInfoActivity
+import com.example.project.EventInfoJojoActivity
+import com.example.project.MainActivity
 import com.example.session.SessionUser
 import com.example.sport.Sport
 import com.example.user.User
@@ -18,6 +22,7 @@ import com.google.firebase.database.collection.LLRBNode
 import org.w3c.dom.Text
 import java.lang.StringBuilder
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * File created by Jonathan CHU on 17/07/19
@@ -32,7 +37,8 @@ data class Event (
     var nb_people: Int = 0,
     var description: String = "",
     var privacy : Privacy = Privacy.INIT,
-    var creator : String = ""
+    var creator : String = "",
+    var participants : HashMap<String, String> = HashMap()
     ) {
 
 
@@ -46,6 +52,7 @@ data class Event (
     fun insertEvent(){
         //Add into events table
         val ref = FirebaseDatabase.getInstance().getReference("events/${this.key}")
+        participants.put(creator, "confirmed")
         ref.setValue(this)
             .addOnSuccessListener {
                 println("DATA INSERTED !!!!")
@@ -97,7 +104,15 @@ data class Event (
                         }
                         "date" -> textView.text = value.date
                         "time" -> textView.text = value.time
-                        "nb_people" -> textView.text = value.nb_people.toString()
+                        "nb_people" ->{
+                            var count = 0
+                            value.participants.forEach{
+                                if(it.value == "confirmed"){
+                                    count++
+                                }
+                            }
+                            textView.text = "${count}  / ${value.nb_people.toString()}"
+                        }
                         "description" -> textView.text = value.description
                         "sport" -> textView.text = value.sport.toString()
                         else -> textView.text = "NULL"
@@ -147,7 +162,43 @@ data class Event (
 
     }
 
-    fun getButton(context: Context, key: String?, button_edit : ImageButton, button_delete : ImageButton, button: Button){
+    fun deleteEvent(context: Context, key : String?, session : SessionUser){
+        val database = FirebaseDatabase.getInstance().reference
+        database.child("events").child("$key").removeValue()
+        database.child("users").child(session.getIdFromUser()).child("eventsCreated").child("$key").removeValue().addOnSuccessListener {
+            val intent = Intent(context, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            EventInfoJojoActivity::finish
+            context.startActivity(intent)
+            Toast.makeText(context, "Event deleted successfully", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun participateEvent(context: Context, key : String?, session : SessionUser){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
+        ref.setValue("waiting").addOnSuccessListener {
+            val intent = Intent(context, EventInfoJojoActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            intent.putExtra("key", key)
+            EventInfoJojoActivity::finish
+            context.startActivity(intent)
+            Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun cancelParticipation(context: Context, key : String?, session : SessionUser){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
+        ref.removeValue().addOnSuccessListener {
+            val intent = Intent(context, EventInfoJojoActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            intent.putExtra("key", key)
+            EventInfoJojoActivity::finish
+            context.startActivity(intent)
+            Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun getButton(context: Context, key: String?, button_edit : ImageButton, button_delete : ImageButton, button_participe: Button, button_cancel : Button){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -156,7 +207,13 @@ data class Event (
                     if(value.creator == SessionUser().getIdFromUser()){
                         button_edit.visibility = View.VISIBLE
                         button_delete.visibility = View.VISIBLE
-                        button.visibility = View.GONE
+                        button_participe.visibility = View.GONE
+                    }
+                    else{
+                        if(value.participants.containsKey(SessionUser().getIdFromUser())){
+                            button_participe.visibility = View.GONE
+                            button_cancel.visibility = View.VISIBLE
+                        }
                     }
                 }
             }

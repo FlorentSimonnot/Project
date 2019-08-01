@@ -1,12 +1,10 @@
 package com.example.project
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.example.events.Event
 import com.example.session.SessionUser
 
@@ -16,6 +14,10 @@ class EventInfoJojoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_info_jojo)
+
+        var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val infos : Bundle? = intent.extras
         val keyEvent = infos?.getString("key").toString()
@@ -32,6 +34,7 @@ class EventInfoJojoActivity : AppCompatActivity() {
         val button_delete = findViewById<ImageButton>(R.id.button_delete)
         val button_edit = findViewById<ImageButton>(R.id.button_edit)
         val button_participate = findViewById<Button>(R.id.button_participate)
+        val button_cancel = findViewById<Button>(R.id.button_cancel)
 
         Event().writeInfoEvent(
             this,
@@ -94,6 +97,26 @@ class EventInfoJojoActivity : AppCompatActivity() {
         )
 
 
-        Event().getButton(this, keyEvent, button_edit, button_delete, button_participate)
+        Event().getButton(this, keyEvent, button_edit, button_delete, button_participate, button_cancel)
+
+        button_delete.setOnClickListener {
+            Event().deleteEvent(this, keyEvent, session)
+        }
+
+        button_participate.setOnClickListener {
+            Event().participateEvent(this, keyEvent, session)
+        }
+
+        button_cancel.setOnClickListener {
+            Event().cancelParticipation(this, keyEvent, session)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        EventInfoJojoActivity::finish
+        startActivity(intent)
+        return true
     }
 }

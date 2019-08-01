@@ -1,27 +1,18 @@
 package com.example.project
 
-import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import com.example.place.SessionGooglePlace
 import com.example.session.SessionUser
-import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
-import kotlinx.android.synthetic.main.activity_create_event.*
-import kotlinx.android.synthetic.main.activity_sign_in_jojo.*
-import java.lang.StringBuilder
-import java.util.*
 
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -33,7 +24,9 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         when (item.itemId) {
             R.id.navigation_home -> {
                 val checkAccountIntent = Intent(this, MainActivity::class.java)
+                finish()
                 startActivity(checkAccountIntent)
+                overridePendingTransition(R.anim.right_to_left_in, R.anim.right_to_left_out)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_map -> {

@@ -1,7 +1,6 @@
 package com.example.project
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
@@ -31,7 +30,9 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.navigation_account -> {
                 val checkAccountIntent = Intent(this, UserInfoActivity::class.java)
+                finish()
                 startActivity(checkAccountIntent)
+                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_chat -> {
