@@ -9,26 +9,27 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.events.Event
 import com.example.project.R
-import com.example.sport.Sport
+import com.example.user.User
 
-class ArrayAdapterSport(private val ctx : Context, private val resource : Int, private val events : ArrayList<Sport>)
-    : ArrayAdapter<Sport>( ctx , resource, events){
+class ArrayAdapterInvitations(
+    val ctx : Context,
+    val resource : Int,
+    val users : ArrayList<User>
+    ) : ArrayAdapter<User>(ctx, resource, users) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-
         val layoutInflater : LayoutInflater = LayoutInflater.from(ctx)
 
 
         val view : View = layoutInflater.inflate(resource , null )
-        val imageView : ImageView = view.findViewById(R.id.icon_sport)
-        val textView : TextView = view.findViewById(R.id.name_sport)
+        //val imageView : ImageView = view.findViewById(R.id.icon_sport)
+        val textView : TextView = view.findViewById(R.id.identity)
 
 
-        imageView.setImageDrawable(ctx.resources.getDrawable(events[position].getLogo()))
-        textView.text = events[position].name
+        //imageView.setImageDrawable(ctx.resources.getDrawable(users[position].getLogo()))
+        textView.text = users[position].name
 
 
         return view
     }
-
 }

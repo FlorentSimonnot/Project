@@ -88,13 +88,41 @@
                     />
         </LinearLayout>
 
+        <!--SEE PARTICIPANTS-->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/participants_layout"
+                android:orientation="vertical"
+                android:layout_below="@id/creator_layout"
+                >
+            <TextView
+                    android:id="@+id/participants_waiting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="See participants waiting"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    />
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/participants"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginBottom="20dp"
+                    />
+        </LinearLayout>
+
+
         <!--PLACE-->
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/place_layout"
                 android:orientation="vertical"
-                android:layout_below="@id/creator_layout"
+                android:layout_below="@id/participants_layout"
                 >
             <TextView
                     android:layout_width="match_parent"

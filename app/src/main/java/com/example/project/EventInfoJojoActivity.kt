@@ -1,15 +1,24 @@
 package com.example.project
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.example.arrayAdapterCustom.ArrayAdapterCustom
+import com.example.dialog.AlertDialogCustom
 import com.example.events.Event
 import com.example.session.SessionUser
+import com.example.user.User
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class EventInfoJojoActivity : AppCompatActivity() {
     private val session = SessionUser()
+    private lateinit var usersWaitingDialog : AlertDialogCustom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +30,8 @@ class EventInfoJojoActivity : AppCompatActivity() {
 
         val infos : Bundle? = intent.extras
         val keyEvent = infos?.getString("key").toString()
+
+        createUsersWaiting(this, keyEvent)
 
         val titleTextView : TextView = findViewById(R.id.event_name)
         val sportLogoImageView = findViewById<ImageView>(R.id.sport_logo)
@@ -35,6 +46,7 @@ class EventInfoJojoActivity : AppCompatActivity() {
         val button_edit = findViewById<ImageButton>(R.id.button_edit)
         val button_participate = findViewById<Button>(R.id.button_participate)
         val button_cancel = findViewById<Button>(R.id.button_cancel)
+        val participantsWaiting = findViewById<TextView>(R.id.participants_waiting)
 
         Event().writeInfoEvent(
             this,
@@ -110,6 +122,10 @@ class EventInfoJojoActivity : AppCompatActivity() {
         button_cancel.setOnClickListener {
             Event().cancelParticipation(this, keyEvent, session)
         }
+
+        participantsWaiting.setOnClickListener {
+            usersWaitingDialog.showDialog()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -118,5 +134,36 @@ class EventInfoJojoActivity : AppCompatActivity() {
         EventInfoJojoActivity::finish
         startActivity(intent)
         return true
+    }
+
+    private fun createUsersWaiting(context: Context, key : String?){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                val usersWaiting : ArrayList<User> = ArrayList()
+                data.forEach {
+                    if(it.value == "waiting"){
+                        val refU = FirebaseDatabase.getInstance().getReference("users/${it.key}")
+                        refU.addValueEventListener(object : ValueEventListener{
+                            override fun onCancelled(p0: DatabaseError) {
+                                //Nothing
+                            }
+
+                            override fun onDataChange(p0: DataSnapshot) {
+                                val value = dataSnapshot.getValue(User::class.java)
+                                if(value != null)
+                                    usersWaiting.add(value)
+                            }
+
+                        })
+                    }
+                }
+
+                usersWaitingDialog = AlertDialogCustom(context, R.layout.list_item_user_waiting, usersWaiting)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 }
