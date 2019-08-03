@@ -46,9 +46,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_activity)
 
-        val date = DateCustom("11/06/1998")
-        println("AFTER ? ${date.isAfter(DateCustom("10/06/1998"))}")
-
         if (!session.isLogin()) {
             val logInIntent = Intent(this, LoginActivity::class.java)
             //Flags allow to block come back
@@ -82,8 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         /* ----------- SHOW EVENTS ---------------*/
         val listView = findViewById<ListView>(R.id.events_listview)
-        val relativeLayout = findViewById<RelativeLayout>(R.id.layoutEventsView)
-        showAllEvents(this, relativeLayout, listView)
+        showAllEvents(this, listView)
 
         val createEvent = findViewById<Button>(R.id.create_event)
         createEvent.setOnClickListener {
@@ -96,12 +92,12 @@ class MainActivity : AppCompatActivity() {
     /**
      * Get All of events from Database and show them in listView
      */
-    private fun showAllEvents(activity: Activity, layout : RelativeLayout,  listView : ListView){
+    private fun showAllEvents(activity: Activity,  listView : ListView){
         val ref = FirebaseDatabase.getInstance().getReference("events")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
-                var events : ArrayList<Event> = ArrayList()
+                val events : ArrayList<Event> = ArrayList()
                 data.forEach {
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     //Add event in list if it isn't null

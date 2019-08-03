@@ -11,6 +11,7 @@ import com.example.dialog.AlertDialogCustom
 import com.example.events.Event
 import com.example.session.SessionUser
 import com.example.user.User
+import com.example.user.UserWithKey
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -19,6 +20,7 @@ import com.google.firebase.database.ValueEventListener
 class EventInfoJojoActivity : AppCompatActivity() {
     private val session = SessionUser()
     private lateinit var usersWaitingDialog : AlertDialogCustom
+    private lateinit var usersDialog : AlertDialogCustom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +33,6 @@ class EventInfoJojoActivity : AppCompatActivity() {
         val infos : Bundle? = intent.extras
         val keyEvent = infos?.getString("key").toString()
 
-        createUsersWaiting(this, keyEvent)
 
         val titleTextView : TextView = findViewById(R.id.event_name)
         val sportLogoImageView = findViewById<ImageView>(R.id.sport_logo)
@@ -47,6 +48,8 @@ class EventInfoJojoActivity : AppCompatActivity() {
         val button_participate = findViewById<Button>(R.id.button_participate)
         val button_cancel = findViewById<Button>(R.id.button_cancel)
         val participantsWaiting = findViewById<TextView>(R.id.participants_waiting)
+        val participantsConfirmed = findViewById<TextView>(R.id.participants)
+
 
         Event().writeInfoEvent(
             this,
@@ -124,7 +127,15 @@ class EventInfoJojoActivity : AppCompatActivity() {
         }
 
         participantsWaiting.setOnClickListener {
-            usersWaitingDialog.showDialog()
+            val intent = Intent(this, ParticipantsWaitedActivity::class.java)
+            intent.putExtra("key", keyEvent)
+            finish()
+            startActivity(intent)
+            overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
+        }
+
+        participantsConfirmed.setOnClickListener {
+            usersDialog.showDialog()
         }
     }
 
@@ -141,7 +152,7 @@ class EventInfoJojoActivity : AppCompatActivity() {
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
-                val usersWaiting : ArrayList<User> = ArrayList()
+                val usersWaiting : ArrayList<UserWithKey> = ArrayList()
                 data.forEach {
                     if(it.value == "waiting"){
                         val refU = FirebaseDatabase.getInstance().getReference("users/${it.key}")
@@ -151,16 +162,57 @@ class EventInfoJojoActivity : AppCompatActivity() {
                             }
 
                             override fun onDataChange(p0: DataSnapshot) {
-                                val value = dataSnapshot.getValue(User::class.java)
-                                if(value != null)
-                                    usersWaiting.add(value)
+                                val value = p0.getValue(User::class.java)
+                                println("VALUE : $value")
+                                if(value != null) {
+                                    usersWaiting.add(UserWithKey(value, it.key))
+                                    usersWaiting.add(UserWithKey(value, it.key))
+                                    usersWaiting.add(UserWithKey(value, it.key))
+                                    usersWaiting.add(UserWithKey(value, it.key))
+                                }
                             }
 
                         })
                     }
                 }
 
-                usersWaitingDialog = AlertDialogCustom(context, R.layout.list_item_user_waiting, usersWaiting)
+                usersWaitingDialog = AlertDialogCustom(context, R.layout.list_item_user_waiting, usersWaiting, "See users waiting", key!!, "confirm")
+                usersWaitingDialog.createAlertDialog()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    private fun createUsersConfirmed(context: Context, key : String?){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                val usersConfirmed : ArrayList<UserWithKey> = ArrayList()
+                data.forEach {
+                    println("IT : $it")
+                    if(it.value == "confirmed"){
+                        val refU = FirebaseDatabase.getInstance().getReference("users/${it.key}")
+                        refU.addValueEventListener(object : ValueEventListener{
+                            override fun onCancelled(p0: DatabaseError) {
+                                //Nothing
+                            }
+
+                            override fun onDataChange(p0: DataSnapshot) {
+                                val value = p0.getValue(User::class.java)
+                                println("VALUE : $value")
+                                if(value != null) {
+                                    usersConfirmed.add(UserWithKey(value, it.key))
+                                }
+                            }
+
+                        })
+                    }
+                }
+
+                usersDialog = AlertDialogCustom(context, R.layout.list_item_user_confirmed, usersConfirmed, "Participants", key!!, "cancel")
+                usersDialog.createAlertDialog()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

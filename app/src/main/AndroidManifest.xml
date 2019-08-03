@@ -13,6 +13,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".ParticipantsWaitedActivity">
+        </activity>
         <activity android:name=".EventInfoJojoActivity">
         </activity>
         <activity

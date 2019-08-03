@@ -187,6 +187,9 @@ class SessionUser{
                                 }
                             }
                         }
+                        else -> {
+                            //Picasso.get().load(R.drawable.)
+                        }
                     }
                 }
             }

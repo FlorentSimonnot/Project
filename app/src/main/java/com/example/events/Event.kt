@@ -198,6 +198,12 @@ data class Event (
         }
     }
 
+    fun confirmParticipation(context: Context, key: String?, user : String){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
+        ref.setValue("confirmed")
+        Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
+    }
+
     fun getButton(context: Context, key: String?, button_edit : ImageButton, button_delete : ImageButton, button_participe: Button, button_cancel : Button){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {

@@ -2,12 +2,15 @@ package com.example.user
 
 import android.content.Context
 import android.content.Intent
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
 import com.example.project.MainActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -70,6 +73,42 @@ data class User(
         result.put("idServiceLog", idServiceLog)
 
         return result
+    }
+
+    fun showPhotoUser(context: Context, imageView: ImageView, key : String?) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    when(value.typeLog){
+                        "Facebook" ->{
+                            if(value.idServiceLog.isNotEmpty()){
+                                Picasso.get()
+                                    .load("https://graph.facebook.com/" + value.idServiceLog+ "/picture?type=large")
+                                    .into(imageView);
+                            }
+                        }
+                        "Google" -> {
+                            if(value.idServiceLog.isNotEmpty()){
+                                val account = GoogleSignIn.getLastSignedInAccount(context)
+                                if(account != null){
+                                    Picasso.get()
+                                        .load(account.photoUrl)
+                                        .into(imageView)
+                                }
+                            }
+                        }
+                        else -> {
+                            //Picasso.get().load(R.drawable.)
+                        }
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
     }
 
 }
