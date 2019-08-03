@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.dialog.AlertDialogCustom
 import com.example.events.Event
@@ -114,8 +115,22 @@ class EventInfoJojoActivity : AppCompatActivity() {
 
         Event().getButton(this, keyEvent, button_edit, button_delete, button_participate, button_cancel)
 
+        button_edit.setOnClickListener {
+
+        }
+
         button_delete.setOnClickListener {
-            Event().deleteEvent(this, keyEvent, session)
+            val deleteEventAlertDialog = AlertDialog.Builder(this)
+            deleteEventAlertDialog.setTitle("Are you sure?")
+            deleteEventAlertDialog.setMessage("Your event will be deleted.\nConfirm?")
+            deleteEventAlertDialog.setPositiveButton("Yes"){_, _ ->
+                Event().deleteEvent(this, keyEvent, session)
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            deleteEventAlertDialog.setNegativeButton("No"){_, _ ->
+
+            }
+            deleteEventAlertDialog.show()
         }
 
         button_participate.setOnClickListener {

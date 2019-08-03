@@ -1,5 +1,6 @@
 package com.example.project
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -73,6 +74,7 @@ class CreateEventActivityStep2 : AppCompatActivity(), NumberPicker.OnValueChange
                     session.getIdFromUser()
                 )
                 event.insertEvent()
+                startActivity(Intent(this, MainActivity::class.java))
             }
         }
 

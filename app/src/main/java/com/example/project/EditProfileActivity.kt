@@ -152,7 +152,8 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
                     placeId.toString(),
                     descriptionEditText.text.toString()
                 )
-                startActivity(Intent(this, UserInfoActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
+                Toast.makeText(this, "Your account has been successfully updated!", Toast.LENGTH_LONG).show()
             }
             builder.setNegativeButton("No"){_, _ ->
 
