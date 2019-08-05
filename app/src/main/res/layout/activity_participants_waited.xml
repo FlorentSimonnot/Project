@@ -48,6 +48,7 @@
                 android:layout_below="@id/toolbar"
                 tools:ignore="MissingConstraints"
                 android:padding="10dp"
+                android:orientation="vertical"
         >
             <ListView
                 android:id="@+id/listViewUsers"
@@ -56,6 +57,20 @@
             >
 
             </ListView>
+            <RelativeLayout
+                    android:id="@+id/noResultsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical|center"
+            >
+                <TextView
+                    android:id="@+id/noResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No results found"
+                />
+            </RelativeLayout>
 
         </RelativeLayout>
 

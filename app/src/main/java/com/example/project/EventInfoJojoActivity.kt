@@ -34,7 +34,6 @@ class EventInfoJojoActivity : AppCompatActivity() {
         val infos : Bundle? = intent.extras
         val keyEvent = infos?.getString("key").toString()
 
-
         val titleTextView : TextView = findViewById(R.id.event_name)
         val sportLogoImageView = findViewById<ImageView>(R.id.sport_logo)
         val sportTextView = findViewById<TextView>(R.id.sport)
@@ -50,6 +49,8 @@ class EventInfoJojoActivity : AppCompatActivity() {
         val button_cancel = findViewById<Button>(R.id.button_cancel)
         val participantsWaiting = findViewById<TextView>(R.id.participants_waiting)
         val participantsConfirmed = findViewById<TextView>(R.id.participants)
+
+        Event().verifyCurrentUserIsCreator(keyEvent, participantsWaiting, session)
 
 
         Event().writeInfoEvent(
@@ -67,8 +68,6 @@ class EventInfoJojoActivity : AppCompatActivity() {
         )
 
         Event().writeLogoSport(this, keyEvent, sportLogoImageView)
-
-        //sportLogoImageView.setImageDrawable(getDrawable(Event().getSport(sportTextView.text.toString()).getLogo()))
 
         Event().writeInfoEvent(
             this,
@@ -150,87 +149,21 @@ class EventInfoJojoActivity : AppCompatActivity() {
         }
 
         participantsConfirmed.setOnClickListener {
-            usersDialog.showDialog()
+            val intent = Intent(this, ParticipantsActivity::class.java)
+            intent.putExtra("key", keyEvent)
+            finish()
+            startActivity(intent)
+            overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         EventInfoJojoActivity::finish
         startActivity(intent)
         return true
     }
 
-    private fun createUsersWaiting(context: Context, key : String?){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                val usersWaiting : ArrayList<UserWithKey> = ArrayList()
-                data.forEach {
-                    if(it.value == "waiting"){
-                        val refU = FirebaseDatabase.getInstance().getReference("users/${it.key}")
-                        refU.addValueEventListener(object : ValueEventListener{
-                            override fun onCancelled(p0: DatabaseError) {
-                                //Nothing
-                            }
-
-                            override fun onDataChange(p0: DataSnapshot) {
-                                val value = p0.getValue(User::class.java)
-                                println("VALUE : $value")
-                                if(value != null) {
-                                    usersWaiting.add(UserWithKey(value, it.key))
-                                    usersWaiting.add(UserWithKey(value, it.key))
-                                    usersWaiting.add(UserWithKey(value, it.key))
-                                    usersWaiting.add(UserWithKey(value, it.key))
-                                }
-                            }
-
-                        })
-                    }
-                }
-
-                usersWaitingDialog = AlertDialogCustom(context, R.layout.list_item_user_waiting, usersWaiting, "See users waiting", key!!, "confirm")
-                usersWaitingDialog.createAlertDialog()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    private fun createUsersConfirmed(context: Context, key : String?){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                val usersConfirmed : ArrayList<UserWithKey> = ArrayList()
-                data.forEach {
-                    println("IT : $it")
-                    if(it.value == "confirmed"){
-                        val refU = FirebaseDatabase.getInstance().getReference("users/${it.key}")
-                        refU.addValueEventListener(object : ValueEventListener{
-                            override fun onCancelled(p0: DatabaseError) {
-                                //Nothing
-                            }
-
-                            override fun onDataChange(p0: DataSnapshot) {
-                                val value = p0.getValue(User::class.java)
-                                println("VALUE : $value")
-                                if(value != null) {
-                                    usersConfirmed.add(UserWithKey(value, it.key))
-                                }
-                            }
-
-                        })
-                    }
-                }
-
-                usersDialog = AlertDialogCustom(context, R.layout.list_item_user_confirmed, usersConfirmed, "Participants", key!!, "cancel")
-                usersDialog.createAlertDialog()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
 }

@@ -1,5 +1,8 @@
 package com.example.dateCustom
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 class DateCustom {
     var day : Int = 0
     var month : Int = 0
@@ -15,6 +18,18 @@ class DateCustom {
             month = listDate[1].toInt()
             year = listDate[2].toInt()
         }
+    }
+
+    override fun toString(): String {
+        var strDay = ""
+        var strMonth = ""
+        if(day < 10){
+            strDay = "0$day"
+        }
+        if(month < 10){
+            strMonth = "0$month"
+        }
+        return "$strDay/$strMonth/$year"
     }
 
     fun isAfter(date : DateCustom) : Boolean{
@@ -40,6 +55,13 @@ class DateCustom {
         return  day == date.day &&
                 month == date.month &&
                 year == date.year
+    }
+
+    fun getCurrentDate() : DateCustom{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val date = current.format(formatter)
+        return DateCustom(date)
     }
 
 }

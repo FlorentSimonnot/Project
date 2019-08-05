@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorDarkMode"
+        android:background="@drawable/bg1"
 >
 
     <LinearLayout
@@ -19,20 +19,19 @@
             tools:layout_editor_absoluteX="0dp"
     >
 
-        <ImageView
+        <!--<ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/app_logo"
                 android:src="@drawable/logo"
                 android:layout_centerHorizontal="true"
-        />
+        />-->
 
         <TextView
-                android:hint="Phrase d'accroche ou nom"
+                android:text="BlablablaBlabla"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:color="@color/colorTextDarkMode"
-                android:textColorHint="@color/colorTextDarkMode"
+                android:textColor="#fff"
                 android:fontFamily="@font/rubik"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
@@ -106,8 +105,8 @@
                 android:id="@+id/forgotPassword"
                 android:text="Forgot your Password ? Click Here"
                 android:fontFamily="@font/rubik"
-                android:background="@color/colorDarkMode"
-                android:textColor="@color/colorTextDarkMode"
+                android:background="@android:color/transparent"
+                android:textColor="#fff"
                 android:gravity="start"
                 android:paddingTop="10dp"
         />
@@ -146,12 +145,10 @@
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
         android:gravity="bottom|center"
-        android:background="@color/colorDarkMode"
     >
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorDarkMode"
         >
 
             <TextView
@@ -232,8 +229,7 @@
                 android:fontFamily="@font/rubik"
                 android:text="Not a member ? Click Here to join US"
                 android:layout_marginBottom="10dp"
-                android:background="@color/colorDarkMode"
-                android:textColor="@color/colorTextDarkMode"
+                android:textColor="#fff"
                 style="?android:attr/borderlessButtonStyle"
         />
     </LinearLayout>

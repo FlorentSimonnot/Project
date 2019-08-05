@@ -1,9 +1,5 @@
 package com.example.project
 
-import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.Dialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,6 +24,8 @@ import kotlin.collections.ArrayList
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import android.R.attr.apiKey
+import android.app.*
+import com.example.dialog.AlertDialogCustom
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
@@ -49,6 +47,7 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
     private lateinit var listView : ListView
     private val API_KEY = "AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
     private var placeId : String? = ""
+    private lateinit var dialogSport : AlertDialogCustom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +82,8 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
 
         autoCompleteSport = findViewById(R.id.sport)
         createSportList()
-
+        //Init sdialog sport
+        dialogSport = AlertDialogCustom(this, R.layout.list_item_sport, sportList, "Choose sport", autoCompleteSport)
 
         val time = findViewById<TextView>(R.id.time)
         time.setOnClickListener {
@@ -107,7 +107,9 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
         }
 
         autoCompleteSport.setOnClickListener{
-            findViewById<RelativeLayout>(R.id.dialog).alpha = 100F
+            dialogSport.createAlertDialog()
+            dialogSport.showDialog()
+            /*findViewById<RelativeLayout>(R.id.dialog).alpha = 100F
             findViewById<RelativeLayout>(R.id.infoLayout).alpha = 0F
             findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorDark)
             val adapter = ArrayAdapterSport(this, R.layout.list_item_sport, sportList)
@@ -121,7 +123,7 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
                 findViewById<RelativeLayout>(R.id.dialog).alpha = 0F
                 findViewById<RelativeLayout>(R.id.infoLayout).alpha = 100F
                 findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorGrey100)
-            }
+            }*/
         }
 
         val buttonCreate : Button = findViewById(R.id.create_event)

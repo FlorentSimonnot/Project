@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_activity)
 
+        println("DATE ${DateCustom("00/00/0000").getCurrentDate().toString()}")
+
         if (!session.isLogin()) {
             val logInIntent = Intent(this, LoginActivity::class.java)
             //Flags allow to block come back

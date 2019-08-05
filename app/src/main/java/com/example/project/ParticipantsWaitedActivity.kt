@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ListView
+import android.widget.RelativeLayout
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.arrayAdapterCustom.ArrayAdapterCustomUsers
 import com.example.dialog.AlertDialogCustom
@@ -17,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_event_info_jojo.*
 class ParticipantsWaitedActivity : AppCompatActivity() {
     private lateinit var keyEvent : String
     private lateinit var listView : ListView
+    private lateinit var noResults : RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,7 @@ class ParticipantsWaitedActivity : AppCompatActivity() {
         supportActionBar?.title = "Users waiting acceptation"
 
         listView = findViewById<ListView>(R.id.listViewUsers)
+        noResults = findViewById(R.id.noResultsLayout)
 
         val infos : Bundle? = intent.extras
         keyEvent = infos?.getString("key").toString()
@@ -77,34 +81,41 @@ class ParticipantsWaitedActivity : AppCompatActivity() {
                         }
                     }
                 }
-                val adapter = ArrayAdapterCustomUsers(context, R.layout.list_item_user_waiting, keyEvent, usersWaiting, "waiting")
-                adapter.notifyDataSetChanged()
-                listView.adapter = adapter
-                val dref = FirebaseDatabase.getInstance().reference;
-                dref.addChildEventListener(object : ChildEventListener {
-                    override fun onCancelled(p0: DatabaseError) {
-                        //
-                    }
+                println("USER WAITINGS ${usersWaiting}")
+                if(usersWaiting.size > 0){
+                    noResults.visibility = View.GONE
+                    listView.visibility = View.VISIBLE
+                    val adapter = ArrayAdapterCustomUsers(context, R.layout.list_item_user_waiting, keyEvent, usersWaiting, "waiting")
+                    adapter.notifyDataSetChanged()
+                    listView.adapter = adapter
+                    val dref = FirebaseDatabase.getInstance().reference;
+                    dref.addChildEventListener(object : ChildEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+                            //
+                        }
 
-                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                        //
-                    }
+                        override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                            //
+                        }
 
-                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                        println("ON CHANGEEEEEEE $p0 and $p1")
-                        createUsersWaiting(context, keyEvent)
-                        //adapter.remove(dataSnapshot.getValue(String::class.java))
-                        //adapter.notifyDataSetChanged()
-                    }
+                        override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                            println("ON CHANGEEEEEEE $p0 and $p1")
+                            createUsersWaiting(context, keyEvent)
+                        }
 
-                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                        //
-                    }
+                        override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                            //
+                        }
 
-                    override fun onChildRemoved(p0: DataSnapshot) {
-                        //
-                    }
-                })
+                        override fun onChildRemoved(p0: DataSnapshot) {
+                            //
+                        }
+                    })
+                }
+                else{
+                    listView.visibility = View.GONE
+                    noResults.visibility = View.VISIBLE
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

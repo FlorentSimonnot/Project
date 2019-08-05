@@ -25,6 +25,7 @@ class ArrayAdapterCustomUsers(
     private val users : ArrayList<UserWithKey>,
     private val action : String
 ): ArrayAdapter<UserWithKey>( ctx , resource, users){
+    private var buttonRefuse : Button? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
@@ -34,17 +35,23 @@ class ArrayAdapterCustomUsers(
         val textView : TextView = view.findViewById(R.id.identity)
         val button : Button
         button = when(action){
-            "waiting" -> view.findViewById(R.id.btn_accept)
+            "waiting" ->{
+                view.findViewById(R.id.btn_accept)
+            }
             "confirm" -> view.findViewById(R.id.btn_remove)
             else -> {
                 throw Exception("Nope")
             }
         }
-
-        println("SIZE USERS : ${users.size}")
+        if(action == "waiting"){
+            buttonRefuse = view.findViewById(R.id.btn_refuse)
+        }
 
         if(users.size > 0) {
-            //imageView.setImageDrawable(ctx.resources.getDrawable(users[position].getLogo()))
+            if(action == "confirm"){
+                Event().verifyUserIsCreator(keyEvent, button, users[position].key)
+                //Event().showButtonIfCreator(keyEvent, button, SessionUser())
+            }
             textView.text = users[position].user.firstName + " " + users[position].user.name
             User().showPhotoUser(ctx, imageView, users[position].key)
             button.setOnClickListener {
@@ -57,6 +64,22 @@ class ArrayAdapterCustomUsers(
                             Event().confirmParticipation(ctx, keyEvent, userKey!!)
                         }
                     }
+                    "confirm" -> {
+                        val item = getItem(position)
+                        if(item != null){
+                            val userKey = users[position].key
+                            users.removeAt(position)
+                            Event().deleteParticipation(ctx, keyEvent, userKey!!)
+                        }
+                    }
+                }
+            }
+            buttonRefuse?.setOnClickListener {
+                val item = getItem(position)
+                if(item != null){
+                    val userKey = users[position].key
+                    users.removeAt(position)
+                    Event().refuseParticipation(ctx, keyEvent, userKey!!)
                 }
             }
         }

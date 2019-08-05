@@ -55,37 +55,6 @@
                 android:background="@drawable/basic_input_rectangle"
                 />
 
-        <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edit_sexe"
-                android:layout_marginTop="20dp"
-                android:layout_below="@id/layoutText"
-                android:fontFamily="@font/rubik"
-                android:background="#fff"
-                >
-
-            <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sexe"
-                    android:text="sexe"
-                    android:layout_weight="0.5"
-                    android:layout_marginLeft="3dp"
-                    android:textSize="18sp"
-                    android:padding="10dp"
-            />
-
-            <Spinner
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/sexe_spinner"
-                    android:entries="@array/sexe"
-                    android:layout_toRightOf="@id/sexe"
-                    android:layout_weight="0.5"
-            />
-        </LinearLayout>-->
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,18 +70,6 @@
             android:freezesText="true"
                 />
 
-
-        <!--<EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="date"
-                android:id="@+id/birthday"
-                android:layout_below="@id/edit_sexe"
-                android:hint="birthday"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/basic_input_rectangle"
-                android:padding="10dp"
-        />-->
 
         <EditText
                 android:layout_width="match_parent"
@@ -142,17 +99,6 @@
                       android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
                     />
         </LinearLayout>
-
-        <!--<EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/city"
-                android:layout_below="@id/description"
-                android:hint="city"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/basic_input_rectangle"
-                android:padding="10dp"
-        />-->
 
         <TextView
                 android:layout_width="wrap_content"
@@ -192,8 +138,33 @@
 
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/distance_value"
+                android:id="@+id/layout_privacy"
+                android:orientation="vertical"
+                >
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/privacy"
+                    android:hint="Privacy of your account"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/basic_input_rectangle"
+                    android:drawableLeft="@drawable/ic_view"
+                    android:drawablePadding="20dp"
+                    android:padding="10dp"
+                    android:drawableStart="@drawable/ic_view"
+                    android:freezesText="true"
+                    />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/layout_privacy"
                 android:gravity="bottom|center">
 
 

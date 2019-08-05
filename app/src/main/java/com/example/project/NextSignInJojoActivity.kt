@@ -24,6 +24,7 @@ import android.widget.TextView
 import android.widget.EditText
 import android.widget.NumberPicker
 import com.example.picker.DatePickerCustom
+import com.example.user.PrivacyAccount
 import kotlinx.android.synthetic.main.activity_create_event.*
 import kotlinx.android.synthetic.main.activity_next_sign_in_jojo.*
 import org.w3c.dom.Text
@@ -39,7 +40,9 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
     private lateinit var typeLog : String
     private var placeId : String? = ""
     private lateinit var stringSex : Array<String>
+    private lateinit var stringPrivacy : Array<String>
     private lateinit var textViewSex: TextView
+    private lateinit var privacyAccount: TextView
 
     private var dayChoosen : String = ""
     private var monthChoosen : String = ""
@@ -51,11 +54,19 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
 
         stringSex = arrayOf("Male", "Female", "Other")
         textViewSex = findViewById(R.id.edit_sexe)
+        stringPrivacy = arrayOf("Public", "Private")
+        privacyAccount = findViewById(R.id.privacy)
 
         textViewSex.setOnClickListener {
             val numberPicker = StringPickerCustom(0, 2, "Gender", "", stringSex)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "Sex picker")
+        }
+
+        privacy.setOnClickListener {
+            val privacyPicker = StringPickerCustom(0, 1, "Privacy", resources.getString(R.string.describe_privacy), stringPrivacy)
+            privacyPicker.setValueChangeListener(this)
+            privacyPicker.show(supportFragmentManager, "Privacy picker")
         }
 
         auth = FirebaseAuth.getInstance()
@@ -178,7 +189,8 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
                     findViewById<EditText>(R.id.description).text.toString(),
                     placeId.toString(),
                     typeLog,
-                    idServiceLogin
+                    idServiceLogin,
+                    PrivacyAccount.valueOf(privacyAccount.text.toString())
                 )
 
                 when(typeLog){
@@ -213,9 +225,14 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
 
     override fun onValueChange(p0: NumberPicker?, p1: Int, p2: Int) {
         if(p0 != null){
-            if(p0.maxValue == 2) {
-                textViewSex.text = stringSex[p0.value]
+            when(p0.maxValue) {
+                2 -> textViewSex.text = stringSex[p0.value]
+                1 -> privacy.text = stringPrivacy[p0.value]
+                else -> {
+                    //Error
+                }
             }
+
         }
     }
 

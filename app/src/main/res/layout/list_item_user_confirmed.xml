@@ -38,5 +38,6 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/button_remove_participant"
         android:textColor="#fff"
+        android:visibility="gone"
             />
 </RelativeLayout>

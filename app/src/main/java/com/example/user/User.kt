@@ -26,7 +26,9 @@ data class User(
     var city : String = "",
     var typeLog : String = "Email",
     var idServiceLog : String = "",
-    var eventsCreated : HashMap<String, String> = HashMap()
+    var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
+    var eventsCreated : HashMap<String, String> = HashMap(),
+    var eventsJoined : HashMap<String, String> = HashMap()
 
 ){
 

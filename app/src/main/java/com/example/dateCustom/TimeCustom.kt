@@ -1,5 +1,8 @@
 package com.example.dateCustom
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 class TimeCustom {
     var hour : Int = 0
     var min : Int = 0
@@ -13,6 +16,18 @@ class TimeCustom {
             hour = listTime[0].toInt()
             min = listTime[1].toInt()
         }
+    }
+
+    override fun toString(): String {
+        var strHour = ""
+        var strMin = ""
+        if(hour < 10){
+            strHour = "0$hour"
+        }
+        if(min < 10){
+            strMin = "0$min"
+        }
+        return "${strHour}h$strMin"
     }
 
     fun isAfter(time : TimeCustom) : Boolean{
@@ -37,4 +52,10 @@ class TimeCustom {
                 min == time.min
     }
 
+    fun getCurrentTime() : TimeCustom{
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        val time = current.format(formatter)
+        return TimeCustom(time)
+    }
 }
