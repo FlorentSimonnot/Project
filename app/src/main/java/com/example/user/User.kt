@@ -11,6 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -28,9 +29,10 @@ data class User(
     var idServiceLog : String = "",
     var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
     var eventsCreated : HashMap<String, String> = HashMap(),
-    var eventsJoined : HashMap<String, String> = HashMap()
+    var eventsJoined : HashMap<String, String> = HashMap(),
+    var friends: HashMap<String, String> = HashMap()
 
-){
+): Serializable{
 
     /**createAccount insert into database a new user.
      *

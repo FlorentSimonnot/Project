@@ -2,16 +2,16 @@ package com.example.events
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.opengl.Visibility
 import android.view.View
 import android.widget.*
 import com.example.place.SessionGooglePlace
-import com.example.project.EventInfoActivity
 import com.example.project.EventInfoJojoActivity
 import com.example.project.MainActivity
+import com.example.project.PrivateUserActivity
+import com.example.project.PublicUserActivity
 import com.example.session.SessionUser
 import com.example.sport.Sport
+import com.example.user.PrivacyAccount
 import com.example.user.User
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
@@ -19,8 +19,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.collection.LLRBNode
-import org.w3c.dom.Text
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.HashMap
@@ -75,7 +73,7 @@ data class Event (
                     when (action) {
                         "name" -> textView.text = value.name
                         "creator" -> {
-                            getCreator(key, value.creator, textView)
+                            getCreator(context, key, value.creator, textView)
                             /*val user = SessionUser()
                             user.writeInfoUser(context, value.creator, textView, "identity")*/
 
@@ -132,7 +130,7 @@ data class Event (
      * @param uid : the uid of event's creator
      * @param textView : the textView where we have to write information
      */
-    fun getCreator(key: String?, uid: String?, textView: TextView) {
+    fun getCreator(context: Context, key: String?, uid: String?, textView: TextView) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -142,6 +140,21 @@ data class Event (
                         var builder = StringBuilder()
                         builder.append(value.firstName).append(" ").append(value.name)
                         textView.text = builder
+
+
+                        textView.setOnClickListener {
+                            if (value.privacyAccount == PrivacyAccount.Public) {
+                                val intent = Intent(context, PublicUserActivity::class.java)
+                                intent.putExtra("user", value)
+                                context.startActivity(intent)
+                            }
+                            else {
+                                val intent = Intent(context, PrivateUserActivity::class.java)
+                                intent.putExtra("user", value)
+                                context.startActivity(intent)
+
+                            }
+                        }
                     }
                     else{
                         textView.text = "Me"
