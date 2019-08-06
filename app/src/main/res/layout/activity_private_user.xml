@@ -29,7 +29,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:id="@+id/event_name"
-                    android:text="Private"
                     android:textColor="#fff"
                     android:textSize="24dp"
                     android:fontFamily="@font/rubik"
@@ -38,6 +37,9 @@
                     android:layout_marginRight="10dp"
                     />
         </androidx.appcompat.widget.Toolbar>
+
+
+
 
         <ScrollView
                 android:layout_width="match_parent"
@@ -48,6 +50,7 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/user_info_layout"
                     android:orientation="vertical"
                     android:gravity="center"
                     >
@@ -67,24 +70,96 @@
 
 
                 <!--NAME + FIRSTNAME-->
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/identity_private_user"
+                        android:textAlignment="center"
+                        />
+
+
+                <!--EVENTS USER INFO-->
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/name_and_firstName_layout"
-                        android:layout_below="@id/profile_photo"
-                        android:orientation="horizontal">
-
-                    <TextView
-                            android:layout_width="match_parent"
+                        android:id="@+id/event_user_info_layout"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false"
+                        >
+                    <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/identity_private_user"
-                            android:textAlignment="center"
-                            />
+                            android:orientation="vertical"
+                            android:layout_weight="0.5"
+                            >
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="events created"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginRight="2dp"
+                                style="?android:attr/listSeparatorTextViewStyle"
+                                />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/events_created_textview"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="20dp"
+                                />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.5"
+                            >
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="events joined"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginRight="2dp"
+                                style="?android:attr/listSeparatorTextViewStyle"
+                                />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/events_joined_textview"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="20dp"
+                                />
+                    </LinearLayout>
+
 
                 </LinearLayout>
+
+
+                <!--PRIVATE ACCOUNT MESSAGE-->
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="This profile is private\n Add this user to see more information"
+                        android:textAlignment="center"
+                        />
+
+                <!--ADD-->
+                <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:id="@+id/add_button"
+                        android:text="add"
+                        />
+
             </LinearLayout>
 
         </ScrollView>
+
+
 
     </RelativeLayout>
 

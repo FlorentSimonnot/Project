@@ -23,7 +23,7 @@ data class User(
     var password : String = "",
     var sex : Gender = Gender.Other,
     var birthday : String = "",
-    var describe : String = "",
+    var description : String = "",
     var city : String = "",
     var typeLog : String = "Email",
     var idServiceLog : String = "",
@@ -71,7 +71,7 @@ data class User(
         result.put("password", password)
         result.put("sex", sex)
         result.put("birthday", birthday)
-        result.put("describe", describe)
+        result.put("describe", description)
         result.put("city", city)
         result.put("typeLog", typeLog)
         result.put("idServiceLog", idServiceLog)

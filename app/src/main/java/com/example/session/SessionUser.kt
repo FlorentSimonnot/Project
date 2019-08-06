@@ -129,7 +129,7 @@ class SessionUser{
                         "sex" -> textView.text = "${value.sex
                         }"
                         "birthday" -> textView.text = value.birthday
-                        "describe" -> textView.text = value.describe
+                        "describe" -> textView.text = value.description
                         "city" -> {
                             //INIT GOOGLE PLACE
                             //Init google place
@@ -276,7 +276,7 @@ class SessionUser{
                     value.sex = newSex
                     value.birthday = newBirthday
                     value.city = newCity
-                    value.describe = newDescription
+                    value.description = newDescription
 
                 }
             }

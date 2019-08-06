@@ -29,7 +29,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:id="@+id/event_name"
-                    android:text="Public"
                     android:textColor="#fff"
                     android:textSize="24dp"
                     android:fontFamily="@font/rubik"
@@ -67,21 +66,188 @@
 
 
                 <!--NAME + FIRSTNAME-->
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/identity_public_user"
+                        android:textAlignment="center"
+                        />
+
+
+                <!--EVENTS USER INFO-->
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/name_and_firstName_layout"
-                        android:layout_below="@id/profile_photo"
-                        android:orientation="horizontal">
+                        android:id="@+id/event_user_info_layout"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false"
+                        >
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.5"
+                            >
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="events created"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginRight="2dp"
+                                style="?android:attr/listSeparatorTextViewStyle"
+                                />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/events_created_textview"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="20dp"
+                                />
+                    </LinearLayout>
 
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.5"
+                            >
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="events joined"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginRight="2dp"
+                                style="?android:attr/listSeparatorTextViewStyle"
+                                />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/events_joined_textview"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="20dp"
+                                />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+
+                <!--SEX + BIRTHDAY + CITY-->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sex_and_birthday_and_city_layout"
+                        android:orientation="horizontal"
+                        >
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.3"
+                            >
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="sex"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginRight="2dp"
+                                style="?android:attr/listSeparatorTextViewStyle"
+                                />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/user_sex_textview"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="20dp"
+                                />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.3"
+                            >
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="birthday"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginRight="2dp"
+                                style="?android:attr/listSeparatorTextViewStyle"
+                                />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/user_birthday_textview"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="20dp"
+                                />
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.3"
+                            >
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="city"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginRight="2dp"
+                                style="?android:attr/listSeparatorTextViewStyle"
+                                />
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/city_textview"
+                                android:textSize="15dp"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="20dp"
+                                />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--DESCRIPTION-->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/describe_layout"
+                        android:orientation="vertical"
+                        >
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/identity_public_user"
-                            android:textAlignment="center"
+                            android:text="description"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            style="?android:attr/listSeparatorTextViewStyle"
                             />
-
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:id="@+id/description_textview"
+                            android:textSize="15dp"
+                            android:layout_marginLeft="7dp"
+                            />
                 </LinearLayout>
+
+                <!--ADD-->
+                <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="50dp"
+                        android:id="@+id/add_button"
+                        android:text="add"
+                        />
+
             </LinearLayout>
 
         </ScrollView>
