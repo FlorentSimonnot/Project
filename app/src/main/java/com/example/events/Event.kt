@@ -5,14 +5,12 @@ import android.content.Intent
 import android.view.View
 import android.widget.*
 import com.example.place.SessionGooglePlace
-import com.example.project.EventInfoJojoActivity
-import com.example.project.MainActivity
-import com.example.project.PrivateUserActivity
-import com.example.project.PublicUserActivity
+import com.example.project.*
 import com.example.session.SessionUser
 import com.example.sport.Sport
 import com.example.user.PrivacyAccount
 import com.example.user.User
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.firebase.database.DataSnapshot
@@ -87,14 +85,14 @@ data class Event (
 
                             //Search place in according to the ID
                             val placeId : String = value.place
-                            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME)
+                            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS)
                             val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
 
 
                             placesClient.fetchPlace(request)
                                 .addOnSuccessListener {
                                     val place : Place = it.place
-                                    textView.text = place.name
+                                    textView.text = place.address
                                 }
                                 .addOnFailureListener {
                                     //textView1.text = it.message
@@ -103,14 +101,35 @@ data class Event (
                         }
                         "date" -> textView.text = value.date
                         "time" -> textView.text = value.time
-                        "nb_people" ->{
+                        "dateAndTime" ->{
+                            textView.text = "${value.date} at ${value.time}"
+                        }
+                        "freePlace"  -> {
                             var count = 0
                             value.participants.forEach{
                                 if(it.value == "confirmed"){
                                     count++
                                 }
                             }
-                            textView.text = "${count}  / ${value.nb_people.toString()}"
+                            textView.text = "${value.nb_people - count} free places"
+                        }
+                        "participe" -> {
+                            var count = 0
+                            value.participants.forEach{
+                                if(it.value == "confirmed"){
+                                    count++
+                                }
+                            }
+                            textView.text = "${count}"
+                        }
+                        "waiting" -> {
+                            var count = 0
+                            value.participants.forEach{
+                                if(it.value == "waiting"){
+                                    count++
+                                }
+                            }
+                            textView.text = "${count}"
                         }
                         "description" -> textView.text = value.description
                         "sport" -> textView.text = value.sport.toString()
@@ -123,6 +142,7 @@ data class Event (
         })
 
     }
+
 
     /**
      * getCreator write the identity of the event's creator
@@ -137,7 +157,7 @@ data class Event (
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
                     if(SessionUser().getIdFromUser() != uid) {
-                        var builder = StringBuilder()
+                        val builder = StringBuilder("Created by : ")
                         builder.append(value.firstName).append(" ").append(value.name)
                         textView.text = builder
 
@@ -157,7 +177,7 @@ data class Event (
                         }
                     }
                     else{
-                        textView.text = "Me"
+                        textView.text = "Created by : You"
                     }
                 }
             }
@@ -214,7 +234,7 @@ data class Event (
     fun participateEvent(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.setValue("waiting").addOnSuccessListener {
-            val intent = Intent(context, EventInfoJojoActivity::class.java)
+            val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             intent.putExtra("key", key)
             EventInfoJojoActivity::finish
@@ -232,7 +252,7 @@ data class Event (
     fun cancelParticipation(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.removeValue().addOnSuccessListener {
-            val intent = Intent(context, EventInfoJojoActivity::class.java)
+            val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             intent.putExtra("key", key)
             EventInfoJojoActivity::finish
@@ -278,22 +298,19 @@ data class Event (
         Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
     }
 
-    fun getButton(context: Context, key: String?, button_edit : ImageButton, button_delete : ImageButton, button_participe: Button, button_cancel : Button){
+    fun getButton(context: Context, key: String?, button_participe: Button, button_cancel : Button){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
                 if (value != null) {
-                    if(value.creator == SessionUser().getIdFromUser()){
-                        button_edit.visibility = View.VISIBLE
-                        button_delete.visibility = View.VISIBLE
+                    if(value.participants.contains(SessionUser().getIdFromUser())){
                         button_participe.visibility = View.GONE
+                        button_cancel.visibility = View.VISIBLE
                     }
                     else{
-                        if(value.participants.containsKey(SessionUser().getIdFromUser())){
-                            button_participe.visibility = View.GONE
-                            button_cancel.visibility = View.VISIBLE
-                        }
+                        button_participe.visibility = View.VISIBLE
+                        button_cancel.visibility = View.GONE
                     }
                 }
             }

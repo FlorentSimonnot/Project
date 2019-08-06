@@ -13,6 +13,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".EventInfoViewParticipantActivity">
+        </activity>
         <activity android:name=".PrivateUserActivity">
         </activity>
         <activity android:name=".PublicUserActivity">
@@ -62,6 +64,14 @@
         <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
                 android:value="@string/facebook_app_id"
+                />
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
+                />
+        <meta-data
+                android:name="com.google.android.gms.version"
+                android:value="@integer/google_play_services_version"
                 />
 
         <activity

@@ -51,13 +51,13 @@
                   tools:context=".MapsActivity"
                   android:name="com.google.android.gms.maps.SupportMapFragment" />
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/title_creator_sport"
-            android:layout_below="@id/map"
-            android:orientation="horizontal"
-            android:background="#fff"
-        >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/title_creator_sport"
+                android:layout_below="@id/map"
+                android:orientation="horizontal"
+                android:background="#fff"
+                >
             <LinearLayout
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
@@ -66,22 +66,22 @@
                     android:padding="10dp"
                     >
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/title"
-                    android:text="title"
-                    android:fontFamily="@font/rubik"
-                    android:textSize="22sp"
-                    android:textColor="@color/colorPrimary"
-                />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/title"
+                        android:text="title"
+                        android:fontFamily="@font/rubik"
+                        android:textSize="22sp"
+                        android:textColor="@color/colorPrimary"
+                        />
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/creator"
-                    android:text="title"
-                    android:fontFamily="@font/rubik"
-                    android:textColor="@color/colorBlueGrey900"
-                    android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/creator"
+                        android:text="title"
+                        android:fontFamily="@font/rubik"
+                        android:textColor="@color/colorBlueGrey900"
+                        android:layout_marginTop="10dp"
                         />
 
             </LinearLayout>
@@ -94,11 +94,11 @@
                     >
 
                 <ImageView
-                    android:id="@+id/sport_logo"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                        android:id="@+id/sport_logo"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
                         />
 
 
@@ -107,7 +107,7 @@
 
         </LinearLayout>
 
-        <!--<LinearLayout
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/layout_buttons"
@@ -134,49 +134,51 @@
                     android:id="@+id/button_cancel"
                     android:text="Cancel my participation"
                     android:visibility="gone"
-                    android:background="@color/colorAccent"
+                    android:background="@drawable/button_cancel"
                     android:textColor="#fff"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     />
-        </LinearLayout>-->
+        </LinearLayout>
 
 
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/accessibility"
-                android:layout_below="@id/title_creator_sport"
+                android:layout_below="@id/layout_buttons"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:background="@drawable/border_bottom"
                 >
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:id="@+id/invitations"
-                android:orientation="vertical"
-                android:background="@drawable/border_right"
-                android:padding="10dp"
-                android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/invitations"
+                    android:orientation="vertical"
+                    android:background="#fff"
+                    android:padding="5dp"
+                    android:gravity="center"
                     >
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    app:srcCompat="@drawable/ic_users"
-                    android:contentDescription="people"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/ic_users"
+                        android:contentDescription="people"
                         />
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Invite people"
+                        android:text="Share your participation with your friends"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
                         />
 
             </LinearLayout>
-            <LinearLayout
+            <!--<LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -224,7 +226,7 @@
                         android:fontFamily="@font/rubik"
                         />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
         </LinearLayout>
 
@@ -236,7 +238,7 @@
                 android:orientation="vertical"
                 android:background="#fff"
                 android:padding="10dp"
-        >
+                >
             <TextView
                     android:id="@+id/participants_number"
                     android:layout_width="match_parent"
@@ -258,24 +260,24 @@
 
             </RelativeLayout>
             <TextView
-                android:id="@+id/date_hour"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:drawableLeft="@drawable/ic_calendar"
-                android:drawableStart="@drawable/ic_calendar"
-                android:drawablePadding="15dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/rubik"
-                android:textSize="16sp"
-            />
+                    android:id="@+id/date_hour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:drawableLeft="@drawable/ic_calendar"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="15dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/rubik"
+                    android:textSize="16sp"
+                    />
             <RelativeLayout
-                android:id="@+id/separator"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimaryAlpha50"
-            >
+                    android:id="@+id/separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/colorPrimaryAlpha50"
+                    >
 
             </RelativeLayout>
             <TextView
@@ -414,30 +416,6 @@
         </LinearLayout>
 
 
-        <!--<Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_participate"
-                android:text="participate"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
-                android:textColor="#fff"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                />
-
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_cancel"
-                android:text="Cancel my participation"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone"
-                android:background="@color/colorAccent"
-                android:textColor="#fff"
-                />-->
 
     </RelativeLayout>
 

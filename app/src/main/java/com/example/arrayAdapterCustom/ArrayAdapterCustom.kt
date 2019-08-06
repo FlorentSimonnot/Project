@@ -10,7 +10,9 @@ import com.example.events.Event
 import com.example.place.SessionGooglePlace
 import com.example.project.EventInfoActivity
 import com.example.project.EventInfoJojoActivity
+import com.example.project.EventInfoViewParticipantActivity
 import com.example.project.R
+import com.example.session.SessionUser
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import java.util.*
@@ -32,7 +34,20 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
         imageView.setImageDrawable(ctx.resources.getDrawable(events[position].sport.getLogo()))
         textView.text = events[position].name
         view.setOnClickListener {
-            context.startActivity(Intent(context, EventInfoJojoActivity::class.java).addCategory("eventInfo").putExtra("key", events[position].key))
+            if(events[position].creator != SessionUser().getIdFromUser()){
+                context.startActivity(
+                    Intent(context, EventInfoViewParticipantActivity::class.java)
+                        .addCategory("eventInfo")
+                        .putExtra("key", events[position].key)
+                )
+            }
+            else{
+                context.startActivity(
+                    Intent(context, EventInfoJojoActivity::class.java)
+                        .addCategory("eventInfo")
+                        .putExtra("key", events[position].key)
+                )
+            }
         }
 
         //Init google place
