@@ -11,7 +11,8 @@ class StringPickerCustom(
     private val max : Int,
     private val title : String,
     private val message : String,
-    private val values : Array<String>
+    private val values : Array<String>,
+    private val value : String = ""
 ) : DialogFragment()
 {
     lateinit var valueChange : NumberPicker.OnValueChangeListener
@@ -21,6 +22,10 @@ class StringPickerCustom(
         numberPicker.maxValue = max
         numberPicker.minValue = min
         numberPicker.displayedValues = values
+
+        if(value.isNotEmpty()){
+            numberPicker.value = values.indexOf(value)
+        }
 
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(title)

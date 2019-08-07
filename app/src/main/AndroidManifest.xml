@@ -13,6 +13,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".ModifyEventActivity">
+        </activity>
         <activity android:name=".EventInfoViewParticipantActivity">
         </activity>
         <activity android:name=".PrivateUserActivity">

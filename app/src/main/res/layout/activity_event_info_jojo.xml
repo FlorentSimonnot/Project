@@ -28,19 +28,7 @@
                 android:elevation="30dp"
                 android:clipToPadding="false"
                 >
-
-            <!--<TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/event_name"
-                    android:text="Title"
-                    android:textColor="#fff"
-                    android:textSize="24dp"
-                    android:fontFamily="@font/rubik"
-                    android:gravity="end|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:layout_marginRight="10dp"
-                    />-->
+            
         </androidx.appcompat.widget.Toolbar>
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -106,39 +94,6 @@
 
 
         </LinearLayout>
-
-        <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layout_buttons"
-                android:layout_below="@id/title_creator_sport"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-        >
-
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button_participate"
-                    android:text="Join this event"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/button_participe"
-                    android:textColor="#fff"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    />
-
-            <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/button_cancel"
-                    android:text="Cancel my participation"
-                    android:visibility="gone"
-                    android:background="@color/colorAccent"
-                    android:textColor="#fff"
-                    />
-        </LinearLayout>-->
-
 
         <LinearLayout
                 android:layout_width="fill_parent"
@@ -413,31 +368,6 @@
 
         </LinearLayout>
 
-
-        <!--<Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_participate"
-                android:text="participate"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/colorPrimary"
-                android:textColor="#fff"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                />
-
-        <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/button_cancel"
-                android:text="Cancel my participation"
-                android:layout_marginBottom="10dp"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone"
-                android:background="@color/colorAccent"
-                android:textColor="#fff"
-                />-->
 
     </RelativeLayout>
 

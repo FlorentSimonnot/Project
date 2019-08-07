@@ -40,10 +40,8 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 
 class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    private val session = SessionUser()
     private var sportList : ArrayList<Sport> = ArrayList()
     private lateinit var autoCompleteSport : TextView
-    private lateinit var sport : Sport
     private lateinit var listView : ListView
     private val API_KEY = "AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
     private var placeId : String? = ""
@@ -109,21 +107,6 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
         autoCompleteSport.setOnClickListener{
             dialogSport.createAlertDialog()
             dialogSport.showDialog()
-            /*findViewById<RelativeLayout>(R.id.dialog).alpha = 100F
-            findViewById<RelativeLayout>(R.id.infoLayout).alpha = 0F
-            findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorDark)
-            val adapter = ArrayAdapterSport(this, R.layout.list_item_sport, sportList)
-            listView = findViewById<ListView>(R.id.listView)
-            listView.adapter = adapter
-            listView.setOnItemClickListener { adapterView, view, i, l ->
-                sport = Sport.valueOf(sportList[i].toString())
-                autoCompleteSport.text = sport.name
-                autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(sport.getLogo(), 0, 0, 0)
-                listView.adapter = null
-                findViewById<RelativeLayout>(R.id.dialog).alpha = 0F
-                findViewById<RelativeLayout>(R.id.infoLayout).alpha = 100F
-                findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorGrey100)
-            }*/
         }
 
         val buttonCreate : Button = findViewById(R.id.create_event)

@@ -318,7 +318,11 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
                 deleteEventAlertDialog.show()
             }
             R.id.edit ->{
-
+                val intent = Intent(this, ModifyEventActivity::class.java)
+                intent.putExtra("key", keyEvent)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                EventInfoJojoActivity::finish
+                startActivity(intent)
             }
             else ->{
                 //Nothing

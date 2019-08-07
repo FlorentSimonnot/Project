@@ -23,4 +23,15 @@ enum class Privacy {
             else -> INIT
         }
     }
+
+    override fun toString(): String {
+        return when(this){
+            PRIVATE -> "private"
+            PUBLIC -> "public"
+            GUESS -> "only with invitation"
+            else -> {
+                throw Exception("Probleme with value of Privacy")
+            }
+        }
+    }
 }

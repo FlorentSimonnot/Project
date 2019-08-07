@@ -10,7 +10,8 @@ class NumberPickerCustom(
     private val min : Int,
     private val max : Int,
     private val title : String,
-    private val message : String
+    private val message : String,
+    private val value : Int = 0
 ) : DialogFragment()
 {
     lateinit var valueChange : NumberPicker.OnValueChangeListener
@@ -19,6 +20,10 @@ class NumberPickerCustom(
         val numberPicker = NumberPicker(activity)
         numberPicker.maxValue = max
         numberPicker.minValue = min
+
+        if(value > 0){
+            numberPicker.value = value
+        }
 
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(title)

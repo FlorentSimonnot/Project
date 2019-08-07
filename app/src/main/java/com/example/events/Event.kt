@@ -8,11 +8,13 @@ import com.example.place.SessionGooglePlace
 import com.example.project.*
 import com.example.session.SessionUser
 import com.example.sport.Sport
+import com.example.user.Gender
 import com.example.user.PrivacyAccount
 import com.example.user.User
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -62,6 +64,38 @@ data class Event (
             }
     }
 
+    fun writePlace(context: Context, key: String?, autocompleteFragment : AutocompleteSupportFragment){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                if(value != null){
+                    //INIT GOOGLE PLACE
+                    val gg = SessionGooglePlace(context)
+                    gg.init()
+                    val placesClient = gg.createClient()
+
+                    //Search place in according to the ID
+                    val placeId : String = value.place
+                    val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME)
+                    val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+
+                    placesClient.fetchPlace(request)
+                        .addOnSuccessListener {
+                            val place : Place = it.place
+                            autocompleteFragment.setText(place.name)
+                        }
+                        .addOnFailureListener {
+                            //Error
+                        }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
     fun writeInfoEvent(context: Context, key: String?, textView: TextView, action: String) {
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -99,6 +133,9 @@ data class Event (
                                     Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                 }
                         }
+                        "numberOfParticipants" -> {
+                            textView.text = "${value.nb_people}"
+                        }
                         "date" -> textView.text = value.date
                         "time" -> textView.text = value.time
                         "dateAndTime" ->{
@@ -132,7 +169,11 @@ data class Event (
                             textView.text = "${count}"
                         }
                         "description" -> textView.text = value.description
-                        "sport" -> textView.text = value.sport.toString()
+                        "sport" -> {
+                            textView.text = value.sport.toString()
+                            textView.setCompoundDrawablesWithIntrinsicBounds(value.sport!!.getLogo(), 0, 0, 0)
+                        }
+                        "privacy" -> textView.text = "${value.privacy.toString().capitalize()}"
                         else -> textView.text = "NULL"
                     }
                 }
@@ -406,5 +447,20 @@ data class Event (
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    fun updateEvent(context: Context) {
+        val ref = FirebaseDatabase.getInstance().getReference("events").child("$key")
+        ref.setValue(this).addOnSuccessListener {
+            Toast.makeText(context, "Edit event successfully !", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, EventInfoJojoActivity::class.java)
+            intent.putExtra("key", key)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            ModifyEventActivity::finish
+            context.startActivity(intent)
+        }
+            .addOnFailureListener {
+                Toast.makeText(context, "Error ${it.message} !", Toast.LENGTH_SHORT).show()
+            }
     }
 }
