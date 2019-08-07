@@ -13,6 +13,12 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".WaitingListActivity">
+        </activity>
+        <activity android:name=".FriendsListActivity">
+        </activity>
+        <activity android:name=".FriendsActivity">
+        </activity>
         <activity android:name=".ModifyEventActivity">
         </activity>
         <activity android:name=".EventInfoViewParticipantActivity">

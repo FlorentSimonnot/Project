@@ -21,7 +21,7 @@ import kotlin.collections.ArrayList
 class ArrayAdapterCustomUsers(
     private val ctx : Context,
     private val resource : Int,
-    private val keyEvent : String,
+    private val keyEvent : String?,
     private val users : ArrayList<UserWithKey>,
     private val action : String
 ): ArrayAdapter<UserWithKey>( ctx , resource, users){

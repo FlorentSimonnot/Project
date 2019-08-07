@@ -284,4 +284,28 @@ class SessionUser{
         })
     }
 
+    fun countFriends(friendsTextView: TextView, waitingTextView: TextView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
+        var friends = 0
+        var waiting = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    if(it.value == "friend"){
+                        friends++
+                    }
+                    else if (it.value == "waiting") {
+                        waiting++
+                    }
+                }
+                friendsTextView.text = friends.toString()
+                waitingTextView.text = waiting.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+
 }

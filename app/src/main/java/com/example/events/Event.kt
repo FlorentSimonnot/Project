@@ -11,6 +11,7 @@ import com.example.sport.Sport
 import com.example.user.Gender
 import com.example.user.PrivacyAccount
 import com.example.user.User
+import com.example.user.UserWithKey
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
@@ -204,14 +205,15 @@ data class Event (
 
 
                         textView.setOnClickListener {
+                            val userWithKey = UserWithKey(value, uid)
                             if (value.privacyAccount == PrivacyAccount.Public) {
                                 val intent = Intent(context, PublicUserActivity::class.java)
-                                intent.putExtra("user", value)
+                                intent.putExtra("user", userWithKey)
                                 context.startActivity(intent)
                             }
                             else {
                                 val intent = Intent(context, PrivateUserActivity::class.java)
-                                intent.putExtra("user", value)
+                                intent.putExtra("user", userWithKey)
                                 context.startActivity(intent)
 
                             }
@@ -405,7 +407,7 @@ data class Event (
      * @param button : the button we want to hide
      * @param userKey : the key of user we want to check
      */
-    fun verifyUserIsCreator(key : String, button: Button, userKey : String?){
+    fun verifyUserIsCreator(key : String?, button: Button, userKey : String?){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

@@ -61,6 +61,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<ImageButton>(R.id.btn_logout).setOnClickListener(this)
         findViewById<Button>(R.id.btn_delete_account).setOnClickListener(this)
         findViewById<Button>(R.id.edit_profile_button).setOnClickListener(this)
+        findViewById<Button>(R.id.friends_button).setOnClickListener(this)
 
         val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
         val emailTextView = findViewById<TextView>(R.id.email_account)
@@ -129,6 +130,9 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.edit_profile_button -> {
                 startActivity(Intent(this, EditProfileActivity::class.java))
+            }
+            R.id.friends_button -> {
+                startActivity(Intent(this, FriendsActivity::class.java))
             }
             R.id.btn_delete_account -> {
 

@@ -90,14 +90,6 @@
                         android:textAlignment="center"
                         />
 
-                <!--<LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:orientation="vertical"
-                >
-                </LinearLayout>-->
-
             </LinearLayout>
             <!--=============================================================-->
 
@@ -247,6 +239,12 @@
                         android:id="@+id/edit_profile_button"
                         android:text="edit my account"
                 />
+                <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/friends_button"
+                        android:text="friends"
+                        />
                 <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

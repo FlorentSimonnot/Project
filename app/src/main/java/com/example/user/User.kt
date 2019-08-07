@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
 import com.example.project.MainActivity
+import com.example.session.SessionUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
