@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import com.example.events.Event
 import com.example.place.SessionGooglePlace
 import com.example.project.*
@@ -18,10 +20,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ArrayAdapterCustomUsers(
+class ArrayAdapterFriends(
     private val ctx : Context,
     private val resource : Int,
-    private val keyEvent : String?,
     private val users : ArrayList<UserWithKey>,
     private val action : String
 ): ArrayAdapter<UserWithKey>( ctx , resource, users){
@@ -39,7 +40,7 @@ class ArrayAdapterCustomUsers(
             "waiting" -> {
                 view.findViewById(R.id.btn_accept)
             }
-            "confirm" -> {
+            "friend" -> {
                 view.findViewById(R.id.btn_remove)
             }
             else -> {
@@ -51,10 +52,6 @@ class ArrayAdapterCustomUsers(
         }
 
         if(users.size > 0) {
-            if(action == "confirm"){
-                Event().verifyUserIsCreator(keyEvent, button, users[position].key)
-                //Event().showButtonIfCreator(keyEvent, button, SessionUser())
-            }
             textView.text = users[position].user.firstName + " " + users[position].user.name
             User().showPhotoUser(ctx, imageView, users[position].key)
 
@@ -65,15 +62,25 @@ class ArrayAdapterCustomUsers(
                         if(item != null){
                             val userKey = users[position].key
                             users.removeAt(position)
-                            Event().confirmParticipation(ctx, keyEvent, userKey!!)
+                            SessionUser().acceptFriend(ctx, userKey)
                         }
                     }
-                    "confirm" -> {
+                    "friend" -> {
                         val item = getItem(position)
                         if(item != null){
                             val userKey = users[position].key
                             users.removeAt(position)
-                            Event().deleteParticipation(ctx, keyEvent, userKey!!)
+                            
+                            val deleteFriendAlert = AlertDialog.Builder(ctx)
+                            deleteFriendAlert.setTitle("Are you sure?")
+                            deleteFriendAlert.setMessage("This user will not be your friend anymore :(.\nConfirm?")
+                            deleteFriendAlert.setPositiveButton("Yes"){_, _ ->
+                                SessionUser().deleteFriend(ctx, userKey)
+                            }
+                            deleteFriendAlert.setNegativeButton("No"){_, _ ->
+
+                            }
+                            deleteFriendAlert.show()
                         }
                     }
                 }
@@ -83,7 +90,7 @@ class ArrayAdapterCustomUsers(
                 if(item != null){
                     val userKey = users[position].key
                     users.removeAt(position)
-                    Event().refuseParticipation(ctx, keyEvent, userKey!!)
+                    SessionUser().refuseFriend(ctx, userKey)
                 }
             }
         }

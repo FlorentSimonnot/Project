@@ -1,20 +1,16 @@
 package com.example.session
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
 import com.example.place.SessionGooglePlace
-import com.example.project.EditProfileActivity
 import com.example.project.LoginActivity
 import com.example.user.Gender
 import com.example.user.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.firebase.auth.FirebaseAuth
@@ -284,10 +280,9 @@ class SessionUser{
         })
     }
 
-    fun countFriends(friendsTextView: TextView, waitingTextView: TextView) {
+    fun countFriends(friendsTextView: TextView) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
         var friends = 0
-        var waiting = 0
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
@@ -295,16 +290,79 @@ class SessionUser{
                     if(it.value == "friend"){
                         friends++
                     }
-                    else if (it.value == "waiting") {
+                }
+                friendsTextView.text = friends.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun countWaiting(waitingTextView: TextView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
+        var waiting = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    if(it.value == "waiting"){
                         waiting++
                     }
                 }
-                friendsTextView.text = friends.toString()
                 waitingTextView.text = waiting.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    fun countCreated(createdTextView: TextView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsCreated")
+        var created = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    created++
+                }
+                createdTextView.text = created.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun countJoined(joinedTextView: TextView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsJoined")
+        var joined = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    joined++
+                }
+                joinedTextView.text = joined.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun acceptFriend(ctx: Context, userKey: String?) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
+        ref.setValue("friend")
+        Toast.makeText(ctx, "You have accepted this user as friend :)", Toast.LENGTH_SHORT).show()
+    }
+
+    fun refuseFriend(ctx: Context, userKey: String?) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
+        ref.removeValue()
+        Toast.makeText(ctx, "You have refused this user as friend :(", Toast.LENGTH_SHORT).show()
+    }
+    fun deleteFriend(ctx: Context, userKey: String?) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
+        ref.removeValue()
+        Toast.makeText(ctx, "You have refused this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 
 

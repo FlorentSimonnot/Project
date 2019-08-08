@@ -85,7 +85,13 @@ class ParticipantsWaitedActivity : AppCompatActivity() {
                 if(usersWaiting.size > 0){
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
-                    val adapter = ArrayAdapterCustomUsers(context, R.layout.list_item_user_waiting, keyEvent, usersWaiting, "waiting")
+                    val adapter = ArrayAdapterCustomUsers(
+                        context,
+                        R.layout.list_item_user_waiting,
+                        keyEvent,
+                        usersWaiting,
+                        "waiting"
+                    )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter
                     val dref = FirebaseDatabase.getInstance().reference;

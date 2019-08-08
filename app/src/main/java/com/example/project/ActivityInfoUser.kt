@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.example.session.SessionUser
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -55,6 +56,14 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
         val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
         val photoImageView = findViewById<ImageView>(R.id.profile_photo)
 
+        val friendsNumber = findViewById<TextView>(R.id.friends_number)
+        val createdNumber = findViewById<TextView>(R.id.created_number)
+        val joinedNumber = findViewById<TextView>(R.id.joined_number)
+
+        session.countFriends(friendsNumber)
+        session.countCreated(createdNumber)
+        session.countJoined(joinedNumber)
+
         info = findViewById(R.id.infos)
         deconnexion = findViewById(R.id.deconnexion)
         friends = findViewById(R.id.friends_layout)
@@ -86,13 +95,23 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
             }
             R.id.deconnexion -> {
-                session.signOut()
-                googleSignInClient.signOut()
-                LoginManager.getInstance().logOut()
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-                finish()
-                startActivity(intent)
+                val logOutAlert = AlertDialog.Builder(this)
+                logOutAlert.setTitle("Log out?")
+                logOutAlert.setPositiveButton("Yes"){ _, _ ->
+                    session.signOut()
+                    googleSignInClient.signOut()
+                    LoginManager.getInstance().logOut()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    finish()
+                    startActivity(intent)
+                }
+                logOutAlert.setNegativeButton("No"){ _, _ ->
+
+                }
+                logOutAlert.show()
+
+
             }
             R.id.friends_layout -> {
                 startActivity(Intent(this, FriendsActivity::class.java))

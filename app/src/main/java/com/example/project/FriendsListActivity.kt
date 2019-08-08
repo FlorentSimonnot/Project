@@ -1,12 +1,14 @@
 package com.example.project
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import android.widget.RelativeLayout
 import com.example.arrayAdapterCustom.ArrayAdapterCustomUsers
+import com.example.arrayAdapterCustom.ArrayAdapterFriends
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
@@ -20,6 +22,10 @@ class FriendsListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends_list)
+
+        var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = ""
 
         listView = findViewById<ListView>(R.id.listViewUsers)
         noResults = findViewById(R.id.noResultsLayout)
@@ -63,12 +69,11 @@ class FriendsListActivity : AppCompatActivity() {
                 if (users.size > 0) {
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
-                    val adapter = ArrayAdapterCustomUsers(
+                    val adapter = ArrayAdapterFriends(
                         context,
                         R.layout.list_item_user_confirmed,
-                        null,
                         users,
-                        "confirm"
+                        "friend"
                     )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter
@@ -102,5 +107,14 @@ class FriendsListActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        val intent = Intent(this, FriendsActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        EventInfoJojoActivity::finish
+        startActivity(intent)
+        return true
     }
 }

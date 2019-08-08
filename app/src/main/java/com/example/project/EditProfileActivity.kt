@@ -26,6 +26,10 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
+        var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val nameEditText = findViewById<EditText>(R.id.name_account)
         val firstNameEditText = findViewById<EditText>(R.id.firstName_account)
         val emailEditText = findViewById<EditText>(R.id.email_account)
@@ -37,9 +41,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         val modifyPasswordButton = findViewById<Button>(R.id.modify_password_button)
         val confirmChangesButton = findViewById<Button>(R.id.confirm_changes)
 
-        var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         nameEditText.hint = session.writeInfoUser(
             applicationContext,
@@ -169,6 +171,15 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
                 sexTextView.text = stringSex[p0.value]
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        val intent = Intent(this, UserInfoActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        EventInfoJojoActivity::finish
+        startActivity(intent)
+        return true
     }
 
 }
