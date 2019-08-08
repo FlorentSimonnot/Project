@@ -29,8 +29,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_account -> {
-                val checkAccountIntent = Intent(this, UserInfoActivity::class.java)
-                finish()
+                val checkAccountIntent = Intent(this, ActivityInfoUser::class.java)
                 startActivity(checkAccountIntent)
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
                 return@OnNavigationItemSelectedListener true

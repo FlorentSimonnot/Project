@@ -20,6 +20,7 @@ enum class Sport() {
             FOOTBALL -> R.drawable.ic_football
             BASKETBALL -> R.drawable.ic_basketball
             HANDBALL -> R.drawable.ic_handball
+            CROSSFIT -> R.drawable.ic_crossfit
             GOLF -> R.drawable.ic_golf
             CANOE -> R.drawable.ic_canoe
             MUSCULATION -> R.drawable.ic_musculation

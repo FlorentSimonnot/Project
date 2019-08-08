@@ -18,52 +18,21 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
     var session : SessionUser = SessionUser()
 
-    private lateinit var googleSignInClient : GoogleSignInClient
-
-    private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                val checkAccountIntent = Intent(this, MainActivity::class.java)
-                finish()
-                startActivity(checkAccountIntent)
-                overridePendingTransition(R.anim.right_to_left_in, R.anim.right_to_left_out)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_map -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_account -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_chat -> {
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_info)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
-
-        /* GOOGLE LOGOUT */
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
+        var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        toolbar.title = "My personal information"
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         /* BUTTON ACTIONS */
-        findViewById<ImageButton>(R.id.btn_logout).setOnClickListener(this)
         findViewById<Button>(R.id.btn_delete_account).setOnClickListener(this)
         findViewById<Button>(R.id.edit_profile_button).setOnClickListener(this)
-        findViewById<Button>(R.id.friends_button).setOnClickListener(this)
 
-        val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
+        //val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
         val emailTextView = findViewById<TextView>(R.id.email_account)
         val sexTextView = findViewById<TextView>(R.id.sex_account)
         val birthdayTextView = findViewById<TextView>(R.id.birthday_account)
@@ -74,10 +43,10 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         session.showPhotoUser(this, photoImageView)
 
 
-        nameAndFirstnameTextView.text = session.identity(
+        /*nameAndFirstnameTextView.text = session.identity(
             session.getIdFromUser(),
             nameAndFirstnameTextView
-        ).toString()
+        ).toString()*/
 
         emailTextView.text = session.writeInfoUser(
             applicationContext,
@@ -122,17 +91,8 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.btn_logout -> {
-                session.signOut()
-                googleSignInClient.signOut()
-                LoginManager.getInstance().logOut()
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
             R.id.edit_profile_button -> {
                 startActivity(Intent(this, EditProfileActivity::class.java))
-            }
-            R.id.friends_button -> {
-                startActivity(Intent(this, FriendsActivity::class.java))
             }
             R.id.btn_delete_account -> {
 

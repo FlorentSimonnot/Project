@@ -104,7 +104,9 @@ data class Event (
                 val value = dataSnapshot.getValue(Event::class.java)
                 if (value != null) {
                     when (action) {
-                        "name" -> textView.text = value.name
+                        "name" -> {
+                            textView.text = value.name.toString()
+                        }
                         "creator" -> {
                             getCreator(context, key, value.creator, textView)
                             /*val user = SessionUser()
@@ -452,17 +454,33 @@ data class Event (
     }
 
     fun updateEvent(context: Context) {
+        val event = this
         val ref = FirebaseDatabase.getInstance().getReference("events").child("$key")
-        ref.setValue(this).addOnSuccessListener {
-            Toast.makeText(context, "Edit event successfully !", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, EventInfoJojoActivity::class.java)
-            intent.putExtra("key", key)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            ModifyEventActivity::finish
-            context.startActivity(intent)
-        }
-            .addOnFailureListener {
-                Toast.makeText(context, "Error ${it.message} !", Toast.LENGTH_SHORT).show()
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                if(value != null){
+                    val participants = value.participants
+                    event.participants = participants
+                    if(event.place.isEmpty()){
+                        event.place = value.place
+                    }
+                    ref.setValue(event)
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Edit event successfully !", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(context, EventInfoJojoActivity::class.java)
+                            intent.putExtra("key", key)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                            ModifyEventActivity::finish
+                            context.startActivity(intent)
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(context, "Error ${it.message} !", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 }
