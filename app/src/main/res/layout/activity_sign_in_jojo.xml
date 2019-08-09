@@ -4,26 +4,25 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorDarkMode"
+        android:background="@drawable/bg1"
         android:padding="10dp"
 >
 
 
-    <ImageView
+    <!--<ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/app_logo"
             android:src="@drawable/logo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-    />
+    />-->
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="100dp"
             android:id="@+id/name_and_first_name"
-            android:layout_below="@id/app_logo"
     >
 
         <EditText
@@ -33,8 +32,8 @@
                 android:layout_weight="0.5"
                 android:hint="name"
                 android:background="@drawable/basic_input_rectangle"
-                android:padding="5dp"
                 android:layout_marginRight="10dp"
+                android:padding="10dp"
         />
 
         <EditText
@@ -45,7 +44,7 @@
                 android:layout_toRightOf="@id/name"
                 android:hint="first name"
                 android:background="@drawable/basic_input_rectangle"
-                android:padding="5dp"
+                android:padding="10dp"
         />
     </LinearLayout>
 
@@ -67,7 +66,7 @@
                 android:hint="email address"
                 android:background="@drawable/basic_input_rectangle"
                 android:layout_marginTop="15dp"
-                android:padding="7dp"
+                android:padding="10dp"
                 android:drawablePadding="15dp"
                 android:fontFamily="@font/rubik"
                 android:drawableLeft="@drawable/ic_mail_24dp"
@@ -83,7 +82,7 @@
                 android:hint="password"
                 android:background="@drawable/basic_input_rectangle"
                 android:layout_marginTop="15dp"
-                android:padding="7dp"
+                android:padding="10dp"
                 android:drawablePadding="15dp"
                 android:fontFamily="@font/rubik"
                 android:drawableLeft="@drawable/ic_lock_24dp"
@@ -99,7 +98,7 @@
                 android:hint="confirm password"
                 android:background="@drawable/basic_input_rectangle"
                 android:layout_marginTop="15dp"
-                android:padding="7dp"
+                android:padding="10dp"
                 android:drawablePadding="15dp"
                 android:fontFamily="@font/rubik"
                 android:drawableLeft="@drawable/ic_lock_24dp"
@@ -110,11 +109,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/terms_of_use"
-                android:text='By clicking "NEXT" below, you agree to our Terms of use bla bla bla'
+                android:text='By clicking "JOINS US" below, you agree to our Terms of use bla bla bla'
                 android:layout_below="@id/confirm_password"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:layout_marginTop="25dp"
                 android:textColor="#fff"
+                android:fontFamily="@font/rubik"
 
         />
 
@@ -139,7 +139,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/next"
-                android:text="next"/>
+                android:background="#fff"
+                android:text="JOINS US"/>
     </LinearLayout>
 
 </RelativeLayout>

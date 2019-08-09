@@ -41,6 +41,7 @@ data class Event (
     var participants : HashMap<String, String> = HashMap()
     ) {
 
+    private val session = SessionUser()
 
     override fun toString(): String {
         return "${this.sport}   ${this.name}"
@@ -259,7 +260,30 @@ data class Event (
      * @param session : the current session user
      */
     fun deleteEvent(context: Context, key : String?, session : SessionUser){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                //Error
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val value = p0.getValue(Event::class.java)
+                if(value != null){
+                    value.participants.forEach{
+                        deleteParticipation(context, key, it.key)
+                    }
+                }
+            }
+
+        })
+        ref.removeValue()
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        EventInfoJojoActivity::finish
+        context.startActivity(intent)
+        /*
         val database = FirebaseDatabase.getInstance().reference
+        database.child("events").child("key").child("participants").addChildEventListener()
         database.child("events").child("$key").removeValue()
         database.child("users").child(session.getIdFromUser()).child("eventsCreated").child("$key").removeValue().addOnSuccessListener {
             val intent = Intent(context, MainActivity::class.java)
@@ -267,7 +291,7 @@ data class Event (
             EventInfoJojoActivity::finish
             context.startActivity(intent)
             Toast.makeText(context, "Event deleted successfully", Toast.LENGTH_LONG).show()
-        }
+        }*/
     }
 
     /**
@@ -277,14 +301,19 @@ data class Event (
      * @param session : the current session user wanted to be add
      */
     fun participateEvent(context: Context, key : String?, session : SessionUser){
+        /* Add in event participants */
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.setValue("waiting").addOnSuccessListener {
-            val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            intent.putExtra("key", key)
-            EventInfoJojoActivity::finish
-            context.startActivity(intent)
-            Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
+            /* Add in user events joined */
+            val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+            refUser.setValue("waiting").addOnSuccessListener {
+                val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                intent.putExtra("key", key)
+                EventInfoJojoActivity::finish
+                context.startActivity(intent)
+                Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -297,12 +326,15 @@ data class Event (
     fun cancelParticipation(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.removeValue().addOnSuccessListener {
-            val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            intent.putExtra("key", key)
-            EventInfoJojoActivity::finish
-            context.startActivity(intent)
-            Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
+            val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+            refUser.removeValue().addOnSuccessListener {
+                val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                intent.putExtra("key", key)
+                EventInfoJojoActivity::finish
+                context.startActivity(intent)
+                Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -315,6 +347,8 @@ data class Event (
     fun confirmParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.setValue("confirmed")
+        val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+        refUser.setValue("confirmed")
         Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
     }
 
@@ -327,7 +361,8 @@ data class Event (
     fun refuseParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        //ref.setValue("confirmed")
+        val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+        refUser.removeValue()
         Toast.makeText(context, "You have refuse !", Toast.LENGTH_SHORT).show()
     }
 
@@ -340,22 +375,36 @@ data class Event (
     fun deleteParticipation(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
+        val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+        refUser.removeValue()
+        //Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
     }
 
-    fun getButton(context: Context, key: String?, button_participe: Button, button_cancel : Button){
+    fun getButton(context: Context, key: String?, button_participe: Button, button_cancel : Button, textView : TextView){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
                 if (value != null) {
-                    if(value.participants.contains(SessionUser().getIdFromUser())){
-                        button_participe.visibility = View.GONE
-                        button_cancel.visibility = View.VISIBLE
+                    if(value.participants.size < value.nb_people) {
+                        if (value.participants.contains(SessionUser().getIdFromUser())) {
+                            button_participe.visibility = View.GONE
+                            button_cancel.visibility = View.VISIBLE
+                        } else {
+                            button_participe.visibility = View.VISIBLE
+                            button_cancel.visibility = View.GONE
+                        }
                     }
                     else{
-                        button_participe.visibility = View.VISIBLE
-                        button_cancel.visibility = View.GONE
+                        if (value.participants.contains(SessionUser().getIdFromUser())) {
+                            button_participe.visibility = View.GONE
+                            button_cancel.visibility = View.VISIBLE
+                        }
+                        else {
+                            button_participe.visibility = View.GONE
+                            button_cancel.visibility = View.GONE
+                            textView.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
@@ -378,6 +427,7 @@ data class Event (
             "MUSCULATION" -> Sport.MUSCULATION
             "TENNIS" -> Sport.TENNIS
             "TENNISDETABLE" -> Sport.TENNISDETABLE
+            "CROSSFIT" -> Sport.CROSSFIT
             else -> {println(" SPORT !!! : ${sport}"); return Sport.INIT
             }
         }

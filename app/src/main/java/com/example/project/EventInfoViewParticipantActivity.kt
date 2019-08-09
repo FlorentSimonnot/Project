@@ -57,10 +57,11 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
 
         val participeEventButton = findViewById<Button>(R.id.button_participate)
         val cancelParticipationEventButton = findViewById<Button>(R.id.button_cancel)
+        val fullTextViex = findViewById<TextView>(R.id.full_event)
         participeEventButton.setOnClickListener(this)
         cancelParticipationEventButton.setOnClickListener(this)
 
-        Event().getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton)
+        Event().getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, fullTextViex)
 
         Event().writeInfoEvent(
             this,

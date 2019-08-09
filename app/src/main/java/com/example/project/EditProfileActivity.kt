@@ -30,8 +30,6 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val nameEditText = findViewById<EditText>(R.id.name_account)
-        val firstNameEditText = findViewById<EditText>(R.id.firstName_account)
         val emailEditText = findViewById<EditText>(R.id.email_account)
         /*val sexSpinner = findViewById<Spinner>(R.id.sex_spinner)*/
         sexTextView = findViewById<TextView>(R.id.edit_sexe)
@@ -146,8 +144,6 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
             builder.setMessage("Your profile will be updated.\nConfirm?")
             builder.setPositiveButton("Yes"){_, _ ->
                 session.updateAccount(
-                    nameEditText.text.toString(),
-                    firstNameEditText.text.toString(),
                     emailEditText.text.toString(),
                     sex,
                     birthdayEditText.text.toString(),

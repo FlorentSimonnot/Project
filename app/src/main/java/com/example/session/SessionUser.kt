@@ -10,7 +10,9 @@ import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
 import com.example.user.Gender
 import com.example.user.User
+import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.firebase.auth.FirebaseAuth
@@ -175,8 +177,8 @@ class SessionUser{
                         }
                         "Google" -> {
                             if(value.idServiceLog.isNotEmpty()){
-                                val account = GoogleSignIn.getLastSignedInAccount(context)
-                                if(account != null){
+                                //val account = GoogleSignIn.getLastSignedInAccount(context)
+                                if(account != null && account.key == getIdFromUser()){
                                     Picasso.get()
                                         .load(account.photoUrl)
                                         .into(imageView)
@@ -236,8 +238,6 @@ class SessionUser{
     }
 
     fun updateAccount(
-        newName: String,
-        newFirstName: String,
         newEmail: String,
         newSex: Gender,
         newBirthday: String,
@@ -253,6 +253,9 @@ class SessionUser{
                     dataSnapshot.children.forEach {
                         postValues.put(it.key!!, it.value!!)
                     }
+
+                    val newName = value.name
+                    val newFirstName = value.firstName
 
                     //Update firebase
                     user?.updateEmail(newEmail)
