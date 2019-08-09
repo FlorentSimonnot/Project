@@ -177,8 +177,8 @@ class SessionUser{
                         }
                         "Google" -> {
                             if(value.idServiceLog.isNotEmpty()){
-                                //val account = GoogleSignIn.getLastSignedInAccount(context)
-                                if(account != null && account.key == getIdFromUser()){
+                                val account = GoogleSignIn.getLastSignedInAccount(context)
+                                if(account != null && account.id == getIdFromUser()){
                                     Picasso.get()
                                         .load(account.photoUrl)
                                         .into(imageView)

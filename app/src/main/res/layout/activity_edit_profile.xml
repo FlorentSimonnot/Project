@@ -124,10 +124,10 @@
                             android:layout_height="28dp"
                             app:srcCompat="@drawable/ic_gender"
                             />
-                    <EditText
+                    <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/sex_account"
+                            android:id="@+id/edit_sexe"
                             android:text=""
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"

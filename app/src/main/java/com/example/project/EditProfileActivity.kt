@@ -41,7 +41,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
 
 
 
-        nameEditText.hint = session.writeInfoUser(
+        /*nameEditText.hint = session.writeInfoUser(
             applicationContext,
             session.getIdFromUser(),
             nameEditText,
@@ -53,7 +53,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
             session.getIdFromUser(),
             firstNameEditText,
             "firstName"
-        ).toString()
+        ).toString()*/
 
 
         emailEditText.hint = session.writeInfoUser(
@@ -98,7 +98,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
 */
 
         //Autocomplete city
-        val autocompleteFragment =
+        /*val autocompleteFragment =
             supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
 
         // Specify the types of place data to return.
@@ -119,7 +119,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
                 placeId = place.id
             }
 
-        })
+        })*/
 
         descriptionEditText.hint = session.writeInfoUser(
             applicationContext,

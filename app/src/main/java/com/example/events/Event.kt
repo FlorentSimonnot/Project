@@ -146,13 +146,13 @@ data class Event (
                             textView.text = "${value.date} at ${value.time}"
                         }
                         "freePlace"  -> {
-                            var count = 0
+                            /*var count = 0
                             value.participants.forEach{
                                 if(it.value == "confirmed"){
                                     count++
                                 }
-                            }
-                            textView.text = "${value.nb_people - count} free places"
+                            }*/
+                            textView.text = "${value.nb_people - value.participants.size} free places"
                         }
                         "participe" -> {
                             var count = 0
@@ -347,7 +347,7 @@ data class Event (
     fun confirmParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.setValue("confirmed")
-        val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+        val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
         refUser.setValue("confirmed")
         Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
     }
@@ -361,7 +361,7 @@ data class Event (
     fun refuseParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+        val refUser = FirebaseDatabase.getInstance().getReference("users/$user}/eventsJoined/$key")
         refUser.removeValue()
         Toast.makeText(context, "You have refuse !", Toast.LENGTH_SHORT).show()
     }
