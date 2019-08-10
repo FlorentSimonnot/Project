@@ -55,18 +55,18 @@
 
         </LinearLayout>
         <LinearLayout
-                android:layout_width="60dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:padding="5dp"
                 >
 
-            <ImageButton
-                    android:id="@+id/btn_remove"
+            <Button
+                    android:id="@+id/send_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_chat"
+                    android:drawableLeft="@drawable/ic_chat"
                     android:background="#fff"
                     />
 
@@ -78,7 +78,7 @@
                 >
 
             <Button
-                    android:id="@+id/btn_more"
+                    android:id="@+id/btn_remove"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#fff"

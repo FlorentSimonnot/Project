@@ -35,13 +35,14 @@ class ArrayAdapterFriends(
         val imageView : ImageView = view.findViewById(R.id.photo_user)
         val textView : TextView = view.findViewById(R.id.identity)
         val button : Button
+        var buttonSendMessage : Button? = null
 
         button = when(action){
             "waiting" -> {
                 view.findViewById(R.id.btn_accept)
             }
             "friend" -> {
-                view.findViewById(R.id.btn_more)
+                view.findViewById(R.id.btn_remove)
             }
             else -> {
                 throw Exception("Nope")
@@ -49,6 +50,9 @@ class ArrayAdapterFriends(
         }
         if(action == "waiting"){
             buttonRefuse = view.findViewById(R.id.btn_refuse)
+        }
+        if(action == "friend"){
+            buttonSendMessage = view.findViewById(R.id.send_message)
         }
 
         if(users.size > 0) {
@@ -69,13 +73,13 @@ class ArrayAdapterFriends(
                         val item = getItem(position)
                         if(item != null){
                             val userKey = users[position].key
-                            users.removeAt(position)
-                            
+
                             val deleteFriendAlert = AlertDialog.Builder(ctx)
                             deleteFriendAlert.setTitle("Are you sure?")
                             deleteFriendAlert.setMessage("This user will not be your friend anymore :(.\nConfirm?")
                             deleteFriendAlert.setPositiveButton("Yes"){_, _ ->
                                 SessionUser().deleteFriend(ctx, userKey)
+                                users.removeAt(position)
                             }
                             deleteFriendAlert.setNegativeButton("No"){_, _ ->
 

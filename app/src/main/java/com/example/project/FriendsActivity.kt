@@ -127,6 +127,7 @@ class FriendsActivity : AppCompatActivity() {
                 if (users.size > 0) {
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
+                    listView.clearChoices()
                     var layout = 0
                     when(action){
                         "friend" -> {
