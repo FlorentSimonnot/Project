@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,70 +24,70 @@
                 tools:ignore="MissingConstraints"
                 >
         </androidx.appcompat.widget.Toolbar>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/friends_waiting_layout"
-                android:orientation="horizontal"
+        <com.google.android.material.tabs.TabLayout
                 android:layout_below="@id/toolbar"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/tab"
+                android:background="@color/colorPrimary"
+                app:tabTextColor="#fff"
+                app:tabIndicatorColor="@color/colorPrimaryTwo"
+                app:tabIndicatorHeight="3dp"
                 >
 
-            <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="0.5"
-                    >
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="friends"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        style="?android:attr/listSeparatorTextViewStyle"
-                        />
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/friends_textview"
-                        android:textSize="15dp"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginBottom="20dp"
-                        />
+            <com.google.android.material.tabs.TabItem
+                    android:textColor="#fff"
+                    android:id="@+id/friends_tab"
+                    android:text="Friends"/>
 
-            </LinearLayout>
+            <com.google.android.material.tabs.TabItem
+                    android:textColor="#fff"
+                    android:id="@+id/invitations_tab"
+                    android:text="Invitations"/>
 
-            <LinearLayout
-                    android:layout_width="0dp"
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layout_listView"
+                android:layout_below="@id/tab"
+                tools:ignore="MissingConstraints"
+                android:orientation="vertical"
+                android:background="#fff"
+                >
+
+            <ListView
+                    android:id="@+id/listViewUsers"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="0.5"
                     >
 
+            </ListView>
+            <RelativeLayout
+                    android:id="@+id/noResultsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
                 <TextView
+                        android:id="@+id/noResults"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="waiting"
-                        android:layout_marginLeft="2dp"
-                        android:layout_marginRight="2dp"
-                        style="?android:attr/listSeparatorTextViewStyle"
+                        android:text="No results found"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/rubik"
+                        android:textSize="22sp"
+                        android:gravity="center"
                         />
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/waiting_textview"
-                        android:textSize="15dp"
-                        android:layout_marginLeft="7dp"
-                        android:layout_marginBottom="20dp"
-                        />
+            </RelativeLayout>
 
-            </LinearLayout>
+        </RelativeLayout>
 
-
-        </LinearLayout>
 
     </RelativeLayout>
 
 
-</ScrollView>
+</RelativeLayout>

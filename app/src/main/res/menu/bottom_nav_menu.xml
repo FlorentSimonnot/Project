@@ -17,7 +17,7 @@
             android:title="@string/bottom_navigation_menu_account"/>
     <item
             android:id="@+id/navigation_chat"
-            android:icon="@drawable/ic_chat_white_24dp"
+            android:icon="@drawable/ic_chat_full"
             android:title="@string/bottom_navigation_menu_chat"/>
 
 </menu>

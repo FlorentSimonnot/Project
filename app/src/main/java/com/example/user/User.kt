@@ -95,14 +95,14 @@ data class User(
                             }
                         }
                         "Google" -> {
-                            if(value.idServiceLog.isNotEmpty()){
+                            /*if(value.idServiceLog.isNotEmpty()){
                                 val account = GoogleSignIn.getLastSignedInAccount(context)
                                 if(account != null){
                                     Picasso.get()
                                         .load(account.photoUrl)
                                         .into(imageView)
                                 }
-                            }
+                            }*/
                         }
                         else -> {
                             //Picasso.get().load(R.drawable.)

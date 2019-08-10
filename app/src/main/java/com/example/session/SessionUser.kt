@@ -15,12 +15,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.material.tabs.TabItem
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_friends.view.*
+import org.w3c.dom.Text
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.HashMap
@@ -124,8 +128,7 @@ class SessionUser{
                         "name" -> textView.text = value.name
                         "email" -> textView.text = value.email
                         "password" -> textView.text = value.password
-                        "sex" -> textView.text = "${value.sex
-                        }"
+                        "sex" -> textView.text = "${value.sex}"
                         "birthday" -> textView.text = value.birthday
                         "describe" -> textView.text = value.description
                         "city" -> {
@@ -178,7 +181,7 @@ class SessionUser{
                         "Google" -> {
                             if(value.idServiceLog.isNotEmpty()){
                                 val account = GoogleSignIn.getLastSignedInAccount(context)
-                                if(account != null && account.id == getIdFromUser()){
+                                if(account != null){
                                     Picasso.get()
                                         .load(account.photoUrl)
                                         .into(imageView)
@@ -241,7 +244,7 @@ class SessionUser{
         newEmail: String,
         newSex: Gender,
         newBirthday: String,
-        newCity: String,
+        city: String,
         newDescription: String
     ) {
         val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
@@ -256,6 +259,13 @@ class SessionUser{
 
                     val newName = value.name
                     val newFirstName = value.firstName
+                    var newCity = ""
+                    if(city.isEmpty()){
+                        newCity = value.city
+                    }
+                    else{
+                        newCity = city
+                    }
 
                     //Update firebase
                     user?.updateEmail(newEmail)
@@ -266,7 +276,7 @@ class SessionUser{
                     postValues.put("sex", newSex)
                     postValues.put("birthday", newBirthday)
                     postValues.put("city", newCity)
-                    postValues.put("describe", newDescription)
+                    postValues.put("description", newDescription)
                     ref.updateChildren(postValues)
 
                     value.name = newName
@@ -283,7 +293,7 @@ class SessionUser{
         })
     }
 
-    fun countFriends(friendsTextView: TextView) {
+    fun countFriends(friendsTabItem: TextView) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
         var friends = 0
         ref.addValueEventListener(object : ValueEventListener {
@@ -294,14 +304,32 @@ class SessionUser{
                         friends++
                     }
                 }
-                friendsTextView.text = friends.toString()
+                friendsTabItem.text = "${friends.toString()}"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    fun countWaiting(waitingTextView: TextView) {
+    fun setFriendsOnTabItem(tab : TabLayout){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
+        var friends = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    if(it.value == "friend"){
+                        friends++
+                    }
+                }
+                tab.getTabAt(0)?.text = "Friends (${friends.toString()})"
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun countWaiting(waitingTabItem: TextView) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
         var waiting = 0
         ref.addValueEventListener(object : ValueEventListener {
@@ -312,7 +340,7 @@ class SessionUser{
                         waiting++
                     }
                 }
-                waitingTextView.text = waiting.toString()
+                waitingTabItem.text = "${waiting.toString()}"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -329,6 +357,24 @@ class SessionUser{
                     created++
                 }
                 createdTextView.text = created.toString()
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun setInvitationsOnTabItem(tab : TabLayout){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
+        var friends = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    if(it.value == "waiting"){
+                        friends++
+                    }
+                }
+                tab.getTabAt(1)?.text = "Invitations (${friends.toString()})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

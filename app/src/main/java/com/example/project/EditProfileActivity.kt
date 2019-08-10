@@ -1,8 +1,11 @@
 package com.example.project
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.picker.StringPickerCustom
@@ -12,15 +15,24 @@ import com.example.user.Gender
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import kotlinx.android.synthetic.main.activity_user_info.*
 import java.util.*
+import com.google.android.libraries.places.widget.AutocompleteActivity
 
-class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener  {
+
+
+class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener, View.OnClickListener  {
+
     var session : SessionUser = SessionUser()
     val stringSex = arrayOf("Male", "Female", "Other")
     private lateinit var sexTextView: TextView
     private var placeId : String? = ""
+    private lateinit var cityEditText: TextView
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +46,12 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         /*val sexSpinner = findViewById<Spinner>(R.id.sex_spinner)*/
         sexTextView = findViewById<TextView>(R.id.edit_sexe)
         val birthdayEditText = findViewById<EditText>(R.id.birthday_account)
-        /*val cityEditText = findViewById<EditText>(R.id.city_account)*/
+        cityEditText = findViewById(R.id.city_account)
         val descriptionEditText = findViewById<EditText>(R.id.describe_account)
         val modifyPasswordButton = findViewById<Button>(R.id.modify_password_button)
         val confirmChangesButton = findViewById<Button>(R.id.confirm_changes)
 
+        cityEditText.setOnClickListener(this)
 
 
         /*nameEditText.hint = session.writeInfoUser(
@@ -84,42 +97,12 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         ).toString()
 
 
-        /*cityEditText.hint = session.writeInfoUser(
+        cityEditText.hint = session.writeInfoUser(
             applicationContext,
             session.getIdFromUser(),
             cityEditText,
             "city"
-        ).toString()*/
-
-        val gg = SessionGooglePlace(applicationContext)
-        gg.init()
-/*
-        val placesClient = gg.createClient()
-*/
-
-        //Autocomplete city
-        /*val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
-
-        // Specify the types of place data to return.
-        autocompleteFragment!!
-            .setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME))
-
-        autocompleteFragment
-            .setTypeFilter(TypeFilter.CITIES)
-
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onError(p0: Status) {
-                placeId = ""
-            }
-
-            override fun onPlaceSelected(place: Place) {
-                placeId = place.id
-            }
-
-        })*/
+        ).toString()
 
         descriptionEditText.hint = session.writeInfoUser(
             applicationContext,
@@ -169,6 +152,19 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         }
     }
 
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.city_account -> {
+                val fields = Arrays.asList(Place.Field.ID, Place.Field.NAME)
+                val intent = Autocomplete.IntentBuilder(
+                    AutocompleteActivityMode.FULLSCREEN, fields)
+                    .setTypeFilter(TypeFilter.CITIES)
+                    .build(this)
+                startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+            }
+        }
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         val intent = Intent(this, UserInfoActivity::class.java)
@@ -176,6 +172,26 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         EventInfoJojoActivity::finish
         startActivity(intent)
         return true
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(data != null) {
+            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+                when (resultCode) {
+                    AUTOCOMPLETE_REQUEST_CODE -> {
+                        val place = Autocomplete.getPlaceFromIntent(data)
+                        placeId = place.id
+                        cityEditText.text = place.name
+                    }
+                    AutocompleteActivity.RESULT_ERROR -> {
+                        val status = Autocomplete.getStatusFromIntent(data)
+                    }
+                    Activity.RESULT_CANCELED -> {
+                    }
+                }
+            }
+        }
     }
 
 }

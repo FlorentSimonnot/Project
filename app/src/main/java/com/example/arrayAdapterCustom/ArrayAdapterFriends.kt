@@ -41,7 +41,7 @@ class ArrayAdapterFriends(
                 view.findViewById(R.id.btn_accept)
             }
             "friend" -> {
-                view.findViewById(R.id.btn_remove)
+                view.findViewById(R.id.btn_more)
             }
             else -> {
                 throw Exception("Nope")

@@ -281,17 +281,6 @@ data class Event (
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         EventInfoJojoActivity::finish
         context.startActivity(intent)
-        /*
-        val database = FirebaseDatabase.getInstance().reference
-        database.child("events").child("key").child("participants").addChildEventListener()
-        database.child("events").child("$key").removeValue()
-        database.child("users").child(session.getIdFromUser()).child("eventsCreated").child("$key").removeValue().addOnSuccessListener {
-            val intent = Intent(context, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            EventInfoJojoActivity::finish
-            context.startActivity(intent)
-            Toast.makeText(context, "Event deleted successfully", Toast.LENGTH_LONG).show()
-        }*/
     }
 
     /**

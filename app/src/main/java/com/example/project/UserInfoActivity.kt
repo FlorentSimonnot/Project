@@ -7,16 +7,10 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.session.SessionUser
-import com.facebook.login.LoginManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
-    var session : SessionUser = SessionUser()
+    var session = SessionUser()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +26,6 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.btn_delete_account).setOnClickListener(this)
         findViewById<Button>(R.id.edit_profile_button).setOnClickListener(this)
 
-        //val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
         val emailTextView = findViewById<TextView>(R.id.email_account)
         val sexTextView = findViewById<TextView>(R.id.sex_account)
         val birthdayTextView = findViewById<TextView>(R.id.birthday_account)
@@ -42,11 +35,6 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
         session.showPhotoUser(this, photoImageView)
 
-
-        /*nameAndFirstnameTextView.text = session.identity(
-            session.getIdFromUser(),
-            nameAndFirstnameTextView
-        ).toString()*/
 
         emailTextView.text = session.writeInfoUser(
             applicationContext,

@@ -13,6 +13,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".ChangeCityActivity">
+        </activity>
         <activity android:name=".ActivityInfoUser">
         </activity>
         <activity android:name=".WaitingListActivity">
