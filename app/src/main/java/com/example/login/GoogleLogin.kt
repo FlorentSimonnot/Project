@@ -5,13 +5,17 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.project.MainActivity
 import com.example.project.NextSignInJojoActivity
+import com.example.session.SessionUser
 import com.example.user.Gender
 import com.example.user.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.iid.FirebaseInstanceId
 
 class GoogleLogin (
     private val googleSignInClient: GoogleSignInClient,
@@ -41,6 +45,16 @@ class GoogleLogin (
                             context.startActivity(nextSignInJojo)
                         }
                         else{
+                            FirebaseInstanceId.getInstance().instanceId
+                                .addOnCompleteListener {
+                                    if(!it.isSuccessful){
+                                        println("ERRRORRRR")
+                                    }
+                                    val session = SessionUser()
+                                    val token = it.result?.token
+                                    val ref = FirebaseDatabase.getInstance().getReference("users")
+                                    ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)
+                                }
                             val intent = Intent(context, MainActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                             context.startActivity(intent)
