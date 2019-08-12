@@ -31,7 +31,7 @@ data class User(
     var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
     var eventsCreated : HashMap<String, String> = HashMap(),
     var eventsJoined : HashMap<String, String> = HashMap(),
-    var friends: HashMap<String, String> = HashMap()
+    var friends: HashMap<String, Any> = HashMap()
 
 ): Serializable{
 

@@ -21,6 +21,7 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
     private lateinit var info : LinearLayout
     private lateinit var deconnexion : LinearLayout
     private lateinit var friends : LinearLayout
+    private lateinit var events : LinearLayout
 
     private lateinit var googleSignInClient : GoogleSignInClient
 
@@ -67,9 +68,11 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
         info = findViewById(R.id.infos)
         deconnexion = findViewById(R.id.deconnexion)
         friends = findViewById(R.id.friends_layout)
+        events = findViewById(R.id.events_layout)
         info.setOnClickListener(this)
         deconnexion.setOnClickListener(this)
         friends.setOnClickListener(this)
+        events.setOnClickListener(this)
 
         /* GOOGLE LOGOUT */
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -115,6 +118,10 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
             }
             R.id.friends_layout -> {
                 startActivity(Intent(this, FriendsActivity::class.java))
+                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
+            }
+            R.id.events_layout -> {
+                startActivity(Intent(this, EventActivity::class.java))
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
             }
         }

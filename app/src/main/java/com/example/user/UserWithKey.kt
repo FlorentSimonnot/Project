@@ -14,17 +14,7 @@ data class UserWithKey(
 
     fun addFriend(session: SessionUser) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.key}/friends/${session.getIdFromUser()}")
-        ref.setValue("waiting")
-        /*ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(User::class.java)
-                if (value != null) {
-                    value.friends.put(session.getIdFromUser(), "waiting")
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })*/
+        ref.child("status").setValue("waiting")
     }
 
 }

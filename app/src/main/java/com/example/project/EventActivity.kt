@@ -8,9 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.core.view.forEach
+import com.example.arrayAdapterCustom.ArrayAdapterEvents
 import com.example.arrayAdapterCustom.ArrayAdapterFriends
+import com.example.events.Event
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
@@ -18,10 +19,8 @@ import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.*
 
-class FriendsActivity : AppCompatActivity() {
+class EventActivity : AppCompatActivity() {
     var session = SessionUser()
-    private lateinit var friends : TabItem
-    private lateinit var invitations : TabItem
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView
@@ -29,19 +28,15 @@ class FriendsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_friends)
-
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Your friends"
+        setContentView(R.layout.activity_event)
 
         tab = findViewById(R.id.tab)
         tab.forEach {
             val tabItem : TextView = LayoutInflater.from(this).inflate(R.layout.tab_tem_layout, null) as TextView
             tab.getTabAt(it.id)?.customView = tabItem
         }
-        session.setFriendsOnTabItem(tab)
-        session.setInvitationsOnTabItem(tab)
+        session.setEventsOnTabItem(tab)
+        session.setEventsJoinedOnTabItem(tab)
 
         tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(p0: TabLayout.Tab?) {
@@ -55,12 +50,12 @@ class FriendsActivity : AppCompatActivity() {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 when(p0?.position){
                     0 -> {
-                        friendsList(applicationContext)
-                        supportActionBar?.title = "Your friends"
+                        eventsList(applicationContext)
+                        supportActionBar?.title = "Events created"
                     }
                     1 ->{
-                        waitingList(applicationContext)
-                        supportActionBar?.title = "Your Invitations"
+                       eventsJoinedList(applicationContext)
+                        supportActionBar?.title = "Events joined"
                     }
                 }
             }
@@ -68,79 +63,77 @@ class FriendsActivity : AppCompatActivity() {
         })
 
         noResults = findViewById(R.id.noResults)
-        listView = findViewById<ListView>(R.id.listViewUsers)
-        friendsList(this)
+        listView = findViewById(R.id.listViewEvents)
 
+        eventsList(this)
     }
 
-    private fun friendsList(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/friends")
-        val friends : ArrayList<String?> = ArrayList()
+    private fun eventsList(context: Context){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/eventsCreated")
+        val events : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.child("status").value == "friend"){
-                        friends.add(it.key)
-                    }
+                    events.add(it.key)
                 }
-                searchUser(context, friends, "friend")
+                println("EVENTS KEY : ${events}")
+                searchEvents(context, events, "created")
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun waitingList(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/friends")
-        val waiting : ArrayList<String?> = ArrayList()
+    private fun eventsJoinedList(context: Context){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/eventsJoined")
+        val events : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.child("status").value == "waiting"){
-                        waiting.add(it.key)
-                    }
+                    events.add(it.key)
                 }
-                searchUser(context, waiting, "waiting")
+                searchEvents(context, events, "joined")
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchUser(context: Context, participants : ArrayList<String?>, action : String) {
-        val ref = FirebaseDatabase.getInstance().getReference("users")
+    private fun searchEvents(context: Context, participants : ArrayList<String?>, action : String) {
+        val ref = FirebaseDatabase.getInstance().getReference("events")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each user
-                val users: ArrayList<UserWithKey> = ArrayList()
+                val data = dataSnapshot.children //Children = each event
+                val events: ArrayList<Event> = ArrayList()
                 data.forEach {
-                    val user = it.getValue(User::class.java) //Get event in a Event class
+                    val event = it.getValue(Event::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
-                    if (user != null) {
+                    if (event != null) {
                         if (participants.contains(it.key)) {
-                            users.add(UserWithKey(user, it.key))
+                            events.add(event)
                         }
                     }
                 }
-                if (users.size > 0) {
+                println("EVENTS : ${events}")
+                if (events.size > 0) {
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
                     listView.clearChoices()
                     var layout = 0
                     when(action){
-                        "friend" -> {
-                            layout = R.layout.list_item_user_confirmed
+                        "created" -> {
+                            layout = R.layout.my_list
                         }
-                        "waiting" -> {
-                            layout = R.layout.list_item_user_waiting
+                        "joined" -> {
+                            layout = R.layout.my_list
                         }
                     }
-                    val adapter = ArrayAdapterFriends(
+                    val adapter = ArrayAdapterEvents(
                         context,
                         layout,
-                        users,
+                        events,
                         action
                     )
                     adapter.notifyDataSetChanged()
@@ -157,11 +150,11 @@ class FriendsActivity : AppCompatActivity() {
 
                         override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                             when(action){
-                                "friend" -> {
-                                    friendsList(context)
+                                "created" -> {
+                                    eventsList(context)
                                 }
-                                "waiting" -> {
-                                    waitingList(context)
+                                "joined" -> {
+                                    eventsJoinedList(context)
                                 }
 
                             }
@@ -195,5 +188,4 @@ class FriendsActivity : AppCompatActivity() {
         startActivity(intent)
         return true
     }
-
 }

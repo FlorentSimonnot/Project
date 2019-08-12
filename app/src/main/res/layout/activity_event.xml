@@ -39,14 +39,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#fff"
-                    android:id="@+id/friends_tab"
+                    android:id="@+id/events_tab"
                     android:text="Friends"/>
 
             <com.google.android.material.tabs.TabItem
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#fff"
-                    android:id="@+id/invitations_tab"
+                    android:id="@+id/events_joined_tab"
                     android:text="Invitations"/>
 
 
@@ -63,9 +63,9 @@
                 >
 
             <ListView
-                    android:id="@+id/listViewUsers"
+                    android:id="@+id/listViewEvents"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     >
 
             </ListView>

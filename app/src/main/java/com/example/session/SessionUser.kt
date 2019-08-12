@@ -295,7 +295,7 @@ class SessionUser{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.value == "friend"){
+                    if(it.child("status").value == "friend"){
                         friends++
                     }
                 }
@@ -313,7 +313,7 @@ class SessionUser{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.value == "friend"){
+                    if(it.child("status").value == "friend"){
                         friends++
                     }
                 }
@@ -365,7 +365,7 @@ class SessionUser{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.value == "waiting"){
+                    if(it.child("status").value == "waiting"){
                         friends++
                     }
                 }
@@ -394,8 +394,7 @@ class SessionUser{
 
     fun acceptFriend(ctx: Context, userKey: String?) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
-        ref.setValue("friend")
-        val refSession = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}")
+        ref.child("status").setValue("friend")
         Toast.makeText(ctx, "You have accepted this user as friend :)", Toast.LENGTH_SHORT).show()
     }
 
@@ -411,4 +410,35 @@ class SessionUser{
     }
 
 
+    fun setEventsOnTabItem(tab : TabLayout){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsCreated")
+        var events = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    events++
+                }
+                tab.getTabAt(0)?.text = "Events created (${events})"
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun setEventsJoinedOnTabItem(tab : TabLayout){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsJoined")
+        var events = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    events++
+                }
+                tab.getTabAt(1)?.text = "Events joined (${events})"
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
 }
