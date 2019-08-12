@@ -10,12 +10,9 @@ import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
 import com.example.user.Gender
 import com.example.user.User
-import com.google.android.gms.auth.GoogleAuthUtil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -23,8 +20,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_friends.view.*
-import org.w3c.dom.Text
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.HashMap
@@ -400,6 +395,7 @@ class SessionUser{
     fun acceptFriend(ctx: Context, userKey: String?) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
         ref.setValue("friend")
+        val refSession = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}")
         Toast.makeText(ctx, "You have accepted this user as friend :)", Toast.LENGTH_SHORT).show()
     }
 

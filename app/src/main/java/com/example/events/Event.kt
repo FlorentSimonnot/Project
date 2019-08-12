@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.*
+import com.example.notification.CloudFunction
 import com.example.place.SessionGooglePlace
 import com.example.project.*
 import com.example.session.SessionUser
@@ -339,6 +340,10 @@ data class Event (
         val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
         refUser.setValue("confirmed")
         Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
+        val function = CloudFunction()
+        function.acceptParticipation(
+            key!!, user
+        )
     }
 
     /**
