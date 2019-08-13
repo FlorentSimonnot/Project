@@ -9,6 +9,7 @@ import com.example.place.SessionGooglePlace
 import com.example.project.*
 import com.example.session.SessionUser
 import com.example.sport.Sport
+import com.example.status.Status
 import com.example.user.Gender
 import com.example.user.PrivacyAccount
 import com.example.user.User
@@ -39,7 +40,7 @@ data class Event (
     var description: String = "",
     var privacy : Privacy = Privacy.INIT,
     var creator : String = "",
-    var participants : HashMap<String, String> = HashMap()
+    var participants : HashMap<String, Status> = HashMap()
     ) {
 
     private val session = SessionUser()
@@ -54,7 +55,8 @@ data class Event (
     fun insertEvent(){
         //Add into events table
         val ref = FirebaseDatabase.getInstance().getReference("events/${this.key}")
-        participants.put(creator, "confirmed")
+        val status = Status("status", "confirmed")
+        participants.put(creator, status)
         ref.setValue(this)
             .addOnSuccessListener {
                 println("DATA INSERTED !!!!")
@@ -146,6 +148,26 @@ data class Event (
                         "dateAndTime" ->{
                             textView.text = "${value.date} at ${value.time}"
                         }
+                        "participant" -> {
+                            var res = 0
+                            val data = value.participants
+                            data.forEach {
+                                if(it.value.status == "confirmed"){
+                                    res++
+                                }
+                            }
+                            textView.text ="$res"
+                        }
+                        "waiting" -> {
+                            var res = 0
+                            val data = value.participants
+                            data.forEach {
+                                if(it.value.status == "waiting"){
+                                    res++
+                                }
+                            }
+                            textView.text = "$res"
+                        }
                         "freePlace"  -> {
                             /*var count = 0
                             value.participants.forEach{
@@ -154,24 +176,6 @@ data class Event (
                                 }
                             }*/
                             textView.text = "${value.nb_people - value.participants.size} free places"
-                        }
-                        "participe" -> {
-                            var count = 0
-                            value.participants.forEach{
-                                if(it.value == "confirmed"){
-                                    count++
-                                }
-                            }
-                            textView.text = "${count}"
-                        }
-                        "waiting" -> {
-                            var count = 0
-                            value.participants.forEach{
-                                if(it.value == "waiting"){
-                                    count++
-                                }
-                            }
-                            textView.text = "${count}"
                         }
                         "description" -> textView.text = value.description
                         "sport" -> {
@@ -254,6 +258,44 @@ data class Event (
 
     }
 
+    fun writeEventsParticipants(context: Context, textView: TextView, keyEvent : String){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$keyEvent/participants")
+        var friends = 0
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                println("HIER")
+                data.forEach {
+                    println("DATA I : $it")
+                    if(it.child("status").value == "confirmed"){
+                        friends++
+                    }
+                }
+                textView.text = "${friends.toString()}"
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun writeEventsPeopleWaiting(context: Context, textView: TextView, keyEvent : String){
+        val ref = FirebaseDatabase.getInstance().getReference("events/${keyEvent}/participants")
+        var friends = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    if(it.child("status").value == "waiting"){
+                        friends++
+                    }
+                }
+                textView.text = "${friends.toString()}"
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
     /**
      * deleteEvent delete the event in according to the event's key
      * @param context : the context use for change activity, make toast
@@ -293,10 +335,10 @@ data class Event (
     fun participateEvent(context: Context, key : String?, session : SessionUser){
         /* Add in event participants */
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
-        ref.setValue("waiting").addOnSuccessListener {
+        ref.child("status").setValue("waiting").addOnSuccessListener {
             /* Add in user events joined */
             val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
-            refUser.setValue("waiting").addOnSuccessListener {
+            refUser.child("status").setValue("waiting").addOnSuccessListener {
                 val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
                 intent.putExtra("key", key)
@@ -336,14 +378,10 @@ data class Event (
      */
     fun confirmParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
-        ref.setValue("confirmed")
+        ref.child("status").setValue("confirmed")
         val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        refUser.setValue("confirmed")
+        refUser.child("status").setValue("confirmed")
         Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
-        val function = CloudFunction()
-        function.acceptParticipation(
-            key!!, user
-        )
     }
 
     /**

@@ -55,7 +55,7 @@ class ParticipantsWaitedActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.value == "waiting"){
+                    if(it.child("status").value == "waiting"){
                         participants.add(it.key)
                     }
                 }

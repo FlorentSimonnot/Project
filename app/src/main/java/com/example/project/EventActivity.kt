@@ -24,7 +24,6 @@ class EventActivity : AppCompatActivity() {
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView
-    private lateinit var toolbar: androidx.appcompat.widget.Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

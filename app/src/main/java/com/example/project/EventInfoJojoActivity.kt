@@ -72,112 +72,6 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
         refuseButton.setOnClickListener(this)
         editEventButton.setOnClickListener(this)
         deleteEventButton.setOnClickListener(this)
-        //participeEventButton.setOnClickListener(this)
-        //cancelParticipationEventButton.setOnClickListener(this)
-
-        /*val placeTextView = findViewById<TextView>(R.id.place)
-        val dateTextView = findViewById<TextView>(R.id.date)
-        val timeTextView = findViewById<TextView>(R.id.time)
-        val nbPeopleTextView = findViewById<TextView>(R.id.nb_people)
-        val descriptionTextView = findViewById<TextView>(R.id.description)
-        val button_delete = findViewById<ImageButton>(R.id.button_delete)
-        val button_edit = findViewById<ImageButton>(R.id.button_edit)
-        val button_participate = findViewById<Button>(R.id.button_participate)
-        val button_cancel = findViewById<Button>(R.id.button_cancel)
-        val participantsWaiting = findViewById<TextView>(R.id.participants_waiting)
-        val participantsConfirmed = findViewById<TextView>(R.id.participants)
-
-        Event().verifyCurrentUserIsCreator(keyEvent, participantsWaiting, session)
-
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            titleTextView,
-            "name"
-        ).toString()
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            sportTextView,
-            "sport"
-        )
-
-        Event().writeLogoSport(this, keyEvent, sportLogoImageView)
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            creatorTextView,
-            "creator"
-        )
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            placeTextView,
-            "place"
-        )
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            dateTextView,
-            "date"
-        )
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            timeTextView,
-            "time"
-        )
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            nbPeopleTextView,
-            "nb_people"
-        )
-
-        Event().writeInfoEvent(
-            this,
-            keyEvent,
-            descriptionTextView,
-            "description"
-        )
-
-
-        Event().getButton(this, keyEvent, button_edit, button_delete, button_participate, button_cancel)
-
-        button_edit.setOnClickListener {
-
-        }
-
-        button_delete.setOnClickListener {
-            val deleteEventAlertDialog = AlertDialog.Builder(this)
-            deleteEventAlertDialog.setTitle("Are you sure?")
-            deleteEventAlertDialog.setMessage("Your event will be deleted.\nConfirm?")
-            deleteEventAlertDialog.setPositiveButton("Yes"){_, _ ->
-                Event().deleteEvent(this, keyEvent, session)
-                startActivity(Intent(this, MainActivity::class.java))
-            }
-            deleteEventAlertDialog.setNegativeButton("No"){_, _ ->
-
-            }
-            deleteEventAlertDialog.show()
-        }
-
-        button_participate.setOnClickListener {
-            Event().participateEvent(this, keyEvent, session)
-        }
-
-        button_cancel.setOnClickListener {
-            Event().cancelParticipation(this, keyEvent, session)
-        }
-
-        */
 
         Event().writeInfoEvent(
             this,
@@ -218,7 +112,7 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
             this,
             keyEvent,
             participantsNumber,
-            "participe"
+            "participant"
         ).toString()
 
         Event().writeInfoEvent(
@@ -227,6 +121,7 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
             waitingNumber,
             "waiting"
         ).toString()
+
 
         Event().writeLogoSport(this, keyEvent, sportLogoImageView)
 
