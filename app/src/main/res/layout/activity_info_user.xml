@@ -383,6 +383,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:padding="15dp"
+                                android:id="@+id/notificationPush"
                                 >
                             <ImageView
                                     android:layout_width="28dp"
@@ -415,6 +416,7 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:padding="15dp"
+                                android:id="@+id/share_application"
                                 >
                             <ImageView
                                     android:layout_width="28dp"

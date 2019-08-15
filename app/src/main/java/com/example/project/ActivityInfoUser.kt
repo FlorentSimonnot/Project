@@ -60,6 +60,8 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
         val friendsNumber = findViewById<TextView>(R.id.friends_number)
         val createdNumber = findViewById<TextView>(R.id.created_number)
         val joinedNumber = findViewById<TextView>(R.id.joined_number)
+        val notifications = findViewById<LinearLayout>(R.id.notificationPush)
+        val share = findViewById<LinearLayout>(R.id.share_application)
 
         session.countFriends(friendsNumber)
         session.countCreated(createdNumber)
@@ -73,6 +75,8 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
         deconnexion.setOnClickListener(this)
         friends.setOnClickListener(this)
         events.setOnClickListener(this)
+        notifications.setOnClickListener(this)
+        share.setOnClickListener(this)
 
         /* GOOGLE LOGOUT */
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -123,6 +127,17 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
             R.id.events_layout -> {
                 startActivity(Intent(this, EventActivity::class.java))
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
+            }
+            R.id.notificationPush -> {
+                startActivity(Intent(this, NotificationPushActivity::class.java))
+                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
+            }
+            R.id.share_application -> {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.putExtra(Intent.EXTRA_SUBJECT, "My application name")
+                intent.putExtra(Intent.EXTRA_TEXT, "Share this application with your friends at : https://play.google.com/store/apps/details?id=com.google.android.apps.plus")
+                startActivity(Intent.createChooser(intent, "choose one"))
             }
         }
     }

@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
+import com.example.notification.Notifications
 import com.example.project.MainActivity
 import com.example.session.SessionUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -31,7 +32,8 @@ data class User(
     var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
     var eventsCreated : HashMap<String, String> = HashMap(),
     var eventsJoined : HashMap<String, Any> = HashMap(),
-    var friends: HashMap<String, Any> = HashMap()
+    var friends: HashMap<String, Any> = HashMap(),
+    var notificationsParam : Notifications = Notifications()
 
 ): Serializable{
 

@@ -13,6 +13,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".NotificationPushActivity">
+        </activity>
         <activity android:name=".AddPeopleToEventActivity">
         </activity>
         <activity android:name=".EventActivity">
