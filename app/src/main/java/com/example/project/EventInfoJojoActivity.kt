@@ -66,12 +66,14 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
         val participantsButton = findViewById<LinearLayout>(R.id.participants)
         val waitingButton = findViewById<LinearLayout>(R.id.waiting)
         val refuseButton = findViewById<LinearLayout>(R.id.refuse)
+        val accessibility = findViewById<LinearLayout>(R.id.accessibility)
 
         participantsButton.setOnClickListener(this)
         waitingButton.setOnClickListener(this)
         refuseButton.setOnClickListener(this)
         editEventButton.setOnClickListener(this)
         deleteEventButton.setOnClickListener(this)
+        accessibility.setOnClickListener(this)
 
         Event().writeInfoEvent(
             this,
@@ -216,6 +218,12 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
                 val intent = Intent(this, ModifyEventActivity::class.java)
                 intent.putExtra("key", keyEvent)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                EventInfoJojoActivity::finish
+                startActivity(intent)
+            }
+            R.id.accessibility -> {
+                val intent = Intent(this, AddPeopleToEventActivity::class.java)
+                intent.putExtra("key", keyEvent)
                 EventInfoJojoActivity::finish
                 startActivity(intent)
             }

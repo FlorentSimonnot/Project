@@ -450,4 +450,5 @@ class SessionUser{
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
+
 }

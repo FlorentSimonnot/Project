@@ -8,6 +8,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.dateCustom.DateCustom
+import com.example.dateCustom.TimeCustom
 import com.example.events.Event
 import com.example.notification.MyFirebaseMessagingService
 import com.example.session.SessionUser
@@ -102,7 +103,16 @@ class MainActivity : AppCompatActivity() {
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
                     if(event != null){
-                        events.add(event)
+                        val date = DateCustom(event.date)
+                        val time = TimeCustom(event.time)
+                        if(date.isEqual(DateCustom("01/01/1971").getCurrentDate())){
+                            if(time.isAfter(TimeCustom("01:01").getCurrentTime())){
+                                events.add(event)
+                            }
+                        }
+                        else if(date.isAfter(DateCustom("01/01/1971").getCurrentDate())){
+                            events.add(event)
+                        }
                     }
                 }
                 val adapter = ArrayAdapterCustom(activity, R.layout.my_list, events)

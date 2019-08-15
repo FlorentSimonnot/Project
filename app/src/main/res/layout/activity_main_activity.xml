@@ -64,11 +64,20 @@
             android:layout_below="@id/toolbar"
             android:id="@+id/layoutEventsView"
             tools:ignore="MissingConstraints">
+        <TextView
+                android:id="@+id/comingSoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Coming soon.."
+                android:padding="10dp"
+                android:fontFamily="@font/rubik"
+                />
         <!-- ***********LIST ITEMS BY JO*********** -->
         <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/events_listview"
+                android:layout_below="@id/comingSoon"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:dividerHeight="10.0sp"

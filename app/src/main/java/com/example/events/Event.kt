@@ -412,6 +412,13 @@ data class Event (
         //Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
     }
 
+    fun inviteFriend(context: Context, key: String?, user: String){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
+        ref.child("status").setValue("invitation")
+        val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
+        refUser.child("status").setValue("invitation")
+    }
+
     fun getButton(context: Context, key: String?, button_participe: Button, button_cancel : Button, textView : TextView){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
