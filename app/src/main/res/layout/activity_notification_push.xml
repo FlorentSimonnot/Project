@@ -148,6 +148,7 @@
                             android:id="@+id/event_invitation_switch"
                             />
                 </LinearLayout>
+
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -173,6 +174,8 @@
                             android:id="@+id/event_accept_switch"
                             />
                 </LinearLayout>
+
+
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -198,6 +201,35 @@
                             android:padding="10dp"
                             android:id="@+id/event_join_switch"
                             />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/modifiedEvent"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@id/joinEvent"
+                        >
+
+                    <TextView
+                            android:layout_width="280dp"
+                            android:layout_height="wrap_content"
+                            android:text="Receive notification if an event has been modified"
+                            android:fontFamily="@font/rubik"
+                            android:paddingBottom="10dp"
+                            android:textSize="18sp"
+                            android:paddingTop="10dp"
+                            />
+                    <Switch
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_gravity="left"
+                            android:padding="10dp"
+                            android:id="@+id/modified_event_switch"
+                            />
+
                 </LinearLayout>
 
             </RelativeLayout>

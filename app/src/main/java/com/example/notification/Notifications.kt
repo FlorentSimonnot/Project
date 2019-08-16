@@ -14,7 +14,8 @@ class Notifications(
     val acceptJoinEvent: Boolean = true,
     val beenInvitedForEvent: Boolean = true,
     val friendInvitation: Boolean = true,
-    val acceptInvitationFriend: Boolean = true
+    val acceptInvitationFriend: Boolean = true,
+    val modifiedEvent: Boolean = true
 ) {
 
     fun configureSwitches(context: Context, switches : NotificationPushActivity.Switches){
@@ -38,6 +39,9 @@ class Notifications(
                         }
                         "joinEvent" -> {
                             switches.notifEventJoin.isChecked = it.value.toString().toBoolean()
+                        }
+                        "modifiedEvent" -> {
+                            switches.notifEventModified.isChecked = it.value.toString().toBoolean()
                         }
                     }
                 }

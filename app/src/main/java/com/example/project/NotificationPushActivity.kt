@@ -12,6 +12,7 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var notifEventInvitation : Switch
     private lateinit var notifEventAccept : Switch
     private lateinit var notifEventJoin : Switch
+    private lateinit var notifEventModified : Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +23,14 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
         notifEventInvitation  = findViewById(R.id.event_invitation_switch)
         notifEventAccept = findViewById(R.id.event_accept_switch)
         notifEventJoin = findViewById(R.id.event_join_switch)
+        notifEventModified = findViewById(R.id.modified_event_switch)
+
         notifUserInvitation.setOnClickListener(this)
         notifUserAccept.setOnClickListener(this)
         notifEventAccept.setOnClickListener(this)
         notifEventJoin.setOnClickListener(this)
         notifEventInvitation.setOnClickListener(this)
+        notifEventModified.setOnClickListener(this)
 
 
         val switches = Switches(
@@ -34,7 +38,8 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
             notifUserAccept,
             notifEventInvitation,
             notifEventAccept,
-            notifEventJoin
+            notifEventJoin,
+            notifEventModified
         )
 
         Notifications().configureSwitches(this, switches)
@@ -46,7 +51,8 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
         val notifUserAccept : Switch,
         val notifEventInvitation : Switch,
         val notifEventAccept : Switch,
-        val notifEventJoin : Switch
+        val notifEventJoin : Switch,
+        val notifEventModified : Switch
     )
 
     override fun onClick(p0: View?) {
@@ -89,6 +95,14 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
                 }
                 else{
                     Notifications().updateSwitches(this, "beenInvitedForEvent", false)
+                }
+            }
+            R.id.modified_event_switch -> {
+                if(notifEventModified.isChecked){
+                    Notifications().updateSwitches(this, "modifiedEvent", true)
+                }
+                else{
+                    Notifications().updateSwitches(this, "modifiedEvent", false)
                 }
             }
         }
