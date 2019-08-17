@@ -43,6 +43,22 @@ class ArrayAdapterEvents(
             textViewDescription.text = events[position].place
             val sport : Sport = events[position].sport
             iconSport.setImageResource(sport.getLogo())
+            view.setOnClickListener {
+                if(events[position].creator != SessionUser().getIdFromUser()){
+                        val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
+                        intent.addCategory("eventInfo")
+                        intent.putExtra("key", events[position].key)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        context.startActivity(intent)
+                }
+                else{
+                    val intent = Intent(context, EventInfoJojoActivity::class.java)
+                    intent.addCategory("eventInfo")
+                    intent.putExtra("key", events[position].key)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    context.startActivity(intent)
+                }
+            }
         }
 
         return view

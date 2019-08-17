@@ -2,6 +2,7 @@ package com.example.events
 
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
 import android.view.View
 import android.widget.*
 import com.example.notification.CloudFunction
@@ -421,31 +422,50 @@ data class Event (
         refUser.child("status").setValue("invitation")
     }
 
-    fun getButton(context: Context, key: String?, button_participe: Button, button_cancel : Button, textView : TextView){
+    fun getButton(context: Context, key: String?,
+                  button_participe: Button,
+                  button_cancel : Button,
+                  textView : TextView,
+                  textViewNote : TextView,
+                  ratingBar: RatingBar
+                  ){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
                 if (value != null) {
-                    if(value.participants.size < value.nb_people) {
-                        if (value.participants.contains(SessionUser().getIdFromUser())) {
-                            button_participe.visibility = View.GONE
-                            button_cancel.visibility = View.VISIBLE
+                    if(!value.finish) {
+                        if (value.participants.size < value.nb_people) {
+                            if (value.participants.contains(SessionUser().getIdFromUser())) {
+                                button_participe.visibility = View.GONE
+                                button_cancel.visibility = View.VISIBLE
+                            } else {
+                                button_participe.visibility = View.VISIBLE
+                                button_cancel.visibility = View.GONE
+                            }
                         } else {
-                            button_participe.visibility = View.VISIBLE
-                            button_cancel.visibility = View.GONE
+                            if (value.participants.contains(SessionUser().getIdFromUser())) {
+                                button_participe.visibility = View.GONE
+                                button_cancel.visibility = View.VISIBLE
+                            } else {
+                                button_participe.visibility = View.GONE
+                                button_cancel.visibility = View.GONE
+                                textView.visibility = View.VISIBLE
+                            }
                         }
                     }
                     else{
-                        if (value.participants.contains(SessionUser().getIdFromUser())) {
-                            button_participe.visibility = View.GONE
-                            button_cancel.visibility = View.VISIBLE
-                        }
-                        else {
-                            button_participe.visibility = View.GONE
-                            button_cancel.visibility = View.GONE
-                            textView.visibility = View.VISIBLE
-                        }
+                        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}/eventsJoined/")
+                        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+                                //No
+                            }
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                ratingBar.visibility = View.VISIBLE
+                                textViewNote.visibility = View.VISIBLE
+                            }
+                        })
                     }
                 }
             }

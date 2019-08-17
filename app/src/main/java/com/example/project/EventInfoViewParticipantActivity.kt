@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import com.example.dialog.AlertDialogCustom
 import com.example.events.Event
@@ -54,6 +55,8 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
         val place = findViewById<TextView>(R.id.place)
         val participantsNumber = findViewById<TextView>(R.id.participant_number)
         val waitingNumber = findViewById<TextView>(R.id.waiting_number)
+        val noteTextView = findViewById<TextView>(R.id.note_event)
+        val ratingBar  = findViewById<RatingBar>(R.id.ratingBar)
 
         val participeEventButton = findViewById<Button>(R.id.button_participate)
         val cancelParticipationEventButton = findViewById<Button>(R.id.button_cancel)
@@ -61,7 +64,7 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
         participeEventButton.setOnClickListener(this)
         cancelParticipationEventButton.setOnClickListener(this)
 
-        Event().getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, fullTextViex)
+        Event().getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, fullTextViex, noteTextView, ratingBar)
 
         Event().writeInfoEvent(
             this,
