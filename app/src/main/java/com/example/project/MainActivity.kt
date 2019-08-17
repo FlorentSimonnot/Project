@@ -1,6 +1,7 @@
 package com.example.project
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.*
@@ -9,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
+import com.example.dialog.AlertDialogWithRatingBar
 import com.example.events.Event
 import com.example.notification.MyFirebaseMessagingService
 import com.example.session.SessionUser
+import com.example.user.User
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -53,6 +56,8 @@ class MainActivity : AppCompatActivity() {
             logInIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(logInIntent)
         }
+
+        searchEvent(this)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
@@ -124,4 +129,63 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun searchEvent(context: Context){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                var eventsParticipation = ArrayList<String>()
+                if(value != null){
+                    var events = value.eventsJoined
+                    events.forEach {
+                        eventsParticipation.add(it.key)
+                    }
+                }
+                println("EE : $eventsParticipation")
+                searchParticipationEvent(context, eventsParticipation)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    private fun searchParticipationEvent(context: Context, events : ArrayList<String>){
+        val eventsConfirmed = ArrayList<String>()
+        events.forEach {
+            val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}/eventsJoined/${it}")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    println("AH ${dataSnapshot.child("status").value}")
+                    if(dataSnapshot.child("status").value == "confirmed"){
+                        eventsConfirmed.add(it)
+                    }
+
+                    searchFinishEvent(context, eventsConfirmed)
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
+    }
+
+    private fun searchFinishEvent(context: Context, events: ArrayList<String>){
+
+        val eventsFinish = ArrayList<String>()
+        events.forEach {
+            val ref = FirebaseDatabase.getInstance().getReference("events/$it")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if(dataSnapshot.child("finish").value == true){
+                        eventsFinish.add(it)
+                    }
+
+                    val alert = AlertDialogWithRatingBar(context, "You have to rate events")
+                    alert.create()
+                    alert.show()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
+    }
 }

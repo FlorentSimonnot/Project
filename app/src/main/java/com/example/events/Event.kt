@@ -40,7 +40,9 @@ data class Event (
     var description: String = "",
     var privacy : Privacy = Privacy.INIT,
     var creator : String = "",
-    var participants : HashMap<String, Status> = HashMap()
+    var participants : HashMap<String, Status> = HashMap(),
+    var finish : Boolean = false,
+    var note : Double = 0.0
     ) {
 
     private val session = SessionUser()

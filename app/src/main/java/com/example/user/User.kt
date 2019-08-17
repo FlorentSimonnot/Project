@@ -32,6 +32,7 @@ data class User(
     var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
     var eventsCreated : HashMap<String, String> = HashMap(),
     var eventsJoined : HashMap<String, Any> = HashMap(),
+    var eventsNoted : HashMap<String, Double> = HashMap(),
     var friends: HashMap<String, Any> = HashMap(),
     var notificationsParam : Notifications = Notifications()
 

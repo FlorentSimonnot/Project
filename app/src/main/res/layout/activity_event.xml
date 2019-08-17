@@ -62,10 +62,35 @@
                 android:background="#fff"
                 >
 
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/filters"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    >
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="All events"
+                        android:textSize="20sp"
+                        android:drawableLeft="@drawable/ic_filter"
+                        android:drawablePadding="15dp"
+                        android:id="@+id/selectFilter"
+                        />
+
+            </LinearLayout>
+
             <ListView
                     android:id="@+id/listViewEvents"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@id/filters"
+                    android:layout_marginTop="20dp"
                     >
 
             </ListView>
@@ -85,6 +110,7 @@
                         android:fontFamily="@font/rubik"
                         android:textSize="22sp"
                         android:gravity="center"
+                        android:layout_marginTop="100dp"
                         />
             </RelativeLayout>
 

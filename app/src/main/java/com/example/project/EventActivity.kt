@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ListView
+import android.widget.NumberPicker
 import android.widget.TextView
 import androidx.core.view.forEach
+import androidx.core.view.get
 import com.example.arrayAdapterCustom.ArrayAdapterEvents
 import com.example.arrayAdapterCustom.ArrayAdapterFriends
 import com.example.events.Event
+import com.example.picker.StringPickerCustom
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
@@ -19,15 +22,31 @@ import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.*
 
-class EventActivity : AppCompatActivity() {
+class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.OnValueChangeListener {
+    override fun onValueChange(p0: NumberPicker?, p1: Int, p2: Int) {
+        if(p0?.maxValue == 2){
+            filter.text = valuesFilter[p0?.value]
+            filterValue = p0?.value
+            eventsList(this)
+        }
+    }
+
     var session = SessionUser()
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView
+    private lateinit var filter : TextView
+    private var valuesFilter = arrayOf("All events", "Only finished events", "Only next events")
+    private var filterValue = 0
+    private var joinedView = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
+
+        val infos : Bundle? = intent.extras
+        joinedView = infos?.getString("joinedView").toString().toBoolean()
+        println("DHDH : ${infos}")
 
         tab = findViewById(R.id.tab)
         tab.forEach {
@@ -49,11 +68,15 @@ class EventActivity : AppCompatActivity() {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 when(p0?.position){
                     0 -> {
+                        filterValue = 0
+                        filter.text = valuesFilter[filterValue]
                         eventsList(applicationContext)
                         supportActionBar?.title = "Events created"
                     }
                     1 ->{
-                       eventsJoinedList(applicationContext)
+                        filterValue = 0
+                        filter.text = valuesFilter[filterValue]
+                        eventsJoinedList(applicationContext)
                         supportActionBar?.title = "Events joined"
                     }
                 }
@@ -63,8 +86,22 @@ class EventActivity : AppCompatActivity() {
 
         noResults = findViewById(R.id.noResults)
         listView = findViewById(R.id.listViewEvents)
+        filter = findViewById(R.id.selectFilter)
 
-        eventsList(this)
+        filter.setOnClickListener(this)
+        filter.text = valuesFilter[0]
+
+        println("JoinedView : $joinedView")
+
+        if(joinedView){
+            val item = tab.getTabAt(1)
+            item?.isSelected
+            supportActionBar?.title = "Events joined"
+            eventsJoinedList(this)
+        }
+        else {
+            eventsList(this)
+        }
     }
 
     private fun eventsList(context: Context){
@@ -76,8 +113,7 @@ class EventActivity : AppCompatActivity() {
                 data.forEach {
                     events.add(it.key)
                 }
-                println("EVENTS KEY : ${events}")
-                searchEvents(context, events, "created")
+                searchEvents(context, events, "created", filterValue)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -93,14 +129,14 @@ class EventActivity : AppCompatActivity() {
                 data.forEach {
                     events.add(it.key)
                 }
-                searchEvents(context, events, "joined")
+                searchEvents(context, events, "joined", 0)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchEvents(context: Context, participants : ArrayList<String?>, action : String) {
+    private fun searchEvents(context: Context, participants : ArrayList<String?>, action : String, filter : Int) {
         val ref = FirebaseDatabase.getInstance().getReference("events")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -111,11 +147,22 @@ class EventActivity : AppCompatActivity() {
                     //Add event in list if it isn't null
                     if (event != null) {
                         if (participants.contains(it.key)) {
-                            events.add(event)
+                            when(filter){
+                                0 -> events.add(event)
+                                1 -> {
+                                    if(event.finish){
+                                        events.add(event)
+                                    }
+                                }
+                                2 -> {
+                                    if(!event.finish){
+                                        events.add(event)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                println("EVENTS : ${events}")
                 if (events.size > 0) {
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
@@ -187,4 +234,15 @@ class EventActivity : AppCompatActivity() {
         startActivity(intent)
         return true
     }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.selectFilter -> {
+                val privacyPicker = StringPickerCustom(0, 2, "Filter", "select categorie of event", valuesFilter)
+                privacyPicker.setValueChangeListener(this)
+                privacyPicker.show(supportFragmentManager, "Filter picker")
+            }
+        }
+    }
+
 }
