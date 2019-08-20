@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(logInIntent)
         }
 
-        searchEvent(this)
+        //searchEvent(this)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)

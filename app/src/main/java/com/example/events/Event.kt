@@ -410,7 +410,7 @@ data class Event (
     fun deleteParticipation(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+        val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
         refUser.removeValue()
         //Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
     }

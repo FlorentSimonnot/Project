@@ -13,6 +13,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".Dialog">
+        </activity>
+        <activity android:name=".ListUserSendMessage">
+        </activity>
         <activity android:name=".MessagerieActivity">
         </activity>
         <activity android:name=".NotificationPushActivity">

@@ -1,5 +1,6 @@
 package com.example.session
 
+import androidx.appcompat.app.ActionBar
 import android.content.Context
 import android.content.Intent
 import android.widget.ImageView
@@ -109,6 +110,21 @@ class SessionUser{
                     }
                 }
         }
+    }
+
+    fun writeNameUserDiscussion(context: Context, uid: String?, supportActionBar: ActionBar){
+        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    supportActionBar.title = "${value.firstName} ${value.name}"
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
     }
 
     fun writeInfoUser(context: Context, uid: String?, textView: TextView, action: String) {
