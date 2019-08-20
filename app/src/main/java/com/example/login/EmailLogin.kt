@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import com.example.project.MainActivity
+import com.example.session.SessionUser
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.iid.FirebaseInstanceId
 
 class EmailLogin (private val context : Context,
                   private val email : String = "",
@@ -17,7 +20,16 @@ class EmailLogin (private val context : Context,
             .addOnCompleteListener() {
                 result = it.isSuccessful
                 if(result){
-                    println("EASY !!!")
+                    FirebaseInstanceId.getInstance().instanceId
+                        .addOnCompleteListener {
+                            if(!it.isSuccessful){
+                                println("ERRRORRRR")
+                            }
+                            val session = SessionUser()
+                            val token = it.result?.token
+                            val ref = FirebaseDatabase.getInstance().getReference("users")
+                            ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)
+                        }
                     val intent = Intent(context, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)
