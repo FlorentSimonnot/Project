@@ -51,7 +51,7 @@ class ParticipantsActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.child("status").value == "confirmed"){
+                    if(it.child("status").value == "confirmed" || it.child("status").value == "creator"){
                         participants.add(it.key)
                     }
                 }

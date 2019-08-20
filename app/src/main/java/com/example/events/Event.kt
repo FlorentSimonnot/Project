@@ -58,11 +58,12 @@ data class Event (
     fun insertEvent(){
         //Add into events table
         val ref = FirebaseDatabase.getInstance().getReference("events/${this.key}")
-        val status = Status("status", "confirmed")
-        participants.put(creator, status)
         ref.setValue(this)
             .addOnSuccessListener {
-                println("DATA INSERTED !!!!")
+                val refU = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
+                refU.child("status").setValue("creator").addOnSuccessListener {
+                    //Ok
+                }
             }
         //Add into user createEvent
         val refUser = FirebaseDatabase.getInstance().getReference("users/$creator/eventsCreated/${this.key}")
@@ -159,6 +160,7 @@ data class Event (
                                     res++
                                 }
                             }
+                            res++
                             textView.text ="$res"
                         }
                         "waiting" -> {
@@ -219,10 +221,12 @@ data class Event (
                             val userWithKey = UserWithKey(value, uid)
                             if (value.privacyAccount == PrivacyAccount.Public) {
                                 val intent = Intent(context, PublicUserActivity::class.java)
+                                println("TES QUI : $userWithKey")
                                 intent.putExtra("user", userWithKey)
                                 context.startActivity(intent)
                             }
                             else {
+                                println("TES QUI : $userWithKey")
                                 val intent = Intent(context, PrivateUserActivity::class.java)
                                 intent.putExtra("user", userWithKey)
                                 context.startActivity(intent)
@@ -259,44 +263,6 @@ data class Event (
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
-    }
-
-    fun writeEventsParticipants(context: Context, textView: TextView, keyEvent : String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$keyEvent/participants")
-        var friends = 0
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                println("HIER")
-                data.forEach {
-                    println("DATA I : $it")
-                    if(it.child("status").value == "confirmed"){
-                        friends++
-                    }
-                }
-                textView.text = "${friends.toString()}"
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    fun writeEventsPeopleWaiting(context: Context, textView: TextView, keyEvent : String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/${keyEvent}/participants")
-        var friends = 0
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                data.forEach {
-                    if(it.child("status").value == "waiting"){
-                        friends++
-                    }
-                }
-                textView.text = "${friends.toString()}"
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
     }
 
     /**
