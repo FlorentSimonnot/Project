@@ -12,6 +12,7 @@ import com.example.session.SessionUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.iid.FirebaseInstanceId
 import com.squareup.picasso.Picasso
 import java.io.Serializable
 import java.util.*
@@ -62,7 +63,16 @@ data class User(
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.setValue(this)
             .addOnSuccessListener {
-                //Done
+                FirebaseInstanceId.getInstance().instanceId
+                    .addOnCompleteListener {
+                        if(!it.isSuccessful){
+                            println("ERRRORRRR")
+                        }
+                        val session = SessionUser()
+                        val token = it.result?.token
+                        val ref = FirebaseDatabase.getInstance().getReference("users")
+                        ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)
+                    }
             }
 
     }

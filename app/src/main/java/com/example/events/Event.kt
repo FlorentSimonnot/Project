@@ -273,7 +273,7 @@ data class Event (
      */
     fun deleteEvent(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+        /*ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 //Error
             }
@@ -287,7 +287,7 @@ data class Event (
                 }
             }
 
-        })
+        })*/
         ref.removeValue()
         val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
