@@ -412,10 +412,10 @@ class SessionUser{
 
     fun acceptFriend(ctx: Context, userKey: String?) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
-        val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
+        //val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
 
         ref.child("status").setValue("friend")
-        refMutual.child("status").setValue("friend")
+        //refMutual.child("status").setValue("friend")
 
         Toast.makeText(ctx, "You have accepted this user as friend :)", Toast.LENGTH_SHORT).show()
     }
@@ -427,10 +427,10 @@ class SessionUser{
     }
     fun deleteFriend(ctx: Context, userKey: String?) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
-        val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
+        //val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
 
         ref.removeValue()
-        refMutual.removeValue()
+        //refMutual.removeValue()
         Toast.makeText(ctx, "You have refused this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 

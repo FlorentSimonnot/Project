@@ -422,34 +422,6 @@
                         />
 
             </LinearLayout>
-            <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/refuse"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    >
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:gravity="center"
-                        android:fontFamily="@font/rubik"
-                        android:textSize="38sp"
-                        android:textColor="#f8c291"
-                        android:id="@+id/refuse_number"
-                        />
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Refuse"
-                        android:gravity="center"
-                        android:fontFamily="@font/rubik"
-                        />
-
-            </LinearLayout>
 
         </LinearLayout>
 

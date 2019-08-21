@@ -105,7 +105,7 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
             this,
             keyEvent,
             participantsNumber,
-            "participe"
+            "participant"
         ).toString()
 
         Event().writeInfoEvent(

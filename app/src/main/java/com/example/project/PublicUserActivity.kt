@@ -3,6 +3,7 @@ package com.example.project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.view.forEach
@@ -13,10 +14,12 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_next_sign_in_jojo.*
 import java.lang.StringBuilder
 
-class PublicUserActivity : AppCompatActivity() {
+class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
+
     lateinit var user: UserWithKey
     var session = SessionUser()
     lateinit var tab : TabLayout
+    lateinit var userKey : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +30,7 @@ class PublicUserActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val infos : Bundle? = intent.extras
-        val userKey = infos?.getString("user").toString()
+        userKey = infos?.getString("user").toString()
 
         tab = findViewById(R.id.tab)
 
@@ -35,31 +38,21 @@ class PublicUserActivity : AppCompatActivity() {
 
         val identityTextView = findViewById<TextView>(R.id.identity)
         val descriptionTextView = findViewById<TextView>(R.id.description)
+        val addFriendButton = findViewById<Button>(R.id.add_friend_button)
 
         SessionUser().writeInfoUser(this, userKey, identityTextView, "identity")
         SessionUser().writeInfoUser(this, userKey, descriptionTextView, "describe")
-        /*var identityBuilder = StringBuilder()
-        val eventCreatedTextView = findViewById<TextView>(R.id.events_created_textview)
-        val eventJoinedTextView = findViewById<TextView>(R.id.events_joined_textview)
-        val sexTextView = findViewById<TextView>(R.id.user_sex_textview)
-        val birthdayTextView = findViewById<TextView>(R.id.user_birthday_textview)
-        val cityTextView = findViewById<TextView>(R.id.city_textview)
-        val descriptionTextView = findViewById<TextView>(R.id.description_textview)
-        val addButton = findViewById<Button>(R.id.add_button)*/
 
-        /*identityBuilder.append(user.user.firstName).append(" ").append(user.user.name)
-        identityTextView.text = identityBuilder
+        addFriendButton.setOnClickListener(this)
+    }
 
-        eventCreatedTextView.text = user.user.eventsCreated.size.toString()
-        eventJoinedTextView.text = user.user.eventsJoined.size.toString()
-        sexTextView.text = user.user.sex.toString()
-        birthdayTextView.text = user.user.birthday
-        cityTextView.text = user.user.city
-        descriptionTextView.text = user.user.description
-
-        addButton.setOnClickListener {
-            user.addFriend(session)
-        }*/
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.add_friend_button -> {
+                var userWithKey = UserWithKey(User(), userKey)
+                userWithKey.addFriend(SessionUser())
+            }
+        }
     }
 }
 

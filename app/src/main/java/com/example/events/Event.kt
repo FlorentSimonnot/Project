@@ -66,11 +66,11 @@ data class Event (
                 }
             }
         //Add into user createEvent
-        val refUser = FirebaseDatabase.getInstance().getReference("users/$creator/eventsCreated/${this.key}")
+        /*val refUser = FirebaseDatabase.getInstance().getReference("users/$creator/eventsCreated/${this.key}")
         refUser.setValue(this.name)
             .addOnSuccessListener {
                 println("DATA INSERTED !!!!")
-            }
+            }*/
     }
 
     fun writePlace(context: Context, key: String?, autocompleteFragment : AutocompleteSupportFragment){
@@ -162,6 +162,7 @@ data class Event (
                             }
                             res++
                             textView.text ="$res"
+                            println("PARTICIPANTS $res")
                         }
                         "waiting" -> {
                             var res = 0
@@ -172,14 +173,9 @@ data class Event (
                                 }
                             }
                             textView.text = "$res"
+                            println("WAITING $res")
                         }
                         "freePlace"  -> {
-                            /*var count = 0
-                            value.participants.forEach{
-                                if(it.value == "confirmed"){
-                                    count++
-                                }
-                            }*/
                             textView.text = "${value.nb_people - value.participants.size} free places"
                         }
                         "description" -> textView.text = value.description
@@ -301,12 +297,22 @@ data class Event (
      * @param key : the key of event
      * @param session : the current session user wanted to be add
      */
-    fun participateEvent(context: Context, key : String?, session : SessionUser){
+    fun participateEvent(
+        context: Context,
+        key : String?,
+        session : SessionUser
+        ){
         /* Add in event participants */
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.child("status").setValue("waiting").addOnSuccessListener {
+            //val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
+            //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            //intent.putExtra("key", key)
+            //EventInfoJojoActivity::finish
+            //context.startActivity(intent)
+            Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
             /* Add in user events joined */
-            val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+            /*val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
             refUser.child("status").setValue("waiting").addOnSuccessListener {
                 val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -314,7 +320,7 @@ data class Event (
                 EventInfoJojoActivity::finish
                 context.startActivity(intent)
                 Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
-            }
+            }*/
         }
     }
 
@@ -327,7 +333,14 @@ data class Event (
     fun cancelParticipation(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.removeValue().addOnSuccessListener {
-            val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
+            val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            intent.putExtra("key", key)
+            EventInfoJojoActivity::finish
+            context.startActivity(intent)
+            Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
+
+            /*val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
             refUser.removeValue().addOnSuccessListener {
                 val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -335,7 +348,7 @@ data class Event (
                 EventInfoJojoActivity::finish
                 context.startActivity(intent)
                 Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
-            }
+            }*/
         }
     }
 
@@ -348,8 +361,8 @@ data class Event (
     fun confirmParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.child("status").setValue("confirmed")
-        val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        refUser.child("status").setValue("confirmed")
+        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
+        //refUser.child("status").setValue("confirmed")
         Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
     }
 
@@ -362,8 +375,8 @@ data class Event (
     fun refuseParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        val refUser = FirebaseDatabase.getInstance().getReference("users/$user}/eventsJoined/$key")
-        refUser.removeValue()
+        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user}/eventsJoined/$key")
+        //refUser.removeValue()
         Toast.makeText(context, "You have refuse !", Toast.LENGTH_SHORT).show()
     }
 
@@ -376,16 +389,17 @@ data class Event (
     fun deleteParticipation(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        refUser.removeValue()
-        //Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
+        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
+        //refUser.removeValue()
+        Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
     }
 
     fun inviteFriend(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.child("status").setValue("invitation")
-        val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        refUser.child("status").setValue("invitation")
+        Toast.makeText(context, "You have invite user !", Toast.LENGTH_SHORT).show()
+        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
+        //refUser.child("status").setValue("invitation")
     }
 
     fun getButton(context: Context, key: String?,
