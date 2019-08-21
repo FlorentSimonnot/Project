@@ -65,12 +65,10 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
 
         val participantsButton = findViewById<LinearLayout>(R.id.participants)
         val waitingButton = findViewById<LinearLayout>(R.id.waiting)
-        val refuseButton = findViewById<LinearLayout>(R.id.refuse)
         val accessibility = findViewById<LinearLayout>(R.id.accessibility)
 
         participantsButton.setOnClickListener(this)
         waitingButton.setOnClickListener(this)
-        refuseButton.setOnClickListener(this)
         editEventButton.setOnClickListener(this)
         deleteEventButton.setOnClickListener(this)
         accessibility.setOnClickListener(this)
@@ -197,9 +195,6 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
                 finish()
                 startActivity(intent)
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-            }
-            R.id.refuse ->{
-
             }
             R.id.delete ->{
                 val deleteEventAlertDialog = AlertDialog.Builder(this)

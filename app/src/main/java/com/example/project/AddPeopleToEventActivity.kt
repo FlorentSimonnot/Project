@@ -13,6 +13,7 @@ import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
 import com.google.firebase.database.*
+import java.sql.DriverManager.println
 
 class AddPeopleToEventActivity : AppCompatActivity() {
     val session = SessionUser()
@@ -41,13 +42,15 @@ class AddPeopleToEventActivity : AppCompatActivity() {
     private fun createUsersParticipe(context: Context, key: String){
         val ref = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/friends")
         val participants : ArrayList<String?> = ArrayList()
+        println("BONJOUR !!!")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val refEvent = FirebaseDatabase.getInstance().getReference("events/$key/participants")
+                /*val refEvent = FirebaseDatabase.getInstance().getReference("events/$key/participants")
                 refEvent.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(p0: DataSnapshot) {
-                        val data = dataSnapshot.children //For each friend
+                        val data = dataSnapshot.children
                         val dataParticipants = p0.children
+                        println("PARTICIPANTS   $dataParticipants")
                         val keysParticipants = ArrayList<String>()
                         dataParticipants.forEach {
                             keysParticipants.add(it.key!!)
@@ -55,15 +58,31 @@ class AddPeopleToEventActivity : AppCompatActivity() {
                         println("keysPa : $keysParticipants")
                         data.forEach {
                             println("IT : $it")
-                            if(!keysParticipants.contains(it.key)){
-                                participants.add(it.key)
+                            if(keysParticipants.contains(it.key!!)){
+                                val index = keysParticipants.indexOf(it.key!!)
+                                val elem = keysParticipants[index]
+                                println("ELEMN $elem")
+                                val refP = FirebaseDatabase.getInstance().getReference("events/$key/participants/$elem")
+                                refP.addValueEventListener(object : ValueEventListener {
+                                    override fun onCancelled(p0: DatabaseError) {
+                                        //Nothing
+                                    }
+
+                                    override fun onDataChange(p2: DataSnapshot) {
+                                        val value = p2.value
+                                        println("VALUE $value")
+                                        participants.add(it.key)
+                                    }
+                                })
                             }
                         }
                         searchUser(context, participants)
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {}
-                })
+                })*/
+                val data = dataSnapshot.children
+                println("DATA $data")
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

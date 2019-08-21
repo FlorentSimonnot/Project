@@ -300,7 +300,10 @@ data class Event (
     fun participateEvent(
         context: Context,
         key : String?,
-        session : SessionUser
+        session : SessionUser,
+        buttonToHide : Button,
+        buttonToShow : Button,
+        textView: TextView
         ){
         /* Add in event participants */
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
@@ -310,6 +313,9 @@ data class Event (
             //intent.putExtra("key", key)
             //EventInfoJojoActivity::finish
             //context.startActivity(intent)
+            buttonToHide.visibility = View.GONE
+            buttonToShow.visibility = View.VISIBLE
+            textView.text = "${textView.text.toString().toInt()+1}"
             Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
             /* Add in user events joined */
             /*val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
@@ -330,14 +336,19 @@ data class Event (
      * @param key : the key of event
      * @param session : the current session user
      */
-    fun cancelParticipation(context: Context, key : String?, session : SessionUser){
+    fun cancelParticipation(
+        context: Context,
+        key : String?,
+        session : SessionUser,
+        buttonToHide : Button,
+        buttonToShow : Button,
+        textView: TextView
+    ){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.removeValue().addOnSuccessListener {
-            val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            intent.putExtra("key", key)
-            EventInfoJojoActivity::finish
-            context.startActivity(intent)
+            buttonToHide.visibility = View.GONE
+            buttonToShow.visibility = View.VISIBLE
+            textView.text = "${textView.text.toString().toInt()-1}"
             Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
 
             /*val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")

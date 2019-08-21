@@ -30,6 +30,9 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
     private val session = SessionUser()
     private var mMap: GoogleMap? = null
     private lateinit var keyEvent : String
+    private lateinit var participeEventButton : Button
+    private lateinit var cancelParticipationEventButton : Button
+    private lateinit var waitingNumber : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,12 +57,12 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
         val freePlace = findViewById<TextView>(R.id.participants_number)
         val place = findViewById<TextView>(R.id.place)
         val participantsNumber = findViewById<TextView>(R.id.participant_number)
-        val waitingNumber = findViewById<TextView>(R.id.waiting_number)
+        waitingNumber = findViewById<TextView>(R.id.waiting_number)
         val noteTextView = findViewById<TextView>(R.id.note_event)
         val ratingBar  = findViewById<RatingBar>(R.id.ratingBar)
 
-        val participeEventButton = findViewById<Button>(R.id.button_participate)
-        val cancelParticipationEventButton = findViewById<Button>(R.id.button_cancel)
+        participeEventButton = findViewById(R.id.button_participate)
+        cancelParticipationEventButton = findViewById<Button>(R.id.button_cancel)
         val fullTextViex = findViewById<TextView>(R.id.full_event)
         participeEventButton.setOnClickListener(this)
         cancelParticipationEventButton.setOnClickListener(this)
@@ -172,10 +175,10 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
     override fun onClick(p0: View?) {
         when(p0?.id){
             R.id.button_participate -> {
-                Event().participateEvent(this, keyEvent, session)
+                Event().participateEvent(this, keyEvent, session, participeEventButton, cancelParticipationEventButton, waitingNumber)
             }
             R.id.button_cancel -> {
-                Event().cancelParticipation(this, keyEvent, session)
+                Event().cancelParticipation(this, keyEvent, session, cancelParticipationEventButton, participeEventButton, waitingNumber)
             }
         }
     }
