@@ -222,13 +222,13 @@ data class Event (
                             if (value.privacyAccount == PrivacyAccount.Public) {
                                 val intent = Intent(context, PublicUserActivity::class.java)
                                 println("TES QUI : $userWithKey")
-                                intent.putExtra("user", userWithKey)
+                                intent.putExtra("user", uid)
                                 context.startActivity(intent)
                             }
                             else {
                                 println("TES QUI : $userWithKey")
                                 val intent = Intent(context, PrivateUserActivity::class.java)
-                                intent.putExtra("user", userWithKey)
+                                intent.putExtra("user", uid)
                                 context.startActivity(intent)
 
                             }

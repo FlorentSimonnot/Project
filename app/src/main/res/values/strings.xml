@@ -31,4 +31,7 @@
     <string name="title_activity_event_info">EventInfoActivity</string>
 
     <string name="describe_privacy">With choosing private privacy users can only see your name or your events created and joined</string>
+    <string name="description_test">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum velit eget felis tempus, a fringilla mi feugiat. Nullam ac augue ut sapien pharetra tincidunt. Praesent luctus nisi ut risus consequat pulvinar. Pellentesque hendrerit vitae sed.
+    </string>
 </resources>

@@ -10,14 +10,17 @@ import com.example.user.UserWithKey
 import java.lang.StringBuilder
 
 class PrivateUserActivity : AppCompatActivity() {
-    lateinit var user: UserWithKey
+    lateinit var user: User
     var session : SessionUser = SessionUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_private_user)
 
-        user = intent.getSerializableExtra("user") as UserWithKey
+        val infos : Bundle? = intent.extras
+        val userKey = infos?.getString("user").toString()
+
+        /*user = intent.getSerializableExtra("user") as UserWithKey
 
         val identityTextView = findViewById<TextView>(R.id.identity_private_user)
         var identityBuilder = StringBuilder()
@@ -34,7 +37,7 @@ class PrivateUserActivity : AppCompatActivity() {
 
         addButton.setOnClickListener {
             user.addFriend(session)
-        }
+        }*/
 
     }
 }
