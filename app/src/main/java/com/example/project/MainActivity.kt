@@ -71,13 +71,8 @@ class MainActivity : AppCompatActivity() {
         //val btnSignOut : Button = findViewById(R.id.btnSignOut)
 
         btnSearch.setOnClickListener {
-            val modal : LinearLayout = findViewById(R.id.search_layout)
-            if(modal.alpha == 1F){
-                modal.alpha = 0F
-            }
-            else{
-                modal.alpha = 1F
-            }
+            val intent = Intent(this, SearchBarActivity::class.java)
+            startActivity(intent)
         }
 
         btnSettings.setOnClickListener {

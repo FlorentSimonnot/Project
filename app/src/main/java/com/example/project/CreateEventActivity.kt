@@ -105,8 +105,10 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
         }
 
         autoCompleteSport.setOnClickListener{
-            dialogSport.createAlertDialog()
-            dialogSport.showDialog()
+            val intent = Intent(this, SportActivity::class.java)
+            startActivity(intent)
+            //dialogSport.createAlertDialog()
+            //dialogSport.showDialog()
         }
 
         val buttonCreate : Button = findViewById(R.id.create_event)

@@ -13,6 +13,10 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".SportActivity">
+        </activity>
+        <activity android:name=".SearchBarActivity">
+        </activity>
         <activity android:name=".Dialog">
         </activity>
         <activity android:name=".ListUserSendMessage">
