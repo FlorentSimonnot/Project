@@ -31,7 +31,6 @@
                 android:id="@+id/layout_listView"
                 android:layout_below="@id/toolbar"
                 tools:ignore="MissingConstraints"
-                android:padding="10dp"
                 android:orientation="vertical"
                 >
             <ListView

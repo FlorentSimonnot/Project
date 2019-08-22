@@ -413,6 +413,14 @@ data class Event (
         //refUser.child("status").setValue("invitation")
     }
 
+    fun deleteInvitationEvent(context: Context, key: String?, user: String){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
+        ref.removeValue()
+        Toast.makeText(context, "You have cancel your invitation !", Toast.LENGTH_SHORT).show()
+        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
+        //refUser.child("status").setValue("invitation")
+    }
+
     fun getButton(context: Context, key: String?,
                   button_participe: Button,
                   button_cancel : Button,

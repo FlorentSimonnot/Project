@@ -65,31 +65,9 @@
             android:id="@+id/layoutEventsView"
             tools:ignore="MissingConstraints">
         <TextView
-                android:id="@+id/numberOfInvitations"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="You have 5 invitations for events"
-                android:fontFamily="@font/rubik"
-                android:gravity="center"
-                />
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@id/numberOfInvitations"
-                android:layout_marginTop="6dp"
-                android:id="@+id/separator"
-                android:background="@color/colorPrimary"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal"
-                >
-
-        </LinearLayout>
-        <TextView
                 android:id="@+id/comingSoon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/separator"
                 android:text="Coming soon.."
                 android:padding="10dp"
                 android:fontFamily="@font/rubik"

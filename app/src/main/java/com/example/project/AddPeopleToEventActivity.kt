@@ -12,6 +12,7 @@ import com.example.arrayAdapterCustom.ArrayAdapterInviteFriends
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
+import com.example.user.UserWithKeyAndStatus
 import com.google.firebase.database.*
 import java.sql.DriverManager.println
 
@@ -42,65 +43,67 @@ class AddPeopleToEventActivity : AppCompatActivity() {
     private fun createUsersParticipe(context: Context, key: String){
         val ref = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/friends")
         val participants : ArrayList<String?> = ArrayList()
-        println("BONJOUR !!!")
+        val status : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                /*val refEvent = FirebaseDatabase.getInstance().getReference("events/$key/participants")
+                val refEvent = FirebaseDatabase.getInstance().getReference("events/$key/participants")
                 refEvent.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(p0: DataSnapshot) {
-                        val data = dataSnapshot.children
+                        val friends = dataSnapshot.children //friend
                         val dataParticipants = p0.children
-                        println("PARTICIPANTS   $dataParticipants")
+
                         val keysParticipants = ArrayList<String>()
                         dataParticipants.forEach {
                             keysParticipants.add(it.key!!)
                         }
-                        println("keysPa : $keysParticipants")
-                        data.forEach {
-                            println("IT : $it")
+
+                        friends.forEach {
+                            //Friend is already in participation
                             if(keysParticipants.contains(it.key!!)){
-                                val index = keysParticipants.indexOf(it.key!!)
-                                val elem = keysParticipants[index]
-                                println("ELEMN $elem")
-                                val refP = FirebaseDatabase.getInstance().getReference("events/$key/participants/$elem")
+                                val refP = FirebaseDatabase.getInstance().getReference("events/$key/participants/${it.key}")
                                 refP.addValueEventListener(object : ValueEventListener {
                                     override fun onCancelled(p0: DatabaseError) {
                                         //Nothing
                                     }
 
                                     override fun onDataChange(p2: DataSnapshot) {
-                                        val value = p2.value
-                                        println("VALUE $value")
-                                        participants.add(it.key)
+                                        val value = p2.child("status").value
+                                        if(value == "invitation"){
+                                            participants.add(it.key)
+                                            status.add("already")
+                                        }
                                     }
                                 })
                             }
+                            else{
+                                participants.add(it.key)
+                                status.add("no")
+                            }
                         }
-                        searchUser(context, participants)
+                        searchUser(context, participants, status)
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {}
-                })*/
-                val data = dataSnapshot.children
-                println("DATA $data")
+                })
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchUser(context: Context, participants : ArrayList<String?>){
+    private fun searchUser(context: Context, participants : ArrayList<String?>, status : ArrayList<String?>){
         val ref = FirebaseDatabase.getInstance().getReference("users")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each user
-                val usersWaiting : ArrayList<UserWithKey> = ArrayList()
-                data.forEach {
+                val usersWaiting : ArrayList<UserWithKeyAndStatus> = ArrayList()
+                data.forEachIndexed{ index, it ->
                     val user = it.getValue(User::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
                     if(user != null){
                         if(participants.contains(it.key)){
-                            usersWaiting.add(UserWithKey(user, it.key))
+                            val i = participants.indexOf(it.key)
+                            usersWaiting.add(UserWithKeyAndStatus(user, it.key, status[i]!!))
                         }
                     }
                 }
@@ -115,7 +118,7 @@ class AddPeopleToEventActivity : AppCompatActivity() {
                     )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter
-                    val dref = FirebaseDatabase.getInstance().reference;
+                    val dref = FirebaseDatabase.getInstance().reference
                     dref.addChildEventListener(object : ChildEventListener {
                         override fun onCancelled(p0: DatabaseError) {
                             //
@@ -134,7 +137,7 @@ class AddPeopleToEventActivity : AppCompatActivity() {
                         }
 
                         override fun onChildRemoved(p0: DataSnapshot) {
-                            //
+                            createUsersParticipe(context, keyEvent)
                         }
                     })
                 }
