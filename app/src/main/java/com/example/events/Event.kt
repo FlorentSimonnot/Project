@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.io.Serializable
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.HashMap
@@ -44,7 +45,7 @@ data class Event (
     var participants : HashMap<String, Status> = HashMap(),
     var finish : Boolean = false,
     var note : Double = 0.0
-    ) {
+    ) : Serializable {
 
     private val session = SessionUser()
 

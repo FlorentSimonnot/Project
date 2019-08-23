@@ -24,118 +24,127 @@ import kotlin.collections.ArrayList
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import android.R.attr.apiKey
+import android.annotation.SuppressLint
 import android.app.*
+import android.util.Log
 import com.example.dialog.AlertDialogCustom
+import com.example.events.EventFirstStep
+import com.example.picker.NumberPickerCustom
+import com.example.picker.StringPickerCustom
 import com.google.android.gms.common.api.Status
-import com.google.android.libraries.places.api.model.Place
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.libraries.places.api.model.*
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import java.util.Arrays.asList
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import kotlinx.android.synthetic.main.activity_create_event.*
+import kotlinx.android.synthetic.main.activity_event_info_jojo.*
 
 
+class CreateEventActivity : AppCompatActivity(),
+    TimePickerDialog.OnTimeSetListener,
+    DatePickerDialog.OnDateSetListener,
+    NumberPicker.OnValueChangeListener  {
 
+    private var event = EventFirstStep()
 
-
-
-
-class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
-
-    private var sportList : ArrayList<Sport> = ArrayList()
+    private lateinit var name : EditText
+    private lateinit var date : TextView
+    private lateinit var time : TextView
     private lateinit var autoCompleteSport : TextView
-    private lateinit var listView : ListView
-    private val API_KEY = "AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
+    private lateinit var place : TextView
+    private lateinit var peopleNumber : TextView
+    private lateinit var description : EditText
+    private lateinit var privacy : TextView
+    private lateinit var stringPrivacy : Array<String>
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
+    private val apiKey = "AIzaSyAOWv25i-loOcpNvUqCvJ9oe7LkVp8FGrw"
     private var placeId : String? = ""
-    private lateinit var dialogSport : AlertDialogCustom
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
 
-        // Initialize the SDK
-        Places.initialize(applicationContext, API_KEY)
-        // Create a new Places client instance
-        val placesClient = Places.createClient(this)
-        // Initialize the AutocompleteSupportFragment.
-        val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
-        autocompleteFragment?.setHint("Search your place")
-
-
-        // Specify the types of place data to return.
-        autocompleteFragment!!.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME))
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onError(p0: Status) {
-                println("AN ERROR OCCURED $p0")
-                placeId = ""
-            }
-
-            override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
-                placeId = place.id
-            }
-
-        })
-
+        name = findViewById(R.id.name_event)
         autoCompleteSport = findViewById(R.id.sport)
-        createSportList()
-        //Init sdialog sport
-        dialogSport = AlertDialogCustom(this, R.layout.list_item_sport, sportList, "Choose sport", autoCompleteSport)
+        date = findViewById(R.id.date)
+        time = findViewById(R.id.time)
+        place = findViewById(R.id.place)
+        peopleNumber = findViewById(R.id.numberPeople)
+        description = findViewById(R.id.description)
+        privacy = findViewById(R.id.privacy_event)
 
-        val time = findViewById<TextView>(R.id.time)
+        stringPrivacy = arrayOf("Public", "Private", "Only invitation")
+
+        Places.initialize(applicationContext, apiKey);
+
+        // Create a new Places client instance.
+        val placesClient = Places.createClient(this);
+
+        if(intent.hasExtra("event")){
+            event = intent.getSerializableExtra("event") as EventFirstStep
+            initializeFields()
+        }
+        else{
+            initializeFields()
+        }
+
         time.setOnClickListener {
             val timePicker = TimePicker()
             timePicker.show(supportFragmentManager, "Choose time")
         }
 
-        val date = findViewById<TextView>(R.id.date)
         date.setOnClickListener {
             val datePicker = DatePicker()
             datePicker.show(supportFragmentManager, "Choose date")
         }
 
-        val cancelBtn = findViewById<Button>(R.id.btnCancelDialog)
-        cancelBtn.setOnClickListener {
-            findViewById<RelativeLayout>(R.id.dialog).alpha = 0F
-            findViewById<RelativeLayout>(R.id.bg).setBackgroundColor(R.color.colorGrey100)
-            findViewById<RelativeLayout>(R.id.infoLayout).alpha = 100F
-            listView = findViewById<ListView>(R.id.listView)
-            listView.adapter = null
-        }
-
         autoCompleteSport.setOnClickListener{
             val intent = Intent(this, SportActivity::class.java)
+            event.name = name.text.toString()
+            intent.putExtra("event", event)
             startActivity(intent)
-            //dialogSport.createAlertDialog()
-            //dialogSport.showDialog()
+        }
+
+        numberPeople.setOnClickListener {
+            val numberPicker = NumberPickerCustom(1, 22, "Choose max number people", "Select a value")
+            numberPicker.setValueChangeListener(this)
+            numberPicker.show(supportFragmentManager, "People picker")
+        }
+
+        privacy.setOnClickListener {
+            val numberPicker = StringPickerCustom(0, 2, "Choose max number people", "Select a value", stringPrivacy)
+            numberPicker.setValueChangeListener(this)
+            numberPicker.show(supportFragmentManager, "People picker")
+        }
+
+        place.setOnClickListener {
+            val token = AutocompleteSessionToken.newInstance();
+            // Use the builder to create a FindAutocompletePredictionsRequest.
+            val request = FindAutocompletePredictionsRequest.builder()
+                .setTypeFilter(TypeFilter.ADDRESS)
+                .setSessionToken(token)
+                .build();
+
         }
 
         val buttonCreate : Button = findViewById(R.id.create_event)
         buttonCreate.setOnClickListener {
-            val form = FormCreateEvent(
-                findViewById<EditText>(R.id.name_event).text.toString(),
-                findViewById<TextView>(R.id.sport).text.toString(),
-                findViewById<TextView>(R.id.date).text.toString(),
-                findViewById<TextView>(R.id.time).text.toString(),
-                placeId
-            )
-
-            if(form.isFormValid()){
-                val intent = Intent(this, CreateEventActivityStep2::class.java)
-                intent.putExtra("name", form.name)
-                intent.putExtra("place", form.place)
-                intent.putExtra("sport", form.sport)
-                intent.putExtra("date", form.date)
-                intent.putExtra("time", form.time)
-                startActivity(intent)
-            }
+            //event.insertEvent()
+            //startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
     override fun onTimeSet(p0: android.widget.TimePicker?, p1: Int, p2: Int) {
         val textView = findViewById<TextView>(R.id.time) as TextView
         textView.text = "${p1}:$p2"
+        event.time = textView.text.toString()
     }
 
     override fun onDateSet(p0: android.widget.DatePicker?, p1: Int, p2: Int, p3: Int) {
@@ -149,13 +158,68 @@ class CreateEventActivity : AppCompatActivity(), TimePickerDialog.OnTimeSetListe
 
         val textView = findViewById<View>(R.id.date) as TextView
         textView.text = currentDateString
+        event.date = textView.text.toString()
     }
 
+    private fun initializeFields(){
+        if(event.name.isNotEmpty()){
+            name.setText(event.name)
+        }
+        if(event.sport != Sport.INIT){
+            autoCompleteSport.text = event.sport.getNameSport()
+            autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(event.sport.getLogoSport(), 0, 0, 0)
+        }
+        if(event.place.isNotEmpty() || placeId!!.isNotEmpty()){
+            place.text = placeId
+        }
+        if(event.date.isNotEmpty()){
+            date.text = event.date
+        }
+        if(event.time.isNotEmpty()){
+            time.text = event.time
+        }
+        if(event.nbPeople > 0){
+            numberPeople.text = event.nbPeople.toString()
+        }
+        if(event.description.isNotEmpty()){
+            description.setText(event.description)
+        }
+        if(event.privacy != Privacy.INIT){
+            privacy.text = event.privacy.name
+        }
+    }
 
-    private fun createSportList(){
-        Sport.values().forEach{
-            if(it != Sport.INIT){
-                sportList.add(it)
+    override fun onValueChange(p0: NumberPicker?, p1: Int, p2: Int) {
+        if(p0 != null){
+            if(p0.maxValue == 22) {
+                numberPeople.text = p0.value.toString()
+            }
+            else{
+                privacy.text = stringPrivacy[p0.value]
+            }
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(data != null) {
+            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+                println("RESULT CODE ${resultCode}")
+                when (resultCode) {
+                    AUTOCOMPLETE_REQUEST_CODE -> {
+                        val p = Autocomplete.getPlaceFromIntent(data)
+                        placeId = p.id
+                        Toast.makeText(this, "$p", Toast.LENGTH_SHORT).show()
+                        place.text = p.name
+                        event.place = p.id!!
+                    }
+                    AutocompleteActivity.RESULT_ERROR -> {
+                        val status = Autocomplete.getStatusFromIntent(data)
+                        Toast.makeText(this, "$status", Toast.LENGTH_SHORT).show()
+                    }
+                    Activity.RESULT_CANCELED -> {
+                    }
+                }
             }
         }
     }

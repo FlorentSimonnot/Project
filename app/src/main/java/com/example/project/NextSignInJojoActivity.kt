@@ -1,9 +1,6 @@
 package com.example.project
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -19,7 +16,6 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.auth.FirebaseAuth
 import java.util.*
-import java.lang.reflect.Field
 import android.widget.TextView
 import android.widget.EditText
 import android.widget.NumberPicker
@@ -27,7 +23,6 @@ import com.example.picker.DatePickerCustom
 import com.example.user.PrivacyAccount
 import kotlinx.android.synthetic.main.activity_create_event.*
 import kotlinx.android.synthetic.main.activity_next_sign_in_jojo.*
-import org.w3c.dom.Text
 
 
 class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {

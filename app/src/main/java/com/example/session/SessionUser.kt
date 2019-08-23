@@ -21,11 +21,12 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
+import java.io.Serializable
 import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.HashMap
 
-class SessionUser{
+class SessionUser : Serializable{
     val user = FirebaseAuth.getInstance().currentUser
 
     /** isLogin verify if a user is connected

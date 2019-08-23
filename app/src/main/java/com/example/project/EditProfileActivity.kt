@@ -54,21 +54,6 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         cityEditText.setOnClickListener(this)
 
 
-        /*nameEditText.hint = session.writeInfoUser(
-            applicationContext,
-            session.getIdFromUser(),
-            nameEditText,
-            "name"
-        ).toString()
-
-        firstNameEditText.hint = session.writeInfoUser(
-            applicationContext,
-            session.getIdFromUser(),
-            firstNameEditText,
-            "firstName"
-        ).toString()*/
-
-
         emailEditText.hint = session.writeInfoUser(
             applicationContext,
             session.getIdFromUser(),

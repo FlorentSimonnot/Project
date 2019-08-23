@@ -11,8 +11,8 @@ import com.example.events.Event
 import com.example.project.R
 import com.example.sport.Sport
 
-class ArrayAdapterSport(private val ctx : Context, private val resource : Int, private val events : ArrayList<Sport>)
-    : ArrayAdapter<Sport>( ctx , resource, events){
+class ArrayAdapterSport(private val ctx : Context, private val resource : Int, private val sports : ArrayList<Sport>)
+    : ArrayAdapter<Sport>( ctx , resource, sports){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
@@ -24,8 +24,8 @@ class ArrayAdapterSport(private val ctx : Context, private val resource : Int, p
         val textView : TextView = view.findViewById(R.id.name_sport)
 
 
-        imageView.setImageDrawable(ctx.resources.getDrawable(events[position].getLogo()))
-        textView.text = events[position].name
+        imageView.setImageDrawable(ctx.resources.getDrawable(sports[position].getLogoSport()))
+        textView.text = sports[position].getNameSport()
 
 
         return view
