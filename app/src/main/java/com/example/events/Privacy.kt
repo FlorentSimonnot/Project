@@ -6,29 +6,23 @@ enum class Privacy {
     GUESS,
     INIT;
 
-    fun whichPrivacy(int : Int) : Privacy{
-        when(int){
-            0 -> return PUBLIC
-            1 -> return PRIVATE
-            2 -> return GUESS
-            else -> throw Exception("Not possible. Verify Privacy")
-        }
-    }
-
     fun valueOfString(string : String) : Privacy{
         return when(string){
             "Private" -> PRIVATE
+            "PRIVATE" -> PRIVATE
             "Public" -> PUBLIC
+            "PUBLIC" -> PUBLIC
             "Only invitation" -> GUESS
+            "ONLY INVITATION" -> GUESS
             else -> INIT
         }
     }
 
     override fun toString(): String {
         return when(this){
-            PRIVATE -> "private"
-            PUBLIC -> "public"
-            GUESS -> "only with invitation"
+            PRIVATE -> "Private"
+            PUBLIC -> "Public"
+            GUESS -> "Only with invitation"
             else -> {
                 throw Exception("Probleme with value of Privacy")
             }

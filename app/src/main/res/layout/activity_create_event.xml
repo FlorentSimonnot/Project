@@ -14,17 +14,10 @@
             android:layout_height="60dp"
             android:background="@color/colorPrimary"
             tools:ignore="MissingConstraints"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            android:theme="@style/Toolbar"
             android:id="@+id/toolbar">
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:text="New event"
-                android:textColor="#fff"
-                android:textSize="24dp"
-                android:fontFamily="@font/rubik"
-                android:gravity="center"
-        />
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
@@ -63,6 +56,7 @@
                     android:hint="Name"
                     android:background="@drawable/border_bottom_primary"
                     android:padding="10dp"
+                    android:layout_marginTop="20dp"
                     />
 
             <TextView
@@ -238,7 +232,7 @@
                     android:padding="20dp"
                     >
                 <Button
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/create_event"
                         android:background="@color/colorPrimary"

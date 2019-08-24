@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#f5f6fa"
         tools:context=".EditProfileActivity">
 
     <!--TOOLBAR-->
@@ -56,7 +57,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
+                        android:layout_gravity="center"
                         android:padding="20dp"
+                        android:orientation="vertical"
                         >
                     <de.hdodenhof.circleimageview.CircleImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -68,16 +71,25 @@
                             app:civ_border_color="#FF000000"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
+                            android:gravity="center"
+                            android:layout_gravity="center"
                             />
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="15dp"
-                    android:id="@+id/name_and_firstName_layout"
-                >
+                    <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:id="@+id/change_photo"
+                            android:layout_below="@id/profile_photo"
+                            android:background="#f5f6fa"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:text="Change your photo"
+                            android:fontFamily="@font/rubik"
+                            android:textColor="@color/colorPrimary"
+                            android:drawableLeft="@drawable/ic_camera"
+                            android:drawablePadding="10dp"
+                            android:drawableStart="@drawable/ic_camera"
+                            />
 
                 </LinearLayout>
 

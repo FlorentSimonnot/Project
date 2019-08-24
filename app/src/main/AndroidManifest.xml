@@ -13,6 +13,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             >
+        <activity android:name=".ActivityPlaceAutocomplete">
+        </activity>
         <activity android:name=".SportActivity">
         </activity>
         <activity android:name=".SearchBarActivity">

@@ -3,6 +3,7 @@ package com.example.session
 import androidx.appcompat.app.ActionBar
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,6 +21,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import java.io.Serializable
 import java.lang.StringBuilder
@@ -257,7 +259,8 @@ class SessionUser : Serializable{
         newSex: Gender,
         newBirthday: String,
         city: String,
-        newDescription: String
+        newDescription: String,
+        photo : Uri?
     ) {
         val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -278,6 +281,18 @@ class SessionUser : Serializable{
                     else{
                         newCity = city
                     }
+                    var urlPhoto = ""
+                    val refPhotoStorage = FirebaseStorage.getInstance().getReference("/images")
+                    if(photo == null){
+                        urlPhoto = value.urlPhoto
+                    }
+                    else{
+                        urlPhoto = UUID.randomUUID().toString()
+                        if(value.urlPhoto.isNotEmpty()){
+                            refPhotoStorage.child(value.urlPhoto).delete()
+                        }
+                        refPhotoStorage.child(urlPhoto).putFile(photo)
+                    }
 
                     //Update firebase
                     user?.updateEmail(newEmail)
@@ -289,6 +304,7 @@ class SessionUser : Serializable{
                     postValues.put("birthday", newBirthday)
                     postValues.put("city", newCity)
                     postValues.put("description", newDescription)
+                    postValues.put("urlPhoto", urlPhoto)
                     ref.updateChildren(postValues)
 
                     value.name = newName

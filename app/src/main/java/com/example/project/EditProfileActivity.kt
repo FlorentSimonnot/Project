@@ -3,8 +3,11 @@ package com.example.project
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -33,25 +36,35 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
     private var placeId : String? = ""
     private lateinit var cityEditText: TextView
     private val AUTOCOMPLETE_REQUEST_CODE = 1
+    private val photoRequestCode = 1818
+    private lateinit var photo : ImageView
+    private lateinit var uri : Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
-        var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val emailEditText = findViewById<EditText>(R.id.email_account)
-        /*val sexSpinner = findViewById<Spinner>(R.id.sex_spinner)*/
         sexTextView = findViewById<TextView>(R.id.edit_sexe)
         val birthdayEditText = findViewById<EditText>(R.id.birthday_account)
         cityEditText = findViewById(R.id.city_account)
         val descriptionEditText = findViewById<EditText>(R.id.describe_account)
         val modifyPasswordButton = findViewById<Button>(R.id.modify_password_button)
         val confirmChangesButton = findViewById<Button>(R.id.confirm_changes)
+        photo = findViewById<ImageView>(R.id.profile_photo)
+        val buttonImage = findViewById<Button>(R.id.change_photo)
 
         cityEditText.setOnClickListener(this)
+
+        buttonImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, photoRequestCode)
+        }
 
 
         emailEditText.hint = session.writeInfoUser(
@@ -116,7 +129,8 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
                     sex,
                     birthdayEditText.text.toString(),
                     placeId.toString(),
-                    descriptionEditText.text.toString()
+                    descriptionEditText.text.toString(),
+                    uri
                 )
                 startActivity(Intent(this, MainActivity::class.java))
                 Toast.makeText(this, "Your account has been successfully updated!", Toast.LENGTH_LONG).show()
@@ -162,17 +176,27 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
     @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if(data != null) {
-            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-                when (resultCode) {
-                    AUTOCOMPLETE_REQUEST_CODE -> {
-                        val place = Autocomplete.getPlaceFromIntent(data)
-                        placeId = place.id
-                        cityEditText.text = place.name
+            when(requestCode){
+                AUTOCOMPLETE_REQUEST_CODE -> {
+                    when (resultCode) {
+                        AUTOCOMPLETE_REQUEST_CODE -> {
+                            val place = Autocomplete.getPlaceFromIntent(data)
+                            placeId = place.id
+                            cityEditText.text = place.name
+                        }
+                        AutocompleteActivity.RESULT_ERROR -> {
+                            val status = Autocomplete.getStatusFromIntent(data)
+                        }
+                        Activity.RESULT_CANCELED -> {
+                        }
                     }
-                    AutocompleteActivity.RESULT_ERROR -> {
-                        val status = Autocomplete.getStatusFromIntent(data)
-                    }
-                    Activity.RESULT_CANCELED -> {
+                }
+                photoRequestCode -> {
+                    if(resultCode == Activity.RESULT_OK){
+                        uri = data.data!!
+                        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                        val bitmapDrawable = BitmapDrawable(bitmap)
+                        photo.setImageDrawable(bitmapDrawable)
                     }
                 }
             }

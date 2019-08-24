@@ -75,13 +75,12 @@
         <!-- ***********LIST ITEMS BY JO*********** -->
         <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/events_listview"
                 android:layout_below="@id/comingSoon"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:dividerHeight="10.0sp"
                 android:divider="@android:color/transparent"
+                android:layout_marginBottom="70dp"
         >
 
         </ListView>
@@ -109,44 +108,6 @@
                 android:layout_marginRight="30dp"
         />
     </RelativeLayout>
-
-    <!-- **********SEARCH LAYOUT ********** -->
-    <LinearLayout
-            android:id="@+id/search_layout"
-            android:layout_marginTop="60dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000"
-            android:alpha="0"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" android:orientation="vertical">
-
-        <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:hint="Que voulez vous recherchez ?"
-                android:textColorHint="@color/colorPrimary"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/message"/>
-
-        <TextView
-                android:id="@+id/whatsUp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-        />
-
-    </LinearLayout>
 
     <!-- ***********BOTTOM MENU************* -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

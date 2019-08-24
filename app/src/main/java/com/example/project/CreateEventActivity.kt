@@ -3,48 +3,33 @@ package com.example.project
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.*
-import com.example.events.Event
 import com.example.events.Privacy
 import com.example.sport.Sport
-import com.example.form.FormCreateEvent
 import com.example.picker.TimePicker
 import com.example.picker.DatePicker
-import com.example.session.SessionUser
-import com.example.utils.Utils
 import android.widget.TextView
-import com.example.arrayAdapterCustom.ArrayAdapterSport
-import com.example.sport.ItemSport
 import java.text.DateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
-import android.R.attr.apiKey
 import android.annotation.SuppressLint
 import android.app.*
-import android.util.Log
-import com.example.dialog.AlertDialogCustom
+import com.example.events.Event
 import com.example.events.EventFirstStep
+import com.example.form.FormCreateEvent
 import com.example.picker.NumberPickerCustom
 import com.example.picker.StringPickerCustom
-import com.google.android.gms.common.api.Status
-import com.google.android.gms.tasks.CancellationToken
-import com.google.android.gms.tasks.OnSuccessListener
+import com.example.place.SessionGooglePlace
+import com.example.session.SessionUser
+import com.example.utils.Utils
 import com.google.android.libraries.places.api.model.*
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
-import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
-import java.util.Arrays.asList
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_create_event.*
-import kotlinx.android.synthetic.main.activity_event_info_jojo.*
 
 
 class CreateEventActivity : AppCompatActivity(),
@@ -62,6 +47,7 @@ class CreateEventActivity : AppCompatActivity(),
     private lateinit var peopleNumber : TextView
     private lateinit var description : EditText
     private lateinit var privacy : TextView
+    private lateinit var error : TextView
     private lateinit var stringPrivacy : Array<String>
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     private val apiKey = "AIzaSyAOWv25i-loOcpNvUqCvJ9oe7LkVp8FGrw"
@@ -71,6 +57,11 @@ class CreateEventActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_event)
 
+        val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Create your event"
+
         name = findViewById(R.id.name_event)
         autoCompleteSport = findViewById(R.id.sport)
         date = findViewById(R.id.date)
@@ -79,13 +70,14 @@ class CreateEventActivity : AppCompatActivity(),
         peopleNumber = findViewById(R.id.numberPeople)
         description = findViewById(R.id.description)
         privacy = findViewById(R.id.privacy_event)
+        error = findViewById(R.id.error)
 
         stringPrivacy = arrayOf("Public", "Private", "Only invitation")
 
-        Places.initialize(applicationContext, apiKey);
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, apiKey)
+        }
 
-        // Create a new Places client instance.
-        val placesClient = Places.createClient(this);
 
         if(intent.hasExtra("event")){
             event = intent.getSerializableExtra("event") as EventFirstStep
@@ -108,6 +100,8 @@ class CreateEventActivity : AppCompatActivity(),
         autoCompleteSport.setOnClickListener{
             val intent = Intent(this, SportActivity::class.java)
             event.name = name.text.toString()
+            event.description = description.text.toString()
+            event.place = placeId!!
             intent.putExtra("event", event)
             startActivity(intent)
         }
@@ -125,19 +119,51 @@ class CreateEventActivity : AppCompatActivity(),
         }
 
         place.setOnClickListener {
-            val token = AutocompleteSessionToken.newInstance();
-            // Use the builder to create a FindAutocompletePredictionsRequest.
-            val request = FindAutocompletePredictionsRequest.builder()
-                .setTypeFilter(TypeFilter.ADDRESS)
-                .setSessionToken(token)
-                .build();
+            // Set the fields to specify which types of place data to return.
+            val fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
 
+            // Start the autocomplete intent.
+            val intent = Autocomplete.IntentBuilder(
+            AutocompleteActivityMode.FULLSCREEN, fields)
+            .build(this)
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
         }
 
         val buttonCreate : Button = findViewById(R.id.create_event)
         buttonCreate.setOnClickListener {
-            //event.insertEvent()
-            //startActivity(Intent(this, MainActivity::class.java))
+            event.name = name.text.toString()
+            event.description = description.text.toString()
+            event.place = placeId!!
+            val formEvent = FormCreateEvent(
+                event.name,
+                event.sport.getNameSport(),
+                event.date,
+                event.time,
+                event.place,
+                event.description,
+                event.nbPeople,
+                event.privacy
+            )
+            if(formEvent.isFormValid()){
+                error.visibility = View.GONE
+                val newEvent = Event(
+                    Utils().generatePassword(75),
+                    event.name,
+                    event.sport,
+                    event.date,
+                    event.time,
+                    event.place,
+                    event.nbPeople,
+                    event.description,
+                    event.privacy,
+                    SessionUser().getIdFromUser()
+                )
+                newEvent.insertEvent()
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+            else{
+                error.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -169,8 +195,21 @@ class CreateEventActivity : AppCompatActivity(),
             autoCompleteSport.text = event.sport.getNameSport()
             autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(event.sport.getLogoSport(), 0, 0, 0)
         }
-        if(event.place.isNotEmpty() || placeId!!.isNotEmpty()){
-            place.text = placeId
+        if(event.place.isNotEmpty()){
+            placeId = event.place
+            val gg = SessionGooglePlace(this)
+            gg.init()
+            val placesClient = gg.createClient()
+            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS)
+            val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId!!, placeFields)
+
+            placesClient.fetchPlace(request)
+                .addOnSuccessListener {
+                    val p : Place = it.place
+                    place.text = p.name
+                }
+                .addOnFailureListener {
+                }
         }
         if(event.date.isNotEmpty()){
             date.text = event.date
@@ -185,7 +224,7 @@ class CreateEventActivity : AppCompatActivity(),
             description.setText(event.description)
         }
         if(event.privacy != Privacy.INIT){
-            privacy.text = event.privacy.name
+            privacy.text = event.privacy.toString()
         }
     }
 
@@ -193,34 +232,29 @@ class CreateEventActivity : AppCompatActivity(),
         if(p0 != null){
             if(p0.maxValue == 22) {
                 numberPeople.text = p0.value.toString()
+                event.nbPeople = p0.value
             }
             else{
                 privacy.text = stringPrivacy[p0.value]
+                event.privacy = Privacy.INIT.valueOfString(stringPrivacy[p0.value])
             }
         }
     }
 
     @SuppressLint("MissingSuperCall")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(data != null) {
-            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-                println("RESULT CODE ${resultCode}")
-                when (resultCode) {
-                    AUTOCOMPLETE_REQUEST_CODE -> {
-                        val p = Autocomplete.getPlaceFromIntent(data)
-                        placeId = p.id
-                        Toast.makeText(this, "$p", Toast.LENGTH_SHORT).show()
-                        place.text = p.name
-                        event.place = p.id!!
-                    }
-                    AutocompleteActivity.RESULT_ERROR -> {
-                        val status = Autocomplete.getStatusFromIntent(data)
-                        Toast.makeText(this, "$status", Toast.LENGTH_SHORT).show()
-                    }
-                    Activity.RESULT_CANCELED -> {
-                    }
-                }
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK) {
+                val p = Autocomplete.getPlaceFromIntent(data!!)
+                placeId = p.id
+                place.text = p.name
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                val status = Autocomplete.getStatusFromIntent(data!!)
+                println("ERROR : ${status.statusMessage}")
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // The user canceled the operation.
             }
         }
     }
+
 }

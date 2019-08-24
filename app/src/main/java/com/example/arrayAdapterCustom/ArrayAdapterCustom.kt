@@ -27,11 +27,11 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
         val layoutInflater :LayoutInflater = LayoutInflater.from(ctx)
         val view : View = layoutInflater.inflate(resource , null )
         val imageView :ImageView = view.findViewById(R.id.icon_sport)
-        var textView : TextView = view.findViewById(R.id.event_name)
-        var textView1 : TextView = view.findViewById(R.id.event_desc)
+        val textView : TextView = view.findViewById(R.id.event_name)
+        val textView1 : TextView = view.findViewById(R.id.event_desc)
 
 
-        imageView.setImageDrawable(ctx.resources.getDrawable(events[position].sport.getLogo()))
+        imageView.setImageDrawable(ctx.resources.getDrawable(events[position].sport.getLogoSport()))
         textView.text = events[position].name
         view.setOnClickListener {
             if(events[position].creator != SessionUser().getIdFromUser()){
@@ -57,14 +57,14 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
 
         //Search place in according to the ID
         val placeId : String = events[position].place!!
-        val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME)
+        val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME)
         val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
 
 
         placesClient.fetchPlace(request)
             .addOnSuccessListener {
                 val place : Place = it.place
-                textView1.text = place.name
+                textView1.text = place.address
             }
             .addOnFailureListener {
                 textView1.text = it.message

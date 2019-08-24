@@ -31,6 +31,7 @@ data class User(
     var typeLog : String = "Email",
     var idServiceLog : String = "",
     var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
+    var urlPhoto : String = "",
     var eventsCreated : HashMap<String, String> = HashMap(),
     var eventsJoined : HashMap<String, Any> = HashMap(),
     var eventsNoted : HashMap<String, Double> = HashMap(),
