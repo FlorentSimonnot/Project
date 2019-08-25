@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import com.example.user.User
 import android.R
+import android.annotation.SuppressLint
+import android.se.omapi.Session
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.session.SessionUser
 import com.example.user.UserWithKey
 import kotlinx.android.synthetic.main.search_list_item_user.view.*
 
@@ -27,10 +30,11 @@ class SearchAdapter(
         return users.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = "${users.get(position).user.firstName} ${users.get(position).user.name}"
-        holder.desc.text = "${users[position].user.description}"
         User().showPhotoUser(context, holder.photo, users[position].key)
+        holder.name.text = "${users.get(position).user.firstName} ${users.get(position).user.name}"
+        holder.desc.text = users[position].user.description
 
     }
 

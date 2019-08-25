@@ -26,8 +26,14 @@ class DateCustom {
         if(day < 10){
             strDay = "0$day"
         }
+        else{
+            strDay = "$day"
+        }
         if(month < 10){
             strMonth = "0$month"
+        }
+        else{
+            strMonth = "$month"
         }
         return "$strDay/$strMonth/$year"
     }

@@ -24,10 +24,16 @@ class TimeCustom {
         if(hour < 10){
             strHour = "0$hour"
         }
+        else{
+            strHour = "$hour"
+        }
         if(min < 10){
             strMin = "0$min"
         }
-        return "${strHour}h$strMin"
+        else{
+            strMin = "$min"
+        }
+        return "${strHour}:$strMin"
     }
 
     fun isAfter(time : TimeCustom) : Boolean{

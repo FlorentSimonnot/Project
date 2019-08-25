@@ -184,26 +184,10 @@ class SessionUser : Serializable{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
-                    when(value.typeLog){
-                        "Facebook" ->{
-                            if(value.idServiceLog.isNotEmpty()){
-                                Picasso.get()
-                                    .load("https://graph.facebook.com/" + value.idServiceLog+ "/picture?type=large")
-                                    .into(imageView);
-                            }
-                        }
-                        "Google" -> {
-                            if(value.idServiceLog.isNotEmpty()){
-                                val account = GoogleSignIn.getLastSignedInAccount(context)
-                                if(account != null){
-                                    Picasso.get()
-                                        .load(account.photoUrl)
-                                        .into(imageView)
-                                }
-                            }
-                        }
-                        else -> {
-                            //Picasso.get().load(R.drawable.)
+                    if(value.urlPhoto != null) {
+                        val refPhoto  = FirebaseStorage.getInstance().getReference("images/${value.urlPhoto}").downloadUrl
+                        refPhoto.addOnSuccessListener {
+                            Picasso.get().load(it).into(imageView)
                         }
                     }
                 }

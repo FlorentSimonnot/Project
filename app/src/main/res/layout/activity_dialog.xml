@@ -14,19 +14,12 @@
             android:layout_height="60dp"
             android:background="@color/colorPrimary"
             tools:ignore="MissingConstraints"
-            android:padding="12dp"
             android:textColor="#fff"
             android:fontFamily="@font/rubik"
+            android:theme="@style/Toolbar"
+            app:titleTextColor="#fff"
+            app:navigationIcon="?attr/homeAsUpIndicator"
             android:id="@+id/toolbar">
-
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:fontFamily="@font/rubik"
-                android:textColor="#fff"
-                android:textSize="28sp"
-        />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -39,7 +32,7 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/discussion"
+                android:id="@+id/recyclerView"
                 android:layout_marginTop="10dp"
                 android:padding="10dp"
                 android:layout_marginBottom="60dp"
@@ -60,10 +53,9 @@
             <EditText
                     android:layout_width="340dp"
                     android:layout_height="match_parent"
-                    android:inputType="textPersonName"
-                    android:text="Write your message..."
+                    android:hint="Write your message..."
                     android:ems="10"
-                    android:id="@+id/editText"
+                    android:id="@+id/message"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="0dp"
                     android:padding="5dp"
@@ -71,18 +63,18 @@
                     android:textColor="@color/colorPrimary"
                     android:background="@drawable/rounded_input_rectangle"
                     android:paddingStart="20dp"
+                    android:inputType="textCapSentences|textMultiLine"
                     />
 
             <ImageButton
                     android:text="Button"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:id="@+id/button2"
-                    android:layout_alignRight="@+id/editText"
-                    android:layout_alignEnd="@+id/editText"
+                    android:id="@+id/send_message"
+                    android:layout_alignRight="@+id/message"
+                    android:layout_alignEnd="@+id/message"
                     app:srcCompat="@drawable/ic_paper_plane"
                     android:background="@color/colorPrimary"
-
                     android:layout_marginRight="-46dp"
                     android:layout_marginEnd="-46dp"
                     />
