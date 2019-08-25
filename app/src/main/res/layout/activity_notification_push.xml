@@ -232,6 +232,35 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/messages"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@id/modifiedEvent"
+                        >
+
+                    <TextView
+                            android:layout_width="280dp"
+                            android:layout_height="wrap_content"
+                            android:text="Receive notification you reveive a message"
+                            android:fontFamily="@font/rubik"
+                            android:paddingBottom="10dp"
+                            android:textSize="18sp"
+                            android:paddingTop="10dp"
+                            />
+                    <Switch
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_gravity="left"
+                            android:padding="10dp"
+                            android:id="@+id/messages_switch"
+                            />
+
+                </LinearLayout>
+
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>
