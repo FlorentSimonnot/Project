@@ -12,6 +12,7 @@ import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
 import com.example.user.Gender
 import com.example.user.User
+import com.example.utils.Utils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
@@ -416,6 +417,7 @@ class SessionUser : Serializable{
         //val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
 
         ref.child("status").setValue("friend")
+        ref.child("keyChat").setValue(Utils().generatePassword(70))
         //refMutual.child("status").setValue("friend")
 
         Toast.makeText(ctx, "You have accepted this user as friend :)", Toast.LENGTH_SHORT).show()
@@ -426,13 +428,14 @@ class SessionUser : Serializable{
         ref.removeValue()
         Toast.makeText(ctx, "You have refused this user as friend :(", Toast.LENGTH_SHORT).show()
     }
+
     fun deleteFriend(ctx: Context, userKey: String?) {
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
         //val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
 
         ref.removeValue()
         //refMutual.removeValue()
-        Toast.makeText(ctx, "You have refused this user as friend :(", Toast.LENGTH_SHORT).show()
+        Toast.makeText(ctx, "You have delete this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 
 

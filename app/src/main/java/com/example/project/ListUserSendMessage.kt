@@ -27,7 +27,7 @@ class ListUserSendMessage : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Choose recipient"
 
-        listView = findViewById<ListView>(R.id.listViewUsers)
+        listView = findViewById(R.id.listViewUsers)
         noResults = findViewById(R.id.noResultsLayout)
 
         friendsList(this)

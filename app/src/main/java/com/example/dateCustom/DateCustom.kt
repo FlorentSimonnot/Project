@@ -70,4 +70,9 @@ class DateCustom {
         return DateCustom(date)
     }
 
+    fun isYesterday() : Boolean{
+        val currentDate = getCurrentDate()
+        return this.year == currentDate.year && this.month == currentDate.month && this.day + 1 == currentDate.day
+    }
+
 }

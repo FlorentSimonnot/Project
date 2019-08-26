@@ -1,39 +1,40 @@
 package com.example.project
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
-import android.media.Image
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toolbar
-import androidx.recyclerview.widget.DividerItemDecoration
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
-import com.example.events.Event
 import com.example.messages.Message
 import com.example.messages.MessageAdapter
+import com.example.messages.TypeMessage
 import com.example.session.SessionUser
-import com.example.user.User
 import com.example.utils.Utils
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Dialog : AppCompatActivity(), View.OnClickListener {
     private lateinit var keyUser : String
     private lateinit var buttonSendMessage : ImageButton
+    private lateinit var buttonSendImage : ImageButton
     private lateinit var messageEditText: EditText
     private val session = SessionUser()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter : MessageAdapter
+    private val photoRequestCode = 1818
+    private lateinit var uri : Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +48,16 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
         keyUser = infos?.getString("keyUser").toString()
 
         buttonSendMessage = findViewById(R.id.send_message)
+        buttonSendImage = findViewById(R.id.button_insert_image)
         messageEditText = findViewById(R.id.message)
         recyclerView = findViewById(R.id.recyclerView)
 
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        //recyclerView.addItemDecoration(DividerItemDecoration(this, 0))
+        val llm = LinearLayoutManager(this)
+        recyclerView.layoutManager = llm
 
         buttonSendMessage.setOnClickListener(this)
+        buttonSendImage.setOnClickListener(this)
 
         SessionUser().writeNameUserDiscussion(this, keyUser, supportActionBar!!)
 
@@ -65,7 +68,6 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
         when(p0?.id){
             R.id.send_message -> {
                 val text = messageEditText.text.toString()
-                println("TEXT $text")
                 if(text.isNotEmpty()){
                     val message = Message(
                         Utils().generatePassword(100),
@@ -73,16 +75,38 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                         keyUser,
                         text,
                         DateCustom("00/00/0000").getCurrentDate().toString(),
-                        TimeCustom("00:00").getCurrentTime().toString()
+                        TimeCustom("00:00:00").getCurrentTime().toString()
                     )
                     message.insertMessage(this, messageEditText)
                 }
+            }
+            R.id.button_insert_image -> {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, photoRequestCode)
             }
         }
     }
 
     private fun searchMessages(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("messages/${session.getIdFromUser()}/$keyUser")
+        val refKeyChat = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/friends/$keyUser")
+        refKeyChat.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                //Nothing
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val value = p0.child("keyChat").value as String
+                if(value != null){
+                    searchDiscussion(context, value)
+                }
+            }
+
+        })
+    }
+
+    private fun searchDiscussion(context: Context, keyChat : String){
+        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each messages
@@ -93,37 +117,51 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                         messages.add(message)
                     }
                 }
-                searchMessagesAddressee(context, messages)
-                //val adapter = ArrayAdapterCustom(activity, R.layout.my_list, events)
-                //listView.adapter = adapter
+                if(messages.size > 0){
+                    val sortedList = messages.sortedWith(compareBy({it.date}, {it.time})).toList()
+                    adapter = MessageAdapter(context,
+                        R.layout.list_item_message_me,
+                        R.layout.list_item_message,
+                        R.layout.list_item_message_image_me,
+                        R.layout.list_item_message_image,
+                        ArrayList(sortedList)
+                    )
+                    recyclerView.adapter = adapter
+                    if(adapter.itemCount > 0) {
+                        val position = recyclerView.adapter!!.itemCount
+                        recyclerView.smoothScrollToPosition(position - 1)
+                    }
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchMessagesAddressee(context : Context, messages : ArrayList<Message>){
-        val ref = FirebaseDatabase.getInstance().getReference("messages/$keyUser/${session.getIdFromUser()}")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each messages
-                data.forEach {
-                    val message : Message = it.getValue(Message::class.java) as Message
-                    if(message != null){
-                        messages.add(message)
-                        println("MESSAGE $message")
+    @SuppressLint("MissingSuperCall")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if(data != null) {
+            when(requestCode){
+                photoRequestCode -> {
+                    if(resultCode == Activity.RESULT_OK){
+                        uri = data.data!!
+                        val urlPhoto = UUID.randomUUID().toString()
+                        Utils().insertImage(urlPhoto, uri)
+                        val message = Message(
+                            Utils().generatePassword(100),
+                            session.getIdFromUser(),
+                            keyUser,
+                            "",
+                            DateCustom("00/00/0000").getCurrentDate().toString(),
+                            TimeCustom("00:00:00").getCurrentTime().toString(),
+                            false,
+                            TypeMessage.IMAGE,
+                            urlPhoto
+                        )
+                        message.insertMessage(this, messageEditText)
                     }
                 }
-                if(messages.size > 0){
-                    val sortedList = messages.sortedWith(compareBy({it.date}, {it.time})).toList()
-                    adapter = MessageAdapter(context, R.layout.list_item_message_me, R.layout.list_item_message, ArrayList(sortedList))
-                    recyclerView.adapter = adapter
-                }
-                //val adapter = ArrayAdapterCustom(activity, R.layout.my_list, events)
-                //listView.adapter = adapter
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+        }
     }
 }

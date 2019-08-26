@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:padding="10dp"
+              android:layout_height="wrap_content">
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_photo"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                />
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/top"
+                >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/name"
+                    android:text="Name"
+                    android:fontFamily="@font/rubik"
+                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textFontWeight="900"
+                    />
+        </RelativeLayout>
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top"
+                android:orientation="horizontal"
+                >
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/message"
+                    android:layout_marginRight="60dp"
+                    android:text="message"
+                    android:fontFamily="@font/rubik"
+                    android:gravity="center_vertical"
+                    />
+            <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:text="11h00"
+                    android:gravity="center_vertical|right"
+                    android:id="@+id/time"
+                    />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

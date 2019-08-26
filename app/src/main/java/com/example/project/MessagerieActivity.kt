@@ -1,16 +1,30 @@
 package com.example.project
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.messages.LatestMessageAdapter
+import com.example.messages.Message
+import com.example.messages.MessageAdapter
+import com.example.session.SessionUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class MessagerieActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var newMessage : ImageButton
+    private val session = SessionUser()
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter : LatestMessageAdapter
 
     private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -43,8 +57,17 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
+        recyclerView = findViewById(R.id.recyclerView)
+
+        recyclerView.setHasFixedSize(true)
+        val llm = LinearLayoutManager(this)
+        recyclerView.layoutManager = llm
+
+
         newMessage = findViewById(R.id.btn_new_message)
         newMessage.setOnClickListener(this)
+
+        searchDiscussion(this)
     }
 
     override fun onClick(p0: View?) {
@@ -56,4 +79,58 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
+
+    private fun searchDiscussion(context: Context){
+        val ref = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/friends")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                val keysChat = ArrayList<String>()
+                data.forEach {
+                    if(it.hasChild("keyChat")){
+                        val key = it.child("keyChat").value as String
+                        keysChat.add(key)
+                    }
+                }
+                searchLatestMessages(context, keysChat)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    private fun searchLatestMessages(context: Context, keysChat : ArrayList<String>){
+        val latestMessages = ArrayList<Message>()
+        keysChat.forEachIndexed {index, it ->
+            val ref = FirebaseDatabase.getInstance().getReference("discussions/$it")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val data = dataSnapshot.children //Children = each messages
+                    val messages : ArrayList<Message> = ArrayList()
+                    data.forEach {
+                        val message : Message = it.getValue(Message::class.java) as Message
+                        messages.add(message)
+                    }
+                    val sortedList = ArrayList(messages.sortedWith(compareBy({it.date}, {it.time})).toList())
+                    if(sortedList.size > 0) {
+                        latestMessages.add(sortedList[sortedList.size - 1])
+                    }
+                    if(index == keysChat.size - 1) {
+                        if (messages.size > 0) {
+                            val sortedList = messages.sortedWith(compareBy({ it.date }, { it.time })).toList()
+                            adapter = LatestMessageAdapter(context, R.layout.list_item_last_message, latestMessages)
+                            recyclerView.adapter = adapter
+                            if (adapter.itemCount > 0) {
+                                val position = recyclerView.adapter!!.itemCount
+                                recyclerView.smoothScrollToPosition(position - 1)
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
+    }
+
 }
