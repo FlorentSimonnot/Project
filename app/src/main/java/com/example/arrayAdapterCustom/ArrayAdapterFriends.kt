@@ -97,6 +97,11 @@ class ArrayAdapterFriends(
                     SessionUser().refuseFriend(ctx, userKey)
                 }
             }
+            buttonSendMessage?.setOnClickListener {
+                val intent = Intent(ctx, Dialog::class.java)
+                intent.putExtra("keyUser", users[position].key)
+                ctx.startActivity(intent)
+            }
         }
 
         return view

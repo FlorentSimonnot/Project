@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() {
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
                     if(event != null){
+                        /*there is a pb in this block*/
                         val date = DateCustom(event.date)
                         val time = TimeCustom(event.time)
                         if(date.isEqual(DateCustom("01/01/1971").getCurrentDate())){

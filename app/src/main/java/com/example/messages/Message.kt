@@ -1,11 +1,11 @@
 package com.example.messages
 
 import android.content.Context
+import android.content.Intent
 import android.widget.EditText
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
-import com.example.user.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -46,22 +46,32 @@ data class Message(
     }
 
     fun deleteMessage(context: Context){
-        val refKeyChat = FirebaseDatabase.getInstance().getReference("users/$sender/friends/$addressee")
-        refKeyChat.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                //Nothing
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val value = p0.child("keyChat").value
-                if (value != null) {
-                    val ref =
-                        FirebaseDatabase.getInstance().getReference("discussions/$value/${this@Message.idMessage}")
-                    ref.removeValue()
+        val deleteMessageAlertDialog = AlertDialog.Builder(context)
+        deleteMessageAlertDialog.setTitle("You are deleting your message")
+        deleteMessageAlertDialog.setMessage("Confirm?")
+        deleteMessageAlertDialog.setPositiveButton("Yes"){ _, _ ->
+            val refKeyChat = FirebaseDatabase.getInstance().getReference("users/$sender/friends/$addressee")
+            refKeyChat.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    //Nothing
                 }
-            }
 
-        })
+                override fun onDataChange(p0: DataSnapshot) {
+                    val value = p0.child("keyChat").value
+                    if (value != null) {
+                        val ref =
+                            FirebaseDatabase.getInstance().getReference("discussions/$value/${this@Message.idMessage}")
+                        ref.removeValue()
+                    }
+                }
+
+            })
+        }
+        deleteMessageAlertDialog.setNegativeButton("No"){ _, _ ->
+
+        }
+        deleteMessageAlertDialog.show()
+
     }
 
     fun writeDate() : String{
