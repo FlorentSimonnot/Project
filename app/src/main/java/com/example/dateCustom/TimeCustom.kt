@@ -10,13 +10,20 @@ class TimeCustom {
 
     constructor(date : String){
         val listTime : List<String> = date.split(":")
-        if(listTime.size != 3){
-            throw Exception("Error format Time")
-        }
-        else{
-            hour = listTime[0].toInt()
-            min = listTime[1].toInt()
-            sec = listTime[2].toInt()
+        when(listTime.size){
+            2 -> {
+                hour = listTime[0].toInt()
+                min = listTime[1].toInt()
+                sec = 0
+            }
+            3 -> {
+                hour = listTime[0].toInt()
+                min = listTime[1].toInt()
+                sec = listTime[2].toInt()
+            }
+            else -> {
+                throw Exception("Error format Time")
+            }
         }
     }
 

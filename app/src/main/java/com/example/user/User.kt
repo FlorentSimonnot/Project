@@ -33,10 +33,9 @@ data class User(
     var idServiceLog : String = "",
     var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
     var urlPhoto : String = "",
-    var eventsCreated : HashMap<String, String> = HashMap(),
+    var eventsCreated : HashMap<String, Any> = HashMap(),
     var eventsJoined : HashMap<String, Any> = HashMap(),
     var eventsNoted : HashMap<String, Double> = HashMap(),
-    var friends: HashMap<String, Any> = HashMap(),
     var notificationsParam : Notifications = Notifications()
 
 ): Serializable{
@@ -101,7 +100,7 @@ data class User(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
-                    if(value.urlPhoto != null) {
+                    if(value.urlPhoto.isNotEmpty()) {
                         val refPhoto  = FirebaseStorage.getInstance().getReference("images/${value.urlPhoto}").downloadUrl
                         refPhoto.addOnSuccessListener {
                             Picasso.get().load(it).into(imageView)

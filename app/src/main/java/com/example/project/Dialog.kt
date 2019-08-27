@@ -7,8 +7,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.*
+import androidx.core.view.marginRight
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dateCustom.DateCustom
@@ -27,6 +30,7 @@ import kotlin.collections.ArrayList
 
 class Dialog : AppCompatActivity(), View.OnClickListener {
     private lateinit var keyUser : String
+    private lateinit var keyChat : String
     private lateinit var buttonSendMessage : ImageButton
     private lateinit var buttonSendImage : ImageButton
     private lateinit var messageEditText: EditText
@@ -46,6 +50,11 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
 
         val infos : Bundle? = intent.extras
         keyUser = infos?.getString("keyUser").toString()
+        keyChat = infos?.getString("keyChat").toString()
+
+        if(keyChat.isEmpty()){
+            throw Exception("KEY CHAT MUST NOT BE EMPTY")
+        }
 
         buttonSendMessage = findViewById(R.id.send_message)
         buttonSendImage = findViewById(R.id.button_insert_image)
@@ -62,6 +71,31 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
         SessionUser().writeNameUserDiscussion(this, keyUser, supportActionBar!!)
 
         searchMessages(this)
+        messageEditText.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                //No
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+               //No
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(p0.toString().isNotEmpty()){
+                    val lp = RelativeLayout.LayoutParams(messageEditText.layoutParams.width, messageEditText.layoutParams.height)
+                    lp.setMargins(120, 0, 120, 0)
+                    messageEditText.layoutParams = lp
+                    buttonSendMessage.visibility = View.VISIBLE
+                }
+                else{
+                    val lp = RelativeLayout.LayoutParams(messageEditText.layoutParams.width, messageEditText.layoutParams.height)
+                    lp.setMargins(120, 0, 0, 0)
+                    messageEditText.layoutParams = lp
+                    buttonSendMessage.visibility = View.GONE
+                }
+            }
+
+        })
     }
 
     override fun onClick(p0: View?) {
@@ -89,7 +123,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun searchMessages(context: Context){
-        val refKeyChat = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/friends/$keyUser")
+        val refKeyChat = FirebaseDatabase.getInstance().getReference("friends/${session.getIdFromUser()}/$keyUser")
         refKeyChat.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 //Nothing
@@ -129,7 +163,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                     recyclerView.adapter = adapter
                     if(adapter.itemCount > 0) {
                         val position = recyclerView.adapter!!.itemCount
-                        recyclerView.smoothScrollToPosition(position - 1)
+                        recyclerView.smoothScrollToPosition(position)
                     }
                 }
             }
@@ -146,7 +180,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                     if(resultCode == Activity.RESULT_OK){
                         uri = data.data!!
                         val urlPhoto = UUID.randomUUID().toString()
-                        Utils().insertImage(urlPhoto, uri)
+                        Utils().insertImage(urlPhoto, uri, session.getIdFromUser(), keyUser)
                         val message = Message(
                             Utils().generatePassword(100),
                             session.getIdFromUser(),
@@ -163,5 +197,14 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        val intent = Intent(this, MessagerieActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        Dialog::finish
+        startActivity(intent)
+        return true
     }
 }

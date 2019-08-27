@@ -34,7 +34,7 @@ class FriendsListActivity : AppCompatActivity() {
     }
 
     private fun friendsList(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/friends")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.session.getIdFromUser()}")
         val friends : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

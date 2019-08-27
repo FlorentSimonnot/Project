@@ -45,7 +45,7 @@ class SearchBarActivity : AppCompatActivity() {
                     setAdapter(p0.toString(), this@SearchBarActivity)
                 } else {
                     users.clear()
-                    recyclerView.removeAllViews();
+                    recyclerView.removeAllViews()
                 }
             }
 

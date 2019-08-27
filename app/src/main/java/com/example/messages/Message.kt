@@ -21,19 +21,22 @@ data class Message(
     val time : String = "",
     val isSee : Boolean = false,
     val typeMessage: TypeMessage = TypeMessage.TEXT,
-    val urlPhoto : String = ""
+    var urlPhoto : String = ""
 ) : Serializable {
 
     fun insertMessage(context : Context, editText: EditText){
-        val refKeyChat = FirebaseDatabase.getInstance().getReference("users/$sender/friends/$addressee")
+        val refKeyChat = FirebaseDatabase.getInstance().getReference("friends/$sender/$addressee")
         refKeyChat.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 //Nothing
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                val value = p0.child("keyChat").value
+                val value = p0.child("keyChat").value as String
                 if(value != null){
+                    if(typeMessage == TypeMessage.IMAGE){
+                        this@Message.urlPhoto = "images/discussions/$value/${this@Message.urlPhoto}"
+                    }
                     val ref = FirebaseDatabase.getInstance().getReference("discussions/$value/${this@Message.idMessage}")
                     ref.setValue(this@Message).addOnSuccessListener {
                         editText.setText("")
@@ -50,7 +53,7 @@ data class Message(
         deleteMessageAlertDialog.setTitle("You are deleting your message")
         deleteMessageAlertDialog.setMessage("Confirm?")
         deleteMessageAlertDialog.setPositiveButton("Yes"){ _, _ ->
-            val refKeyChat = FirebaseDatabase.getInstance().getReference("users/$sender/friends/$addressee")
+            val refKeyChat = FirebaseDatabase.getInstance().getReference("friends/$sender/$addressee")
             refKeyChat.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     //Nothing

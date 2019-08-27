@@ -18,7 +18,8 @@ import com.example.user.UserWithKey
 class ArrayAdapterUsersSendMessage(
     private val ctx : Context,
     private val resource : Int,
-    private val users : ArrayList<UserWithKey>
+    private val users : ArrayList<UserWithKey>,
+    private val keyChats : ArrayList<String?>
 ): ArrayAdapter<UserWithKey>( ctx , resource, users) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -34,6 +35,7 @@ class ArrayAdapterUsersSendMessage(
             view.setOnClickListener{
                 val intent = Intent(ctx, Dialog::class.java)
                 intent.putExtra("keyUser", users[position].key)
+                intent.putExtra("keyChat", keyChats[position])
                 ctx.startActivity(intent)
             }
         }

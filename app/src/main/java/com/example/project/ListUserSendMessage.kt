@@ -34,26 +34,26 @@ class ListUserSendMessage : AppCompatActivity() {
     }
 
     private fun friendsList(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/friends")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.session.getIdFromUser()}")
         val friends : ArrayList<String?> = ArrayList()
+        val keyChats : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    println("   DATA $it")
                     if(it.child("status").value == "friend"){
                         friends.add(it.key)
+                        keyChats.add(it.child("keyChat").value as String)
                     }
                 }
-                println("FRIENDS : $friends")
-                searchUser(context, friends)
+                searchUser(context, friends, keyChats)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchUser(context: Context, participants : ArrayList<String?>) {
+    private fun searchUser(context: Context, participants : ArrayList<String?>, keyChats : ArrayList<String?>) {
         val ref = FirebaseDatabase.getInstance().getReference("users")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -75,7 +75,8 @@ class ListUserSendMessage : AppCompatActivity() {
                     val adapter = ArrayAdapterUsersSendMessage(
                         context,
                         R.layout.list_item_user,
-                        users
+                        users,
+                        keyChats
                     )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter
@@ -98,7 +99,7 @@ class ListUserSendMessage : AppCompatActivity() {
                         }
 
                         override fun onChildRemoved(p0: DataSnapshot) {
-                            //
+                            friendsList(context)
                         }
                     })
                 } else {

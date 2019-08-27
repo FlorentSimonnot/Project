@@ -203,7 +203,7 @@ class SessionUser : Serializable{
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(User::class.java)
+                val value : User? = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
                     var builder = StringBuilder()
                     builder.append(value.firstName).append(" ").append(value.name)
@@ -307,7 +307,7 @@ class SessionUser : Serializable{
     }
 
     fun countFriends(friendsTabItem: TextView) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}")
         var friends = 0
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -325,7 +325,7 @@ class SessionUser : Serializable{
     }
 
     fun setFriendsOnTabItem(tab : TabLayout){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}")
         var friends = 0
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -377,7 +377,7 @@ class SessionUser : Serializable{
     }
 
     fun setInvitationsOnTabItem(tab : TabLayout){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}")
         var friends = 0
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -413,28 +413,23 @@ class SessionUser : Serializable{
     }
 
     fun acceptFriend(ctx: Context, userKey: String?) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
-        //val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}/$userKey")
 
         ref.child("status").setValue("friend")
         ref.child("keyChat").setValue(Utils().generatePassword(70))
-        //refMutual.child("status").setValue("friend")
 
         Toast.makeText(ctx, "You have accepted this user as friend :)", Toast.LENGTH_SHORT).show()
     }
 
     fun refuseFriend(ctx: Context, userKey: String?) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}/$userKey")
         ref.removeValue()
         Toast.makeText(ctx, "You have refused this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 
     fun deleteFriend(ctx: Context, userKey: String?) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends/$userKey")
-        //val refMutual = FirebaseDatabase.getInstance().getReference("users/$userKey/friends/${this.getIdFromUser()}")
-
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}/$userKey")
         ref.removeValue()
-        //refMutual.removeValue()
         Toast.makeText(ctx, "You have delete this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 

@@ -34,13 +34,15 @@ class WaitingListActivity : AppCompatActivity() {
     }
 
     private fun waitingList(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/friends")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.session.getIdFromUser()}")
         val waiting : ArrayList<String?> = ArrayList()
+        println("KEY SESSION ${session.getIdFromUser()}")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    if(it.value == "waiting"){
+                    println("DATA ${it.key}")
+                    if(it.child("status").value == "waiting"){
                         waiting.add(it.key)
                     }
                 }

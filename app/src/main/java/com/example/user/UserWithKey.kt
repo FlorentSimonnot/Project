@@ -13,7 +13,7 @@ data class UserWithKey(
 ): Serializable {
 
     fun addFriend(session: SessionUser) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.key}/friends/${session.getIdFromUser()}")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/$key/${session.getIdFromUser()}")
         ref.child("status").setValue("waiting")
     }
 

@@ -7,13 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dateCustom.TimeCustom
 import com.example.events.Privacy
+import com.example.project.FullscreenImageActivity
 import com.example.project.PrivateUserActivity
 import com.example.project.PublicUserActivity
 import com.example.session.SessionUser
 import com.example.user.PrivacyAccount
 import com.example.user.User
 import com.example.user.UserWithKey
+import com.example.utils.Image
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -102,7 +105,7 @@ class MessageAdapter(
 
         override fun bind(message: Message) {
             text.text = message.text
-            time.text = message.time
+            time.text = TimeCustom(message.time).showTime()
             text.setOnClickListener {
                 if(time.visibility == View.GONE){
                     time.visibility = View.VISIBLE
@@ -126,22 +129,18 @@ class MessageAdapter(
         override fun bind(message: Message) {
             //text.text = message.text
             time.text = message.time
-            val refPhoto  = FirebaseStorage.getInstance().getReference("images/${message.urlPhoto}").downloadUrl
+            val refPhoto  = FirebaseStorage.getInstance().getReference("${message.urlPhoto}").downloadUrl
             refPhoto.addOnSuccessListener {
                 Picasso.get().load(it).into(urlPhoto)
             }
-            /*text.setOnClickListener {
-                if(time.visibility == View.GONE){
-                    time.visibility = View.VISIBLE
-                }
-                else{
-                    time.visibility = View.GONE
-                }
-            }*/
-            /*text.setOnLongClickListener {
+            urlPhoto.setOnClickListener {
+                val image = Image(message.urlPhoto, message.date, message.time)
+                context.startActivity(Intent(context, FullscreenImageActivity::class.java).putExtra("image", image))
+            }
+            urlPhoto.setOnLongClickListener {
                 message.deleteMessage(context)
                 true
-            }*/
+            }
         }
 
         val urlPhoto = view.message_image

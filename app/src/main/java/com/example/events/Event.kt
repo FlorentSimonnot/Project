@@ -206,24 +206,24 @@ data class Event (
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(User::class.java)
-                if (value != null) {
+                //val value = dataSnapshot.getValue(User::class.java)
+                val firstName: String = dataSnapshot.child("firstName").value as String
+                val name: String = dataSnapshot.child("name").value as String
+                val accountPrivacy = dataSnapshot.child("privacyAccount").value as String
+                if (firstName != null) {
                     if(SessionUser().getIdFromUser() != uid) {
                         val builder = StringBuilder("Created by : ")
-                        builder.append(value.firstName).append(" ").append(value.name)
+                        builder.append(firstName).append(" ").append(name)
                         textView.text = builder
 
 
                         textView.setOnClickListener {
-                            val userWithKey = UserWithKey(value, uid)
-                            if (value.privacyAccount == PrivacyAccount.Public) {
+                            if (PrivacyAccount.valueOf(accountPrivacy) == PrivacyAccount.Public) {
                                 val intent = Intent(context, PublicUserActivity::class.java)
-                                println("TES QUI : $userWithKey")
                                 intent.putExtra("user", uid)
                                 context.startActivity(intent)
                             }
                             else {
-                                println("TES QUI : $userWithKey")
                                 val intent = Intent(context, PrivateUserActivity::class.java)
                                 intent.putExtra("user", uid)
                                 context.startActivity(intent)
