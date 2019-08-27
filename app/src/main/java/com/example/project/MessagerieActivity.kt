@@ -108,7 +108,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
 
     private fun searchLatestMessages(context: Context, keysChat : ArrayList<String>){
         keysChat.forEachIndexed {index, it ->
-            val ref = FirebaseDatabase.getInstance().getReference("discussions/$it")
+            val ref = FirebaseDatabase.getInstance().getReference("discussions/$it/messages")
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     val data = dataSnapshot.children //Children = each messages

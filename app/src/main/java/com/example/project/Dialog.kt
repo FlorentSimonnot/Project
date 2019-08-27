@@ -140,7 +140,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun searchDiscussion(context: Context, keyChat : String){
-        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat")
+        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat/messages")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each messages
@@ -191,7 +191,6 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                             "",
                             DateCustom("00/00/0000").getCurrentDate().toString(),
                             TimeCustom("00:00:00").getCurrentTime().toString(),
-                            false,
                             TypeMessage.IMAGE,
                             urlPhoto
                         )

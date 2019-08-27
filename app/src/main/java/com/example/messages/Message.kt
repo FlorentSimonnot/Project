@@ -19,7 +19,6 @@ data class Message(
     val text : String = "",
     val date : String = "",
     val time : String = "",
-    var isSee : Boolean = false,
     val typeMessage: TypeMessage = TypeMessage.TEXT,
     var urlPhoto : String = ""
 ) : Serializable {
@@ -41,6 +40,7 @@ data class Message(
                     ref.setValue(this@Message).addOnSuccessListener {
                         editText.setText("")
                     }
+                    ref.parent!!.parent!!.child("isSeen").setValue(false)
                 }
             }
 
@@ -91,8 +91,7 @@ data class Message(
     }
 
     fun seeMessage(keyChat : String){
-        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat/isSeen}")
+        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat/isSeen")
         ref.setValue(true)
-        this.isSee = true
     }
 }
