@@ -91,8 +91,8 @@ data class Message(
     }
 
     fun seeMessage(keyChat : String){
-        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat/messages/${this@Message.idMessage}")
-        ref.child("see").setValue(true)
+        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat/isSeen}")
+        ref.setValue(true)
         this.isSee = true
     }
 }
