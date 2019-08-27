@@ -153,6 +153,8 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                 }
                 if(messages.size > 0){
                     val sortedList = messages.sortedWith(compareBy({it.date}, {it.time})).toList()
+                    val lastMessage = sortedList[sortedList.size - 1]
+                    lastMessage.seeMessage(keyChat)
                     adapter = MessageAdapter(context,
                         R.layout.list_item_message_me,
                         R.layout.list_item_message,

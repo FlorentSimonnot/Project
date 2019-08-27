@@ -19,7 +19,7 @@ data class Message(
     val text : String = "",
     val date : String = "",
     val time : String = "",
-    val isSee : Boolean = false,
+    var isSee : Boolean = false,
     val typeMessage: TypeMessage = TypeMessage.TEXT,
     var urlPhoto : String = ""
 ) : Serializable {
@@ -37,7 +37,7 @@ data class Message(
                     if(typeMessage == TypeMessage.IMAGE){
                         this@Message.urlPhoto = "images/discussions/$value/${this@Message.urlPhoto}"
                     }
-                    val ref = FirebaseDatabase.getInstance().getReference("discussions/$value/${this@Message.idMessage}")
+                    val ref = FirebaseDatabase.getInstance().getReference("discussions/$value/messages/${this@Message.idMessage}")
                     ref.setValue(this@Message).addOnSuccessListener {
                         editText.setText("")
                     }
@@ -63,7 +63,7 @@ data class Message(
                     val value = p0.child("keyChat").value
                     if (value != null) {
                         val ref =
-                            FirebaseDatabase.getInstance().getReference("discussions/$value/${this@Message.idMessage}")
+                            FirebaseDatabase.getInstance().getReference("discussions/$value/messages/${this@Message.idMessage}")
                         ref.removeValue()
                     }
                 }
@@ -88,5 +88,11 @@ data class Message(
         else{
             return DateCustom(this.date).toString()
         }
+    }
+
+    fun seeMessage(keyChat : String){
+        val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat/messages/${this@Message.idMessage}")
+        ref.child("see").setValue(true)
+        this.isSee = true
     }
 }
