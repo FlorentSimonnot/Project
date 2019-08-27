@@ -122,7 +122,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
                         latestMessages.add(sortedList[sortedList.size - 1])
                     }
                     if(index == keysChat.size - 1) {
-                        if (messages.size > 0) {
+                        if (latestMessages.size > 0) {
                             adapter = LatestMessageAdapter(context, R.layout.list_item_last_message, latestMessages, this@MessagerieActivity)
                             recyclerView.adapter = adapter
                             if (adapter.itemCount > 0) {

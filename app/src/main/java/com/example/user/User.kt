@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.login.EmailLogin
 import com.example.notification.Notifications
+import com.example.place.SessionGooglePlace
 import com.example.project.MainActivity
 import com.example.session.SessionUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
@@ -112,6 +116,21 @@ data class User(
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
+    }
+
+    fun writeIdentity(textView: TextView, userKey : String){
+        val ref = FirebaseDatabase.getInstance().getReference("users/$userKey")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(User::class.java)
+                if (value != null) {
+                    textView.text = value.firstName+" "+value.name
+
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
     }
 
 }

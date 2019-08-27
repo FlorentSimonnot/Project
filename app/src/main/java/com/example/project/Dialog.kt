@@ -96,6 +96,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
             }
 
         })
+
     }
 
     override fun onClick(p0: View?) {
@@ -154,8 +155,9 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                 if(messages.size > 0){
                     val sortedList = messages.sortedWith(compareBy({it.date}, {it.time})).toList()
                     val lastMessage = sortedList[sortedList.size - 1]
-                    if(lastMessage.addressee == session.getIdFromUser())
+                    if(lastMessage.addressee == session.getIdFromUser()) {
                         lastMessage.seeMessage(keyChat)
+                    }
                     adapter = MessageAdapter(context,
                         R.layout.list_item_message_me,
                         R.layout.list_item_message,
