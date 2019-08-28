@@ -1,13 +1,16 @@
-package com.example.messages
+package com.example.discussion
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.dateCustom.TimeCustom
+import com.example.messages.DiscussionViewLastMessage
+import com.example.messages.TypeMessage
 import com.example.session.SessionUser
 import com.example.user.User
 import de.hdodenhof.circleimageview.CircleImageView
@@ -18,7 +21,7 @@ import org.w3c.dom.Text
 class LatestMessageAdapter(
     val context: Context,
     val resource : Int,
-    val messages: ArrayList<Message>,
+    val discussion: ArrayList<DiscussionViewLastMessage>,
     val onItemListener: OnItemListener
 ) : RecyclerView.Adapter<LatestMessageAdapter.ViewHolder>(){
 
@@ -29,30 +32,29 @@ class LatestMessageAdapter(
     }
 
     override fun getItemCount(): Int {
-        return messages.size
+        return discussion.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(messages[position].sender == SessionUser().getIdFromUser()){
-            User().showPhotoUser(context, holder.photo, messages[position].addressee)
-            User().writeIdentity(holder.name, messages[position].addressee)
-            //SessionUser().writeInfoUser(context, messages[position].addressee, holder.name, "identity")
-            if(messages[position].typeMessage == TypeMessage.TEXT)
-                holder.message.text = "You : ${messages[position].text}"
+        if(discussion[position].lastMessage.sender == SessionUser().getIdFromUser()){
+            User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.addressee)
+            User().writeIdentity(holder.name, discussion[position].lastMessage.addressee)
+            if(discussion[position].lastMessage.typeMessage == TypeMessage.TEXT)
+                holder.message.text = "You : ${discussion[position].lastMessage.text}"
             else{
                 holder.message.text = "You send an image"
             }
         }else {
-            //SessionUser().writeInfoUser(context, messages[position].addressee, holder.name, "identity")
-            User().showPhotoUser(context, holder.photo, messages[position].sender)
-            User().writeIdentity(holder.name, messages[position].sender)
-            if(messages[position].typeMessage == TypeMessage.TEXT)
-                holder.message.text = "${messages[position].text}"
+            User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.sender)
+            User().writeIdentity(holder.name, discussion[position].lastMessage.sender)
+            if(discussion[position].lastMessage.typeMessage == TypeMessage.TEXT)
+                holder.message.text = "${discussion[position].lastMessage.text}"
             else{
                 holder.message.text = "send an image"
             }
+            discussion[position].discussionIsNotSeen(holder.message, holder.time, holder.see)
         }
-        holder.time.text = messages[position].writeDate()
+        holder.time.text = discussion[position].lastMessage.writeDate()
     }
 
 
@@ -62,6 +64,7 @@ class LatestMessageAdapter(
         var message : TextView
         var photo : CircleImageView
         var time : TextView
+        var see : RelativeLayout
         var onItemListener : OnItemListener
 
         override fun onClick(p0: View?) {
@@ -73,6 +76,7 @@ class LatestMessageAdapter(
             message = view.message
             photo = view.profile_photo
             time = view.time
+            see = view.see_circle
             this.onItemListener = onItemListener
 
             view.setOnClickListener(this)

@@ -43,10 +43,10 @@
                 >
             <ImageButton
                     android:id="@+id/btn_new_message"
-                    android:layout_width="wrap_content"
+                    android:layout_width="32dp"
                     android:layout_height="32dp"
-                    app:srcCompat="@drawable/ic_write"
-                    android:background="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_pen"
+                    android:background="@drawable/rounded_button_white"
                     android:layout_gravity="center_vertical"
                     android:gravity="right"
                     />

@@ -199,18 +199,18 @@ class MessageAdapter(
             //text.text = message.text
             time.text = message.time
             User().showPhotoUser(context, photo, message.sender)
-            val refPhoto  = FirebaseStorage.getInstance().getReference("images/${message.urlPhoto}").downloadUrl
+            val refPhoto  = FirebaseStorage.getInstance().getReference("${message.urlPhoto}").downloadUrl
             refPhoto.addOnSuccessListener {
                 Picasso.get().load(it).into(urlPhoto)
             }
-            /*text.setOnClickListener {
-                if(time.visibility == View.GONE){
-                    time.visibility = View.VISIBLE
-                }
-                else{
-                    time.visibility = View.GONE
-                }
-            }*/
+            urlPhoto.setOnClickListener {
+                val image = Image(message.urlPhoto, message.date, message.time)
+                context.startActivity(Intent(context, FullscreenImageActivity::class.java).putExtra("image", image))
+            }
+            urlPhoto.setOnLongClickListener {
+                message.deleteMessage(context)
+                true
+            }
             photo.setOnClickListener {
                 val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender}")
                 ref.addListenerForSingleValueEvent(object : ValueEventListener {

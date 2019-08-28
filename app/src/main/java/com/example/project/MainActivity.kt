@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,20 +14,25 @@ import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
 import com.example.dialog.AlertDialogWithRatingBar
 import com.example.events.Event
+import com.example.menu.MenuCustom
 import com.example.notification.MyFirebaseMessagingService
 import com.example.session.SessionUser
 import com.example.user.User
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_forgot_password.view.*
 
 
 class MainActivity : AppCompatActivity() {
     /*180719*/
     var session : SessionUser = SessionUser()
-    private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
+    lateinit var textViewMessageCount : TextView
+
+    /*private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
                 return@OnNavigationItemSelectedListener true
@@ -47,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         false
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,15 +67,25 @@ class MainActivity : AppCompatActivity() {
             startActivity(logInIntent)
         }
 
-        //searchEvent(this)
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        val menu = MenuCustom(this, navView, this@MainActivity)
+        navView.setOnNavigationItemSelectedListener(menu.onNavigationItemSelectedListener)
+
+        //Actualise badges when changes
+        FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+                //Nothing
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                menu.setBadges()
+            }
+
+        })
 
         /* ----------- BUTTON ACTIONS -------------*/
         val btnSearch : ImageButton = findViewById(R.id.btn_search)
         val btnSettings : ImageButton = findViewById(R.id.btn_settings)
-        //val btnSignOut : Button = findViewById(R.id.btnSignOut)
 
         btnSearch.setOnClickListener {
             val intent = Intent(this, SearchBarActivity::class.java)
@@ -125,46 +142,6 @@ class MainActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-    }
-
-
-    private fun searchEvent(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(User::class.java)
-                var eventsParticipation = ArrayList<String>()
-                if(value != null){
-                    var events = value.eventsJoined
-                    events.forEach {
-                        eventsParticipation.add(it.key)
-                    }
-                }
-                println("EE : $eventsParticipation")
-                searchParticipationEvent(context, eventsParticipation)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    private fun searchParticipationEvent(context: Context, events : ArrayList<String>){
-        val eventsConfirmed = ArrayList<String>()
-        events.forEach {
-            val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}/eventsJoined/${it}")
-            ref.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    println("AH ${dataSnapshot.child("status").value}")
-                    if(dataSnapshot.child("status").value == "confirmed"){
-                        eventsConfirmed.add(it)
-                    }
-
-                    searchFinishEvent(context, eventsConfirmed)
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {}
-            })
-        }
     }
 
     private fun searchFinishEvent(context: Context, events: ArrayList<String>){

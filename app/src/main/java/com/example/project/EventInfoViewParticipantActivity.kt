@@ -119,6 +119,8 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
         ).toString()
 
         Event().writeLogoSport(this, keyEvent, sportLogoImageView)
+
+        place.setOnClickListener(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -179,6 +181,9 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
             }
             R.id.button_cancel -> {
                 Event().cancelParticipation(this, keyEvent, session, cancelParticipationEventButton, participeEventButton, waitingNumber)
+            }
+            R.id.place -> {
+                Event().goPlaceWithWaze(this@EventInfoViewParticipantActivity, keyEvent)
             }
         }
     }

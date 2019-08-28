@@ -1,7 +1,9 @@
 package com.example.events
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.opengl.Visibility
 import android.view.View
 import android.widget.*
@@ -66,12 +68,6 @@ data class Event (
                     //Ok
                 }
             }
-        //Add into user createEvent
-        /*val refUser = FirebaseDatabase.getInstance().getReference("users/$creator/eventsCreated/${this.key}")
-        refUser.setValue(this.name)
-            .addOnSuccessListener {
-                println("DATA INSERTED !!!!")
-            }*/
     }
 
     fun writePlace(context: Context, key: String?, autocompleteFragment : AutocompleteSupportFragment){
@@ -95,6 +91,46 @@ data class Event (
                         .addOnSuccessListener {
                             val place : Place = it.place
                             autocompleteFragment.setText(place.name)
+                        }
+                        .addOnFailureListener {
+                            //Error
+                        }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun goPlaceWithWaze(context: Context, key : String?){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                if(value != null){
+                    //INIT GOOGLE PLACE
+                    val gg = SessionGooglePlace(context)
+                    gg.init()
+                    val placesClient = gg.createClient()
+
+                    //Search place in according to the ID
+                    val placeId : String = value.place
+                    val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS)
+                    val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+
+                    placesClient.fetchPlace(request)
+                        .addOnSuccessListener {
+                            val place : Place = it.place
+                            try {
+                                val url = "https://waze.com/ul?q=${place.name}"
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                context.startActivity(intent)
+                            }catch (exception : ActivityNotFoundException){
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.waze"))
+                                context.startActivity(intent)
+                            }
+
                         }
                         .addOnFailureListener {
                             //Error

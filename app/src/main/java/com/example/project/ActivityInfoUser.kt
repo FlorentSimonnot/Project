@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.example.menu.MenuCustom
 import com.example.session.SessionUser
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -15,6 +16,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
     private val session : SessionUser = SessionUser()
@@ -25,34 +30,14 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var googleSignInClient : GoogleSignInClient
 
-    private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                val checkAccountIntent = Intent(this, MainActivity::class.java)
-                finish()
-                startActivity(checkAccountIntent)
-                overridePendingTransition(R.anim.right_to_left_in, R.anim.right_to_left_out)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_map -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_account -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_chat -> {
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_user)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        val menu = MenuCustom(this, navView, this@ActivityInfoUser)
+        navView.setOnNavigationItemSelectedListener(menu.onNavigationItemSelectedListener)
 
         val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
         val photoImageView = findViewById<ImageView>(R.id.profile_photo)
@@ -92,6 +77,18 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
         ).toString()
 
         session.showPhotoUser(this, photoImageView)
+
+        //Actualise badges when changes and messages
+        FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                //Nothing
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                menu.setBadges()
+            }
+
+        })
     }
 
     override fun onClick(p0: View?) {
