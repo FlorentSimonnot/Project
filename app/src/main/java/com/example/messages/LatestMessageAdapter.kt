@@ -36,17 +36,17 @@ class LatestMessageAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(discussion[position].lastMessage.sender == SessionUser().getIdFromUser()){
-            User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.addressee)
-            User().writeIdentity(holder.name, discussion[position].lastMessage.addressee)
+        if(discussion[position].lastMessage.sender.key == SessionUser().getIdFromUser()){
+            User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.addressee.key)
+            User().writeIdentity(holder.name, discussion[position].lastMessage.addressee.key)
             if(discussion[position].lastMessage.typeMessage == TypeMessage.TEXT)
                 holder.message.text = "You : ${discussion[position].lastMessage.text}"
             else{
                 holder.message.text = "You send an image"
             }
         }else {
-            User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.sender)
-            User().writeIdentity(holder.name, discussion[position].lastMessage.sender)
+            User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.sender.key)
+            User().writeIdentity(holder.name, discussion[position].lastMessage.sender.key)
             if(discussion[position].lastMessage.typeMessage == TypeMessage.TEXT)
                 holder.message.text = "${discussion[position].lastMessage.text}"
             else{

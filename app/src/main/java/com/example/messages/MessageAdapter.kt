@@ -74,7 +74,7 @@ class MessageAdapter(
     override fun getItemViewType(position: Int): Int {
         val message = messages[position]
         //Message send
-        return if(message.sender == SessionUser().getIdFromUser()){
+        return if(message.sender.key == SessionUser().getIdFromUser()){
             if(message.typeMessage == TypeMessage.TEXT){
                 2
             } else{
@@ -152,7 +152,7 @@ class MessageAdapter(
         override fun bind(message: Message) {
             text.text = message.text
             time.text = message.time
-            User().showPhotoUser(context, photo, message.sender)
+            User().showPhotoUser(context, photo, message.sender.key)
             text.setOnClickListener {
                 if(time.visibility == View.GONE){
                     time.visibility = View.VISIBLE
@@ -173,12 +173,12 @@ class MessageAdapter(
                         if(user != null){
                             if(user.privacyAccount == PrivacyAccount.Public){
                                 val intent = Intent(context, PublicUserActivity::class.java)
-                                intent.putExtra("user", message.sender)
+                                intent.putExtra("user", message.sender.key)
                                 context.startActivity(intent)
                             }
                             else{
                                 val intent = Intent(context, PrivateUserActivity::class.java)
-                                intent.putExtra("user", message.sender)
+                                intent.putExtra("user", message.sender.key)
                                 context.startActivity(intent)
                             }
                         }
@@ -198,7 +198,7 @@ class MessageAdapter(
         override fun bind(message: Message) {
             //text.text = message.text
             time.text = message.time
-            User().showPhotoUser(context, photo, message.sender)
+            User().showPhotoUser(context, photo, message.sender.key)
             val refPhoto  = FirebaseStorage.getInstance().getReference("${message.urlPhoto}").downloadUrl
             refPhoto.addOnSuccessListener {
                 Picasso.get().load(it).into(urlPhoto)
@@ -223,12 +223,12 @@ class MessageAdapter(
                         if(user != null){
                             if(user.privacyAccount == PrivacyAccount.Public){
                                 val intent = Intent(context, PublicUserActivity::class.java)
-                                intent.putExtra("user", message.sender)
+                                intent.putExtra("user", message.sender.key)
                                 context.startActivity(intent)
                             }
                             else{
                                 val intent = Intent(context, PrivateUserActivity::class.java)
-                                intent.putExtra("user", message.sender)
+                                intent.putExtra("user", message.sender.key)
                                 context.startActivity(intent)
                             }
                         }

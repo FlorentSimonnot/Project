@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
+import com.example.messages.Actor
 import com.example.messages.Message
 import com.example.messages.MessageAdapter
 import com.example.messages.TypeMessage
@@ -106,8 +107,8 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                 if(text.isNotEmpty()){
                     val message = Message(
                         Utils().generatePassword(100),
-                        session.getIdFromUser(),
-                        keyUser,
+                        Actor(session.getIdFromUser(), true),
+                        Actor(keyUser, true),
                         text,
                         DateCustom("00/00/0000").getCurrentDate().toString(),
                         TimeCustom("00:00:00").getCurrentTime().toString()
@@ -155,7 +156,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                 if(messages.size > 0){
                     val sortedList = messages.sortedWith(compareBy({it.date}, {it.time})).toList()
                     val lastMessage = sortedList[sortedList.size - 1]
-                    if(lastMessage.addressee == session.getIdFromUser()) {
+                    if(lastMessage.addressee.key == session.getIdFromUser()) {
                         lastMessage.seeMessage(keyChat)
                     }
                     adapter = MessageAdapter(context,
@@ -188,8 +189,8 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                         Utils().insertImage(urlPhoto, uri, session.getIdFromUser(), keyUser)
                         val message = Message(
                             Utils().generatePassword(100),
-                            session.getIdFromUser(),
-                            keyUser,
+                            Actor(session.getIdFromUser(), true),
+                            Actor(keyUser, true),
                             "",
                             DateCustom("00/00/0000").getCurrentDate().toString(),
                             TimeCustom("00:00:00").getCurrentTime().toString(),

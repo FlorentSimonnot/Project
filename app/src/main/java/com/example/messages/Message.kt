@@ -14,8 +14,8 @@ import java.io.Serializable
 
 data class Message(
     val idMessage : String = "",
-    val sender : String = "",
-    val addressee : String = "",
+    val sender : Actor = Actor(),
+    val addressee : Actor = Actor(),
     val text : String = "",
     val date : String = "",
     val time : String = "",
@@ -24,7 +24,7 @@ data class Message(
 ) : Serializable {
 
     fun insertMessage(context : Context, editText: EditText){
-        val refKeyChat = FirebaseDatabase.getInstance().getReference("friends/$sender/$addressee")
+        val refKeyChat = FirebaseDatabase.getInstance().getReference("friends/${sender.key}/${addressee.key}")
         refKeyChat.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 //Nothing
@@ -94,4 +94,5 @@ data class Message(
         val ref = FirebaseDatabase.getInstance().getReference("discussions/$keyChat/isSeen")
         ref.setValue(true)
     }
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Adapter
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -58,6 +59,8 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
 
             override fun onDataChange(p0: DataSnapshot) {
                 menu.setBadges()
+                //adapter.notifyItemRangeChanged(0, latestDiscussion.size)
+                //recyclerView.adapter = LatestMessageAdapter(this@MessagerieActivity, R.layout.list_item_last_message, ArrayList(), this@MessagerieActivity)
                 keysChat.clear()
                 latestDiscussion.clear()
                 searchDiscussion(this@MessagerieActivity)
@@ -135,10 +138,10 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
     override fun onClick(position: Int) {
         if(position < keysChat.size) {
             val intent = Intent(this@MessagerieActivity, Dialog::class.java)
-            if(latestDiscussion[position].lastMessage.sender == session.getIdFromUser()){
-                intent.putExtra("keyUser", latestDiscussion[position].lastMessage.addressee)
+            if(latestDiscussion[position].lastMessage.sender.key == session.getIdFromUser()){
+                intent.putExtra("keyUser", latestDiscussion[position].lastMessage.addressee.key)
             }else {
-                intent.putExtra("keyUser", latestDiscussion[position].lastMessage.sender)
+                intent.putExtra("keyUser", latestDiscussion[position].lastMessage.sender.key)
             }
             intent.putExtra("keyChat", latestDiscussion[position].keyChat)
             this@MessagerieActivity.startActivity(intent)

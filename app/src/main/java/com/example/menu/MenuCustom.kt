@@ -101,17 +101,19 @@ class MenuCustom(
 
                 override fun onDataChange(p0: DataSnapshot) {
                     val messages = ArrayList<Message>()
-                    if(!(p0.child("isSeen").value as Boolean)){
-                        val data = p0.child("messages").children
-                        data.forEach {
-                            val message = it.getValue(Message::class.java)
-                            messages.add(message!!)
-                        }
-                        val sortedList = ArrayList(messages.sortedWith(compareBy({it.date}, {it.time})))
-                        if(sortedList.size > 0) {
-                            val lastMessage = sortedList[sortedList.size - 1]
-                            if(lastMessage.addressee == session.getIdFromUser())
-                                number++
+                    if(p0.hasChild("isSeen")){
+                        if(!(p0.child("isSeen").value as Boolean)){
+                            val data = p0.child("messages").children
+                            data.forEach {
+                                val message = it.getValue(Message::class.java)
+                                messages.add(message!!)
+                            }
+                            val sortedList = ArrayList(messages.sortedWith(compareBy({it.date}, {it.time})))
+                            if(sortedList.size > 0) {
+                                val lastMessage = sortedList[sortedList.size - 1]
+                                if(lastMessage.addressee.key == session.getIdFromUser())
+                                    number++
+                            }
                         }
                     }
 
