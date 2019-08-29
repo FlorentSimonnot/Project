@@ -26,21 +26,18 @@ class Discussion(
                 val postValues = HashMap<String, Any>()
                 messages.forEach {
 
-                    postValues[it.key!!] = it.value!!
+                    postValues["visible"] = false
 
                     val message = it.getValue(Message::class.java)
                     val sender = message!!.sender
-                    val addressee = message.addressee
 
                     if(sender.key == SessionUser(context).getIdFromUser()){
-                        sender.visible = false
-                        postValues["sender"] = sender
+                        ref.child("${it.key}/sender").updateChildren(postValues)
                     }
                     else{
-                        addressee.visible = false
-                        postValues["addressee"] = addressee
+                        ref.child("${it.key}/addressee").updateChildren(postValues)
                     }
-                    ref.child("${it.key}").updateChildren(postValues)
+
 
                 }
                 val intent = Intent(context, MessagerieActivity::class.java)
