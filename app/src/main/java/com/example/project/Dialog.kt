@@ -151,9 +151,11 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                val value = p0.child("keyChat").value as String
-                if(value != null){
-                    searchDiscussion(context, value)
+                if(p0.hasChild("keyChat")) {
+                    val value = p0.child("keyChat").value as String
+                    if (value != null) {
+                        searchDiscussion(context, value)
+                    }
                 }
             }
 
@@ -168,8 +170,15 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                 val messages : ArrayList<Message> = ArrayList()
                 data.forEach {
                     val message : Message = it.getValue(Message::class.java) as Message
-                    if(message != null){
-                        messages.add(message)
+                    if(message.sender.key == session.getIdFromUser()){
+                        if(message.sender.visible){
+                            messages.add(message)
+                        }
+                    }
+                    else{
+                        if(message.addressee.visible){
+                            messages.add(message)
+                        }
                     }
                 }
                 if(messages.size > 0){

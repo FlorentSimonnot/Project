@@ -151,7 +151,7 @@ class MessageAdapter(
 
         override fun bind(message: Message) {
             text.text = message.text
-            time.text = message.time
+            time.text = TimeCustom(message.time).showTime()
             User().showPhotoUser(context, photo, message.sender.key)
             text.setOnClickListener {
                 if(time.visibility == View.GONE){

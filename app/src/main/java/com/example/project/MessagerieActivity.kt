@@ -216,7 +216,16 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
                         //Collect all messages
                         data.forEach {
                             val message: Message = it.getValue(Message::class.java) as Message
-                            messages.add(message)
+                            if(message.sender.key == session.getIdFromUser()){
+                                if(message.sender.visible){
+                                    messages.add(message)
+                                }
+                            }
+                            else{
+                                if(message.addressee.visible){
+                                    messages.add(message)
+                                }
+                            }
                         }
                         val sortedList = ArrayList(messages.sortedWith(compareBy({ it.date }, { it.time })).toList())
                         if (sortedList.size > 0) {
