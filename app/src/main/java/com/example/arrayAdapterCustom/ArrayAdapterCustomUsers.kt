@@ -33,6 +33,7 @@ class ArrayAdapterCustomUsers(
         val view : View = layoutInflater.inflate(resource , null )
         val imageView : ImageView = view.findViewById(R.id.photo_user)
         val textView : TextView = view.findViewById(R.id.identity)
+        val message : Button
         val button : Button
 
         button = when(action){
@@ -52,8 +53,8 @@ class ArrayAdapterCustomUsers(
 
         if(users.size > 0) {
             if(action == "confirm"){
-                Event().verifyUserIsCreator(keyEvent, button, users[position].key)
-                //Event().showButtonIfCreator(keyEvent, button, SessionUser())
+                message = view.findViewById(R.id.send_message)
+                Event().verifyUserIsCreator(context, keyEvent, button, message, users[position].key)
             }
             textView.text = users[position].user.firstName + " " + users[position].user.name
             User().showPhotoUser(ctx, imageView, users[position].key)

@@ -10,7 +10,7 @@ import com.example.session.SessionUser
 
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
-    var session = SessionUser()
+    var session = SessionUser(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

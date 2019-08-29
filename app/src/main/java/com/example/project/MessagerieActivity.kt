@@ -4,9 +4,14 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Adapter
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.RelativeLayout
+import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.discussion.LatestMessageAdapter
@@ -21,15 +26,21 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_messagerie.*
 
 class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMessageAdapter.OnItemListener {
 
     private lateinit var newMessage : ImageButton
-    private val session = SessionUser()
+    private val session = SessionUser(this)
     private lateinit var recyclerView: RecyclerView
+    private lateinit var searchBar : RelativeLayout
+    private lateinit var searchEditText : EditText
+    private lateinit var notFound : RelativeLayout
     private lateinit var adapter : LatestMessageAdapter
-    private val keysChat = ArrayList<String>()
-    private var latestDiscussion = ArrayList<DiscussionViewLastMessage>()
+
+    val keysChat = ArrayList<String>()
+    val friends = ArrayList<String>()
+    var latestDiscussion = ArrayList<DiscussionViewLastMessage>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +51,9 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
         navView.setOnNavigationItemSelectedListener(menu.onNavigationItemSelectedListener)
 
         recyclerView = findViewById(R.id.recyclerView)
+        searchBar = findViewById(R.id.layout_search)
+        notFound = findViewById(R.id.noResults)
+        searchEditText = findViewById(R.id.searchUser)
 
         recyclerView.setHasFixedSize(true)
         val llm = LinearLayoutManager(this)
@@ -49,7 +63,16 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
         newMessage = findViewById(R.id.btn_new_message)
         newMessage.setOnClickListener(this)
 
-        //searchDiscussion(this)
+        searchEditText.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                friendsList(this@MessagerieActivity, p0?.toString()!!)
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        })
 
         //Actualise badges when changes and messages
         FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
@@ -59,11 +82,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
 
             override fun onDataChange(p0: DataSnapshot) {
                 menu.setBadges()
-                //adapter.notifyItemRangeChanged(0, latestDiscussion.size)
-                //recyclerView.adapter = LatestMessageAdapter(this@MessagerieActivity, R.layout.list_item_last_message, ArrayList(), this@MessagerieActivity)
-                keysChat.clear()
-                latestDiscussion.clear()
-                searchDiscussion(this@MessagerieActivity)
+                friendsList(this@MessagerieActivity, "")
             }
 
         })
@@ -79,59 +98,167 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
         }
     }
 
-    private fun searchDiscussion(context: Context){
-        val ref = FirebaseDatabase.getInstance().getReference("friends/${session.getIdFromUser()}")
+
+    /**
+     * friendsList(context : Context, stringSearch : String)
+     * collects all friends of current user
+     * @param context : Context
+     * @param stringSearch : String if we want select users in accordance to characters
+     */
+    private fun friendsList(context: Context, stringSearch : String){
+        friends.clear()
+        keysChat.clear()
+        latestDiscussion.clear()
+
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.session.getIdFromUser()}")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children
+                val data = dataSnapshot.children //Children = each friends
                 data.forEach {
-                    if(it.hasChild("keyChat")){
-                        val key = it.child("keyChat").value as String
-                        keysChat.add(key)
-                    }
+                    friends.add(it.key!!)
                 }
-                searchLatestMessages(context, keysChat)
+                searchUser(context, friends, stringSearch)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchLatestMessages(context: Context, keysChat : ArrayList<String>){
-        keysChat.forEachIndexed {index, it ->
-            val ref = FirebaseDatabase.getInstance().getReference("discussions/$it/messages")
-            ref.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val data = dataSnapshot.children //Children = each messages
-                    val messages : ArrayList<Message> = ArrayList()
+    /**
+     * fun searchUser(context : Context, friends : ArrayList<String>, stringSearch: String)
+     * collect friends of current user if their name contains the stringSearch
+     * @param context : Context
+     * @param friends : ArrayList<String> all current user's friends
+     * @param stringSearch : String if we want select users in accordance to characters
+     *
+     */
+    private fun searchUser(context : Context, friends : ArrayList<String>, stringSearch: String){
+        val users = ArrayList<String>()
+        friends.forEachIndexed{ index, it ->
+            FirebaseDatabase.getInstance().getReference("users/$it").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
 
-                    //Collect all messages
-                    data.forEach {
-                        val message : Message = it.getValue(Message::class.java) as Message
-                        messages.add(message)
+                override fun onDataChange(p0: DataSnapshot) {
+                    val firstName = p0.child("firstName").value as String
+                    val name = p0.child("name").value as String
+                    if(stringSearch.isNotEmpty()){
+                        if(firstName.contains(stringSearch) || name.contains(stringSearch)){
+                            users.add(p0.key!!)
+                            println("STRING $stringSearch")
+                        }
+                        else{
+                            println("NO STRING $stringSearch")
+                        }
                     }
-                    val sortedList = ArrayList(messages.sortedWith(compareBy({it.date}, {it.time})).toList())
-                    if(sortedList.size > 0) {
-                        latestDiscussion.add(DiscussionViewLastMessage(
-                            it,
-                            sortedList[sortedList.size - 1])
-                        )
+                    else{
+                        users.add(p0.key!!)
                     }
-                    if(index == keysChat.size - 1) {
-                        if (latestDiscussion.size > 0) {
-                            latestDiscussion = ArrayList(latestDiscussion.sortedWith(compareBy({it.lastMessage.date}, {it.lastMessage.time})).toList())
-                            latestDiscussion.reverse()
-                            adapter = LatestMessageAdapter(context, R.layout.list_item_last_message, latestDiscussion, this@MessagerieActivity)
-                            recyclerView.adapter = adapter
-                            if (adapter.itemCount > 0) {
-                                val position = recyclerView.adapter!!.itemCount
-                                recyclerView.smoothScrollToPosition(position - 1)
+
+                    if(index == friends.size - 1){
+                        searchDiscussion(context, users)
+                    }
+
+                }
+
+            })
+        }
+    }
+
+    /**
+     * searchDiscussion(context: Context, users : ArrayList<String>)
+     * collect the chat key for every current user's friend
+     * @param context : Context
+     * @param users : ArrayList<String> all current user's friend
+     *
+     */
+    private fun searchDiscussion(context: Context, users : ArrayList<String>){
+        keysChat.clear()
+        if(users.size == 0){
+            searchLatestMessages(context, keysChat)
+        }else {
+            users.forEachIndexed { index, it ->
+                FirebaseDatabase.getInstance().getReference("friends/${session.getIdFromUser()}/$it")
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(p0: DatabaseError) {
+                        }
+
+                        override fun onDataChange(p0: DataSnapshot) {
+                            if (p0.hasChild("keyChat")) {
+                                val keyChat = p0.child("keyChat").value as String
+                                keysChat.add(keyChat)
+                            }
+
+                            if (index == users.size - 1) {
+                                searchLatestMessages(context, keysChat)
+                            }
+
+                        }
+
+                    })
+            }
+        }
+    }
+
+    private fun searchLatestMessages(context: Context, keys : ArrayList<String>){
+        if(keys.size == 0){
+            recyclerView.visibility = View.GONE
+            noResults.visibility = View.VISIBLE
+        }
+        else {
+            keys.forEachIndexed { index, it ->
+                val ref = FirebaseDatabase.getInstance().getReference("discussions/$it/messages")
+                ref.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val data = dataSnapshot.children //Children = each messages
+                        val messages: ArrayList<Message> = ArrayList()
+
+                        //Collect all messages
+                        data.forEach {
+                            val message: Message = it.getValue(Message::class.java) as Message
+                            messages.add(message)
+                        }
+                        val sortedList = ArrayList(messages.sortedWith(compareBy({ it.date }, { it.time })).toList())
+                        if (sortedList.size > 0) {
+                            latestDiscussion.add(
+                                DiscussionViewLastMessage(
+                                    it,
+                                    sortedList[sortedList.size - 1]
+                                )
+                            )
+                        }
+                        if (index == keys.size - 1) {
+                            if (latestDiscussion.size > 0) {
+                                recyclerView.visibility = View.VISIBLE
+                                noResults.visibility = View.GONE
+                                latestDiscussion = ArrayList(
+                                    latestDiscussion.sortedWith(
+                                        compareBy({ it.lastMessage.date },
+                                            { it.lastMessage.time })
+                                    ).toList()
+                                )
+                                latestDiscussion.reverse()
+                                adapter = LatestMessageAdapter(
+                                    context,
+                                    R.layout.list_item_last_message,
+                                    latestDiscussion,
+                                    this@MessagerieActivity
+                                )
+                                recyclerView.adapter = adapter
+                                if (adapter.itemCount > 0) {
+                                    val position = recyclerView.adapter!!.itemCount
+                                    recyclerView.smoothScrollToPosition(position - 1)
+                                }
+                            } else {
+                                recyclerView.visibility = View.GONE
+                                noResults.visibility = View.VISIBLE
                             }
                         }
                     }
-                }
-                override fun onCancelled(databaseError: DatabaseError) {}
-            })
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
+            }
         }
     }
 

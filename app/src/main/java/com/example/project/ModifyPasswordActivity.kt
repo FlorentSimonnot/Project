@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.example.session.SessionUser
 
 class ModifyPasswordActivity : AppCompatActivity() {
-    var session = SessionUser()
+    var session = SessionUser(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

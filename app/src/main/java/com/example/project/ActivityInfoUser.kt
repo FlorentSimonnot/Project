@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
-    private val session : SessionUser = SessionUser()
+    private val session : SessionUser = SessionUser(this)
     private lateinit var info : LinearLayout
     private lateinit var deconnexion : LinearLayout
     private lateinit var friends : LinearLayout

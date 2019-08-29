@@ -9,9 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.get
 import com.example.messages.Message
-import com.example.project.ActivityInfoUser
-import com.example.project.MainActivity
-import com.example.project.MessagerieActivity
+import com.example.project.*
 import com.example.project.R
 import com.example.session.SessionUser
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
@@ -24,9 +22,10 @@ class MenuCustom(
     val activity : Activity
 ) {
 
-    private val session = SessionUser()
+    private val session = SessionUser(context)
 
     fun setBadges(){
+
         searchDiscussion()
     }
 

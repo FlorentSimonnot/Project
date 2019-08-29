@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.RelativeLayout
 import com.example.arrayAdapterCustom.ArrayAdapterFriends
@@ -15,9 +18,12 @@ import com.example.user.UserWithKey
 import com.google.firebase.database.*
 
 class ListUserSendMessage : AppCompatActivity() {
-    val session = SessionUser()
+    val session = SessionUser(this)
     private lateinit var listView : ListView
     private lateinit var noResults : RelativeLayout
+    private lateinit var searchBar : EditText
+    val friends : ArrayList<String?> = ArrayList()
+    val keyChats : ArrayList<String?> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +35,27 @@ class ListUserSendMessage : AppCompatActivity() {
 
         listView = findViewById(R.id.listViewUsers)
         noResults = findViewById(R.id.noResultsLayout)
+        searchBar = findViewById(R.id.searchUser)
 
-        friendsList(this)
+        friendsList(this, "")
+
+        searchBar.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+                friends.clear()
+                keyChats.clear()
+                //listView.removeAllViews()
+                friendsList(this@ListUserSendMessage, p0?.toString()!!)
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        })
     }
 
-    private fun friendsList(context: Context){
+    private fun friendsList(context: Context, stringSearch : String){
         val ref = FirebaseDatabase.getInstance().getReference("friends/${this.session.getIdFromUser()}")
-        val friends : ArrayList<String?> = ArrayList()
-        val keyChats : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
@@ -46,14 +65,14 @@ class ListUserSendMessage : AppCompatActivity() {
                         keyChats.add(it.child("keyChat").value as String)
                     }
                 }
-                searchUser(context, friends, keyChats)
+                searchUser(context, friends, keyChats, stringSearch)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchUser(context: Context, participants : ArrayList<String?>, keyChats : ArrayList<String?>) {
+    private fun searchUser(context: Context, participants : ArrayList<String?>, keyChats : ArrayList<String?>, stringSearch: String) {
         val ref = FirebaseDatabase.getInstance().getReference("users")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -64,7 +83,14 @@ class ListUserSendMessage : AppCompatActivity() {
                     //Add event in list if it isn't null
                     if (user != null) {
                         if (participants.contains(it.key)) {
-                            users.add(UserWithKey(user, it.key))
+                            if(stringSearch.isNotEmpty()) {
+                                if (user.firstName.contains(stringSearch) || user.name.contains(stringSearch)) {
+                                    users.add(UserWithKey(user, it.key))
+                                }
+                            }
+                            else{
+                                users.add(UserWithKey(user, it.key))
+                            }
                         }
                     }
                 }
@@ -91,7 +117,7 @@ class ListUserSendMessage : AppCompatActivity() {
                         }
 
                         override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                            friendsList(context)
+                            friendsList(context, "")
                         }
 
                         override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -99,7 +125,7 @@ class ListUserSendMessage : AppCompatActivity() {
                         }
 
                         override fun onChildRemoved(p0: DataSnapshot) {
-                            friendsList(context)
+                            friendsList(context, "")
                         }
                     })
                 } else {

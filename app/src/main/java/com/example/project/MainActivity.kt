@@ -29,84 +29,62 @@ import kotlinx.android.synthetic.main.activity_forgot_password.view.*
 
 class MainActivity : AppCompatActivity() {
     /*180719*/
-    var session : SessionUser = SessionUser()
-    lateinit var textViewMessageCount : TextView
-
-    /*private val onNavigationItemSelectedListener = OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_map -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_account -> {
-                val checkAccountIntent = Intent(this, ActivityInfoUser::class.java)
-                startActivity(checkAccountIntent)
-                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_chat -> {
-                val checkAccountIntent = Intent(this, MessagerieActivity::class.java)
-                startActivity(checkAccountIntent)
-                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }*/
+    var session : SessionUser = SessionUser(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_activity)
 
-        if (!session.isLogin()) {
-            val logInIntent = Intent(this, LoginActivity::class.java)
-            //Flags allow to block come back
-            logInIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(logInIntent)
-        }
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val menu = MenuCustom(this, navView, this@MainActivity)
         navView.setOnNavigationItemSelectedListener(menu.onNavigationItemSelectedListener)
-
-        //Actualise badges when changes
-        FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-                //Nothing
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                menu.setBadges()
-            }
-
-        })
-
         /* ----------- BUTTON ACTIONS -------------*/
         val btnSearch : ImageButton = findViewById(R.id.btn_search)
         val btnSettings : ImageButton = findViewById(R.id.btn_settings)
 
-        btnSearch.setOnClickListener {
-            val intent = Intent(this, SearchBarActivity::class.java)
-            startActivity(intent)
+        if (!session.isLogin()) {
+            val logInIntent = Intent(this, LoginActivity::class.java)
+            //Flags allow to block come back
+            logInIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            this.finish()
+            startActivity(logInIntent)
+        }
+        else {
+            //Actualise badges when changes
+            FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                    //Nothing
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    menu.setBadges()
+                }
+
+            })
+
+
+            btnSearch.setOnClickListener {
+                val intent = Intent(this, SearchBarActivity::class.java)
+                startActivity(intent)
+            }
+
+            btnSettings.setOnClickListener {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+
+
+            /* ----------- SHOW EVENTS ---------------*/
+            val listView = findViewById<ListView>(R.id.events_listview)
+            showAllEvents(this, listView)
+
+            val createEvent = findViewById<Button>(R.id.create_event)
+            createEvent.setOnClickListener {
+                val createEventIntent = Intent(this, CreateEventActivity::class.java)
+                startActivity(createEventIntent)
+            }
         }
 
-        btnSettings.setOnClickListener {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
-
-
-        /* ----------- SHOW EVENTS ---------------*/
-        val listView = findViewById<ListView>(R.id.events_listview)
-        showAllEvents(this, listView)
-
-        val createEvent = findViewById<Button>(R.id.create_event)
-        createEvent.setOnClickListener {
-            val createEventIntent = Intent(this, CreateEventActivity::class.java)
-            startActivity(createEventIntent)
-        }
 
     }
 

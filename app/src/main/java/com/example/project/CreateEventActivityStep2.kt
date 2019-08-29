@@ -21,7 +21,7 @@ class CreateEventActivityStep2 : AppCompatActivity(), NumberPicker.OnValueChange
     private lateinit var textViewNumberPeople : TextView
     private lateinit var textViewPrivacy : TextView
     private lateinit var stringPrivacy : Array<String>
-    private val session = SessionUser()
+    private val session = SessionUser(this)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +72,7 @@ class CreateEventActivityStep2 : AppCompatActivity(), NumberPicker.OnValueChange
                     Privacy.INIT.valueOfString(textViewPrivacy.text.toString()),
                     session.getIdFromUser()
                 )
-                event.insertEvent()
+                event.insertEvent(this)
                 startActivity(Intent(this, MainActivity::class.java))
             }
         }

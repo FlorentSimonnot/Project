@@ -22,7 +22,7 @@ class ArrayAdapterInviteFriends(
     val keyEvent : String?
 ) : ArrayAdapter<UserWithKeyAndStatus>(ctx, resource, users) {
 
-    private val session = SessionUser()
+    private val session = SessionUser(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val layoutInflater : LayoutInflater = LayoutInflater.from(ctx)

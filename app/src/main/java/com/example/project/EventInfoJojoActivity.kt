@@ -31,7 +31,7 @@ import org.w3c.dom.Text
 
 class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
 
-    private val session = SessionUser()
+    private val session = SessionUser(this)
     private var mMap: GoogleMap? = null
     private lateinit var keyEvent : String
 

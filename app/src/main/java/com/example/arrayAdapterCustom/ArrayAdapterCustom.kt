@@ -34,7 +34,7 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
         imageView.setImageDrawable(ctx.resources.getDrawable(events[position].sport.getLogoSport()))
         textView.text = events[position].name
         view.setOnClickListener {
-            if(events[position].creator != SessionUser().getIdFromUser()){
+            if(events[position].creator != SessionUser(context).getIdFromUser()){
                 context.startActivity(
                     Intent(context, EventInfoViewParticipantActivity::class.java)
                         .addCategory("eventInfo")

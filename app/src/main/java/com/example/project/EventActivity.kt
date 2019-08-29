@@ -31,7 +31,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
         }
     }
 
-    var session = SessionUser()
+    var session = SessionUser(this)
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView

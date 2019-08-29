@@ -15,7 +15,7 @@ import com.example.user.UserWithKey
 import com.google.firebase.database.*
 
 class FriendsListActivity : AppCompatActivity() {
-    val session = SessionUser()
+    val session = SessionUser(this)
     private lateinit var listView : ListView
     private lateinit var noResults : RelativeLayout
 

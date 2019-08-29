@@ -20,7 +20,7 @@ data class Notifications(
 ) {
 
     fun configureSwitches(context: Context, switches : NotificationPushActivity.Switches){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}/notificationsParam")
+        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser(context).getIdFromUser()}/notificationsParam")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
@@ -56,7 +56,7 @@ data class Notifications(
     }
 
     fun updateSwitches(context: Context, child : String, value : Boolean){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}/notificationsParam")
+        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser(context).getIdFromUser()}/notificationsParam")
         ref.child(child).setValue(value).addOnSuccessListener {
             Toast.makeText(context, "Update configuration !", Toast.LENGTH_SHORT).show()
         }

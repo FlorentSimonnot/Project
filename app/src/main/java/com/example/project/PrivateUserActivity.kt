@@ -11,7 +11,7 @@ import java.lang.StringBuilder
 
 class PrivateUserActivity : AppCompatActivity() {
     lateinit var user: User
-    var session : SessionUser = SessionUser()
+    var session : SessionUser = SessionUser(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

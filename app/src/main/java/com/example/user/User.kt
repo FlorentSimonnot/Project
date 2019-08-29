@@ -53,7 +53,7 @@ data class User(
             .addOnCompleteListener() {
                 result = it.isSuccessful
                 if (result) {
-                    insertUser(it.result?.user?.uid)
+                    insertUser(it.result?.user?.uid, context)
                     val emailLogin = EmailLogin(context, email, password)
                     emailLogin.login(context)
                 }
@@ -64,7 +64,7 @@ data class User(
     /**insertUser insert data from user into database
      *
      */
-    fun insertUser(uid: String?) {
+    fun insertUser(uid: String?, context: Context) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.setValue(this)
             .addOnSuccessListener {
@@ -73,7 +73,7 @@ data class User(
                         if(!it.isSuccessful){
                             println("ERRRORRRR")
                         }
-                        val session = SessionUser()
+                        val session = SessionUser(context)
                         val token = it.result?.token
                         val ref = FirebaseDatabase.getInstance().getReference("users")
                         ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)

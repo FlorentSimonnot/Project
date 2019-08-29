@@ -30,7 +30,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 
 class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener, View.OnClickListener  {
 
-    var session : SessionUser = SessionUser()
+    var session : SessionUser = SessionUser(this)
     val stringSex = arrayOf("Male", "Female", "Other")
     private lateinit var sexTextView: TextView
     private var placeId : String? = ""

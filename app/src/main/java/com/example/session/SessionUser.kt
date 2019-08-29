@@ -29,7 +29,7 @@ import java.lang.StringBuilder
 import java.util.*
 import kotlin.collections.HashMap
 
-class SessionUser : Serializable{
+class SessionUser(val context: Context) : Serializable{
     val user = FirebaseAuth.getInstance().currentUser
 
     /** isLogin verify if a user is connected
@@ -66,9 +66,10 @@ class SessionUser : Serializable{
      */
     fun getIdFromUser() : String{
         if(user == null){
-            throw Exception("User not connected")
+            context.startActivity(Intent(context, LoginActivity::class.java))
+            return ""
         }
-        return user.uid.toString()
+        return user!!.uid.toString()
     }
 
     fun login(email: String, password : String, context: Context){
@@ -253,6 +254,7 @@ class SessionUser : Serializable{
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
                     val postValues = HashMap<String, Any>()
+
                     dataSnapshot.children.forEach {
                         postValues.put(it.key!!, it.value!!)
                     }

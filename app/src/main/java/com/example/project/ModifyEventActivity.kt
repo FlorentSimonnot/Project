@@ -222,7 +222,7 @@ class ModifyEventActivity : AppCompatActivity(),
                     modifyNumberOfParticipants.text.toString().toInt(),
                     modifyDescription.text.toString(),
                     Privacy.INIT.valueOfString(modifyPrivacy.text.toString()),
-                    SessionUser().getIdFromUser()
+                    SessionUser(this).getIdFromUser()
                 )
                 event.updateEvent(this)
             }

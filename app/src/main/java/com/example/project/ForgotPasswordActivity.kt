@@ -9,7 +9,7 @@ import com.example.session.SessionUser
 import com.google.firebase.auth.FirebaseAuth
 
 class ForgotPasswordActivity : AppCompatActivity() {
-    private val session = SessionUser()
+    private val session = SessionUser(this)
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {

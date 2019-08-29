@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.dateCustom.TimeCustom
 import com.example.messages.DiscussionViewLastMessage
 import com.example.messages.TypeMessage
 import com.example.session.SessionUser
@@ -16,7 +14,6 @@ import com.example.user.User
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.list_item_last_message.view.*
 import kotlinx.android.synthetic.main.search_list_item_user.view.profile_photo
-import org.w3c.dom.Text
 
 class LatestMessageAdapter(
     val context: Context,
@@ -24,6 +21,13 @@ class LatestMessageAdapter(
     val discussion: ArrayList<DiscussionViewLastMessage>,
     val onItemListener: OnItemListener
 ) : RecyclerView.Adapter<LatestMessageAdapter.ViewHolder>(){
+
+    fun clear(){
+        val size = discussion.size
+        discussion.clear()
+        this.notifyDataSetChanged()
+        this.notifyItemRangeRemoved(0, size)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
@@ -36,7 +40,7 @@ class LatestMessageAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(discussion[position].lastMessage.sender.key == SessionUser().getIdFromUser()){
+        if(discussion[position].lastMessage.sender.key == SessionUser(context).getIdFromUser()){
             User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.addressee.key)
             User().writeIdentity(holder.name, discussion[position].lastMessage.addressee.key)
             if(discussion[position].lastMessage.typeMessage == TypeMessage.TEXT)

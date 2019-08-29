@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ListView
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import com.example.arrayAdapterCustom.ArrayAdapterCustomUsers
 import com.example.arrayAdapterCustom.ArrayAdapterInviteFriends
+import com.example.events.Event
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
@@ -17,10 +19,11 @@ import com.google.firebase.database.*
 import java.sql.DriverManager.println
 
 class AddPeopleToEventActivity : AppCompatActivity() {
-    val session = SessionUser()
+    val session = SessionUser(this)
     private lateinit var keyEvent : String
     private lateinit var listView : ListView
     private lateinit var noResults : RelativeLayout
+    private lateinit var noResultsText : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,15 +36,30 @@ class AddPeopleToEventActivity : AppCompatActivity() {
 
         listView = findViewById(R.id.listViewFriends)
         noResults = findViewById(R.id.noResultsLayout)
+        noResultsText = findViewById(R.id.noResultsText)
 
         val infos : Bundle? = intent.extras
         keyEvent = infos?.getString("key").toString()
 
-        createUsersParticipe(this, keyEvent)
+        FirebaseDatabase.getInstance().getReference("events/$keyEvent").addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(p0: DataSnapshot) {
+                val event = p0.getValue(Event::class.java) as Event
+                if(event.participants.size < event.nb_people){
+                    createUsersParticipe(this@AddPeopleToEventActivity, keyEvent)
+                }else{
+                   noResultsText.text = "Oops you can't invite some people. Your event is full !"
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {}
+
+        })
+
+        //createUsersParticipe(this, keyEvent)
     }
 
     private fun createUsersParticipe(context: Context, key: String){
-        val ref = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/friends")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${session.getIdFromUser()}")
         val participants : ArrayList<String?> = ArrayList()
         val status : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
@@ -150,4 +168,10 @@ class AddPeopleToEventActivity : AppCompatActivity() {
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
 }

@@ -49,8 +49,6 @@ data class Event (
     var note : Double = 0.0
     ) : Serializable {
 
-    private val session = SessionUser()
-
     override fun toString(): String {
         return "${this.sport}   ${this.name}"
     }
@@ -58,12 +56,12 @@ data class Event (
     /**
      * insertEvent insert the current event in database
      */
-    fun insertEvent(){
+    fun insertEvent(context: Context){
         //Add into events table
         val ref = FirebaseDatabase.getInstance().getReference("events/${this.key}")
         ref.setValue(this)
             .addOnSuccessListener {
-                val refU = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
+                val refU = FirebaseDatabase.getInstance().getReference("events/$key/participants/${SessionUser(context).getIdFromUser()}")
                 refU.child("status").setValue("creator").addOnSuccessListener {
                     //Ok
                 }
@@ -247,7 +245,7 @@ data class Event (
                 val name: String = dataSnapshot.child("name").value as String
                 val accountPrivacy = dataSnapshot.child("privacyAccount").value as String
                 if (firstName != null) {
-                    if(SessionUser().getIdFromUser() != uid) {
+                    if(SessionUser(context).getIdFromUser() != uid) {
                         val builder = StringBuilder("Created by : ")
                         builder.append(firstName).append(" ").append(name)
                         textView.text = builder
@@ -472,7 +470,7 @@ data class Event (
                 if (value != null) {
                     if(!value.finish) {
                         if (value.participants.size < value.nb_people) {
-                            if (value.participants.contains(SessionUser().getIdFromUser())) {
+                            if (value.participants.contains(SessionUser(context).getIdFromUser())) {
                                 button_participe.visibility = View.GONE
                                 button_cancel.visibility = View.VISIBLE
                             } else {
@@ -480,7 +478,7 @@ data class Event (
                                 button_cancel.visibility = View.GONE
                             }
                         } else {
-                            if (value.participants.contains(SessionUser().getIdFromUser())) {
+                            if (value.participants.contains(SessionUser(context).getIdFromUser())) {
                                 button_participe.visibility = View.GONE
                                 button_cancel.visibility = View.VISIBLE
                             } else {
@@ -491,7 +489,7 @@ data class Event (
                         }
                     }
                     else{
-                        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser().getIdFromUser()}/eventsJoined/")
+                        val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser(context).getIdFromUser()}/eventsJoined/")
                         ref.addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onCancelled(p0: DatabaseError) {
                                 //No
@@ -556,23 +554,26 @@ data class Event (
      * @param button : the button we want to hide
      * @param userKey : the key of user we want to check
      */
-    fun verifyUserIsCreator(key : String?, button: Button, userKey : String?){
+    fun verifyUserIsCreator(context: Context, key : String?, button: Button, buttonMessage : Button, userKey : String?){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
                 //Current user is the event's creator
-                if(value?.creator == SessionUser().getIdFromUser()){
+                if(value?.creator == SessionUser(context).getIdFromUser()){
                     //User from item is not the creator
                     if(userKey != value?.creator){
                         button.visibility = View.VISIBLE
+                        buttonMessage.visibility = View.VISIBLE
                     }
                     else{
                         button.visibility = View.GONE
+                        buttonMessage.visibility = View.GONE
                     }
                 }
                 else{
                     button.visibility = View.GONE
+                    buttonMessage.visibility = View.GONE
                 }
             }
 

@@ -24,9 +24,9 @@ class ParticipantsActivity : AppCompatActivity() {
         val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Users waiting acceptation"
+        supportActionBar?.title = "Participants"
 
-        listView = findViewById<ListView>(R.id.listViewUsers)
+        listView = findViewById(R.id.listViewUsers)
         noResults = findViewById(R.id.noResultsLayout)
 
         val infos : Bundle? = intent.extras

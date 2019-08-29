@@ -19,7 +19,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.*
 
 class FriendsActivity : AppCompatActivity() {
-    var session = SessionUser()
+    var session = SessionUser(this)
     private lateinit var friends : TabItem
     private lateinit var invitations : TabItem
     private lateinit var tab : TabLayout

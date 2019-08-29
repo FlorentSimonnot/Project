@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
-import com.example.messages.Actor
-import com.example.messages.Message
-import com.example.messages.MessageAdapter
-import com.example.messages.TypeMessage
+import com.example.messages.*
 import com.example.session.SessionUser
 import com.example.utils.Utils
 import com.google.firebase.database.DataSnapshot
@@ -35,7 +32,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
     private lateinit var buttonSendMessage : ImageButton
     private lateinit var buttonSendImage : ImageButton
     private lateinit var messageEditText: EditText
-    private val session = SessionUser()
+    private val session = SessionUser(this)
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter : MessageAdapter
     private val photoRequestCode = 1818
@@ -48,6 +45,9 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val imageViewOptions = findViewById<ImageView>(R.id.dots_menu)
+        imageViewOptions.setOnClickListener(this)
 
         val infos : Bundle? = intent.extras
         keyUser = infos?.getString("keyUser").toString()
@@ -69,7 +69,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
         buttonSendMessage.setOnClickListener(this)
         buttonSendImage.setOnClickListener(this)
 
-        SessionUser().writeNameUserDiscussion(this, keyUser, supportActionBar!!)
+        SessionUser(this).writeNameUserDiscussion(this, keyUser, supportActionBar!!)
 
         searchMessages(this)
         messageEditText.addTextChangedListener(object : TextWatcher{
@@ -120,6 +120,25 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "image/*"
                 startActivityForResult(intent, photoRequestCode)
+            }
+            R.id.dots_menu -> {
+                val popupMenu = PopupMenu(this@Dialog, p0)
+                popupMenu.setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.action_delete -> {
+                            val d = Discussion(keyChat)
+                            d.deleteDiscussionForCurrentUser(this@Dialog)
+                            return@setOnMenuItemClickListener true
+                        }
+                        else -> {
+                            //Nothing
+                            return@setOnMenuItemClickListener false
+                        }
+                    }
+                }
+                popupMenu.inflate(R.menu.menu_discussion)
+                popupMenu.show()
+
             }
         }
     }

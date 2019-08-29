@@ -17,7 +17,7 @@ import java.lang.StringBuilder
 class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
 
     lateinit var user: UserWithKey
-    var session = SessionUser()
+    var session = SessionUser(this)
     lateinit var tab : TabLayout
     lateinit var userKey : String
 
@@ -40,8 +40,8 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         val descriptionTextView = findViewById<TextView>(R.id.description)
         val addFriendButton = findViewById<Button>(R.id.add_friend_button)
 
-        SessionUser().writeInfoUser(this, userKey, identityTextView, "identity")
-        SessionUser().writeInfoUser(this, userKey, descriptionTextView, "describe")
+        SessionUser(this).writeInfoUser(this, userKey, identityTextView, "identity")
+        SessionUser(this).writeInfoUser(this, userKey, descriptionTextView, "describe")
 
         addFriendButton.setOnClickListener(this)
     }
@@ -50,7 +50,7 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         when(p0?.id){
             R.id.add_friend_button -> {
                 var userWithKey = UserWithKey(User(), userKey)
-                userWithKey.addFriend(SessionUser())
+                userWithKey.addFriend(session)
             }
         }
     }

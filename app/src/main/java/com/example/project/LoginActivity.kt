@@ -28,7 +28,7 @@ import java.security.NoSuchAlgorithmException
 
 
 class LoginActivity : AppCompatActivity() {
-    private val sessionUser = SessionUser()
+    private val sessionUser = SessionUser(this)
     private val RC_SIGN_IN = 9001
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager

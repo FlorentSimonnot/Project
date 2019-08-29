@@ -156,9 +156,9 @@ class CreateEventActivity : AppCompatActivity(),
                     event.nbPeople,
                     event.description,
                     event.privacy,
-                    SessionUser().getIdFromUser()
+                    SessionUser(this).getIdFromUser()
                 )
-                newEvent.insertEvent()
+                newEvent.insertEvent(this)
                 startActivity(Intent(this, MainActivity::class.java))
             }
             else{

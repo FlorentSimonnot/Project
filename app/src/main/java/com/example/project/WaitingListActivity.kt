@@ -15,7 +15,7 @@ import com.example.user.UserWithKey
 import com.google.firebase.database.*
 
 class WaitingListActivity : AppCompatActivity() {
-    val session = SessionUser()
+    val session = SessionUser(this)
     private lateinit var listView : ListView
     private lateinit var noResults : RelativeLayout
 
@@ -27,7 +27,7 @@ class WaitingListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
-        listView = findViewById<ListView>(R.id.listViewUsers)
+        listView = findViewById(R.id.listViewUsers)
         noResults = findViewById(R.id.noResultsLayout)
 
         waitingList(this)
@@ -36,12 +36,10 @@ class WaitingListActivity : AppCompatActivity() {
     private fun waitingList(context: Context){
         val ref = FirebaseDatabase.getInstance().getReference("friends/${this.session.getIdFromUser()}")
         val waiting : ArrayList<String?> = ArrayList()
-        println("KEY SESSION ${session.getIdFromUser()}")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    println("DATA ${it.key}")
                     if(it.child("status").value == "waiting"){
                         waiting.add(it.key)
                     }
@@ -94,11 +92,11 @@ class WaitingListActivity : AppCompatActivity() {
                         }
 
                         override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                            //
+                            waitingList(context)
                         }
 
                         override fun onChildRemoved(p0: DataSnapshot) {
-                            //
+                            waitingList(context)
                         }
                     })
                 } else {

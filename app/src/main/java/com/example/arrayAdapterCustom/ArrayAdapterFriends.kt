@@ -66,7 +66,7 @@ class ArrayAdapterFriends(
                         if(item != null){
                             val userKey = users[position].key
                             users.removeAt(position)
-                            SessionUser().acceptFriend(ctx, userKey)
+                            SessionUser(context).acceptFriend(ctx, userKey)
                         }
                     }
                     "friend" -> {
@@ -78,7 +78,7 @@ class ArrayAdapterFriends(
                             deleteFriendAlert.setTitle("Are you sure?")
                             deleteFriendAlert.setMessage("This user will not be your friend anymore :(.\nConfirm?")
                             deleteFriendAlert.setPositiveButton("Yes"){_, _ ->
-                                SessionUser().deleteFriend(ctx, userKey)
+                                SessionUser(context).deleteFriend(ctx, userKey)
                                 users.removeAt(position)
                             }
                             deleteFriendAlert.setNegativeButton("No"){_, _ ->
@@ -94,7 +94,7 @@ class ArrayAdapterFriends(
                 if(item != null){
                     val userKey = users[position].key
                     users.removeAt(position)
-                    SessionUser().refuseFriend(ctx, userKey)
+                    SessionUser(context).refuseFriend(ctx, userKey)
                 }
             }
             buttonSendMessage?.setOnClickListener {

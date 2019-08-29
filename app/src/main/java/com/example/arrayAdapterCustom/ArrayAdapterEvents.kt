@@ -44,7 +44,7 @@ class ArrayAdapterEvents(
             val sport : Sport = events[position].sport
             iconSport.setImageResource(sport.getLogo())
             view.setOnClickListener {
-                if(events[position].creator != SessionUser().getIdFromUser()){
+                if(events[position].creator != SessionUser(context).getIdFromUser()){
                         val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
                         intent.addCategory("eventInfo")
                         intent.putExtra("key", events[position].key)

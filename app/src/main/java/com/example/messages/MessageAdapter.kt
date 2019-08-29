@@ -74,7 +74,7 @@ class MessageAdapter(
     override fun getItemViewType(position: Int): Int {
         val message = messages[position]
         //Message send
-        return if(message.sender.key == SessionUser().getIdFromUser()){
+        return if(message.sender.key == SessionUser(context).getIdFromUser()){
             if(message.typeMessage == TypeMessage.TEXT){
                 2
             } else{

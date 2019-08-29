@@ -25,7 +25,7 @@ class EmailLogin (private val context : Context,
                             if(!it.isSuccessful){
                                 println("ERRRORRRR")
                             }
-                            val session = SessionUser()
+                            val session = SessionUser(context)
                             val token = it.result?.token
                             val ref = FirebaseDatabase.getInstance().getReference("users")
                             ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)

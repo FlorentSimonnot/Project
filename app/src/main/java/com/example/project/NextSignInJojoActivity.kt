@@ -193,13 +193,13 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
                         user.createAccount(auth, this)
                     }
                     "Google" -> {
-                        user.insertUser(auth.currentUser?.uid)
+                        user.insertUser(auth.currentUser?.uid, this)
                         val intent = Intent(this, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }
                     "Facebook" -> {
-                        user.insertUser(auth.currentUser?.uid)
+                        user.insertUser(auth.currentUser?.uid, this)
                         val intent = Intent(this, MainActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
