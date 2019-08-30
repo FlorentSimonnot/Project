@@ -42,7 +42,7 @@ class ArrayAdapterEvents(
             Event().writeInfoEvent(ctx, events[position].key, textViewDescription, "place")
             textViewDescription.text = events[position].place
             val sport : Sport = events[position].sport
-            iconSport.setImageResource(sport.getLogo())
+            iconSport.setImageResource(sport.getLogoSport())
             view.setOnClickListener {
                 if(events[position].creator != SessionUser(context).getIdFromUser()){
                         val intent = Intent(context, EventInfoViewParticipantActivity::class.java)

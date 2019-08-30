@@ -207,6 +207,17 @@ enum class Sport() {
         }
     }
 
+    fun getString(string : String) : Sport{
+        return when(string){
+            "Football" -> FOOTBALL
+            "Handball" -> HANDBALL
+            "Basketball" -> BASKETBALL
+            "Crossfit" -> CROSSFIT
+            "Tennis de table" -> TENNISDETABLE
+            else -> INIT
+        }
+    }
+
     abstract fun getNameSport() : String
     abstract fun getLogoSport() : Int
 }

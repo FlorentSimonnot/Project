@@ -29,6 +29,7 @@ class SportActivity : AppCompatActivity() {
         supportActionBar?.title = ""
 
         eventFirstStep = intent.getSerializableExtra("event") as EventFirstStep
+        val key = intent.getStringExtra("key")
 
         searchBar = findViewById(R.id.search_user)
         gridView = findViewById(R.id.grid)
@@ -39,9 +40,18 @@ class SportActivity : AppCompatActivity() {
         gridView.adapter = ArrayAdapterSport(this, R.layout.gridview_item_sport, sportList)
         gridView.setOnItemClickListener { adapterView, view, i, l ->
             eventFirstStep.sport = sportList[i]
-            val intent = Intent(this, CreateEventActivity::class.java)
-            intent.putExtra("event", eventFirstStep)
-            startActivity(intent)
+            if(intent.hasExtra("comeFrom")){
+                val intent = Intent(this@SportActivity, ModifyEventActivity::class.java)
+                intent.putExtra("event", eventFirstStep)
+                intent.putExtra("key", key!!)
+                finish()
+                startActivity(intent)
+            }else {
+                val intent = Intent(this@SportActivity, CreateEventActivity::class.java)
+                intent.putExtra("event", eventFirstStep)
+                finish()
+                startActivity(intent)
+            }
         }
 
         searchBar.addTextChangedListener(object : TextWatcher {
@@ -51,18 +61,35 @@ class SportActivity : AppCompatActivity() {
                     gridView.adapter = ArrayAdapterSport(this@SportActivity, R.layout.gridview_item_sport, sportList)
                     gridView.setOnItemClickListener { adapterView, view, i, l ->
                         eventFirstStep.sport = sportList[i]
-                        val intent = Intent(this@SportActivity, CreateEventActivity::class.java)
-                        intent.putExtra("event", eventFirstStep)
-                        startActivity(intent)
+                        if(intent.hasExtra("comeFrom")){
+                            val intent = Intent(this@SportActivity, ModifyEventActivity::class.java)
+                            intent.putExtra("event", eventFirstStep)
+                            intent.putExtra("key", key!!)
+                            finish()
+                            startActivity(intent)
+                        }else {
+                            val intent = Intent(this@SportActivity, CreateEventActivity::class.java)
+                            intent.putExtra("event", eventFirstStep)
+                            finish()
+                            startActivity(intent)
+                        }
                     }
                 } else {
                     createSportList("")
                     gridView.adapter = ArrayAdapterSport(this@SportActivity, R.layout.gridview_item_sport, sportList)
                     gridView.setOnItemClickListener { adapterView, view, i, l ->
                         eventFirstStep.sport = sportList[i]
-                        val intent = Intent(this@SportActivity, CreateEventActivity::class.java)
-                        intent.putExtra("event", eventFirstStep)
-                        startActivity(intent)
+                        if(intent.hasExtra("comeFrom")){
+                            val intent = Intent(this@SportActivity, ModifyEventActivity::class.java)
+                            intent.putExtra("event", eventFirstStep)
+                            finish()
+                            startActivity(intent)
+                        }else {
+                            val intent = Intent(this@SportActivity, CreateEventActivity::class.java)
+                            intent.putExtra("event", eventFirstStep)
+                            finish()
+                            startActivity(intent)
+                        }
                     }
                 }
             }
@@ -97,8 +124,6 @@ class SportActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-        val intent = Intent(this, CreateEventActivity::class.java)
-        startActivity(intent)
         return true
     }
 

@@ -53,8 +53,13 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
         keyUser = infos?.getString("keyUser").toString()
         keyChat = infos?.getString("keyChat").toString()
 
+        println("KEY USER $keyUser")
+
         if(keyChat.isEmpty()){
             throw Exception("KEY CHAT MUST NOT BE EMPTY")
+        }
+        if(keyUser.isEmpty()){
+            throw Exception("KEY USER MUST NOT BE EMPTY")
         }
 
         buttonSendMessage = findViewById(R.id.send_message)

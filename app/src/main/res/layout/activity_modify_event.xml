@@ -29,6 +29,24 @@
                 android:textColor="#fff"
                 android:fontFamily="@font/rubik"
                 >
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="20dp"
+                    >
+                <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_checked"
+                        android:gravity="end"
+                        android:layout_gravity="end"
+                        android:id="@+id/confirm_edit"
+                        android:background="@color/colorPrimary"
+                        />
+            </RelativeLayout>
+
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -83,6 +101,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
+                            android:textAlignment="textEnd"
+                            android:gravity="end"
                             />
 
                 </LinearLayout>
@@ -181,12 +201,23 @@
                     android:background="@drawable/border_bottom"
                     />
 
-            <fragment android:id="@+id/autocomplete_fragment"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="20dp"
-                      android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            <TextView
+                    android:id="@+id/modify_place"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/modify_title"
+                    android:layout_marginTop="15dp"
+                    android:text="place"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorBlueGrey900"
+                    android:fontFamily="@font/rubik"
+                    android:padding="5dp"
+                    android:drawableLeft="@drawable/ic_pin"
+                    android:drawablePadding="20dp"
+                    android:drawableStart="@drawable/ic_pin"
                     />
+
 
         </LinearLayout>
 
@@ -349,7 +380,7 @@
 
         </LinearLayout>
 
-        <Button
+        <!--<Button
                 android:id="@+id/confirm_edit"
                 android:layout_below="@id/more"
                 android:layout_marginTop="40dp"
@@ -362,7 +393,7 @@
                 android:padding="10dp"
                 android:fontFamily="@font/rubik"
                 android:textSize="22sp"
-                />
+                />-->
 
 
 

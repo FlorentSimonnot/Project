@@ -26,7 +26,7 @@
                 app:titleTextColor="#fff"
                 >
 
-            <RelativeLayout
+            <!---<RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="end"
@@ -41,7 +41,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_marginEnd="10dp"
                         />
-            </RelativeLayout>
+            </RelativeLayout>-->
         </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
@@ -54,138 +54,6 @@
                 android:background="@color/colorPrimary"
                 android:padding="10dp"
                 >
-
-
-            <!--<RelativeLayout
-                    android:id="@+id/header_name"
-                    android:layout_below="@id/header_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    >
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/name_and_firstName_layout"
-                        android:orientation="horizontal"
-                        >
-
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/name_and_firstName_account"
-                            android:textAlignment="center"
-                            android:textColor="#fff"
-                            android:fontFamily="@font/rubik"
-                            android:textSize="20sp"
-                            android:layout_alignStart="@+id/name_and_firstName_layout"
-                            android:layout_below="@+id/name_and_firstName_layout"
-                            />
-
-                </LinearLayout>
-            </RelativeLayout>-->
-
-            <!--<LinearLayout
-                    android:id="@+id/header_stats"
-                    android:layout_below="@id/header_name"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="0dp"
-                    android:orientation="horizontal"
-                    >
-
-                <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/participants"
-                        android:orientation="vertical"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/border_right_background_primary"
-                        >
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:fontFamily="@font/rubik"
-                            android:textSize="30sp"
-                            android:textColor="#fff"
-                            android:id="@+id/friends_number"
-                            />
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Friends"
-                            android:gravity="center"
-                            android:fontFamily="@font/rubik"
-                            android:textColor="#fff"
-                            />
-
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/waiting"
-                        android:orientation="vertical"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        android:background="@drawable/border_right_background_primary"
-                        >
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:fontFamily="@font/rubik"
-                            android:textSize="30sp"
-                            android:textColor="#fff"
-                            android:id="@+id/created_number"
-                            />
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Events created"
-                            android:gravity="center"
-                            android:fontFamily="@font/rubik"
-                            android:textColor="#fff"
-                            />
-
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/refuse"
-                        android:orientation="vertical"
-                        android:padding="10dp"
-                        android:gravity="center"
-                        >
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:fontFamily="@font/rubik"
-                            android:textSize="30sp"
-                            android:textColor="#fff"
-                            android:id="@+id/joined_number"
-                            />
-                    <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Events joined"
-                            android:gravity="center"
-                            android:fontFamily="@font/rubik"
-                            android:textColor="#fff"
-                            />
-
-                </LinearLayout>
-
-            </LinearLayout>-->
 
         </RelativeLayout>
 
@@ -218,6 +86,8 @@
                 android:layout_below="@id/header"
                 android:id="@+id/description_layout"
                 android:paddingTop="60dp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
                 >
 
             <TextView
@@ -230,56 +100,151 @@
                     android:gravity="center"
                     android:id="@+id/identity"
                     />
-            <TextView
-                    android:text="@string/description_test"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/rubik"
-                    android:textColor="#778ca3"
-                    android:gravity="center"
-                    android:id="@+id/description"
                     android:layout_below="@id/identity"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    />
+                    android:id="@+id/place_layout"
+                    android:gravity="center_horizontal"
+                    >
+
+                <TextView
+                        android:text="Where"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/rubik"
+                        android:textColor="#778ca3"
+                        android:gravity="center_horizontal"
+                        android:id="@+id/place"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:drawableStart="@drawable/ic_pin"
+                        android:drawableLeft="@drawable/ic_pin"
+                        android:layout_gravity="center_horizontal"
+                        android:drawablePadding="15dp"
+                        android:padding="10dp"
+                        />
+
+            </LinearLayout>
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttons_layout"
                     android:orientation="horizontal"
-                    android:layout_below="@id/description"
+                    android:layout_below="@id/place_layout"
                     android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
                     >
 
-
-                <Button
-                        android:text="Add friend"
-                        android:layout_width="0dp"
+                <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/add_friend_button"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_button_rectangle"
-                        android:textColor="#fff"
-                        android:fontFamily="@font/rubik"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_gravity="center"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        >
+                    <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/layoutAddFriend"
+                            android:gravity="center_horizontal"
+                            android:layout_gravity="center_horizontal"
+                            >
+                        <ImageButton
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:background="@drawable/rounded_button_grey50"
+                                app:srcCompat="@drawable/ic_add_user"
+                                android:id="@+id/addFriendButton"
+                                android:gravity="center_horizontal"
+                                android:layout_gravity="center_horizontal"
+                                />
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/layoutAddFriend"
+                            >
+
+
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Add friend"
+                                android:layout_marginTop="5dp"
+                                android:fontFamily="@font/rubik"
+                                />
+
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginStart="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
                         android:layout_marginRight="20dp"
                         android:layout_marginEnd="20dp"
-                        />
+                        >
 
-                <Button
-                        android:text="About Me"
-                        android:layout_width="0dp"
+                    <ImageButton
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:background="@drawable/rounded_button_grey50"
+                            app:srcCompat="@drawable/ic_paper_plane_primary"
+                            android:id="@+id/sendMessageButton"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Send message"
+                            android:layout_below="@id/sendMessageButton"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/rubik"
+                            />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/button4"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_input_rectangle_with_border"
-                        android:textColor="@color/colorPrimary"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginEnd="20dp"
-                        />
+                        android:layout_marginStart="20dp"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        >
+
+                    <ImageButton
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:background="@drawable/rounded_button_grey50"
+                            app:srcCompat="@drawable/ic_question"
+                            android:id="@+id/learnMore"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Learn more"
+                            android:layout_below="@id/learnMore"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/rubik"
+                            />
+                </LinearLayout>
+
             </LinearLayout>
         </RelativeLayout>
 
@@ -289,7 +254,7 @@
                 android:minHeight="100dp"
                 android:layout_below="@id/description_layout"
                 android:id="@+id/stats_layout"
-                android:paddingTop="30dp"
+                android:background="#dedede"
                 >
 
 
@@ -297,6 +262,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/tab"
+                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabIndicatorHeight="3dp"
+                    android:background="@color/colorPrimary"
+                    app:tabTextColor="#fff"
                     >
 
                 <com.google.android.material.tabs.TabItem
@@ -313,300 +282,19 @@
                         android:id="@+id/events_joined_tab"
                         android:text="Events Joined"/>
 
-                <!--<com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Events created"
-                        />
-
-                <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Events Joined"
-                        />-->
-
             </com.google.android.material.tabs.TabLayout>
 
-            <GridView
+            <ListView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="-2dp"
+                    android:layout_marginTop="5dp"
                     android:layout_below="@+id/tab"
+                    android:id="@+id/listViewEvents"
+                    android:padding="10dp"
+                    android:divider="@null"
                     />
         </RelativeLayout>
-        <!--<RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/description"
-                >
 
-            <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:ignore="NotSibling"
-                    >
-
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:paddingTop="20dp"
-                        >
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#fff"
-                            android:padding="15dp"
-                            android:orientation="horizontal"
-                            android:id="@+id/infos"
-                            android:clickable="true"
-                            android:focusable="true"
-                            >
-                        <ImageView
-                                android:layout_width="28dp"
-                                android:layout_height="28dp"
-                                app:srcCompat="@drawable/ic_user"
-                                />
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Your personal information"
-                                android:fontFamily="@font/rubik"
-                                android:paddingBottom="10dp"
-                                android:textSize="20sp"
-                                android:layout_marginLeft="10dp"
-                                />
-                    </LinearLayout>
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/border_top_bottom"
-                            android:orientation="vertical"
-                            android:layout_below="@id/infos"
-                            android:id="@+id/events_and_friends"
-                            android:layout_marginTop="20dp"
-                            >
-
-                        <LinearLayout
-                                android:id="@+id/events_layout"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="15dp"
-                                >
-                            <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:srcCompat="@drawable/ic_events"
-                                    />
-                            <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Your events"
-                                    android:fontFamily="@font/rubik"
-                                    android:paddingBottom="10dp"
-                                    android:textSize="20sp"
-                                    android:layout_marginLeft="10dp"
-                                    />
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:orientation="horizontal"
-                                android:background="@color/colorPrimary"
-                                android:layout_marginLeft="54dp"
-                                android:layout_marginStart="54dp"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginEnd="20dp"
-                                >
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="15dp"
-                                android:id="@+id/friends_layout"
-                                >
-                            <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:srcCompat="@drawable/ic_friends"
-                                    />
-                            <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="See your friends"
-                                    android:fontFamily="@font/rubik"
-                                    android:paddingBottom="10dp"
-                                    android:textSize="20sp"
-                                    android:layout_marginLeft="10dp"
-                                    />
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:orientation="horizontal"
-                                android:background="@color/colorPrimary"
-                                android:layout_marginLeft="54dp"
-                                android:layout_marginStart="54dp"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginEnd="20dp"
-                                >
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="15dp"
-                                android:id="@+id/badges_layout"
-                                >
-                            <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:srcCompat="@drawable/ic_badge"
-                                    />
-                            <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="See your badges"
-                                    android:fontFamily="@font/rubik"
-                                    android:paddingBottom="10dp"
-                                    android:textSize="20sp"
-                                    android:layout_marginLeft="10dp"
-                                    />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/border_top_bottom"
-                            android:orientation="vertical"
-                            android:layout_below="@id/events_and_friends"
-                            android:id="@+id/more"
-                            android:layout_marginTop="20dp"
-                            >
-
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="15dp"
-                                android:id="@+id/notificationPush"
-                                >
-                            <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:srcCompat="@drawable/ic_notification"
-                                    />
-                            <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Notification push"
-                                    android:fontFamily="@font/rubik"
-                                    android:paddingBottom="10dp"
-                                    android:textSize="20sp"
-                                    android:layout_marginLeft="10dp"
-                                    />
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:orientation="horizontal"
-                                android:background="@color/colorPrimary"
-                                android:layout_marginLeft="54dp"
-                                android:layout_marginStart="54dp"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginEnd="20dp"
-                                >
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="15dp"
-                                android:id="@+id/share_application"
-                                >
-                            <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:srcCompat="@drawable/ic_like"
-                                    />
-                            <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Advise this application"
-                                    android:fontFamily="@font/rubik"
-                                    android:paddingBottom="10dp"
-                                    android:textSize="20sp"
-                                    android:layout_marginLeft="10dp"
-                                    />
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:orientation="horizontal"
-                                android:background="@color/colorPrimary"
-                                android:layout_marginLeft="54dp"
-                                android:layout_marginStart="54dp"
-                                android:layout_marginRight="20dp"
-                                android:layout_marginEnd="20dp"
-                                >
-                        </LinearLayout>
-                        <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:padding="15dp"
-                                >
-                            <ImageView
-                                    android:layout_width="28dp"
-                                    android:layout_height="28dp"
-                                    app:srcCompat="@drawable/ic_more"
-                                    />
-                            <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Terms of use"
-                                    android:fontFamily="@font/rubik"
-                                    android:paddingBottom="10dp"
-                                    android:textSize="20sp"
-                                    android:layout_marginLeft="10dp"
-                                    />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="#fff"
-                            android:padding="10dp"
-                            android:orientation="horizontal"
-                            android:id="@+id/deconnexion"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp"
-                            android:clickable="true"
-                            android:focusable="true"
-                            >
-                        <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Log out"
-                                android:fontFamily="@font/rubik"
-                                android:textSize="20sp"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center"
-                                />
-                    </LinearLayout>
-                </LinearLayout>
-
-
-            </ScrollView>
-
-        </RelativeLayout>-->
     </RelativeLayout>
 
 

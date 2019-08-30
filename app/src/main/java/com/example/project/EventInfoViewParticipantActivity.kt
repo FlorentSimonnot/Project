@@ -1,5 +1,6 @@
 package com.example.project
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,10 +30,26 @@ import java.util.*
 class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
     private val session = SessionUser(this)
     private var mMap: GoogleMap? = null
+
     private lateinit var keyEvent : String
+
+    /*------------TextView, EditText etc...-----------*/
+    private lateinit var titleTextView : TextView
+    private lateinit var sportLogoImageView : ImageView
     private lateinit var participeEventButton : Button
     private lateinit var cancelParticipationEventButton : Button
     private lateinit var waitingNumber : TextView
+    private lateinit var creatorTextView : TextView
+    private lateinit var dateHour : TextView
+    private lateinit var freePlace : TextView
+    private lateinit var place : TextView
+    private lateinit var participantsNumber : TextView
+    private lateinit var noteTextView : TextView
+    private lateinit var ratingBar : RatingBar
+    private lateinit var fullTextView : TextView
+    private lateinit var description : TextView
+
+     /*-----------------------------------------------*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,77 +67,97 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
         val infos : Bundle? = intent.extras
         keyEvent = infos?.getString("key").toString()
 
-        val titleTextView : TextView = findViewById(R.id.title)
-        val sportLogoImageView = findViewById<ImageView>(R.id.sport_logo)
-        val creatorTextView = findViewById<TextView>(R.id.creator)
-        val dateHour = findViewById<TextView>(R.id.date_hour)
-        val freePlace = findViewById<TextView>(R.id.participants_number)
-        val place = findViewById<TextView>(R.id.place)
-        val participantsNumber = findViewById<TextView>(R.id.participant_number)
-        waitingNumber = findViewById<TextView>(R.id.waiting_number)
-        val noteTextView = findViewById<TextView>(R.id.note_event)
-        val ratingBar  = findViewById<RatingBar>(R.id.ratingBar)
-
+        /*--------------------------------Init--------------------------------------*/
+        titleTextView = findViewById(R.id.title)
+        sportLogoImageView = findViewById(R.id.sport_logo)
+        creatorTextView = findViewById(R.id.creator)
+        dateHour = findViewById(R.id.date_hour)
+        freePlace = findViewById(R.id.participants_number)
+        place = findViewById(R.id.place)
+        participantsNumber = findViewById(R.id.participant_number)
+        waitingNumber = findViewById(R.id.waiting_number)
+        noteTextView = findViewById(R.id.note_event)
+        ratingBar  = findViewById(R.id.ratingBar)
         participeEventButton = findViewById(R.id.button_participate)
-        cancelParticipationEventButton = findViewById<Button>(R.id.button_cancel)
-        val fullTextViex = findViewById<TextView>(R.id.full_event)
+        cancelParticipationEventButton = findViewById(R.id.button_cancel)
+        fullTextView = findViewById(R.id.full_event)
+        description = findViewById(R.id.description)
+
+        /*--------------------------------Click------------------------------------*/
         participeEventButton.setOnClickListener(this)
         cancelParticipationEventButton.setOnClickListener(this)
+        place.setOnClickListener(this)
 
-        Event().getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, fullTextViex, noteTextView, ratingBar)
 
-        Event().writeInfoEvent(
+        /*-------------------------------Show info---------------------------------*/
+        FirebaseDatabase.getInstance().getReference("events/$keyEvent").addValueEventListener(object:ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                writeEventInfo(this@EventInfoViewParticipantActivity)
+            }
+
+        })
+
+    }
+
+    private fun writeEventInfo(context: Context){
+        val event = Event()
+
+        event.getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, fullTextView, noteTextView, ratingBar)
+
+        event.writeInfoEvent(
             this,
             keyEvent,
             titleTextView,
             "name"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             creatorTextView,
             "creator"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             dateHour,
             "dateAndTime"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             freePlace,
             "freePlace"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             place,
             "place"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             participantsNumber,
             "participant"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             waitingNumber,
             "waiting"
         ).toString()
 
-        Event().writeLogoSport(this, keyEvent, sportLogoImageView)
+        event.writeInfoEvent(this, keyEvent, description, "description")
 
-        place.setOnClickListener(this)
+        event.writeLogoSport(this, keyEvent, sportLogoImageView)
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -1,5 +1,7 @@
 package com.example.project
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -11,18 +13,28 @@ import android.widget.*
 import com.example.dialog.AlertCustomWithEditText
 import com.example.dialog.AlertDialogCustom
 import com.example.events.Event
+import com.example.events.EventFirstStep
 import com.example.events.Privacy
 import com.example.picker.DatePicker
 import com.example.picker.NumberPickerCustom
 import com.example.picker.StringPickerCustom
 import com.example.picker.TimePicker
+import com.example.place.SessionGooglePlace
 import com.example.session.SessionUser
 import com.example.sport.Sport
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import kotlinx.android.synthetic.main.activity_create_event.*
+import kotlinx.android.synthetic.main.activity_create_event.description
+import kotlinx.android.synthetic.main.activity_create_event.numberPeople
+import kotlinx.android.synthetic.main.activity_modify_event.*
 import org.w3c.dom.Text
 import java.text.DateFormat
 import java.util.*
@@ -36,10 +48,9 @@ class ModifyEventActivity : AppCompatActivity(),
 {
     private lateinit var keyEvent : String
     private var sportList : ArrayList<Sport> = ArrayList()
-    private lateinit var listView : ListView
-    private val API_KEY = "AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
+    private val apiKey = "AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
     private var placeId : String? = ""
-    private lateinit var dialogSport : AlertDialogCustom
     private lateinit var stringPrivacy : Array<String>
     private lateinit var modifyTitle : TextView
     private lateinit var modifyDescription : TextView
@@ -48,6 +59,8 @@ class ModifyEventActivity : AppCompatActivity(),
     private lateinit var modifySport : TextView
     private lateinit var modifyDate : TextView
     private lateinit var modifyHour : TextView
+    private lateinit var modifyPlace : TextView
+    private var event : EventFirstStep = EventFirstStep()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,38 +75,15 @@ class ModifyEventActivity : AppCompatActivity(),
         val infos : Bundle? = intent.extras
         keyEvent = infos?.getString("key").toString()
 
-
-        // Initialize the SDK
-        Places.initialize(applicationContext, API_KEY)
-        // Create a new Places client instance
-        val placesClient = Places.createClient(this)
-        // Initialize the AutocompleteSupportFragment.
-        val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
-        //autocompleteFragment?.setHint("Search your place")
-
-        // Specify the types of place data to return.
-        autocompleteFragment!!.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME))
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onError(p0: Status) {
-                println("AN ERROR OCCURED $p0")
-                placeId = ""
-            }
-
-            override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
-                placeId = place.id
-            }
-
-        })
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, apiKey)
+        }
 
 
         /*Init xml elements*/
         val buttonPrivacy = findViewById<LinearLayout>(R.id.button_privacy)
         val buttonNumberOfParticipant = findViewById<LinearLayout>(R.id.button_number_of_participant)
-        val buttonConfirm = findViewById<Button>(R.id.confirm_edit)
+        val buttonConfirm = findViewById<ImageButton>(R.id.confirm_edit)
 
 
         modifyTitle = findViewById(R.id.modify_title)
@@ -103,6 +93,7 @@ class ModifyEventActivity : AppCompatActivity(),
         modifySport = findViewById(R.id.modify_sport)
         modifyDate = findViewById(R.id.modify_date)
         modifyHour = findViewById(R.id.modify_hour)
+        modifyPlace = findViewById(R.id.modify_place)
 
         /*Set onclick*/
         modifyTitle.setOnClickListener(this)
@@ -116,50 +107,49 @@ class ModifyEventActivity : AppCompatActivity(),
 
 
         createSportList()
-        dialogSport = AlertDialogCustom(this, R.layout.list_item_sport, sportList, "Choose sport", modifySport)
         stringPrivacy = arrayOf("Public", "Private", "Only invitation")
 
-        val event = Event()
-        event.writeInfoEvent(
-            this,
-            keyEvent,
-            modifyTitle,
-            "name"
-        )
-        event.writeInfoEvent(
-            this, keyEvent, modifySport, "sport"
-        )
-        event.writeInfoEvent(
-            this,
-            keyEvent,
-            modifyDate,
-            "date"
-        )
-        event.writeInfoEvent(
-            this,
-            keyEvent,
-            modifyHour,
-            "time"
-        )
-        event.writeInfoEvent(
-            this, keyEvent, modifyDescription, "description"
-        )
-        event.writeInfoEvent(
-            this, keyEvent, modifyPrivacy, "privacy"
-        )
-        event.writeInfoEvent(
-            this, keyEvent, modifyNumberOfParticipants, "numberOfParticipants"
-        )
-        event.writePlace(this, keyEvent, autocompleteFragment!!)
+        if(intent.hasExtra("event")){
+            event = intent.getSerializableExtra("event") as EventFirstStep
+            initializeFields()
+        }
+        else{
+            initializeFields()
+        }
+
+        modifyPlace.setOnClickListener {
+            // Set the fields to specify which types of place data to return.
+            val fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+
+            // Start the autocomplete intent.
+            val intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this)
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        }
+
+        modifySport.setOnClickListener{
+            val intent = Intent(this, SportActivity::class.java)
+            event.name = modifyTitle.text.toString()
+            event.description = modifyDescription.text.toString()
+            event.place = modifyPlace.text.toString()
+            event.nbPeople = modifyNumberOfParticipants.text.toString().toInt()
+            event.privacy = Privacy.INIT.valueOfString(modifyPrivacy.text.toString())
+            event.date = modifyDate.text.toString()
+            event.time = modifyHour.text.toString()
+            event.sport = Sport.INIT.getString(modifySport.text.toString())
+            intent.putExtra("event", event)
+            intent.putExtra("comeFrom", "ModifyEventActivity")
+            intent.putExtra("placeId", placeId!!)
+            intent.putExtra("key", keyEvent)
+            finish()
+            startActivity(intent)
+        }
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val intent = Intent(this, EventInfoJojoActivity::class.java)
-        intent.putExtra("key", keyEvent)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        ModifyEventActivity::finish
-        startActivity(intent)
+        super.onBackPressed()
         return true
     }
 
@@ -176,10 +166,6 @@ class ModifyEventActivity : AppCompatActivity(),
                     "name"
                 )
                 dialog.show(supportFragmentManager, "Title")
-            }
-            R.id.modify_sport -> {
-                dialogSport.createAlertDialog()
-                dialogSport.showDialog()
             }
             R.id.modify_date -> {
                 val datePicker = DatePicker()
@@ -212,10 +198,10 @@ class ModifyEventActivity : AppCompatActivity(),
                 numberPicker.show(supportFragmentManager, "People picker")
             }
             R.id.confirm_edit -> {
-                val event = Event(
+                Event(
                     keyEvent,
                     modifyTitle.text.toString(),
-                    Sport.valueOf(modifySport.text.toString()),
+                    Sport.INIT.getString(modifySport.text.toString()),
                     modifyDate.text.toString(),
                     modifyHour.text.toString(),
                     placeId!!,
@@ -223,8 +209,7 @@ class ModifyEventActivity : AppCompatActivity(),
                     modifyDescription.text.toString(),
                     Privacy.INIT.valueOfString(modifyPrivacy.text.toString()),
                     SessionUser(this).getIdFromUser()
-                )
-                event.updateEvent(this)
+                ).updateEvent(this)
             }
         }
     }
@@ -268,5 +253,73 @@ class ModifyEventActivity : AppCompatActivity(),
 
     override fun applyText(title: String, textView: TextView) {
         textView.text = title
+    }
+
+    private fun initializeFields(){
+        if(event.name.isNotEmpty()){
+            modifyTitle.text = event.name
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifyTitle, "name")
+        }
+
+        if(event.sport != Sport.INIT){
+            modifySport.text = event.sport.getNameSport()
+            modifySport.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.sport.getLogoSport(), 0)
+            modifySport.compoundDrawablePadding = 10
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifySport, "sport")
+        }
+
+        if(event.place.isNotEmpty()){
+            modifyPlace.text = event.place
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifyPlace, "place")
+        }
+
+        if(event.date.isNotEmpty()){
+            modifyDate.text = event.date
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifyDate, "date")
+        }
+
+        if(event.time.isNotEmpty()){
+            modifyHour.text = event.time
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifyHour, "time")
+        }
+
+        if(event.nbPeople > 0){
+            modifyNumberOfParticipants.text = event.nbPeople.toString()
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifyNumberOfParticipants, "numberOfParticipants")
+        }
+
+        if(event.description.isNotEmpty()){
+            modifyDescription.setText(event.description)
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifyDescription, "description")
+        }
+
+        if(event.privacy != Privacy.INIT){
+            modifyPrivacy.text = event.privacy.toString()
+        }else{
+            Event().writeInfoEvent(this, keyEvent, modifyPrivacy, "privacy")
+        }
+    }
+
+    @SuppressLint("MissingSuperCall")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if(resultCode == Activity.RESULT_OK) {
+                val p = Autocomplete.getPlaceFromIntent(data!!)
+                placeId = p.id
+                modifyPlace.text = p.name
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                val status = Autocomplete.getStatusFromIntent(data!!)
+                println("ERROR : ${status.statusMessage}")
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
     }
 }

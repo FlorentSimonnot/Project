@@ -123,6 +123,7 @@ class SessionUser(val context: Context) : Serializable{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
+                    println("VALUE ${value.firstName}")
                     supportActionBar.title = "${value.firstName} ${value.name}"
                 }
             }

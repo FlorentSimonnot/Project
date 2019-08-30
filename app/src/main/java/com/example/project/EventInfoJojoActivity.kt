@@ -35,6 +35,17 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
     private var mMap: GoogleMap? = null
     private lateinit var keyEvent : String
 
+    /*------------TextView, EditText etc...-----------*/
+    private lateinit var titleTextView : TextView
+    private lateinit var sportLogoImageView : ImageView
+    private lateinit var waitingNumber : TextView
+    private lateinit var creatorTextView : TextView
+    private lateinit var dateHour : TextView
+    private lateinit var freePlace : TextView
+    private lateinit var place : TextView
+    private lateinit var participantsNumber : TextView
+    private lateinit var description : TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event_info_jojo)
@@ -51,14 +62,15 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
         val infos : Bundle? = intent.extras
         keyEvent = infos?.getString("key").toString()
 
-        val titleTextView : TextView = findViewById(R.id.title)
-        val sportLogoImageView = findViewById<ImageView>(R.id.sport_logo)
-        val creatorTextView = findViewById<TextView>(R.id.creator)
-        val dateHour = findViewById<TextView>(R.id.date_hour)
-        val freePlace = findViewById<TextView>(R.id.participants_number)
-        val place = findViewById<TextView>(R.id.place)
-        val participantsNumber = findViewById<TextView>(R.id.participant_number)
-        val waitingNumber = findViewById<TextView>(R.id.waiting_number)
+        titleTextView = findViewById(R.id.title)
+        sportLogoImageView = findViewById(R.id.sport_logo)
+        creatorTextView = findViewById(R.id.creator)
+        dateHour = findViewById(R.id.date_hour)
+        freePlace = findViewById(R.id.participants_number)
+        place = findViewById(R.id.place)
+        participantsNumber = findViewById(R.id.participant_number)
+        waitingNumber = findViewById(R.id.waiting_number)
+        description = findViewById(R.id.description)
 
         val deleteEventButton = findViewById<LinearLayout>(R.id.delete)
         val editEventButton = findViewById<LinearLayout>(R.id.edit)
@@ -73,60 +85,83 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
         deleteEventButton.setOnClickListener(this)
         accessibility.setOnClickListener(this)
 
-        Event().writeInfoEvent(
+
+        /*-------------------------------Show info---------------------------------*/
+        FirebaseDatabase.getInstance().getReference("events/$keyEvent").addValueEventListener(object:ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                writeEventInfo(this@EventInfoJojoActivity)
+            }
+
+        })
+
+
+
+    }
+
+    private fun writeEventInfo(context: Context){
+        val event = Event()
+
+        //event.getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, fullTextView, noteTextView, ratingBar)
+
+        event.writeInfoEvent(
             this,
             keyEvent,
             titleTextView,
             "name"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             creatorTextView,
             "creator"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             dateHour,
             "dateAndTime"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             freePlace,
             "freePlace"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             place,
             "place"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             participantsNumber,
             "participant"
         ).toString()
 
-        Event().writeInfoEvent(
+        event.writeInfoEvent(
             this,
             keyEvent,
             waitingNumber,
             "waiting"
         ).toString()
 
+        event.writeInfoEvent(
+            this,
+            keyEvent,
+            description,
+            "description"
+        ).toString()
 
-        Event().writeLogoSport(this, keyEvent, sportLogoImageView)
-
-
-
+        event.writeLogoSport(this, keyEvent, sportLogoImageView)
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -185,14 +220,12 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
             R.id.participants ->{
                 val intent = Intent(this, ParticipantsActivity::class.java)
                 intent.putExtra("key", keyEvent)
-                finish()
                 startActivity(intent)
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
             }
             R.id.waiting ->{
                 val intent = Intent(this, ParticipantsWaitedActivity::class.java)
                 intent.putExtra("key", keyEvent)
-                finish()
                 startActivity(intent)
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
             }
@@ -212,14 +245,11 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
             R.id.edit ->{
                 val intent = Intent(this, ModifyEventActivity::class.java)
                 intent.putExtra("key", keyEvent)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                EventInfoJojoActivity::finish
                 startActivity(intent)
             }
             R.id.accessibility -> {
                 val intent = Intent(this, AddPeopleToEventActivity::class.java)
                 intent.putExtra("key", keyEvent)
-                EventInfoJojoActivity::finish
                 startActivity(intent)
             }
             else ->{

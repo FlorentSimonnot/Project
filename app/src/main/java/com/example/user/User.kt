@@ -14,6 +14,7 @@ import com.example.session.SessionUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
@@ -127,6 +128,38 @@ data class User(
                     textView.text = value.firstName+" "+value.name
 
                 }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun setEventsOnTabItem(tab : TabLayout, keyUser : String){
+        val ref = FirebaseDatabase.getInstance().getReference("users/$keyUser/eventsCreated")
+        var events = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    events++
+                }
+                tab.getTabAt(0)?.text = "Events created (${events})"
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun setEventsJoinedOnTabItem(tab : TabLayout, keyUser: String){
+        val ref = FirebaseDatabase.getInstance().getReference("users/$keyUser/eventsJoined")
+        var events = 0
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each event
+                data.forEach {
+                    events++
+                }
+                tab.getTabAt(1)?.text = "Events joined (${events})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

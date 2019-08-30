@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.opengl.Visibility
+import android.os.Build
 import android.view.View
 import android.widget.*
 import com.example.notification.CloudFunction
@@ -68,38 +69,6 @@ data class Event (
             }
     }
 
-    fun writePlace(context: Context, key: String?, autocompleteFragment : AutocompleteSupportFragment){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if(value != null){
-                    //INIT GOOGLE PLACE
-                    val gg = SessionGooglePlace(context)
-                    gg.init()
-                    val placesClient = gg.createClient()
-
-                    //Search place in according to the ID
-                    val placeId : String = value.place
-                    val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.NAME)
-                    val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
-
-
-                    placesClient.fetchPlace(request)
-                        .addOnSuccessListener {
-                            val place : Place = it.place
-                            autocompleteFragment.setText(place.name)
-                        }
-                        .addOnFailureListener {
-                            //Error
-                        }
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
     fun goPlaceWithWaze(context: Context, key : String?){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -152,9 +121,6 @@ data class Event (
                         }
                         "creator" -> {
                             getCreator(context, key, value.creator, textView)
-                            /*val user = SessionUser()
-                            user.writeInfoUser(context, value.creator, textView, "identity")*/
-
                         }
                         "place" -> {
                             //INIT GOOGLE PLACE
@@ -197,7 +163,6 @@ data class Event (
                             }
                             res++
                             textView.text ="$res"
-                            println("PARTICIPANTS $res")
                         }
                         "waiting" -> {
                             var res = 0
@@ -208,15 +173,15 @@ data class Event (
                                 }
                             }
                             textView.text = "$res"
-                            println("WAITING $res")
                         }
                         "freePlace"  -> {
                             textView.text = "${value.nb_people - value.participants.size} free places"
                         }
                         "description" -> textView.text = value.description
                         "sport" -> {
-                            textView.text = value.sport.toString()
-                            textView.setCompoundDrawablesWithIntrinsicBounds(value.sport!!.getLogo(), 0, 0, 0)
+                            textView.text = value.sport.getNameSport()
+                            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, value.sport!!.getLogo(), 0)
+                            textView.compoundDrawablePadding = 20
                         }
                         "privacy" -> textView.text = "${value.privacy.toString().capitalize()}"
                         else -> textView.text = "NULL"
@@ -287,7 +252,10 @@ data class Event (
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
                 if (value != null) {
-                    imageView.setImageDrawable(context.getDrawable(getSport(value.sport.toString()).getLogo()))
+                    val sport = value.sport
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        imageView.setImageDrawable(context.getDrawable(sport.getLogoSport()))
+                    }
                 }
             }
 
@@ -304,21 +272,6 @@ data class Event (
      */
     fun deleteEvent(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        /*ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                //Error
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val value = p0.getValue(Event::class.java)
-                if(value != null){
-                    value.participants.forEach{
-                        deleteParticipation(context, key, it.key)
-                    }
-                }
-            }
-
-        })*/
         ref.removeValue()
         val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -343,25 +296,10 @@ data class Event (
         /* Add in event participants */
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.child("status").setValue("waiting").addOnSuccessListener {
-            //val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
-            //intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            //intent.putExtra("key", key)
-            //EventInfoJojoActivity::finish
-            //context.startActivity(intent)
             buttonToHide.visibility = View.GONE
             buttonToShow.visibility = View.VISIBLE
             textView.text = "${textView.text.toString().toInt()+1}"
             Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
-            /* Add in user events joined */
-            /*val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
-            refUser.child("status").setValue("waiting").addOnSuccessListener {
-                val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                intent.putExtra("key", key)
-                EventInfoJojoActivity::finish
-                context.startActivity(intent)
-                Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
-            }*/
         }
     }
 
@@ -385,16 +323,6 @@ data class Event (
             buttonToShow.visibility = View.VISIBLE
             textView.text = "${textView.text.toString().toInt()-1}"
             Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
-
-            /*val refUser = FirebaseDatabase.getInstance().getReference("users/${session.getIdFromUser()}/eventsJoined/$key")
-            refUser.removeValue().addOnSuccessListener {
-                val intent = Intent(context, EventInfoViewParticipantActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                intent.putExtra("key", key)
-                EventInfoJojoActivity::finish
-                context.startActivity(intent)
-                Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
-            }*/
         }
     }
 
@@ -407,8 +335,6 @@ data class Event (
     fun confirmParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.child("status").setValue("confirmed")
-        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        //refUser.child("status").setValue("confirmed")
         Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
     }
 
@@ -421,8 +347,6 @@ data class Event (
     fun refuseParticipation(context: Context, key: String?, user : String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user}/eventsJoined/$key")
-        //refUser.removeValue()
         Toast.makeText(context, "You have refuse !", Toast.LENGTH_SHORT).show()
     }
 
@@ -435,8 +359,6 @@ data class Event (
     fun deleteParticipation(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        //refUser.removeValue()
         Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
     }
 
@@ -444,16 +366,12 @@ data class Event (
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.child("status").setValue("invitation")
         Toast.makeText(context, "You have invite user !", Toast.LENGTH_SHORT).show()
-        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        //refUser.child("status").setValue("invitation")
     }
 
     fun deleteInvitationEvent(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
         Toast.makeText(context, "You have cancel your invitation !", Toast.LENGTH_SHORT).show()
-        //val refUser = FirebaseDatabase.getInstance().getReference("users/$user/eventsJoined/$key")
-        //refUser.child("status").setValue("invitation")
     }
 
     fun getButton(context: Context, key: String?,
@@ -510,45 +428,6 @@ data class Event (
     }
 
     /**
-     * getSport return an instance of sport in according to the sport choosen
-     * @param sport : the name of sport
-     */
-    fun getSport(sport : String) : Sport {
-        return when(sport){
-            "FOOTBALL" -> Sport.FOOTBALL
-            "BASKETBALL" -> Sport.BASKETBALL
-            "GOLF" -> Sport.GOLF
-            "HANDBALL" -> Sport.HANDBALL
-            "MUSCULATION" -> Sport.MUSCULATION
-            "TENNIS" -> Sport.TENNIS
-            "TENNISDETABLE" -> Sport.TENNISDETABLE
-            "CROSSFIT" -> Sport.CROSSFIT
-            else -> {println(" SPORT !!! : ${sport}"); return Sport.INIT
-            }
-        }
-    }
-
-    /**
-     * verifyCurrentUserIsCreator hide "see participants waiting" if current user isn't the creator of event
-     * @param key : the key of event
-     * @param textView : the textView
-     * @param session : the session with uid current user
-     */
-    fun verifyCurrentUserIsCreator(key: String?, textView: TextView, session : SessionUser){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if(value?.creator != session.getIdFromUser()) {
-                    textView.visibility = View.GONE
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    /**
      * verifyUserIsCreator hide the "Delete" button for the creator of event
      * @param key : the key of event
      * @param button : the button we want to hide
@@ -581,49 +460,31 @@ data class Event (
         })
     }
 
-    /**
-     * showButtonIfCreator show button "Delete" if the current user is the creator of the event
-     * @param key : the key of event
-     * @param button : the button of item
-     * @param session : the current session user
-     */
-    fun showButtonIfCreator(key: String?, button : Button, session : SessionUser){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if(value?.creator == session.getIdFromUser()) {
-                    button.visibility = View.VISIBLE
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
     fun updateEvent(context: Context) {
         val event = this
-        val ref = FirebaseDatabase.getInstance().getReference("events").child("$key")
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
                 if(value != null){
                     val participants = value.participants
                     event.participants = participants
-                    if(event.place.isEmpty()){
-                        event.place = value.place
+                    if(place.isEmpty()){
+                        place = value.place
                     }
-                    ref.setValue(event)
-                        .addOnSuccessListener {
-                            Toast.makeText(context, "Edit event successfully !", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(context, EventInfoJojoActivity::class.java)
-                            intent.putExtra("key", key)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-                            ModifyEventActivity::finish
-                            context.startActivity(intent)
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(context, "Error ${it.message} !", Toast.LENGTH_SHORT).show()
+                    println("YESSS ICI ICIC IC I")
+                    ref.setValue(event).addOnSuccessListener {
+                        Toast.makeText(context, "Edit event successfully !", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(context, EventInfoJojoActivity::class.java)
+                        intent.putExtra("key", key)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        ModifyEventActivity::finish
+                        context.startActivity(intent)
+                    }.addOnFailureListener {
+                        Toast.makeText(context, "Error ${it.message} !", Toast.LENGTH_SHORT).show()
+                    }
+                        .addOnCanceledListener {
+                            println("CANCEL")
                         }
                 }
             }

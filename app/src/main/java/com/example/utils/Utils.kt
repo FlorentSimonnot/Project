@@ -9,6 +9,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import java.util.*
+import kotlin.collections.ArrayList
 
 class Utils {
     private val charPool = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -34,6 +35,16 @@ class Utils {
             }
 
         })
+    }
+
+    fun removeDuplicates(array : ArrayList<String>) : ArrayList<String>{
+        val duplicates = ArrayList<String>()
+        array.forEach {
+            if(!duplicates.contains(it)){
+                duplicates.add(it)
+            }
+        }
+        return duplicates
     }
 
 }

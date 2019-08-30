@@ -20,6 +20,7 @@ import com.example.messages.DiscussionViewLastMessage
 import com.example.messages.Message
 import com.example.session.SessionUser
 import com.example.utils.ItemSupportClick
+import com.example.utils.Utils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.database.DataSnapshot
@@ -38,8 +39,8 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
     private lateinit var notFound : RelativeLayout
     private lateinit var adapter : LatestMessageAdapter
 
-    val keysChat = ArrayList<String>()
-    val friends = ArrayList<String>()
+    var keysChat = ArrayList<String>()
+    var friends = ArrayList<String>()
     var latestDiscussion = ArrayList<DiscussionViewLastMessage>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,6 +111,8 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
         keysChat.clear()
         latestDiscussion.clear()
 
+        println("latestDiscussion $latestDiscussion")
+
         val ref = FirebaseDatabase.getInstance().getReference("friends/${this.session.getIdFromUser()}")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -175,7 +178,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
     private fun searchDiscussion(context: Context, users : ArrayList<String>){
         keysChat.clear()
         if(users.size == 0){
-            searchLatestMessages(context, keysChat)
+            searchLatestMessages(context)
         }else {
             users.forEachIndexed { index, it ->
                 FirebaseDatabase.getInstance().getReference("friends/${session.getIdFromUser()}/$it")
@@ -190,7 +193,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
                             }
 
                             if (index == users.size - 1) {
-                                searchLatestMessages(context, keysChat)
+                                searchLatestMessages(context)
                             }
 
                         }
@@ -200,13 +203,15 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
         }
     }
 
-    private fun searchLatestMessages(context: Context, keys : ArrayList<String>){
-        if(keys.size == 0){
+    private fun searchLatestMessages(context: Context){
+        latestDiscussion.clear()
+        keysChat = Utils().removeDuplicates(keysChat)
+        if(keysChat.size == 0){
             recyclerView.visibility = View.GONE
             noResults.visibility = View.VISIBLE
         }
         else {
-            keys.forEachIndexed { index, it ->
+            keysChat.forEachIndexed { index, it ->
                 val ref = FirebaseDatabase.getInstance().getReference("discussions/$it/messages")
                 ref.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -236,7 +241,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
                                 )
                             )
                         }
-                        if (index == keys.size - 1) {
+                        if (index == keysChat.size - 1) {
                             if (latestDiscussion.size > 0) {
                                 recyclerView.visibility = View.VISIBLE
                                 noResults.visibility = View.GONE
@@ -284,6 +289,12 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
         }
 
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        friendsList(this@MessagerieActivity, "")
+    }
+
 
 
 }

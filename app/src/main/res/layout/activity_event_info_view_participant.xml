@@ -59,11 +59,13 @@
                 android:background="#fff"
                 >
             <LinearLayout
-                    android:layout_width="300dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/layout_title_creator"
                     android:orientation="vertical"
                     android:padding="10dp"
+                    android:layout_marginEnd="100dp"
+                    android:layout_marginRight="100dp"
                     >
                 <TextView
                         android:layout_width="match_parent"
@@ -85,24 +87,27 @@
                         />
 
             </LinearLayout>
-            <RelativeLayout
+            <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/layout_sport"
                     android:orientation="vertical"
-                    android:layout_gravity="center"
+                    android:layout_gravity="right"
+                    android:gravity="end|center_vertical"
+                    android:layout_marginLeft="-100dp"
+                    android:layout_marginStart="-100dp"
                     >
 
                 <ImageView
                         android:id="@+id/sport_logo"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:gravity="center_vertical"
                         />
 
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
         </LinearLayout>
