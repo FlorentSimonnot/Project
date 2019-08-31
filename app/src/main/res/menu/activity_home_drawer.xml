@@ -6,40 +6,57 @@
 
     <group android:checkableBehavior="single">
         <item
-                android:id="@+id/nav_home"
-                android:icon="@drawable/ic_menu_camera"
-                android:title="@string/menu_home"
+                android:id="@+id/navigation_account"
+                android:icon="@drawable/ic_user_menu"
+                android:title="My profile"
+                android:textColor="@color/colorPrimary"
                 />
         <item
-                android:id="@+id/nav_gallery"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/menu_gallery"
+                android:id="@+id/navigation_events"
+                android:icon="@drawable/ic_calendar_menu"
+                android:title="My events"
                 />
         <item
-                android:id="@+id/nav_slideshow"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/menu_slideshow"
-                />
-        <item
-                android:id="@+id/nav_tools"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="@string/menu_tools"
+                android:id="@+id/navigation_friends"
+                android:icon="@drawable/ic_users"
+                android:title="My friends"
                 />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Settings">
         <menu>
             <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="@string/menu_share"
+                    android:id="@+id/navigation_notifications"
+                    android:icon="@drawable/ic_notification"
+                    android:title="Notifications push"
                     />
             <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="@string/menu_send"
+                    android:id="@+id/navigation_settings"
+                    android:icon="@drawable/ic_settings"
+                    android:title="Settings"
                     />
         </menu>
     </item>
+
+    <item android:title="More">
+        <menu>
+            <item
+                    android:id="@+id/navigation_advise"
+                    android:icon="@drawable/ic_notification"
+                    android:title="Share this application"
+                    />
+            <item
+                    android:id="@+id/navigation_contact_us"
+                    android:icon="@drawable/ic_mail_24dp"
+                    android:title="Contact Us"
+                    />
+            <item
+                    android:id="@+id/navigation_terms_of_use"
+                    android:icon="@drawable/ic_more"
+                    android:title="Terms of use"
+                    />
+        </menu>
+    </item>
+
 
 </menu>

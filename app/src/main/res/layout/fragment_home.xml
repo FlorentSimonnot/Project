@@ -6,11 +6,56 @@
              tools:context=".HomeFragment"
         >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:id="@+id/layoutEventsView"
+            tools:ignore="MissingConstraints">
+        <TextView
+                android:id="@+id/comingSoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Coming soon.."
+                android:padding="10dp"
+                android:fontFamily="@font/rubik"
+                />
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/events_listview"
+                android:layout_below="@id/comingSoon"
+                android:dividerHeight="10.0sp"
+                android:divider="@android:color/transparent"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                >
+
+        </ListView>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"
-            />
+            tools:ignore="MissingConstraints"
+            >
+        <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:textColor="#fff"
+                android:id="@+id/create_event"
+                android:text="+"
+                android:textSize="36sp"
+                android:background="@drawable/rounded_button"
+                tools:ignore="MissingConstraints"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginRight="30dp"
+                />
+    </RelativeLayout>
 
 </FrameLayout>

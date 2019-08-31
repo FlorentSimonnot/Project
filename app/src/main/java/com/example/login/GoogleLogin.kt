@@ -3,6 +3,7 @@ package com.example.login
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import com.example.project.HomeActivity
 import com.example.project.MainActivity
 import com.example.project.NextSignInJojoActivity
 import com.example.session.SessionUser
@@ -55,7 +56,7 @@ class GoogleLogin (
                                     val ref = FirebaseDatabase.getInstance().getReference("users")
                                     ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)
                                 }
-                            val intent = Intent(context, MainActivity::class.java)
+                            val intent = Intent(context, HomeActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                             context.startActivity(intent)
                         }
