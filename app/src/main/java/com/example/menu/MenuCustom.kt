@@ -8,53 +8,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.get
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import com.example.messages.Message
 import com.example.project.*
 import com.example.project.R
 import com.example.session.SessionUser
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.*
 
 class MenuCustom(
     val context: Context,
     val menu : BottomNavigationView,
-    val activity : Activity
-) {
+    val activity : Activity,
+    val onNavigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener
+) : FragmentActivity() {
 
     private val session = SessionUser(context)
 
-    fun setBadges(){
+    init{
+        menu.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+    }
 
+    fun setBadges(){
         searchDiscussion()
     }
 
-    val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                val checkAccountIntent = Intent(context, MainActivity::class.java)
-                context.startActivity(checkAccountIntent)
-                activity.overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_map -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_account -> {
-                val checkAccountIntent = Intent(context, ActivityInfoUser::class.java)
-                context.startActivity(checkAccountIntent)
-                activity.overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_chat -> {
-                val checkAccountIntent = Intent(context, MessagerieActivity::class.java)
-                context.startActivity(checkAccountIntent)
-                activity.overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
 
     private fun setBadgeMessages(number : Int){
         val itemMessage : BottomNavigationItemView = menu.findViewById(R.id.navigation_chat)

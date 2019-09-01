@@ -20,8 +20,6 @@ import com.google.firebase.database.*
 
 class FriendsActivity : AppCompatActivity() {
     var session = SessionUser(this)
-    private lateinit var friends : TabItem
-    private lateinit var invitations : TabItem
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView
@@ -189,10 +187,6 @@ class FriendsActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-        val intent = Intent(this, ActivityInfoUser::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        EventInfoJojoActivity::finish
-        startActivity(intent)
         return true
     }
 

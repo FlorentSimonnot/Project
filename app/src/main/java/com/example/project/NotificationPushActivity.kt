@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Switch
+import androidx.appcompat.widget.Toolbar
 import com.example.notification.Notifications
 
 class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
@@ -18,6 +19,11 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notification_push)
+
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Configure notifications"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         notifUserInvitation = findViewById(R.id.user_invitation_switch)
         notifUserAccept= findViewById(R.id.user_accept_switch)
@@ -121,4 +127,8 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 }

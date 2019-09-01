@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             tools:context=".DiscussionFragment"
+        >
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingConstraints"
+            android:layout_marginBottom="60dp"
+            android:layout_below="@id/toolbar"
+            android:paddingTop="20dp"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_search"
+                >
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_input_search"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:textColorHint="#fff"
+                    android:hint="Search conversations"
+                    android:padding="10dp"
+                    android:drawableLeft="@drawable/ic_search"
+                    android:drawablePadding="15dp"
+                    android:textColor="#fff"
+                    android:id="@+id/searchUser"
+                    />
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerView"
+                android:layout_below="@id/layout_search"
+                android:layout_marginTop="10dp"
+                >
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/noResults"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingConstraints"
+            android:layout_marginBottom="60dp"
+            android:layout_below="@id/toolbar"
+            android:paddingTop="80dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:visibility="gone"
+            >
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_discussion"
+                android:id="@+id/logo_discussion_not_found"
+                />
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/logo_discussion_not_found"
+                android:id="@+id/text_not_found"
+                android:text="Any discussions found"
+                android:textSize="16sp"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                />
+    </RelativeLayout>
+
+
+</FrameLayout>

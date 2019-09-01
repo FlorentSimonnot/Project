@@ -2,99 +2,70 @@ package com.example.project
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import android.widget.Adapter
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.discussion.LatestMessageAdapter
-import com.example.menu.MenuCustom
 import com.example.messages.DiscussionViewLastMessage
 import com.example.messages.Message
 import com.example.session.SessionUser
-import com.example.utils.ItemSupportClick
 import com.example.utils.Utils
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_messagerie.*
 
-class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMessageAdapter.OnItemListener {
 
+class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
     private lateinit var newMessage : ImageButton
-    private val session = SessionUser(this)
+    private lateinit var session : SessionUser
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchBar : RelativeLayout
     private lateinit var searchEditText : EditText
     private lateinit var notFound : RelativeLayout
     private lateinit var adapter : LatestMessageAdapter
+    private lateinit var buttonNewMessage : Button
 
     var keysChat = ArrayList<String>()
     var friends = ArrayList<String>()
     var latestDiscussion = ArrayList<DiscussionViewLastMessage>()
 
-    val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                val fragment : Fragment = HomeFragment()
-                if(!supportFragmentManager.isDestroyed) {
-                    loadFragment(fragment)
-                    return@OnNavigationItemSelectedListener true
-                }
-                return@OnNavigationItemSelectedListener false
-            }
-            R.id.navigation_map -> {
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_account -> {
-                val checkAccountIntent = Intent(this, ActivityInfoUser::class.java)
-                this.startActivity(checkAccountIntent)
-                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_chat -> {
-                val checkAccountIntent = Intent(this, MessagerieActivity::class.java)
-                this.startActivity(checkAccountIntent)
-                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_messagerie)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val menu = MenuCustom(this, navView, this@MessagerieActivity, onNavigationItemSelectedListener)
+    }
 
-        recyclerView = findViewById(R.id.recyclerView)
-        searchBar = findViewById(R.id.layout_search)
-        notFound = findViewById(R.id.noResults)
-        searchEditText = findViewById(R.id.searchUser)
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_discussion, container, false)
+
+        session = SessionUser(context!!)
+        recyclerView = view.findViewById(R.id.recyclerView)
+        searchBar = view.findViewById(R.id.layout_search)
+        notFound = view.findViewById(R.id.noResults)
+        searchEditText = view.findViewById(R.id.searchUser)
 
         recyclerView.setHasFixedSize(true)
-        val llm = LinearLayoutManager(this)
+        val llm = LinearLayoutManager(context!!)
         recyclerView.layoutManager = llm
 
 
-        newMessage = findViewById(R.id.btn_new_message)
-        newMessage.setOnClickListener(this)
+        //newMessage = view.findViewById(R.id.btn_new_message)
 
-        searchEditText.addTextChangedListener(object : TextWatcher{
+        searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                friendsList(this@MessagerieActivity, p0?.toString()!!)
+                friendsList(context!!, p0?.toString()!!)
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -103,6 +74,8 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
 
         })
 
+        var ctx = context!!
+
         //Actualise badges when changes and messages
         FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -110,23 +83,21 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                menu.setBadges()
-                friendsList(this@MessagerieActivity, "")
+                friendsList(ctx, "")
             }
 
         })
+        return view
     }
 
-    override fun onClick(p0: View?) {
-        when(p0?.id){
-            R.id.btn_new_message -> {
-                val intent = Intent(this, ListUserSendMessage::class.java)
-                startActivity(intent)
-                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-            }
-        }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
     }
 
+    override fun onDetach() {
+        super.onDetach()
+    }
 
     /**
      * friendsList(context : Context, stringSearch : String)
@@ -166,7 +137,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
     private fun searchUser(context : Context, friends : ArrayList<String>, stringSearch: String){
         val users = ArrayList<String>()
         friends.forEachIndexed{ index, it ->
-            FirebaseDatabase.getInstance().getReference("users/$it").addValueEventListener(object : ValueEventListener{
+            FirebaseDatabase.getInstance().getReference("users/$it").addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                 }
 
@@ -284,7 +255,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
                                     context,
                                     R.layout.list_item_last_message,
                                     latestDiscussion,
-                                    this@MessagerieActivity
+                                    this@DiscussionFragment
                                 )
                                 recyclerView.adapter = adapter
                                 if (adapter.itemCount > 0) {
@@ -306,29 +277,17 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
 
     override fun onClick(position: Int) {
         if(position < keysChat.size) {
-            val intent = Intent(this@MessagerieActivity, Dialog::class.java)
+            val intent = Intent(context, Dialog::class.java)
             if(latestDiscussion[position].lastMessage.sender.key == session.getIdFromUser()){
                 intent.putExtra("keyUser", latestDiscussion[position].lastMessage.addressee.key)
             }else {
                 intent.putExtra("keyUser", latestDiscussion[position].lastMessage.sender.key)
             }
             intent.putExtra("keyChat", latestDiscussion[position].keyChat)
-            this@MessagerieActivity.startActivity(intent)
+            context!!.startActivity(intent)
         }
 
     }
-
-    override fun onRestart() {
-        super.onRestart()
-        friendsList(this@MessagerieActivity, "")
-    }
-
-    fun loadFragment(fragment: Fragment){
-        if(!isFinishing) {
-            supportFragmentManager.beginTransaction().replace(R.id.HomeFragment, fragment).commit()
-        }
-    }
-
 
 
 }

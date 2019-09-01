@@ -14,14 +14,54 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.example.menu.DrawerMenu
+import com.example.menu.MenuCustom
 import com.example.session.SessionUser
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
-class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, HomeFragment.OnFragmentInteractionListener {
+
+
+class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionListener{
     private lateinit var fragmentContainer  : FrameLayout
     private lateinit var homeFragment : HomeFragment
     private val session = SessionUser(this)
+    private lateinit var fragment : Fragment
+
+    val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.navigation_home -> {
+                val fragment : Fragment = HomeFragment()
+                if(!supportFragmentManager.isDestroyed) {
+                    loadFragment(fragment)
+                    supportActionBar?.title = "Home"
+                    return@OnNavigationItemSelectedListener true
+                }
+                return@OnNavigationItemSelectedListener false
+            }
+            R.id.navigation_map -> {
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_account -> {
+                val checkAccountIntent = Intent(this, ActivityInfoUser::class.java)
+                this.startActivity(checkAccountIntent)
+                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_chat -> {
+                val fragment : Fragment = DiscussionFragment()
+                if(!supportFragmentManager.isDestroyed) {
+                    loadFragment(fragment)
+                    supportActionBar?.title = "Discussions"
+                    return@OnNavigationItemSelectedListener true
+                }
+                return@OnNavigationItemSelectedListener false
+            }
+        }
+        false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +70,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Home"
+
+        if (savedInstanceState != null) {
+            fragment = supportFragmentManager.getFragment(savedInstanceState, "TON_FRAGMENT") as Fragment
+        } else {
+            fragment = supportFragmentManager.findFragmentById(R.id.HomeFragment) as Fragment
+        }
 
         fragmentContainer = findViewById(R.id.HomeFragment)
         homeFragment = HomeFragment()
@@ -45,6 +91,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
             val navView: NavigationView = findViewById(R.id.nav_view)
+            val bottomView : BottomNavigationView = findViewById(R.id.nav_bottom)
+
             val activity = this@HomeActivity
             val toggle = ActionBarDrawerToggle(
                 activity, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -52,22 +100,19 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
 
-            navView.setNavigationItemSelectedListener(this)
+            //navView.setNavigationItemSelectedListener(this)
+            val drawerMenu = DrawerMenu(this, navView, this@HomeActivity)
+            val bottomMenu = MenuCustom(this, bottomView, this@HomeActivity, onNavigationItemSelectedListener)
 
-            openFragment()
+            loadFragment(HomeFragment())
         }
 
     }
 
-    private fun openFragment() {
-        val fragment = homeFragment
-        val fragmentManager = supportFragmentManager
-        val transaction = fragmentManager.beginTransaction()
-        transaction
-            .addToBackStack(null)
-            .add(R.id.HomeFragment, fragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
+    fun loadFragment(fragment: Fragment){
+        if(!isFinishing) {
+            supportFragmentManager.beginTransaction().replace(R.id.HomeFragment, fragment).commit()
+        }
     }
 
     override fun onFragmentInteraction(sendBackText: String) {
@@ -84,7 +129,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home, menu)
         return true
     }
@@ -94,32 +138,20 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_search -> true
+            R.id.action_search -> {
+                startActivity(Intent(this@HomeActivity, SearchBarActivity::class.java))
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.navigation_account -> {
-                startActivity(Intent(this@HomeActivity, UserInfoActivity::class.java))
-            }
-            R.id.navigation_events -> {
+    override fun onSaveInstanceState(outState: Bundle) {
 
-            }
-            R.id.navigation_friends -> {
-
-            }
-            R.id.navigation_notifications -> {
-
-            }
-            R.id.navigation_settings -> {
-
-            }
+        if (fragment != null) {
+            supportFragmentManager.putFragment(outState, "TON_FRAGMENT", fragment)
         }
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        drawerLayout.closeDrawer(GravityCompat.START)
-        return true
+        super.onSaveInstanceState(outState)
     }
+
 }

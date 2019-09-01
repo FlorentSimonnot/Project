@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import com.example.menu.MenuCustom
 import com.example.session.SessionUser
 import com.facebook.login.LoginManager
@@ -30,13 +31,41 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var googleSignInClient : GoogleSignInClient
 
+    val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.navigation_home -> {
+                val fragment : Fragment = HomeFragment()
+                if(!supportFragmentManager.isDestroyed) {
+                    loadFragment(fragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                return@OnNavigationItemSelectedListener false
+            }
+            R.id.navigation_map -> {
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_account -> {
+                val checkAccountIntent = Intent(this, ActivityInfoUser::class.java)
+                this.startActivity(checkAccountIntent)
+                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_chat -> {
+                val checkAccountIntent = Intent(this, MessagerieActivity::class.java)
+                this.startActivity(checkAccountIntent)
+                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_user)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val menu = MenuCustom(this, navView, this@ActivityInfoUser)
+        val menu = MenuCustom(this, navView, this@ActivityInfoUser, onNavigationItemSelectedListener)
         navView.setOnNavigationItemSelectedListener(menu.onNavigationItemSelectedListener)
 
         val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
@@ -136,6 +165,12 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
                 intent.putExtra(Intent.EXTRA_TEXT, "Share this application with your friends at : https://play.google.com/store/apps/details?id=com.google.android.apps.plus")
                 startActivity(Intent.createChooser(intent, "choose one"))
             }
+        }
+    }
+
+    fun loadFragment(fragment: Fragment){
+        if(!isFinishing) {
+            supportFragmentManager.beginTransaction().replace(R.id.HomeFragment, fragment).commit()
         }
     }
 

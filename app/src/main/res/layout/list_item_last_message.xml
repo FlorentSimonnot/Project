@@ -57,13 +57,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/message"
-                        android:layout_marginRight="60dp"
+                        android:layout_marginRight="100dp"
                         android:text="message"
                         android:fontFamily="@font/rubik"
                         android:gravity="center_vertical"
                         />
                 <TextView
-                        android:layout_width="60dp"
+                        android:layout_width="100dp"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:text="11h00"

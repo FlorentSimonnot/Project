@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ListView
 import android.widget.NumberPicker
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
 import androidx.core.view.get
 import com.example.arrayAdapterCustom.ArrayAdapterEvents
@@ -47,6 +48,11 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
         val infos : Bundle? = intent.extras
         joinedView = infos?.getString("joinedView").toString().toBoolean()
         println("DHDH : ${infos}")
+
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Events created"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         tab = findViewById(R.id.tab)
         tab.forEach {
@@ -228,10 +234,6 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-        val intent = Intent(this, ActivityInfoUser::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        EventInfoJojoActivity::finish
-        startActivity(intent)
         return true
     }
 
