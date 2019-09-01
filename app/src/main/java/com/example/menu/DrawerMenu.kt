@@ -4,7 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
+import androidx.core.view.size
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.project.*
 import com.example.session.SessionUser
@@ -18,6 +23,9 @@ class DrawerMenu(
 
     init{
         menu.setNavigationItemSelectedListener(this)
+        for(i in 0 until menu.menu.size){
+            menu.menu[i].isCheckable = false
+        }
     }
 
 
@@ -47,5 +55,11 @@ class DrawerMenu(
 
     private val session = SessionUser(context)
 
-
+    fun setInfo(){
+        val headerMenu : View = menu.getHeaderView(0)
+        val avatar : ImageView = headerMenu.findViewById(R.id.profile_photo)
+        val identity : TextView = headerMenu.findViewById(R.id.identity)
+        session.showPhotoUser(context, avatar)
+        session.writeInfoUser(context, session.getIdFromUser(), identity, "identity")
+    }
 }

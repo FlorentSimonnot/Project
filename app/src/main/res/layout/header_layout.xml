@@ -29,6 +29,7 @@
             android:textColor="#fff"
             android:fontFamily="@font/rubik"
             android:textSize="32sp"
+            android:id="@+id/identity"
             />
 
 </LinearLayout>

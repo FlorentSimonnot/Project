@@ -7,10 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
@@ -29,6 +27,7 @@ open class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
 
@@ -47,6 +46,22 @@ open class HomeFragment : Fragment() {
 
         showAllEvents(context!!, listView!!)
         return view
+    }
+
+    /*--------CUSTOM MENU FOR THIS FRAGMENT-------------------*/
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_search -> {
+                context!!.startActivity(Intent(context!!, SearchBarActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     interface OnFragmentInteractionListener {

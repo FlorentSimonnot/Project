@@ -17,6 +17,7 @@
                 android:name=".HomeActivity"
                 android:label="@string/title_activity_home"
                 android:theme="@style/AppTheme.NoActionBar"
+                android:configChanges="orientation|screenSize|keyboardHidden"
                 >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -61,8 +62,6 @@
         <activity android:name=".PrivateUserActivity">
         </activity>
         <activity android:name=".PublicUserActivity">
-        </activity>
-        <activity android:name=".OtherUserActivity">
         </activity>
         <activity android:name=".ParticipantsActivity">
         </activity>

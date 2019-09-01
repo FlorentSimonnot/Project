@@ -6,10 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,8 +37,10 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
     var friends = ArrayList<String>()
     var latestDiscussion = ArrayList<DiscussionViewLastMessage>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
 
@@ -88,6 +88,22 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
 
         })
         return view
+    }
+
+    /*--------CUSTOM MENU FOR THIS FRAGMENT-------------------*/
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.discussions, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_new_message -> {
+                context!!.startActivity(Intent(context!!, ListUserSendMessage::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 
@@ -207,7 +223,7 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
         keysChat = Utils().removeDuplicates(keysChat)
         if(keysChat.size == 0){
             recyclerView.visibility = View.GONE
-            noResults.visibility = View.VISIBLE
+            notFound.visibility = View.VISIBLE
         }
         else {
             keysChat.forEachIndexed { index, it ->
@@ -243,7 +259,7 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
                         if (index == keysChat.size - 1) {
                             if (latestDiscussion.size > 0) {
                                 recyclerView.visibility = View.VISIBLE
-                                noResults.visibility = View.GONE
+                                notFound.visibility = View.GONE
                                 latestDiscussion = ArrayList(
                                     latestDiscussion.sortedWith(
                                         compareBy({ it.lastMessage.date },
@@ -264,7 +280,7 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
                                 }
                             } else {
                                 recyclerView.visibility = View.GONE
-                                noResults.visibility = View.VISIBLE
+                                notFound.visibility = View.VISIBLE
                             }
                         }
                     }

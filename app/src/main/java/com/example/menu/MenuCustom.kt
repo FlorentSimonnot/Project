@@ -95,12 +95,17 @@ class MenuCustom(
                                 if(lastMessage.addressee.key == session.getIdFromUser())
                                     number++
                             }
+
                         }
+
+
                     }
 
                     if(index == keysChat.size - 1){
                         setBadgeMessages(number)
                     }
+
+
                 }
 
             })

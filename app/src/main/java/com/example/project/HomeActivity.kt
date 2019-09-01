@@ -1,10 +1,8 @@
 package com.example.project
 
-import android.app.Activity
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -13,22 +11,30 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
+import android.widget.Button
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.menu.DrawerMenu
 import com.example.menu.MenuCustom
 import com.example.session.SessionUser
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
-
-
-class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionListener{
+class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionListener, View.OnClickListener{
     private lateinit var fragmentContainer  : FrameLayout
-    private lateinit var homeFragment : HomeFragment
     private val session = SessionUser(this)
-    private lateinit var fragment : Fragment
+    private lateinit var buttonLogOut : Button
+    private lateinit var googleSignInClient : GoogleSignInClient
 
     val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -44,11 +50,14 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             R.id.navigation_map -> {
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_account -> {
-                val checkAccountIntent = Intent(this, ActivityInfoUser::class.java)
-                this.startActivity(checkAccountIntent)
-                overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
-                return@OnNavigationItemSelectedListener true
+            R.id.navigation_notifications -> {
+                val fragment : Fragment = NotificationsFragment()
+                if(!supportFragmentManager.isDestroyed) {
+                    loadFragment(fragment)
+                    supportActionBar?.title = "Notifications"
+                    return@OnNavigationItemSelectedListener true
+                }
+                return@OnNavigationItemSelectedListener false
             }
             R.id.navigation_chat -> {
                 val fragment : Fragment = DiscussionFragment()
@@ -71,14 +80,14 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         setSupportActionBar(toolbar)
         supportActionBar?.title = "Home"
 
-        if (savedInstanceState != null) {
-            fragment = supportFragmentManager.getFragment(savedInstanceState, "TON_FRAGMENT") as Fragment
-        } else {
-            fragment = supportFragmentManager.findFragmentById(R.id.HomeFragment) as Fragment
-        }
-
         fragmentContainer = findViewById(R.id.HomeFragment)
-        homeFragment = HomeFragment()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
 
 
         if (!session.isLogin()) {
@@ -92,6 +101,8 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
             val navView: NavigationView = findViewById(R.id.nav_view)
             val bottomView : BottomNavigationView = findViewById(R.id.nav_bottom)
+            buttonLogOut = findViewById(R.id.logout)
+            buttonLogOut.setOnClickListener(this)
 
             val activity = this@HomeActivity
             val toggle = ActionBarDrawerToggle(
@@ -100,17 +111,52 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
 
-            //navView.setNavigationItemSelectedListener(this)
-            val drawerMenu = DrawerMenu(this, navView, this@HomeActivity)
-            val bottomMenu = MenuCustom(this, bottomView, this@HomeActivity, onNavigationItemSelectedListener)
+            val drawerMenu = DrawerMenu(this@HomeActivity, navView, this@HomeActivity)
+            val bottomMenu = MenuCustom(this@HomeActivity, bottomView, this@HomeActivity, onNavigationItemSelectedListener)
 
             loadFragment(HomeFragment())
+
+            FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                    //Bruh error
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    bottomMenu.setBadges()
+                    drawerMenu.setInfo()
+                }
+
+            })
         }
 
     }
 
-    fun loadFragment(fragment: Fragment){
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.logout -> {
+                val logOutAlert = AlertDialog.Builder(this)
+                logOutAlert.setTitle("Log out?")
+                logOutAlert.setPositiveButton("Yes"){ _, _ ->
+                    session.signOut()
+                    googleSignInClient.signOut()
+                    LoginManager.getInstance().logOut()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    finish()
+                    startActivity(intent)
+                }
+                logOutAlert.setNegativeButton("No"){ _, _ ->
+
+                }
+                logOutAlert.show()
+
+            }
+        }
+    }
+
+    private fun loadFragment(fragment: Fragment){
         if(!isFinishing) {
+            fragment.retainInstance = true
             supportFragmentManager.beginTransaction().replace(R.id.HomeFragment, fragment).commit()
         }
     }
@@ -128,30 +174,8 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.home, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_search -> {
-                startActivity(Intent(this@HomeActivity, SearchBarActivity::class.java))
-                return true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-
-        if (fragment != null) {
-            supportFragmentManager.putFragment(outState, "TON_FRAGMENT", fragment)
-        }
-        super.onSaveInstanceState(outState)
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
     }
 
 }
