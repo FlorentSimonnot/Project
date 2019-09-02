@@ -35,11 +35,12 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
     private val session = SessionUser(this)
     private lateinit var buttonLogOut : Button
     private lateinit var googleSignInClient : GoogleSignInClient
+    private lateinit var bottomMenu : MenuCustom
 
     val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                val fragment : Fragment = HomeFragment()
+                val fragment : Fragment = HomeFragment(bottomMenu)
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
                     supportActionBar?.title = "Home"
@@ -51,7 +52,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notifications -> {
-                val fragment : Fragment = NotificationsFragment()
+                val fragment : Fragment = NotificationsFragment(bottomMenu)
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
                     supportActionBar?.title = "Notifications"
@@ -100,7 +101,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
 
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
             val navView: NavigationView = findViewById(R.id.nav_view)
-            val bottomView : BottomNavigationView = findViewById(R.id.nav_bottom)
+            val bottomView : BottomNavigationView  = findViewById(R.id.nav_bottom)
             buttonLogOut = findViewById(R.id.logout)
             buttonLogOut.setOnClickListener(this)
 
@@ -112,21 +113,11 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             toggle.syncState()
 
             val drawerMenu = DrawerMenu(this@HomeActivity, navView, this@HomeActivity)
-            val bottomMenu = MenuCustom(this@HomeActivity, bottomView, this@HomeActivity, onNavigationItemSelectedListener)
+            bottomMenu = MenuCustom(this@HomeActivity, bottomView, this@HomeActivity, onNavigationItemSelectedListener)
 
-            loadFragment(HomeFragment())
+            drawerMenu.setInfo()
 
-            FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
-                    //Bruh error
-                }
-
-                override fun onDataChange(p0: DataSnapshot) {
-                    bottomMenu.setBadges()
-                    drawerMenu.setInfo()
-                }
-
-            })
+            loadFragment(HomeFragment(bottomMenu))
         }
 
     }

@@ -5,7 +5,8 @@ package com.example.notification
  */
 class Type(
     var typeNotif: TypeNotification = TypeNotification.EVENT,
-    var key: String = ""
+    var key: String = "",
+    var action : Action = Action.INIT
 ){
     override fun toString(): String {
         return """

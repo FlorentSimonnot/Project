@@ -39,6 +39,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
     private lateinit var searchEditText : EditText
     private lateinit var notFound : RelativeLayout
     private lateinit var adapter : LatestMessageAdapter
+    private lateinit var bottomMenu: MenuCustom
 
     var keysChat = ArrayList<String>()
     var friends = ArrayList<String>()
@@ -47,7 +48,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
     val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                val fragment : Fragment = HomeFragment()
+                val fragment : Fragment = HomeFragment(bottomMenu)
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
                     return@OnNavigationItemSelectedListener true
@@ -76,8 +77,9 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messagerie)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val menu = MenuCustom(this, navView, this@MessagerieActivity, onNavigationItemSelectedListener)
+
+        val bottomView : BottomNavigationView = findViewById(R.id.nav_view)
+        bottomMenu = MenuCustom(this, bottomView, this@MessagerieActivity, onNavigationItemSelectedListener)
 
         recyclerView = findViewById(R.id.recyclerView)
         searchBar = findViewById(R.id.layout_search)
@@ -110,7 +112,7 @@ class MessagerieActivity : AppCompatActivity(), View.OnClickListener, LatestMess
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                menu.setBadges()
+                //menu.setBadges()
                 friendsList(this@MessagerieActivity, "")
             }
 

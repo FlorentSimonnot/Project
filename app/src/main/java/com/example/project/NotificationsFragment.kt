@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.discussion.NotificationsAdapter
-import com.example.notification.Notification
-import com.example.notification.Notifications
+import com.example.menu.MenuCustom
+import com.example.notification.*
 import com.example.session.SessionUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,9 +20,11 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class NotificationsFragment : Fragment(), NotificationsAdapter.OnItemListener {
+class NotificationsFragment(
+    val menu : MenuCustom
+) : Fragment(), NotificationsAdapter.OnItemListener {
     private lateinit var sessionUser: SessionUser
-    private var notifications : ArrayList<Notification> = ArrayList()
+    private var notifications : ArrayList<NotificationWithKey> = ArrayList()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter : NotificationsAdapter
 
@@ -43,7 +45,24 @@ class NotificationsFragment : Fragment(), NotificationsAdapter.OnItemListener {
         val llm = LinearLayoutManager(context!!)
         recyclerView.layoutManager = llm
 
-        searchNotifications()
+        FirebaseDatabase.getInstance().getReference("notifications/${sessionUser.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                searchNotifications()
+            }
+
+        })
+
+        FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                menu.setBadges()
+                //drawerMenu.setInfo()
+            }
+
+        })
         return view
     }
 
@@ -60,19 +79,23 @@ class NotificationsFragment : Fragment(), NotificationsAdapter.OnItemListener {
     }
 
     private fun searchNotifications(){
+        notifications.clear()
         FirebaseDatabase.getInstance().getReference("notifications/${sessionUser.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
                 //Bruh
             }
 
             override fun onDataChange(p0: DataSnapshot) {
+                notifications.clear()
                 val notifs = p0.children
                 notifs.forEach {
-                    notifications.add(it.getValue(Notification::class.java) as Notification)
+                    val notif = it.getValue(Notification::class.java) as Notification
+                    notif.isSeen = it.child("isSeen").value as Boolean
+                    notifications.add(NotificationWithKey(notif, it.key!!))
                 }
-                var sortedList= ArrayList(notifications.sortedWith(compareBy({it.date}, {it.time})))
+                println("NOTIFS $notifications")
+                var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.date}, {it.notification.time})))
                 sortedList.reverse()
-                println("   NOTIFICATION 1 : ${sortedList[0]}")
                 adapter = NotificationsAdapter(context!!, R.layout.list_item_notification, sortedList, this@NotificationsFragment)
                 recyclerView.adapter = adapter
             }
@@ -81,7 +104,35 @@ class NotificationsFragment : Fragment(), NotificationsAdapter.OnItemListener {
     }
 
     override fun onClick(position: Int) {
-        //Bruh
+        if(notifications.size > 0){
+            when(notifications[position].notification.type.typeNotif){
+                TypeNotification.EVENT -> {
+                    when(notifications[position].notification.type.action){
+                        Action.ACCEPT -> {
+                            notifications[position].seeNotification(context!!)
+                            startActivity(Intent(context, EventInfoViewParticipantActivity::class.java).putExtra("key",notifications[position].notification.type.key ))
+                        }
+                        else -> {}
+                    }
+                }
+                TypeNotification.USER -> {
+                    when(notifications[position].notification.type.action){
+                        Action.ACCEPT -> {
+                            notifications[position].seeNotification(context!!)
+                            startActivity(Intent(context, PublicUserActivity::class.java).putExtra("user",notifications[position].notification.type.key ))
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
     }
+
+    override fun onLongClick(position: Int) {
+        if(notifications.size > 0) {
+            notifications[position].removeNotification(context!!)
+        }
+    }
+
 
 }

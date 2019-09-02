@@ -6,8 +6,10 @@ import android.content.Intent
 import android.net.Uri
 import android.opengl.Visibility
 import android.os.Build
+import android.text.Html
 import android.view.View
 import android.widget.*
+import com.example.notification.Action
 import com.example.notification.CloudFunction
 import com.example.place.SessionGooglePlace
 import com.example.project.*
@@ -191,10 +193,22 @@ data class Event (
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-
     }
 
+    fun showPhotoCreatorEvent(context: Context, key: String?, imageView: ImageView) {
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                if (value != null) {
+                    getCreatorPhoto(context, key, value.creator, imageView)
+                }
+            }
 
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
+    }
     /**
      * getCreator write the identity of the event's creator
      * @param key : the key of event
@@ -238,6 +252,44 @@ data class Event (
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+    }
+
+    fun getCreatorPhoto(context: Context, key: String?, uid: String?, imageView: ImageView) {
+        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val urlPhoto = dataSnapshot.child("urlPhoto").value as String
+                if(urlPhoto.isNotEmpty()){
+
+                }
+                else{
+                    imageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_boy))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun writeNotificationEvent(context: Context, key: String?, textView: TextView, action : Action){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                if (value != null) {
+                    when (action) {
+                        Action.ACCEPT -> {
+                            val s = "Your participation to <b> ${value.name} </b> has been accepted !"
+                            textView.text = Html.fromHtml(s)
+                        }
+                        else -> "NULL"
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
     }
 
     /**

@@ -2,14 +2,18 @@ package com.example.user
 
 import android.content.Context
 import android.content.Intent
+import android.text.Html
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import com.example.events.Event
 import com.example.login.EmailLogin
+import com.example.notification.Action
 import com.example.notification.Notifications
 import com.example.place.SessionGooglePlace
 import com.example.project.MainActivity
+import com.example.project.R
 import com.example.session.SessionUser
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.libraries.places.api.model.Place
@@ -111,12 +115,49 @@ data class User(
                             Picasso.get().load(it).into(imageView)
                         }
                     }
+                    else{
+                        imageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_boy))
+                    }
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
+    }
+
+    fun writeNotificationUser(context : Context, key : String, textView: TextView, action : Action){
+        val ref = FirebaseDatabase.getInstance().getReference("users/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val name = dataSnapshot.child("name").value as String
+                val firstName = dataSnapshot.child("firstName").value as String
+                when (action) {
+                    Action.ACCEPT -> {
+                        val s = "<b> $firstName $name </b> have accepted your request ! You are friends"
+                        textView.text = Html.fromHtml(s)
+                    }
+                    else -> "NULL"
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun writeBulletNotificationUser(context: Context, imageView: ImageView, action: Action){
+        imageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_add_user_white))
+        when(action){
+            Action.ACCEPT -> {
+                imageView.setBackgroundResource(R.drawable.rounded_button_primary_color)
+            }
+            Action.REFUSE -> {
+                imageView.setBackgroundResource(R.drawable.rounded_button_accent_color)
+            }
+            else -> {
+                //
+            }
+        }
     }
 
     fun writeIdentity(textView: TextView, userKey : String){

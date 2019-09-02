@@ -16,14 +16,18 @@ import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
 import com.example.discussion.LatestMessageAdapter
 import com.example.events.Event
+import com.example.menu.MenuCustom
 import com.example.session.SessionUser
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-open class HomeFragment : Fragment() {
+open class HomeFragment(
+    val menu :  MenuCustom
+) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,26 @@ open class HomeFragment : Fragment() {
         createEventButton.setOnClickListener {
             startActivity(Intent(context, CreateEventActivity::class.java))
         }
+
+        FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                menu.setBadges()
+                //drawerMenu.setInfo()
+            }
+
+        })
+
+        FirebaseDatabase.getInstance().getReference("notifications/${SessionUser(context!!).getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                menu.setBadges()
+                //drawerMenu.setInfo()
+            }
+
+        })
 
         showAllEvents(context!!, listView!!)
         return view

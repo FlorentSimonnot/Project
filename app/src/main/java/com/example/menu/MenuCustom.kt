@@ -16,6 +16,7 @@ import com.example.project.*
 import com.example.project.R
 import com.example.session.SessionUser
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.*
@@ -35,20 +36,39 @@ class MenuCustom(
 
     fun setBadges(){
         searchDiscussion()
+        searchNotification()
     }
 
 
     private fun setBadgeMessages(number : Int){
-        val itemMessage : BottomNavigationItemView = menu.findViewById(R.id.navigation_chat)
-        val badge = LayoutInflater.from(context).inflate(R.layout.badge_messages, itemMessage, false)
+        val bottomMenu : BottomNavigationMenuView = menu.getChildAt(0) as BottomNavigationMenuView
+        val itemMessage : BottomNavigationItemView = bottomMenu.getChildAt(3) as BottomNavigationItemView
+
+        val badge = LayoutInflater.from(context).inflate(R.layout.badge_messages, bottomMenu, false)
         val notif = badge.findViewById<TextView>(R.id.notificationsBadgeTextView)
+
+        itemMessage.removeView(itemMessage.getChildAt(2))
+
         if(number > 0) {
             notif.visibility = View.VISIBLE
             notif.text = number.toString()
             itemMessage.addView(badge)
         }
-        else{
-            itemMessage.removeView(badge)
+    }
+
+    private fun setBadgeNotifications(number : Int){
+        val bottomMenu : BottomNavigationMenuView = menu.getChildAt(0) as BottomNavigationMenuView
+        val itemNotification : BottomNavigationItemView = bottomMenu.getChildAt(2) as BottomNavigationItemView
+
+        val badge = LayoutInflater.from(context).inflate(R.layout.badge_messages, bottomMenu, false)
+        val notif = badge.findViewById<TextView>(R.id.notificationsBadgeTextView)
+
+        itemNotification.removeView(itemNotification.getChildAt(2))
+
+        if(number > 0) {
+            notif.visibility = View.VISIBLE
+            notif.text = number.toString()
+            itemNotification.addView(badge)
         }
     }
 
@@ -65,6 +85,26 @@ class MenuCustom(
                     }
                 }
                 searchDiscussionNotSeen(keysChat)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    private fun searchNotification(){
+        val keysNotifications = ArrayList<String>()
+        val ref = FirebaseDatabase.getInstance().getReference("notifications/${session.getIdFromUser()}")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children
+                data.forEach {
+                    if(it.hasChild("isSeen")){
+                        val key = it.child("isSeen").value as Boolean
+                        if(!key)
+                            keysNotifications.add(it.key!!)
+                    }
+                }
+                setBadgeNotifications(keysNotifications.size)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -112,7 +152,5 @@ class MenuCustom(
         }
 
     }
-
-
 
 }

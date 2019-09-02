@@ -28,13 +28,14 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
     private lateinit var deconnexion : LinearLayout
     private lateinit var friends : LinearLayout
     private lateinit var events : LinearLayout
+    private lateinit var bottomMenu : MenuCustom
 
     private lateinit var googleSignInClient : GoogleSignInClient
 
     val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                val fragment : Fragment = HomeFragment()
+                val fragment : Fragment = HomeFragment(bottomMenu)
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
                     return@OnNavigationItemSelectedListener true
@@ -64,9 +65,8 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_info_user)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val menu = MenuCustom(this, navView, this@ActivityInfoUser, onNavigationItemSelectedListener)
-        navView.setOnNavigationItemSelectedListener(menu.onNavigationItemSelectedListener)
+        val bottomView : BottomNavigationView = findViewById(R.id.nav_view)
+        bottomMenu = MenuCustom(this, bottomView, this@ActivityInfoUser, onNavigationItemSelectedListener)
 
         val nameAndFirstnameTextView = findViewById<TextView>(R.id.name_and_firstName_account)
         val photoImageView = findViewById<ImageView>(R.id.profile_photo)
@@ -114,7 +114,7 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                menu.setBadges()
+                //menu.setBadges()
             }
 
         })

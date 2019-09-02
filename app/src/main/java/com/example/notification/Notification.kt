@@ -6,7 +6,7 @@ package com.example.notification
 class Notification(
     var type: Type = Type(),
     var message: String = "",
-    var isSeen: Boolean = false,
+    var isSeen: Boolean = true,
     var date : String = "",
     var time : String = ""
 ) {
