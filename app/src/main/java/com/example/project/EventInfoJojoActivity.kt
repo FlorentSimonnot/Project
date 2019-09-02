@@ -232,7 +232,7 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
                 deleteEventAlertDialog.setMessage("Your event will be deleted.\nConfirm?")
                 deleteEventAlertDialog.setPositiveButton("Yes"){_, _ ->
                     Event().deleteEvent(this, keyEvent, session)
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, HomeActivity::class.java))
                 }
                 deleteEventAlertDialog.setNegativeButton("No"){_, _ ->
 

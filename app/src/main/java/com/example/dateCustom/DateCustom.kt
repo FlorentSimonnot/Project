@@ -10,6 +10,7 @@ class DateCustom {
 
     constructor(date : String){
         val listDate : List<String> = date.split("/")
+        println("DATE SIZE ${listDate.size}")
         if(listDate.size != 3){
             throw Exception("Error format Date")
         }

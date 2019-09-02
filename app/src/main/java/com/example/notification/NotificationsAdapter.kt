@@ -1,6 +1,7 @@
 package com.example.discussion
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,8 @@ import com.example.notification.NotificationWithKey
 import com.example.notification.TypeNotification
 import com.example.project.R
 import com.example.user.User
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NotificationsAdapter(
     val context: Context,
@@ -42,14 +45,16 @@ class NotificationsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.date.text = notifications[position].notification.date
+        holder.date.text = notifications[position].notification.dateTime.toString()
+        holder.title.text = Html.fromHtml(notifications[position].notification.message)
         if(notifications[position].notification.type.typeNotif == TypeNotification.EVENT){
             Event().showPhotoCreatorEvent(context, notifications[position].notification.type.key, holder.image)
-            Event().writeNotificationEvent(context, notifications[position].notification.type.key, holder.title, notifications[position].notification.type.action)
+            //Event().writeNotificationEvent(context, notifications[position].notification.type.key, holder.title, notifications[position].notification.type.action)
         }
         else{
+            //holder.title.text = notifications[position].notification.message
             User().showPhotoUser(context, holder.image, notifications[position].notification.type.key)
-            User().writeNotificationUser(context, notifications[position].notification.type.key, holder.title, notifications[position].notification.type.action)
+            //User().writeNotificationUser(context, notifications[position].notification.type.key, holder.title, notifications[position].notification.type.action)
             User().writeBulletNotificationUser(context, holder.bullet, notifications[position].notification.type.action)
         }
         colorizeItem(position, holder)

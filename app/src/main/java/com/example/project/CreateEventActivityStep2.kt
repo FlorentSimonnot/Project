@@ -73,7 +73,7 @@ class CreateEventActivityStep2 : AppCompatActivity(), NumberPicker.OnValueChange
                     session.getIdFromUser()
                 )
                 event.insertEvent(this)
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
             }
         }
 

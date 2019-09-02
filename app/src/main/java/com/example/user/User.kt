@@ -1,23 +1,14 @@
 package com.example.user
 
 import android.content.Context
-import android.content.Intent
 import android.text.Html
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-import com.example.events.Event
 import com.example.login.EmailLogin
 import com.example.notification.Action
 import com.example.notification.Notifications
-import com.example.place.SessionGooglePlace
-import com.example.project.MainActivity
 import com.example.project.R
 import com.example.session.SessionUser
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -25,8 +16,6 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import java.io.Serializable
-import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 data class User(

@@ -3,7 +3,7 @@ package com.example.login
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import com.example.project.MainActivity
+import com.example.project.HomeActivity
 import com.example.session.SessionUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -30,7 +30,7 @@ class EmailLogin (private val context : Context,
                             val ref = FirebaseDatabase.getInstance().getReference("users")
                             ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)
                         }
-                    val intent = Intent(context, MainActivity::class.java)
+                    val intent = Intent(context, HomeActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     context.startActivity(intent)
                 }

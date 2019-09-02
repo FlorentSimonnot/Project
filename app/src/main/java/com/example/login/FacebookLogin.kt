@@ -4,23 +4,17 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
-import com.example.project.LoginActivity
-import com.example.project.MainActivity
+import com.example.project.HomeActivity
 import com.example.project.NextSignInJojoActivity
 import com.example.session.SessionUser
-import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginResult
-import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.facebook.GraphResponse
-import org.json.JSONObject
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.google.firebase.database.FirebaseDatabase
@@ -97,7 +91,7 @@ class FacebookLogin (
                                             val ref = FirebaseDatabase.getInstance().getReference("users")
                                             ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)
                                         }
-                                    val intent = Intent(context, MainActivity::class.java)
+                                    val intent = Intent(context, HomeActivity::class.java)
                                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                                     context.startActivity(intent)
                                 }

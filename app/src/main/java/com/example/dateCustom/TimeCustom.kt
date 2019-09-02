@@ -4,22 +4,24 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TimeCustom {
-    var hour : Int = 0
-    var min : Int = 0
-    var sec : Int = 0
+    var hour : Long = 0
+    var min : Long = 0
+    var sec : Long = 0
+    var gmt : Long = 0
 
-    constructor(date : String){
+    constructor(date : String, gmt : Long = 0){
         val listTime : List<String> = date.split(":")
+        this.gmt = gmt
         when(listTime.size){
             2 -> {
-                hour = listTime[0].toInt()
-                min = listTime[1].toInt()
+                hour = listTime[0].toLong() + gmt
+                min = listTime[1].toLong()
                 sec = 0
             }
             3 -> {
-                hour = listTime[0].toInt()
-                min = listTime[1].toInt()
-                sec = listTime[2].toInt()
+                hour = listTime[0].toLong() + gmt
+                min = listTime[1].toLong()
+                sec = listTime[2].toLong()
             }
             else -> {
                 throw Exception("Error format Time")

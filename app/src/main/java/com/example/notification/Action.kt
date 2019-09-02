@@ -6,5 +6,6 @@ enum class Action {
     REFUSE,
     DELETE,
     MODIFY,
-    CREATE
+    CREATE,
+    WAIT
 }

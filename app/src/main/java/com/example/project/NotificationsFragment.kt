@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.discussion.NotificationsAdapter
@@ -44,6 +46,8 @@ class NotificationsFragment(
         recyclerView.setHasFixedSize(true)
         val llm = LinearLayoutManager(context!!)
         recyclerView.layoutManager = llm
+        val itemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.HORIZONTAL)
+        recyclerView.addItemDecoration(itemDecoration)
 
         FirebaseDatabase.getInstance().getReference("notifications/${sessionUser.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
@@ -93,9 +97,9 @@ class NotificationsFragment(
                     notif.isSeen = it.child("isSeen").value as Boolean
                     notifications.add(NotificationWithKey(notif, it.key!!))
                 }
-                println("NOTIFS $notifications")
-                var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.date}, {it.notification.time})))
+                var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.dateTime.date.toString()}, {it.notification.dateTime.time.toString()})))
                 sortedList.reverse()
+                notifications = sortedList
                 adapter = NotificationsAdapter(context!!, R.layout.list_item_notification, sortedList, this@NotificationsFragment)
                 recyclerView.adapter = adapter
             }

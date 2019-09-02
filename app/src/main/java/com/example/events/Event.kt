@@ -277,13 +277,14 @@ data class Event (
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
                 if (value != null) {
-                    when (action) {
+                    //textView.text =
+                    /*when (action) {
                         Action.ACCEPT -> {
-                            val s = "Your participation to <b> ${value.name} </b> has been accepted !"
-                            textView.text = Html.fromHtml(s)
+                            //val s = "Your participation to <b> ${value.name} </b> has been accepted !"
+                            //textView.text = Html.fromHtml(s)
                         }
                         else -> "NULL"
-                    }
+                    }*/
                 }
             }
 
@@ -325,7 +326,7 @@ data class Event (
     fun deleteEvent(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.removeValue()
-        val intent = Intent(context, MainActivity::class.java)
+        val intent = Intent(context,HomeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         EventInfoJojoActivity::finish
         context.startActivity(intent)

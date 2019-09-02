@@ -159,7 +159,7 @@ class CreateEventActivity : AppCompatActivity(),
                     SessionUser(this).getIdFromUser()
                 )
                 newEvent.insertEvent(this)
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, HomeActivity::class.java))
             }
             else{
                 error.visibility = View.VISIBLE
