@@ -1,6 +1,7 @@
 package com.example.project
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -16,13 +17,17 @@ import com.google.firebase.database.DataSnapshot
 import android.text.method.TextKeyListener.clear
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.appcompat.widget.Toolbar
+import com.example.session.SessionUser
+import com.example.user.PrivacyAccount
 import com.example.user.UserWithKey
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
 
-class SearchBarActivity : AppCompatActivity() {
+class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener {
+
     private lateinit var searchBar : EditText
     private lateinit var recyclerView : RecyclerView
     private var users : ArrayList<UserWithKey> = ArrayList()
@@ -31,6 +36,11 @@ class SearchBarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_bar)
+
+        val toolbar : Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = ""
 
         searchBar = findViewById(R.id.search_user)
         recyclerView = findViewById(R.id.recyclerView)
@@ -78,8 +88,10 @@ class SearchBarActivity : AppCompatActivity() {
                             user.name.toUpperCase().contains(searchedString.toUpperCase()) ||
                             user.firstName.toUpperCase().contains(searchedString.toUpperCase())
                         ){
-                            users.add(UserWithKey(user, snapshot.key))
+                            if (snapshot.key != SessionUser(context).getIdFromUser()){
+                                users.add(UserWithKey(user, snapshot.key))
                             counter++
+                            }
                         }
                     }
                     if (counter == 15)
@@ -88,7 +100,7 @@ class SearchBarActivity : AppCompatActivity() {
 
                 if(users.size > 0){
                     findViewById<RelativeLayout>(R.id.noResults).visibility = View.GONE
-                    searchAdapter = SearchAdapter(context, R.layout.search_list_item_user, users )
+                    searchAdapter = SearchAdapter(context, R.layout.search_list_item_user, users ,this@SearchBarActivity)
                     recyclerView.adapter = searchAdapter
                 }
                 else{
@@ -101,5 +113,29 @@ class SearchBarActivity : AppCompatActivity() {
 
             }
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    override fun onClick(position: Int) {
+        when(users[position].user.privacyAccount){
+            PrivacyAccount.Public -> {
+                val intent = Intent(this, PublicUserActivity::class.java)
+                intent.putExtra("user", users[position].key)
+                startActivity(intent)
+            }
+            PrivacyAccount.Private -> {
+                val intent = Intent(this, PrivateUserActivity::class.java)
+                intent.putExtra("user", users[position].key)
+                startActivity(intent)
+            }
+        }
+    }
+
+    override fun onLongClick(position: Int) {
+        //Nope
     }
 }

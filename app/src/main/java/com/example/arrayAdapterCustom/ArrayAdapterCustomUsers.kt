@@ -25,7 +25,7 @@ class ArrayAdapterCustomUsers(
     private val users : ArrayList<UserWithKey>,
     private val action : String
 ): ArrayAdapter<UserWithKey>( ctx , resource, users){
-    private var buttonRefuse : Button? = null
+    private var buttonRefuse : ImageButton? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
@@ -33,8 +33,8 @@ class ArrayAdapterCustomUsers(
         val view : View = layoutInflater.inflate(resource , null )
         val imageView : ImageView = view.findViewById(R.id.photo_user)
         val textView : TextView = view.findViewById(R.id.identity)
-        val message : Button
-        val button : Button
+        val message : ImageButton
+        val button : ImageButton
 
         button = when(action){
             "waiting" -> {

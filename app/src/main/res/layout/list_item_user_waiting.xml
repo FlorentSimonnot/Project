@@ -1,18 +1,20 @@
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/list_item_users_waiting"
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="?android:attr/listSeparatorTextViewStyle"
         >
 
     <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="horizontal"
             android:id="@+id/layout_name"
             android:gravity="center_vertical"
+            android:layout_marginRight="100dp"
             >
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -39,32 +41,30 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="100dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:gravity="center_vertical|center_horizontal"
             >
 
-        <Button
+        <ImageButton
                 android:id="@+id/btn_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Accept"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/button_accept_participation"
-                android:textColor="#fff"
+                app:srcCompat="@drawable/ic_checked_color_primary"
+                android:background="@null"
+                android:layout_marginRight="10dp"
                 />
 
-        <Button
+        <ImageButton
                 android:id="@+id/btn_refuse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Refuse"
-                android:background="@drawable/button_remove_participant"
-                android:textColor="#fff"
-                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/ic_cross"
+                android:background="@null"
                 />
 
     </LinearLayout>

@@ -36,7 +36,7 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = ""
+        supportActionBar?.title = "Profile"
 
         val infos : Bundle? = intent.extras
         userKey = infos?.getString("user").toString()
@@ -44,7 +44,10 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
 
         val identityTextView = findViewById<TextView>(R.id.identity)
         val placeTextView = findViewById<TextView>(R.id.place)
-        val addFriendButton = findViewById<ImageButton>(R.id.addFriendButton)
+        val addFriendButton = findViewById<Button>(R.id.addFriendButton)
+        val removeFriendButton = findViewById<Button>(R.id.removeFriendButton)
+        val cancelFriendButton = findViewById<Button>(R.id.cancelFriendButton)
+        val aboutMoreButton = findViewById<Button>(R.id.aboutMoreButton)
         listView = findViewById(R.id.listViewEvents)
         tab = findViewById(R.id.tab)
 
@@ -88,12 +91,14 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
             eventsList(this)
         }
 
-        //user = intent.getSerializableExtra("user") as UserWithKey
-
         SessionUser(this).writeInfoUser(this, userKey, identityTextView, "identity")
         SessionUser(this).writeInfoUser(this, userKey, placeTextView, "city")
+        SessionUser(this).writeInfoUser(this, userKey, aboutMoreButton, "firstNameButton")
+        SessionUser(this).setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)
 
         addFriendButton.setOnClickListener(this)
+        removeFriendButton.setOnClickListener(this)
+        cancelFriendButton.setOnClickListener(this)
     }
 
     private fun eventsList(context: Context){
@@ -207,10 +212,16 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(p0: View?) {
+        val userWithKey = UserWithKey(User(), userKey)
         when(p0?.id){
             R.id.addFriendButton -> {
-                var userWithKey = UserWithKey(User(), userKey)
                 userWithKey.addFriend(session)
+            }
+            R.id.removeFriendButton -> {
+
+            }
+            R.id.cancelFriendButton -> {
+
             }
         }
     }

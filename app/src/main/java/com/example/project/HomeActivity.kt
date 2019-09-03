@@ -49,7 +49,13 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                 return@OnNavigationItemSelectedListener false
             }
             R.id.navigation_map -> {
-                return@OnNavigationItemSelectedListener true
+                val fragment : Fragment = MapFragment(bottomMenu)
+                if(!supportFragmentManager.isDestroyed) {
+                    loadFragment(fragment)
+                    supportActionBar?.title = "Map"
+                    return@OnNavigationItemSelectedListener true
+                }
+                return@OnNavigationItemSelectedListener false
             }
             R.id.navigation_notifications -> {
                 val fragment : Fragment = NotificationsFragment(bottomMenu)

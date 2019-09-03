@@ -486,7 +486,7 @@ data class Event (
      * @param button : the button we want to hide
      * @param userKey : the key of user we want to check
      */
-    fun verifyUserIsCreator(context: Context, key : String?, button: Button, buttonMessage : Button, userKey : String?){
+    fun verifyUserIsCreator(context: Context, key : String?, button: ImageButton, buttonMessage : ImageButton, userKey : String?){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {

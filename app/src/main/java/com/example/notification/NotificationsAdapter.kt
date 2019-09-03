@@ -97,7 +97,6 @@ class NotificationsAdapter(
     }
 
     private fun colorizeItem(position: Int, holder: ViewHolder){
-        println("NNN ${notifications[position].notification.isSeen}")
         if(!notifications[position].notification.isSeen){
             holder.content.setBackgroundResource(R.drawable.background_notif_not_seen)
         }

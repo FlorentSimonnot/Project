@@ -62,11 +62,11 @@
                 android:padding="5dp"
                 >
 
-            <Button
+            <ImageButton
                     android:id="@+id/send_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_chat"
+                    app:srcCompat="@drawable/ic_chat"
                     android:background="#fff"
                     />
 
@@ -77,13 +77,13 @@
                 android:orientation="vertical"
                 >
 
-            <Button
+            <ImageButton
                     android:id="@+id/btn_remove"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#fff"
                     android:textColor="#fff"
-                    android:drawableLeft="@drawable/ic_remove_user"
+                    app:srcCompat="@drawable/ic_remove_user"
                     />
 
         </LinearLayout>

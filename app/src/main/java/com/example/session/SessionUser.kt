@@ -4,6 +4,8 @@ import androidx.appcompat.app.ActionBar
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -142,6 +144,7 @@ class SessionUser(val context: Context) : Serializable{
                     when (action) {
                         "identity" -> textView.text = value.firstName+" "+value.name
                         "firstName" -> textView.text = value.firstName
+                        "firstNameButton" -> textView.text = "Learn more about ${value.firstName}"
                         "name" -> textView.text = value.name
                         "email" -> textView.text = value.email
                         "password" -> textView.text = value.password
@@ -199,6 +202,33 @@ class SessionUser(val context: Context) : Serializable{
             override fun onCancelled(databaseError: DatabaseError) {}
         })
 
+    }
+
+    fun setButtonFriend(buttonAddFriend : Button, buttonRemoveFriend : Button, buttonCancelFriend : Button, uid: String){
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${getIdFromUser()}")
+        ref.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                p0.children.forEach {
+                    if(it.key == uid){
+                        when(it.child("status").value){
+                            "friend" -> {
+                                buttonAddFriend.visibility = View.GONE
+                                buttonCancelFriend.visibility = View.GONE
+                                buttonRemoveFriend.visibility = View.VISIBLE
+                            }
+                            "waiting" -> {
+                                buttonAddFriend.visibility = View.GONE
+                                buttonCancelFriend.visibility = View.VISIBLE
+                                buttonRemoveFriend.visibility = View.GONE
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
     }
 
     fun identity(uid: String?, textView: TextView) {

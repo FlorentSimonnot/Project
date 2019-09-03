@@ -25,6 +25,7 @@ class FullscreenImageActivity : AppCompatActivity(), View.OnClickListener {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Photo"
 
         fullscreenImage = findViewById(R.id.fullscreenImage)
         dateTextView = findViewById(R.id.dateImage)

@@ -4,6 +4,8 @@
         >
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
             android:allowBackup="true"
@@ -34,8 +36,6 @@
         <activity android:name=".Dialog">
         </activity>
         <activity android:name=".ListUserSendMessage">
-        </activity>
-        <activity android:name=".MessagerieActivity">
         </activity>
         <activity android:name=".NotificationPushActivity">
         </activity>
@@ -70,8 +70,6 @@
                 android:label="@string/title_activity_event_info"
                 android:theme="@style/AppTheme.NoActionBar"
                 >
-        </activity>
-        <activity android:name=".CreateEventActivityStep2">
         </activity>
         <activity android:name=".UserInfoActivity">
         </activity>

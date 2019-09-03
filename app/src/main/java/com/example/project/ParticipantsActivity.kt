@@ -36,11 +36,7 @@ class ParticipantsActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val intent = Intent(this, EventInfoJojoActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra("key", keyEvent)
-        ParticipantsWaitedActivity::finish
-        startActivity(intent)
+        onBackPressed()
         return true
     }
 

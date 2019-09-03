@@ -52,7 +52,7 @@ class ActivityInfoUser : AppCompatActivity(), View.OnClickListener {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_chat -> {
-                val checkAccountIntent = Intent(this, MessagerieActivity::class.java)
+                val checkAccountIntent = Intent(this, HomeActivity::class.java)
                 this.startActivity(checkAccountIntent)
                 overridePendingTransition(R.anim.left_to_right_in, R.anim.left_to_right_out)
                 return@OnNavigationItemSelectedListener true

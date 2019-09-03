@@ -1,9 +1,6 @@
 package com.example.messages
 
 import android.content.Context
-import android.content.Intent
-import com.example.project.Dialog
-import com.example.project.MessagerieActivity
 import com.example.session.SessionUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,9 +37,6 @@ class Discussion(
 
 
                 }
-                val intent = Intent(context, MessagerieActivity::class.java)
-                Dialog::finish
-                context.startActivity(intent)
 
             }
 

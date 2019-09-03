@@ -9,6 +9,9 @@ import android.se.omapi.Session
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.example.discussion.NotificationsAdapter
 import com.example.session.SessionUser
 import com.example.user.UserWithKey
 import kotlinx.android.synthetic.main.search_list_item_user.view.*
@@ -17,13 +20,14 @@ import kotlinx.android.synthetic.main.search_list_item_user.view.*
 class SearchAdapter(
     val context: Context,
     val resource : Int,
-    val users : ArrayList<UserWithKey>
+    val users : ArrayList<UserWithKey>,
+    val onItemListener: SearchAdapter.OnItemListener
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater : LayoutInflater = LayoutInflater.from(context)
         val view : View = layoutInflater.inflate(resource , null )
-        return ViewHolder(view)
+        return ViewHolder(view, onItemListener)
     }
 
     override fun getItemCount(): Int {
@@ -38,10 +42,31 @@ class SearchAdapter(
 
     }
 
-    class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
-        val name = view.full_name
-        val desc = view.user_name
-        val photo = view.profile_photo
+    class ViewHolder : RecyclerView.ViewHolder, View.OnClickListener  {
+        var name : TextView
+        var desc : TextView
+        var photo : ImageView
+        var onItemListener : OnItemListener
+
+        constructor(view: View, onItemListener: OnItemListener) : super(view) {
+            name = view.full_name
+            desc = view.user_name
+            photo = view.profile_photo
+            this.onItemListener = onItemListener
+
+            view.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+            onItemListener.onClick(adapterPosition)
+        }
+
+
+    }
+
+    interface OnItemListener{
+        fun onClick(position : Int)
+        fun onLongClick(position: Int)
     }
 
 }

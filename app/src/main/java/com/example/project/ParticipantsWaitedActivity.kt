@@ -40,11 +40,7 @@ class ParticipantsWaitedActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val intent = Intent(this, EventInfoJojoActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.putExtra("key", keyEvent)
-        ParticipantsWaitedActivity::finish
-        startActivity(intent)
+        onBackPressed()
         return true
     }
 
@@ -81,7 +77,6 @@ class ParticipantsWaitedActivity : AppCompatActivity() {
                         }
                     }
                 }
-                println("USER WAITINGS ${usersWaiting}")
                 if(usersWaiting.size > 0){
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
