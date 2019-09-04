@@ -1,52 +1,32 @@
 package com.example.project
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
-import android.content.Context.LOCATION_SERVICE
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.location.Criteria
+import android.graphics.drawable.Drawable
 import android.location.Location
-import android.location.LocationManager
-import android.location.LocationProvider
-import android.media.audiofx.BassBoost
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
+import android.util.DisplayMetrics
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ListView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
 import com.example.events.Event
+import com.example.events.EventAndMarker
 import com.example.menu.MenuCustom
 import com.example.place.SessionGooglePlace
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.*
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.firebase.database.DataSnapshot
@@ -59,7 +39,7 @@ import kotlin.collections.ArrayList
 
 open class MapFragment(
     val  menu : MenuCustom
-) : Fragment(), OnMapReadyCallback{
+) : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
     lateinit var map : GoogleMap
     lateinit var mapView : MapView
     lateinit var v : View
@@ -68,6 +48,7 @@ open class MapFragment(
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
+    private var eventsAndMarkers = ArrayList<EventAndMarker>()
 
     val PERMISSION_LOCATION_REQUEST_CODE = 1
     val REQUEST_CHECK_SETTINGS = 2
@@ -97,21 +78,34 @@ open class MapFragment(
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-                placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude), -1)
+                val markerOptions = MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
+                placeMarkerOnMap(markerOptions, -1)
             }
         }
 
         createLocationRequest()
 
-
-        if(mapView != null){
-            mapView.onCreate(null)
-            mapView.onResume()
-            mapView.getMapAsync(this)
-        }
+        mapView.onCreate(null)
+        mapView.onResume()
+        mapView.getMapAsync(this)
 
         searchEvents()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_map, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_settings_sport -> {
+                context!!.startActivity(Intent(context!!, SettingsSport::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     interface OnFragmentInteractionListener {
@@ -121,7 +115,7 @@ open class MapFragment(
     override fun onMapReady(p0: GoogleMap?) {
         map = p0!!
         map.uiSettings.isZoomControlsEnabled = true
-
+        map.setOnMarkerClickListener(this)
         setUpMap()
     }
 
@@ -141,7 +135,6 @@ open class MapFragment(
             }
         }
     }
-
 
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(context!!,
@@ -207,21 +200,9 @@ open class MapFragment(
         }
     }
 
-    private fun placeMarkerOnMap(location: LatLng, resource : Int?, title : String = "") {
-        if(resource != -1) {
-            val markerOptions = MarkerOptions()
-                .icon(bitmapDescriptorFromVector(context!!, resource!!))
-                .position(location)
-                .title(title)
-            map.addMarker(markerOptions)
-        }
-        else{
-            val markerOptions = MarkerOptions()
-                .position(location)
-            map.addMarker(markerOptions)
-        }
+    private fun placeMarkerOnMap(markerOptions: MarkerOptions, resource : Int?, title : String = "") {
+        map.addMarker(markerOptions)
     }
-
 
     private fun searchEvents(){
         val ref = FirebaseDatabase.getInstance().getReference("events")
@@ -253,6 +234,7 @@ open class MapFragment(
     }
 
     private fun makeEventsOnMap(events : ArrayList<Event>){
+        eventsAndMarkers.clear()
         events.forEach {
             val gg = SessionGooglePlace(context!!)
             gg.init()
@@ -263,13 +245,17 @@ open class MapFragment(
             val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG)
             val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
 
-
             placesClient.fetchPlace(request)
                 .addOnSuccessListener {
                     val place : Place = it.place
                     val coords : LatLng? = place.latLng
                     if(coords != null){
-                        placeMarkerOnMap(coords, event.sport.getLogoSport(), event.name)
+                        val markerOptions = MarkerOptions()
+                            .icon(bitmapDescriptorFromVector(context!!, event.sport.getLogoSport()!!))
+                            .position(coords)
+                            .title(event.name)
+                        eventsAndMarkers.add(EventAndMarker(event, markerOptions))
+                        placeMarkerOnMap(markerOptions, event.sport.getLogoSport(), event.name)
                     }
                 }
                 .addOnFailureListener {
@@ -277,13 +263,33 @@ open class MapFragment(
         }
     }
 
-    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
-        return ContextCompat.getDrawable(context, vectorResId)?.run {
-            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
-            draw(Canvas(bitmap))
-            BitmapDescriptorFactory.fromBitmap(bitmap)
-        }
+    private fun bitmapDescriptorFromVector(context: Context, vectorDrawableResourceId : Int) : BitmapDescriptor {
+        val background = ContextCompat.getDrawable(context, R.drawable.places_ic_clear)
+        background!!.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
+        vectorDrawable!!.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        val bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        val canvas = Canvas(bitmap);
+        background.draw(canvas);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
+    override fun onMarkerClick(p0: Marker?): Boolean {
+       if(p0 == null){
+           return false
+       }
+        eventsAndMarkers.forEach {
+            if(it.marker.position == p0.position){
+                val intent = Intent(context!!, EventInfoJojoActivity::class.java)
+                intent.putExtra("key", it.event.key)
+                startActivity(intent)
+                return@forEach
+            }
+        }
+        return true
+    }
+
 
 }
