@@ -46,7 +46,7 @@
                     android:id="@+id/textNoNotifications"
                     android:layout_below="@id/bell"
                     android:layout_marginTop="10dp"
-                    android:text="Everyone is sleeping here. Enjoy !"
+                    android:text="@string/no_notification"
                     android:gravity="center"
                     />
 

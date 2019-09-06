@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
+import com.example.project.R
 
 class StringPickerCustom(
     private val min : Int,
@@ -32,11 +33,11 @@ class StringPickerCustom(
         builder.setMessage(message)
 
         //P0 = DialogInterface / P1 = Int
-        builder.setPositiveButton("OK") { p0, p1 ->
+        builder.setPositiveButton(getString(R.string.ok)) { p0, p1 ->
             valueChange.onValueChange(numberPicker, numberPicker.value, numberPicker.value)
         }
 
-        builder.setNegativeButton("CANCEL") { p0, p1 ->
+        builder.setNegativeButton(getString(R.string.cancel)) { p0, p1 ->
             //valueChange.onValueChange(numberPicker, numberPicker.value, numberPicker.value)
         };
 

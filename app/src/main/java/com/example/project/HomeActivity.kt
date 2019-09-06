@@ -47,7 +47,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                 val fragment : Fragment = HomeFragment(bottomMenu)
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
-                    supportActionBar?.title = "Home"
+                    supportActionBar?.title = getString(R.string.home_title)
                     return@OnNavigationItemSelectedListener true
                 }
                 return@OnNavigationItemSelectedListener false
@@ -56,7 +56,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                 val fragment : Fragment = MapFragment(bottomMenu)
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
-                    supportActionBar?.title = "Map"
+                    supportActionBar?.title = getString(R.string.map_title)
                     return@OnNavigationItemSelectedListener true
                 }
                 return@OnNavigationItemSelectedListener false
@@ -65,7 +65,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                 val fragment : Fragment = NotificationsFragment(bottomMenu)
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
-                    supportActionBar?.title = "Notifications"
+                    supportActionBar?.title = getString(R.string.notifications_title)
                     return@OnNavigationItemSelectedListener true
                 }
                 return@OnNavigationItemSelectedListener false
@@ -74,7 +74,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                 val fragment : Fragment = DiscussionFragment()
                 if(!supportFragmentManager.isDestroyed) {
                     loadFragment(fragment)
-                    supportActionBar?.title = "Discussions"
+                    supportActionBar?.title = getString(R.string.discussions_title)
                     return@OnNavigationItemSelectedListener true
                 }
                 return@OnNavigationItemSelectedListener false
@@ -89,7 +89,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Home"
+        supportActionBar?.title = getString(R.string.home_title)
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 

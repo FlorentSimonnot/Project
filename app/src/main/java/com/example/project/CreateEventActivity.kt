@@ -60,7 +60,7 @@ class CreateEventActivity : AppCompatActivity(),
         val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Create your event"
+        supportActionBar?.title = getString(R.string.create_event_title)
 
         name = findViewById(R.id.name_event)
         autoCompleteSport = findViewById(R.id.sport)
@@ -72,7 +72,7 @@ class CreateEventActivity : AppCompatActivity(),
         privacy = findViewById(R.id.privacy_event)
         error = findViewById(R.id.error)
 
-        stringPrivacy = arrayOf("Public", "Private", "Only invitation")
+        stringPrivacy = arrayOf(getString(R.string.event_public), getString(R.string.event_private), getString(R.string.event_invitation))
 
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
@@ -107,13 +107,13 @@ class CreateEventActivity : AppCompatActivity(),
         }
 
         numberPeople.setOnClickListener {
-            val numberPicker = NumberPickerCustom(1, 22, "Choose max number people", "Select a value")
+            val numberPicker = NumberPickerCustom(1, 22, getString(R.string.event_nb_people_title), getString(R.string.event_nb_people_message))
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "People picker")
         }
 
         privacy.setOnClickListener {
-            val numberPicker = StringPickerCustom(0, 2, "Choose max number people", "Select a value", stringPrivacy)
+            val numberPicker = StringPickerCustom(0, 2, getString(R.string.event_privacy_title), getString(R.string.event_privacy_message), stringPrivacy)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "People picker")
         }

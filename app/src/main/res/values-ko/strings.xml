@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Project</string>
-    <string name="bottom_navigation_menu_home">Accueil</string>
+    <string name="bottom_navigation_menu_home">Home</string>
     <string name="bottom_navigation_menu_map">Map</string>
     <string name="bottom_navigation_menu_account">Account</string>
     <string name="bottom_navigation_menu_chat">Chat</string>
@@ -8,7 +8,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
+    <string name="messages_header">메시지</string>
     <string name="sync_header">Sync</string>
 
     <!-- Messages Preferences -->
@@ -52,47 +52,48 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!--********************MENU DRAWER***********************-->
-    <string name="menu_drawer_profil">Mon profil</string>
-    <string name="menu_drawer_events">Mes événements</string>
-    <string name="menu_drawer_friends">Mes amis</string>
+
+    <!--MENU DRAWER-->
+    <string name="menu_drawer_profil">My profile</string>
+    <string name="menu_drawer_events">My events</string>
+    <string name="menu_drawer_friends">My friends</string>
     <string name="menu_drawer_notifications_push">Notifications push</string>
-    <string name="menu_drawer_settings">Paramètres</string>
-    <string name="menu_drawer_contact">Contactez nous</string>
-    <string name="menu_drawer_terms_of_use">Conditions d\'utilisations</string>
-    <string name="menu_drawer_advise">Partager cette application</string>
-    <string name="menu_drawer_logout">Se déconnecter</string>
+    <string name="menu_drawer_settings">Settings</string>
+    <string name="menu_drawer_contact">Contact Us</string>
+    <string name="menu_drawer_terms_of_use">Terms of Use</string>
+    <string name="menu_drawer_advise">Advise this application</string>
+    <string name="menu_drawer_logout">Logout</string>
 
     <!--*******************CREATE EVENT STRINGS***********************-->
-    <string name="name_event">Nom de l\'event</string>
-    <string name="sport_event">Sport</string>
-    <string name="place_event">Lieu</string>
-    <string name="numberOfPeople_event">Nombre de participants</string>
-    <string name="privacy_event">Confidentialité</string>
-    <string name="button_create_event">Creer l\'événement</string>
-    <string name="description_event">Description</string>
-    <string name="event_date">Date</string>
-    <string name="event_time">Heure</string>
-    <string name="event_nb_people_title">Nombre de participants</string>
+    <string name="name_event">이벤트 이름</string>
+    <string name="sport_event">스포츠</string>
+    <string name="place_event">장소</string>
+    <string name="numberOfPeople_event">참가자 수</string>
+    <string name="privacy_event">프라이버시</string>
+    <string name="button_create_event">이벤트 만들기</string>
+    <string name="description_event">설명</string>
+    <string name="event_date">날짜</string>
+    <string name="event_time">시간</string>
+    <string name="event_nb_people_title">참가자 수</string>
     <string name="event_nb_people_message"></string>
-    <string name="event_privacy_title">Confidentialité</string>
+    <string name="event_privacy_title">프라이버시</string>
     <string name="event_privacy_message"></string>
-    <string name="event_public">Public</string>
-    <string name="event_private">Privé</string>
-    <string name="event_invitation">Sur invitations</string>
-    <string name="create_event_title">crée ton événement</string>
+    <string name="event_public">공개</string>
+    <string name="event_private">개인</string>
+    <string name="event_invitation">초대에 의해</string>
+    <string name="create_event_title">이벤트 만들기</string>
 
     <!--NUMBER PICKER CUSTOM-->
     <string name="ok">Ok</string>
-    <string name="cancel">Annuler</string>
+    <string name="cancel">취소</string>
 
     <!--HOME-->
-    <string name="home_title">Accueil</string>
-    <string name="map_title">Carte</string>
-    <string name="notifications_title">Notifications</string>
-    <string name="discussions_title">Messages</string>
+    <string name="home_title">홈</string>
+    <string name="map_title">지도</string>
+    <string name="notifications_title">알림</string>
+    <string name="discussions_title">메시지</string>
 
     <!--NOTIFICATIONS-->
-    <string name="no_notification">Tout le monde dort ici. Profites-en!</string>
+    <string name="no_notification">여기 모두가 자고 있습니다. 즐겨!</string>
 
 </resources>

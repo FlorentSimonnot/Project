@@ -64,12 +64,36 @@
     <string name="menu_drawer_logout">Logout</string>
 
     <!--*******************CREATE EVENT STRINGS***********************-->
-    <string name="name_event">Name</string>
-    <string name="sport_event">Select a sport</string>
-    <string name="place_event">Select a place</string>
+    <string name="name_event">Event\'s name</string>
+    <string name="sport_event">Sport</string>
+    <string name="place_event">Place</string>
     <string name="numberOfPeople_event">Number of participants</string>
-    <string name="privacy_event">Choose privacy</string>
+    <string name="privacy_event">Privacy</string>
     <string name="button_create_event">Create event</string>
     <string name="description_event">Description</string>
+    <string name="event_date">Date</string>
+    <string name="event_time">Time</string>
+    <string name="event_nb_people_title">Number of participants</string>
+    <string name="event_nb_people_message"></string>
+    <string name="event_privacy_title">Privacy</string>
+    <string name="event_privacy_message"></string>
+    <string name="event_public">Public</string>
+    <string name="event_private">Private</string>
+    <string name="event_invitation">By invitations</string>
+    <string name="create_event_title">Create your event</string>
+
+    <!--NUMBER PICKER CUSTOM-->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+
+    <!--HOME-->
+    <string name="home_title">Home</string>
+    <string name="map_title">Map</string>
+    <string name="notifications_title">Notifications</string>
+    <string name="discussions_title">Chats</string>
+
+    <!--NOTIFICATIONS-->
+    <string name="no_notification">Everyone is sleeping here. Enjoy!</string>
 
 </resources>
