@@ -16,5 +16,5 @@
     <color name="colorDark">#636e72</color>
     <color name="colorButtonPressed">#CFD8DC</color>
     <color name="colorGrey50">#FAFAFA</color>
-    <color name="backgroundColor">#fefefe</color>
+    <color name="backgroundColor">#303030</color>
 </resources>

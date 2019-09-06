@@ -61,8 +61,10 @@ class ListUserSendMessage : AppCompatActivity() {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
                     if(it.child("status").value == "friend"){
-                        friends.add(it.key)
-                        keyChats.add(it.child("keyChat").value as String)
+                        if(it.hasChild("keyChat")) {
+                            friends.add(it.key)
+                            keyChats.add(it.child("keyChat").value as String)
+                        }
                     }
                 }
                 searchUser(context, friends, keyChats, stringSearch)

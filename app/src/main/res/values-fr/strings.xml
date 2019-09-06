@@ -95,4 +95,10 @@
     <!--NOTIFICATIONS-->
     <string name="no_notification">Tout le monde dort ici. Profites-en!</string>
 
+    <string name="write_message">Écrivez votre message</string>
+
+    <!--SEARCHBAR TEXT-->
+    <string name="search_user">Rechercher quelqu\'un</string>
+    <string name="search_conversation">Rechercher une conversation</string>
+
 </resources>

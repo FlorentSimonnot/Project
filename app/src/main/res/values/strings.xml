@@ -96,4 +96,10 @@
     <!--NOTIFICATIONS-->
     <string name="no_notification">Everyone is sleeping here. Enjoy!</string>
 
+    <string name="write_message">Write your message</string>
+
+    <!--SEARCHBAR TEXT-->
+    <string name="search_user">Search user</string>
+    <string name="search_conversation">Search conversation</string>
+
 </resources>

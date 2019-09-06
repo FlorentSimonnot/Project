@@ -28,7 +28,7 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Search user"
+                    android:hint="@string/search_user"
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:textColorHint="#fff"
