@@ -8,12 +8,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navigation_account"
-            android:title="Profile"
+            android:title="@string/menu_drawer_profil"
             android:icon="@drawable/ic_person_black_24dp"
         />
         <item
             android:id="@+id/navigation_friends"
-            android:title="Friends"
+            android:title="@string/menu_drawer_events"
             android:icon="@drawable/ic_person_black_24dp"
         />
         <item

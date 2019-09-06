@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Project</string>
-    <string name="bottom_navigation_menu_home">Home</string>
+    <string name="bottom_navigation_menu_home">Accueil</string>
     <string name="bottom_navigation_menu_map">Map</string>
     <string name="bottom_navigation_menu_account">Account</string>
     <string name="bottom_navigation_menu_chat">Chat</string>
@@ -52,24 +52,24 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-
-    <string name="menu_drawer_profil">My profile</string>
-    <string name="menu_drawer_events">My events</string>
-    <string name="menu_drawer_friends">My friends</string>
+    <!--********************MENU DRAWER***********************-->
+    <string name="menu_drawer_profil">Mon profil</string>
+    <string name="menu_drawer_events">Mes événements</string>
+    <string name="menu_drawer_friends">Mes amis</string>
     <string name="menu_drawer_notifications_push">Notifications push</string>
-    <string name="menu_drawer_settings">Settings</string>
-    <string name="menu_drawer_contact">Contact Us</string>
-    <string name="menu_drawer_terms_of_use">Terms of Use</string>
-    <string name="menu_drawer_advise">Advise this application</string>
-    <string name="menu_drawer_logout">Logout</string>
+    <string name="menu_drawer_settings">Paramètres</string>
+    <string name="menu_drawer_contact">Contactez nous</string>
+    <string name="menu_drawer_terms_of_use">Conditions d\'utilisations</string>
+    <string name="menu_drawer_advise">Partager cette application</string>
+    <string name="menu_drawer_logout">Se déconnecter</string>
 
     <!--*******************CREATE EVENT STRINGS***********************-->
-    <string name="name_event">Name</string>
-    <string name="sport_event">Select a sport</string>
-    <string name="place_event">Select a place</string>
-    <string name="numberOfPeople_event">Number of participants</string>
-    <string name="privacy_event">Choose privacy</string>
-    <string name="button_create_event">Create event</string>
+    <string name="name_event">Nom</string>
+    <string name="sport_event">Selectionne un sport</string>
+    <string name="place_event">Selectionne le lieu</string>
+    <string name="numberOfPeople_event">Nombre de participants</string>
+    <string name="privacy_event">Choisis les conditions de participation</string>
+    <string name="button_create_event">Creer l\'événement</string>
     <string name="description_event">Description</string>
 
 </resources>
