@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dateCustom.DateUTC
 import com.example.events.Event
 import com.example.notification.Action
 import com.example.notification.Notification
@@ -45,16 +46,19 @@ class NotificationsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.date.text = notifications[position].notification.dateTime.toString()
+        var date = DateUTC(notifications[position].notification.date.toLong())
+        if(date.isToday())
+            holder.date.text = date.showTime()
+        else{
+            holder.date.text = date.showDate()
+        }
         holder.title.text = Html.fromHtml(notifications[position].notification.message)
         if(notifications[position].notification.type.typeNotif == TypeNotification.EVENT){
             Event().showPhotoCreatorEvent(context, notifications[position].notification.type.key, holder.image)
             //Event().writeNotificationEvent(context, notifications[position].notification.type.key, holder.title, notifications[position].notification.type.action)
         }
         else{
-            //holder.title.text = notifications[position].notification.message
             User().showPhotoUser(context, holder.image, notifications[position].notification.type.key)
-            //User().writeNotificationUser(context, notifications[position].notification.type.key, holder.title, notifications[position].notification.type.action)
             User().writeBulletNotificationUser(context, holder.bullet, notifications[position].notification.type.action)
         }
         colorizeItem(position, holder)

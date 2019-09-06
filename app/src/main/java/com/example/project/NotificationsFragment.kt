@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +32,8 @@ class NotificationsFragment(
     private var notifications : ArrayList<NotificationWithKey> = ArrayList()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter : NotificationsAdapter
+    private lateinit var textView: TextView
+    private lateinit var noResults : RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +46,8 @@ class NotificationsFragment(
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_notifications, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
+        textView = view.findViewById(R.id.text)
+        noResults = view.findViewById(R.id.silence)
         sessionUser = SessionUser(context!!)
 
         recyclerView.setHasFixedSize(true)
@@ -48,6 +55,24 @@ class NotificationsFragment(
         recyclerView.layoutManager = llm
         val itemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.HORIZONTAL)
         recyclerView.addItemDecoration(itemDecoration)
+
+        val s = "<u>Mark all as read</u>"
+        textView.text = Html.fromHtml(s)
+        //Set see to false for every notification
+        textView.setOnClickListener {
+            FirebaseDatabase.getInstance().getReference("notifications/${sessionUser.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    p0.children.forEach {
+                        val notif = it.getValue(Notification::class.java)
+                        val notifWithKey = NotificationWithKey(notif!!, it.key!!)
+                        notifWithKey.seeNotification(context!!)
+                    }
+                }
+
+            })
+        }
 
         FirebaseDatabase.getInstance().getReference("notifications/${sessionUser.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
@@ -97,11 +122,21 @@ class NotificationsFragment(
                     notif.isSeen = it.child("isSeen").value as Boolean
                     notifications.add(NotificationWithKey(notif, it.key!!))
                 }
-                var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.dateTime.date.toString()}, {it.notification.dateTime.time.toString()})))
-                sortedList.reverse()
-                notifications = sortedList
-                adapter = NotificationsAdapter(context!!, R.layout.list_item_notification, sortedList, this@NotificationsFragment)
-                recyclerView.adapter = adapter
+                if(notifications.size > 0){
+                    var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.dateTime.date.toString()}, {it.notification.dateTime.time.toString()})))
+                    sortedList.reverse()
+                    notifications = sortedList
+                    adapter = NotificationsAdapter(context!!, R.layout.list_item_notification, sortedList, this@NotificationsFragment)
+                    recyclerView.adapter = adapter
+                    textView.visibility = View.VISIBLE
+                    recyclerView.visibility = View.VISIBLE
+                    noResults.visibility = View.GONE
+                }
+                else{
+                    textView.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    noResults.visibility = View.VISIBLE
+                }
             }
 
         })
@@ -112,16 +147,18 @@ class NotificationsFragment(
             when(notifications[position].notification.type.typeNotif){
                 TypeNotification.EVENT -> {
                     when(notifications[position].notification.type.action){
-                        Action.ACCEPT -> {
+                        Action.ACCEPT, Action.INVITATION, Action.MODIFY -> {
                             notifications[position].seeNotification(context!!)
                             startActivity(Intent(context, EventInfoViewParticipantActivity::class.java).putExtra("key",notifications[position].notification.type.key ))
                         }
-                        else -> {}
+                        else -> {
+                            notifications[position].seeNotification(context!!)
+                        }
                     }
                 }
                 TypeNotification.USER -> {
                     when(notifications[position].notification.type.action){
-                        Action.ACCEPT -> {
+                        Action.ACCEPT, Action.INVITATION -> {
                             notifications[position].seeNotification(context!!)
                             startActivity(Intent(context, PublicUserActivity::class.java).putExtra("user",notifications[position].notification.type.key ))
                         }

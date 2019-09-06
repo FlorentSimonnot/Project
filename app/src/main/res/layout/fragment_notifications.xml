@@ -3,15 +3,54 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context=".NotificationsFragment"
         >
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:text="All mark as read"
+            android:id="@+id/text"
+            android:textColor="@color/colorPrimary"
+            />
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recyclerView"
+            android:layout_below="@id/text"
+            android:layout_marginTop="40dp"
             >
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/silence"
+            android:gravity="center_horizontal|center_vertical"
+            >
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_notifications_silence"
+                    android:id="@+id/bell"
+                    />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textNoNotifications"
+                    android:layout_below="@id/bell"
+                    android:layout_marginTop="10dp"
+                    android:text="Everyone is sleeping here. Enjoy !"
+                    android:gravity="center"
+                    />
+
+
+    </RelativeLayout>
 
 </FrameLayout>

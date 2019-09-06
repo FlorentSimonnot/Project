@@ -29,18 +29,6 @@
                 android:clipToPadding="false"
                 >
 
-            <!--<TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/event_name"
-                    android:text="Title"
-                    android:textColor="#fff"
-                    android:textSize="24dp"
-                    android:fontFamily="@font/rubik"
-                    android:gravity="end|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:layout_marginRight="10dp"
-                    />-->
         </androidx.appcompat.widget.Toolbar>
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -147,6 +135,7 @@
                     android:layout_marginRight="20dp"
                     />
 
+
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -182,6 +171,41 @@
                     android:layout_below="@id/note_event"
                     android:visibility="gone"
                     />
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                <Button
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_accept_invitation"
+                        android:text="Accept invitation"
+                        android:background="@drawable/button_participe"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        />
+
+                <Button
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/button_refuse_invitation"
+                        android:text="Refuse invitation"
+                        android:background="@drawable/button_cancel"
+                        android:textColor="#fff"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="0dp"
+                        />
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
 

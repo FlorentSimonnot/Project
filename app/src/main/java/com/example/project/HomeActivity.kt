@@ -14,6 +14,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.menu.DrawerMenu
@@ -28,6 +29,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionListener, View.OnClickListener{
@@ -124,6 +127,8 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             drawerMenu.setInfo()
 
             loadFragment(HomeFragment(bottomMenu))
+
+
         }
 
     }

@@ -148,7 +148,6 @@
                             android:id="@+id/event_invitation_switch"
                             />
                 </LinearLayout>
-
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -174,8 +173,6 @@
                             android:id="@+id/event_accept_switch"
                             />
                 </LinearLayout>
-
-
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -202,7 +199,6 @@
                             android:id="@+id/event_join_switch"
                             />
                 </LinearLayout>
-
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -231,7 +227,6 @@
                             />
 
                 </LinearLayout>
-
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -257,6 +252,23 @@
                             android:layout_gravity="left"
                             android:padding="10dp"
                             android:id="@+id/messages_switch"
+                            />
+
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/messages"
+                        android:layout_marginTop="20dp"
+                        >
+                    <Button
+                            android:id="@+id/deleteNotifications"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Delete all notifications"
+                            android:background="@null"
+                            android:textColor="@color/colorPrimary"
+                            style="?android:attr/borderlessButtonStyle"
                             />
 
                 </LinearLayout>

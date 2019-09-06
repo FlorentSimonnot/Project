@@ -365,16 +365,10 @@ data class Event (
     fun cancelParticipation(
         context: Context,
         key : String?,
-        session : SessionUser,
-        buttonToHide : Button,
-        buttonToShow : Button,
-        textView: TextView
+        session : SessionUser
     ){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.removeValue().addOnSuccessListener {
-            buttonToHide.visibility = View.GONE
-            buttonToShow.visibility = View.VISIBLE
-            textView.text = "${textView.text.toString().toInt()-1}"
             Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
         }
     }
@@ -427,35 +421,60 @@ data class Event (
         Toast.makeText(context, "You have cancel your invitation !", Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * getButton look if the current already participate to the event or is invited. Show and the buttons in according to the status of participation.
+     * @param context : the current context
+     * @param button_participe : the button for participation
+     * @param button_cancel : the button for cancel his participation
+     *
+     */
     fun getButton(context: Context, key: String?,
                   button_participe: Button,
                   button_cancel : Button,
+                  buttonAcceptInvitation : Button,
+                  buttonRefuseInvitaton : Button,
                   textView : TextView,
                   textViewNote : TextView,
                   ratingBar: RatingBar
                   ){
+        var isInvited = false
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
+                dataSnapshot.child("participants").children.forEach {
+                    if (it.key == SessionUser(context).getIdFromUser() && it.child("status").value == "invitation") {
+                        isInvited = true
+                    }
+                }
                 if (value != null) {
                     if(!value.finish) {
-                        if (value.participants.size < value.nb_people) {
-                            if (value.participants.contains(SessionUser(context).getIdFromUser())) {
-                                button_participe.visibility = View.GONE
-                                button_cancel.visibility = View.VISIBLE
+                        if(isInvited){
+                            button_cancel.visibility = View.GONE
+                            button_participe.visibility = View.GONE
+                            buttonAcceptInvitation.visibility = View.VISIBLE
+                            buttonRefuseInvitaton.visibility = View.VISIBLE
+                        }
+                        else{
+                            buttonAcceptInvitation.visibility = View.GONE
+                            buttonRefuseInvitaton.visibility = View.GONE
+                            if (value.participants.size < value.nb_people) {
+                                if (value.participants.contains(SessionUser(context).getIdFromUser())) {
+                                    button_participe.visibility = View.GONE
+                                    button_cancel.visibility = View.VISIBLE
+                                } else {
+                                    button_participe.visibility = View.VISIBLE
+                                    button_cancel.visibility = View.GONE
+                                }
                             } else {
-                                button_participe.visibility = View.VISIBLE
-                                button_cancel.visibility = View.GONE
-                            }
-                        } else {
-                            if (value.participants.contains(SessionUser(context).getIdFromUser())) {
-                                button_participe.visibility = View.GONE
-                                button_cancel.visibility = View.VISIBLE
-                            } else {
-                                button_participe.visibility = View.GONE
-                                button_cancel.visibility = View.GONE
-                                textView.visibility = View.VISIBLE
+                                if (value.participants.contains(SessionUser(context).getIdFromUser())) {
+                                    button_participe.visibility = View.GONE
+                                    button_cancel.visibility = View.VISIBLE
+                                } else {
+                                    button_participe.visibility = View.GONE
+                                    button_cancel.visibility = View.GONE
+                                    textView.visibility = View.VISIBLE
+                                }
                             }
                         }
                     }

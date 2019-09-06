@@ -5,12 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.*
-import androidx.recyclerview.widget.RecyclerView
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
@@ -28,6 +25,7 @@ import com.google.firebase.database.ValueEventListener
 open class HomeFragment(
     val menu :  MenuCustom
 ) : Fragment() {
+    private lateinit var progressBar : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,17 +41,19 @@ open class HomeFragment(
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val listView = view.findViewById<ListView>(R.id.events_listview)
         val createEventButton : Button = view.findViewById(R.id.create_event)
+        progressBar = view.findViewById(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
 
         createEventButton.setOnClickListener {
             startActivity(Intent(context, CreateEventActivity::class.java))
         }
 
+        //Recreate badges when discussion is updated
         FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
 
             override fun onDataChange(p0: DataSnapshot) {
                 menu.setBadges()
-                //drawerMenu.setInfo()
             }
 
         })
@@ -63,7 +63,6 @@ open class HomeFragment(
 
             override fun onDataChange(p0: DataSnapshot) {
                 menu.setBadges()
-                //drawerMenu.setInfo()
             }
 
         })
@@ -121,6 +120,7 @@ open class HomeFragment(
                 }
                 val adapter = ArrayAdapterCustom(context, R.layout.my_list, events)
                 listView.adapter = adapter
+                progressBar.visibility = View.GONE
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

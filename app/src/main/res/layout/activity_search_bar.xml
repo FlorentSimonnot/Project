@@ -50,7 +50,38 @@
                 android:layout_below="@id/toolbar"
                 android:padding="10dp"
                 android:id="@+id/recyclerView"
-                ></androidx.recyclerview.widget.RecyclerView>
+                android:visibility="gone"
+                >
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/toolbar"
+                android:id="@+id/suggestions"
+                >
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Suggestions"
+                    android:id="@+id/titleSuggestion"
+                    android:padding="10dp"
+                    />
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recyclerViewSuggestion"
+                    android:layout_below="@id/titleSuggestion"
+                    android:background="@null"
+                    android:orientation="horizontal">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+        </RelativeLayout>
 
         <RelativeLayout
                 android:layout_width="match_parent"

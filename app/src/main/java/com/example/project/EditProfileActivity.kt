@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.speech.tts.TextToSpeech
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -28,8 +29,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity
 
 
 
-class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener, View.OnClickListener  {
-
+class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener, View.OnClickListener, SeekBar.OnSeekBarChangeListener  {
     var session : SessionUser = SessionUser(this)
     val stringSex = arrayOf("Male", "Female", "Other")
     private lateinit var sexTextView: TextView
@@ -38,7 +38,8 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     private val photoRequestCode = 1818
     private lateinit var photo : ImageView
-    private lateinit var uri : Uri
+    private var uri : Uri? = null
+    private lateinit var radiusTextView : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +48,10 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Edit profil"
 
         val emailEditText = findViewById<EditText>(R.id.email_account)
-        sexTextView = findViewById<TextView>(R.id.edit_sexe)
+        sexTextView = findViewById(R.id.edit_sexe)
         val birthdayEditText = findViewById<EditText>(R.id.birthday_account)
         cityEditText = findViewById(R.id.city_account)
         val descriptionEditText = findViewById<EditText>(R.id.describe_account)
@@ -57,6 +59,9 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         val confirmChangesButton = findViewById<Button>(R.id.confirm_changes)
         photo = findViewById(R.id.profile_photo)
         val buttonImage = findViewById<Button>(R.id.change_photo)
+
+        val radiusSeekBar = findViewById<SeekBar>(R.id.radius)
+        radiusTextView = findViewById(R.id.seekbar_value)
 
         session.showPhotoUser(this, photo)
 
@@ -111,6 +116,10 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
             "describe"
         ).toString()
 
+        session.writeRadius(this, session.getIdFromUser(), radiusSeekBar, radiusTextView)
+
+        radiusSeekBar.setOnSeekBarChangeListener(this)
+
         modifyPasswordButton.setOnClickListener {
             startActivity(Intent(this, ModifyPasswordActivity::class.java))
         }
@@ -132,7 +141,8 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
                     birthdayEditText.text.toString(),
                     placeId.toString(),
                     descriptionEditText.text.toString(),
-                    uri
+                    uri,
+                    radiusSeekBar.progress
                 )
                 startActivity(Intent(this, HomeActivity::class.java))
                 Toast.makeText(this, "Your account has been successfully updated!", Toast.LENGTH_LONG).show()
@@ -168,10 +178,6 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-        val intent = Intent(this, UserInfoActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        EventInfoJojoActivity::finish
-        startActivity(intent)
         return true
     }
 
@@ -204,5 +210,16 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
             }
         }
     }
+
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        if(p0 != null){
+            radiusTextView.text = "$p1 km"
+        }
+    }
+
+    override fun onStartTrackingTouch(p0: SeekBar?) {}
+
+    override fun onStopTrackingTouch(p0: SeekBar?) {}
+
 
 }

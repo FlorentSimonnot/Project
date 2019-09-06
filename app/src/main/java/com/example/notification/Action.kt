@@ -7,5 +7,6 @@ enum class Action {
     DELETE,
     MODIFY,
     CREATE,
-    WAIT
+    WAIT,
+    INVITATION
 }

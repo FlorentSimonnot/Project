@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dateCustom.DateUTC
 import com.example.dateCustom.TimeCustom
 import com.example.events.Privacy
 import com.example.project.FullscreenImageActivity
@@ -36,8 +37,10 @@ class MessageAdapter(
     val resourceMessageOther : Int,
     val resourceMessageImageMe : Int,
     val resourceMessageImageOther : Int,
-    val messages : ArrayList<Message>
+    val messages : ArrayList<Message>,
+    val recyclerView: RecyclerView
 ) : RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
+    private var selectedItem = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when(viewType){
@@ -92,9 +95,16 @@ class MessageAdapter(
         }
     }
 
+    fun setSelected(position : Int){
+        selectedItem = position
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(messages[position])
+        if(position == selectedItem){
+            holder.itemView.isSelected = true
+        }
     }
 
     open class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
@@ -105,7 +115,7 @@ class MessageAdapter(
 
         override fun bind(message: Message) {
             text.text = message.text
-            time.text = TimeCustom(message.time).showTime()
+            time.text = DateUTC(message.dateTime).showTime()
             text.setOnClickListener {
                 if(time.visibility == View.GONE){
                     time.visibility = View.VISIBLE
@@ -127,14 +137,13 @@ class MessageAdapter(
     inner class SenderMessageImage(view : View) : ViewHolder(view){
 
         override fun bind(message: Message) {
-            //text.text = message.text
-            time.text = message.time
+            time.text = DateUTC(message.dateTime).showTime()
             val refPhoto  = FirebaseStorage.getInstance().getReference("${message.urlPhoto}").downloadUrl
             refPhoto.addOnSuccessListener {
                 Picasso.get().load(it).into(urlPhoto)
             }
             urlPhoto.setOnClickListener {
-                val image = Image(message.urlPhoto, message.date, message.time)
+                val image = Image(message.urlPhoto, DateUTC(message.dateTime).showDate(), DateUTC(message.dateTime).showTime())
                 context.startActivity(Intent(context, FullscreenImageActivity::class.java).putExtra("image", image))
             }
             urlPhoto.setOnLongClickListener {
@@ -151,7 +160,7 @@ class MessageAdapter(
 
         override fun bind(message: Message) {
             text.text = message.text
-            time.text = TimeCustom(message.time).showTime()
+            time.text = DateUTC(message.dateTime).showTime()
             User().showPhotoUser(context, photo, message.sender.key)
             text.setOnClickListener {
                 if(time.visibility == View.GONE){
@@ -197,14 +206,14 @@ class MessageAdapter(
 
         override fun bind(message: Message) {
             //text.text = message.text
-            time.text = message.time
+            time.text = DateUTC(message.dateTime).showTime()
             User().showPhotoUser(context, photo, message.sender.key)
             val refPhoto  = FirebaseStorage.getInstance().getReference("${message.urlPhoto}").downloadUrl
             refPhoto.addOnSuccessListener {
                 Picasso.get().load(it).into(urlPhoto)
             }
             urlPhoto.setOnClickListener {
-                val image = Image(message.urlPhoto, message.date, message.time)
+                val image = Image(message.urlPhoto, DateUTC(message.dateTime).showDate(), DateUTC(message.dateTime).showTime())
                 context.startActivity(Intent(context, FullscreenImageActivity::class.java).putExtra("image", image))
             }
             urlPhoto.setOnLongClickListener {

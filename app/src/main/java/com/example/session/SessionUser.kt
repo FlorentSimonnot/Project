@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.login.EmailLogin
 import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
@@ -127,6 +124,22 @@ class SessionUser(val context: Context) : Serializable{
                 if (value != null) {
                     println("VALUE ${value.firstName}")
                     supportActionBar.title = "${value.firstName} ${value.name}"
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
+    }
+
+    fun writeRadius(context: Context, uid: String?, seekBar: SeekBar, textView: TextView){
+        val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.hasChild("radius")) {
+                    val arround = dataSnapshot.child("radius").value as Long
+                    seekBar.progress = arround.toInt()
+                    textView.text = "$arround km"
                 }
             }
 
@@ -277,7 +290,8 @@ class SessionUser(val context: Context) : Serializable{
         newBirthday: String,
         city: String,
         newDescription: String,
-        photo : Uri?
+        photo : Uri?,
+        radius : Int
     ) {
         val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -323,15 +337,8 @@ class SessionUser(val context: Context) : Serializable{
                     postValues.put("city", newCity)
                     postValues.put("description", newDescription)
                     postValues.put("urlPhoto", urlPhoto)
+                    postValues.put("radius", radius)
                     ref.updateChildren(postValues)
-
-                    value.name = newName
-                    value.firstName = newFirstName
-                    value.email = newEmail
-                    value.sex = newSex
-                    value.birthday = newBirthday
-                    value.city = newCity
-                    value.description = newDescription
 
                 }
             }

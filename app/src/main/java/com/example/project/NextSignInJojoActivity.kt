@@ -38,6 +38,7 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
     private lateinit var stringPrivacy : Array<String>
     private lateinit var textViewSex: TextView
     private lateinit var privacyAccount: TextView
+    private lateinit var radiusSeekBar: SeekBar
 
     private var dayChoosen : String = ""
     private var monthChoosen : String = ""
@@ -51,6 +52,7 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         textViewSex = findViewById(R.id.edit_sexe)
         stringPrivacy = arrayOf("Public", "Private")
         privacyAccount = findViewById(R.id.privacy)
+        radiusSeekBar = findViewById(R.id.distance_seekbar)
 
         textViewSex.setOnClickListener {
             val numberPicker = StringPickerCustom(0, 2, "Gender", "", stringSex)
@@ -154,7 +156,6 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
             datePickerCustom.initDatePicker()
             datePickerCustom.setDesign(R.color.colorPrimary)
             datePickerCustom.showDialog()
-            println("2000 ::: ${datePickerCustom.isLeapYear(2000)}")
 
         }
 
@@ -185,7 +186,8 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
                     placeId.toString(),
                     typeLog,
                     idServiceLogin,
-                    PrivacyAccount.valueOf(privacyAccount.text.toString())
+                    PrivacyAccount.valueOf(privacyAccount.text.toString()),
+                    seekBar.progress
                 )
 
                 when(typeLog){

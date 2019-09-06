@@ -30,6 +30,7 @@ data class User(
     var typeLog : String = "Email",
     var idServiceLog : String = "",
     var privacyAccount: PrivacyAccount = PrivacyAccount.Public,
+    var radius : Int = 0,
     var urlPhoto : String = "",
     var eventsCreated : HashMap<String, Any> = HashMap(),
     var eventsJoined : HashMap<String, Any> = HashMap(),

@@ -23,6 +23,7 @@ import com.example.events.Event
 import com.example.events.EventAndMarker
 import com.example.menu.MenuCustom
 import com.example.place.SessionGooglePlace
+import com.example.session.SessionUser
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
@@ -282,10 +283,18 @@ open class MapFragment(
        }
         eventsAndMarkers.forEach {
             if(it.marker.position == p0.position){
-                val intent = Intent(context!!, EventInfoJojoActivity::class.java)
-                intent.putExtra("key", it.event.key)
-                startActivity(intent)
-                return@forEach
+                if(it.event.creator == SessionUser(context!!).getIdFromUser()) {
+                    val intent = Intent(context!!, EventInfoJojoActivity::class.java)
+                    intent.putExtra("key", it.event.key)
+                    startActivity(intent)
+                    return@forEach
+                }
+                else{
+                    val intent = Intent(context!!, EventInfoViewParticipantActivity::class.java)
+                    intent.putExtra("key", it.event.key)
+                    startActivity(intent)
+                    return@forEach
+                }
             }
         }
         return true

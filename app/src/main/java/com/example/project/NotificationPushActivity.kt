@@ -3,9 +3,15 @@ package com.example.project
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Switch
 import androidx.appcompat.widget.Toolbar
 import com.example.notification.Notifications
+import com.example.session.SessionUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var notifUserInvitation : Switch
@@ -15,6 +21,7 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var notifEventJoin : Switch
     private lateinit var notifEventModified : Switch
     private lateinit var notifMessages: Switch
+    private lateinit var buttonDeleteNotifications : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +39,7 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
         notifEventJoin = findViewById(R.id.event_join_switch)
         notifEventModified = findViewById(R.id.modified_event_switch)
         notifMessages = findViewById(R.id.messages_switch)
+        buttonDeleteNotifications = findViewById(R.id.deleteNotifications)
 
         notifUserInvitation.setOnClickListener(this)
         notifUserAccept.setOnClickListener(this)
@@ -40,6 +48,7 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
         notifEventInvitation.setOnClickListener(this)
         notifEventModified.setOnClickListener(this)
         notifMessages.setOnClickListener(this)
+        buttonDeleteNotifications.setOnClickListener(this)
 
 
         val switches = Switches(
@@ -123,6 +132,13 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
                 else{
                     Notifications().updateSwitches(this, "messages", false)
                 }
+            }
+            R.id.deleteNotifications -> {
+                FirebaseDatabase
+                    .getInstance()
+                    .reference
+                    .child("notifications/${SessionUser(this@NotificationPushActivity).getIdFromUser()}")
+                    .removeValue()
             }
         }
     }

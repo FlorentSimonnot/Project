@@ -38,18 +38,19 @@
                 android:layout_height="60dp"
                 />
 
-        <ImageButton
-                android:id="@+id/btn"
-                android:layout_width="wrap_content"
+        <Switch
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
-                app:srcCompat="@drawable/ic_checked_color_primary"
-                android:background="@null"
-                android:layout_marginRight="10dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:focusable="false"
                 android:clickable="false"
+                android:textOn="On"
+                android:textOff="Off"
+                android:id="@+id/switch_sport"
+
                 />
+
 
     </RelativeLayout>
 

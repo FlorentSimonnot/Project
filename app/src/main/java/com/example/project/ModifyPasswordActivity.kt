@@ -20,6 +20,7 @@ class ModifyPasswordActivity : AppCompatActivity() {
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "Modify password"
 
         val currentPasswordEditText = findViewById<EditText>(R.id.current_password_editText)
         val newPasswordEditText = findViewById<EditText>(R.id.new_password_editText)
@@ -55,10 +56,6 @@ class ModifyPasswordActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-        val intent = Intent(this, EditProfileActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        EventInfoJojoActivity::finish
-        startActivity(intent)
         return true
     }
 }

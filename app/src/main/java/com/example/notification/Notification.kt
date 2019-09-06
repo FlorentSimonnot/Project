@@ -7,6 +7,7 @@ import com.example.dateCustom.DateTime
  */
 class Notification(
     var type: Type = Type(),
+    var date : String = "",
     var message: String = "",
     var isSeen: Boolean = true,
     var dateTime : DateTime = DateTime()

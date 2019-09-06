@@ -5,6 +5,7 @@ import android.content.Intent
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.example.dateCustom.DateCustom
+import com.example.dateCustom.DateUTC
 import com.example.dateCustom.TimeCustom
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,8 +18,7 @@ data class Message(
     var sender : Actor = Actor(),
     var addressee : Actor = Actor(),
     val text : String = "",
-    val date : String = "",
-    val time : String = "",
+    val dateTime : Long = 0,
     val typeMessage: TypeMessage = TypeMessage.TEXT,
     var urlPhoto : String = ""
 ) : Serializable {
@@ -78,15 +78,15 @@ data class Message(
     }
 
     fun writeDate() : String{
-        val currentDate = DateCustom("00/00/0000").getCurrentDate()
-        if(DateCustom(this.date).isEqual(currentDate)){
-            return TimeCustom(this.time).showTime()
+        val currentDate = DateUTC(dateTime)
+        if(currentDate.isToday()){
+            return currentDate.showTime()
         }
-        if(DateCustom(this.date).isYesterday()){
-            return "Hier"
+        if(currentDate.isYesterday()){
+            return "Yesterday"
         }
         else{
-            return DateCustom(this.date).toString()
+            return currentDate.showDate()
         }
     }
 

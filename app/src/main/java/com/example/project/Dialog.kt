@@ -37,6 +37,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
     private lateinit var adapter : MessageAdapter
     private val photoRequestCode = 1818
     private lateinit var uri : Uri
+    private lateinit var llm : LinearLayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,15 +69,23 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
         recyclerView = findViewById(R.id.recyclerView)
 
         recyclerView.setHasFixedSize(true)
-        val llm = LinearLayoutManager(this)
-        recyclerView.layoutManager = llm
+        llm = LinearLayoutManager(this)
+        llm.stackFromEnd = true
 
         buttonSendMessage.setOnClickListener(this)
         buttonSendImage.setOnClickListener(this)
 
         SessionUser(this).writeNameUserDiscussion(this, keyUser, supportActionBar!!)
 
-        searchMessages(this)
+        FirebaseDatabase.getInstance().getReference("discussions/$keyChat").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                searchMessages(this@Dialog)
+            }
+
+        })
+
         messageEditText.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 //No
@@ -115,8 +124,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                         Actor(session.getIdFromUser(), true),
                         Actor(keyUser, true),
                         text,
-                        DateCustom("00/00/0000").getCurrentDate().toString(),
-                        TimeCustom("00:00:00").getCurrentTime().toString()
+                        Date().time
                     )
                     message.insertMessage(this, messageEditText)
                 }
@@ -187,7 +195,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                     }
                 }
                 if(messages.size > 0){
-                    val sortedList = messages.sortedWith(compareBy({it.date}, {it.time})).toList()
+                    val sortedList = messages.sortedWith(compareBy({it.dateTime})).toList()
                     val lastMessage = sortedList[sortedList.size - 1]
                     if(lastMessage.addressee.key == session.getIdFromUser()) {
                         lastMessage.seeMessage(keyChat)
@@ -197,13 +205,18 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                         R.layout.list_item_message,
                         R.layout.list_item_message_image_me,
                         R.layout.list_item_message_image,
-                        ArrayList(sortedList)
+                        ArrayList(sortedList),
+                        recyclerView
                     )
+                    adapter.notifyDataSetChanged()
+                    adapter.setSelected(messages.size)
+
+                    if(adapter.itemCount > 0)
+                        llm.scrollToPosition(adapter!!.itemCount - 1)
+
+                    recyclerView.layoutManager = llm
                     recyclerView.adapter = adapter
-                    if(adapter.itemCount > 0) {
-                        val position = recyclerView.adapter!!.itemCount
-                        recyclerView.smoothScrollToPosition(position)
-                    }
+
                 }
             }
 
@@ -225,8 +238,7 @@ class Dialog : AppCompatActivity(), View.OnClickListener {
                             Actor(session.getIdFromUser(), true),
                             Actor(keyUser, true),
                             "",
-                            DateCustom("00/00/0000").getCurrentDate().toString(),
-                            TimeCustom("00:00:00").getCurrentTime().toString(),
+                            Date().time,
                             TypeMessage.IMAGE,
                             urlPhoto
                         )

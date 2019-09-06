@@ -11,6 +11,7 @@ import com.example.session.SessionUser
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
     var session = SessionUser(this)
+    private lateinit var progressBar: ProgressBar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,11 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         val cityTextView = findViewById<TextView>(R.id.city_account)
         val describeTextView = findViewById<TextView>(R.id.describe_account)
         val photoImageView = findViewById<ImageView>(R.id.profile_photo)
+        val radiusSeekBar = findViewById<SeekBar>(R.id.radius)
+        val radiusTextView = findViewById<TextView>(R.id.seekbar_value)
+        progressBar = findViewById(R.id.progressBar)
+
+        progressBar.visibility = View.VISIBLE
 
         session.showPhotoUser(this, photoImageView)
 
@@ -74,6 +80,11 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
             describeTextView,
             "describe"
         ).toString()
+
+        session.writeRadius(this, session.getIdFromUser(), radiusSeekBar, radiusTextView)
+        radiusSeekBar.isEnabled = false
+
+        progressBar.visibility = View.GONE
 
     }
 

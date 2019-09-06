@@ -19,19 +19,6 @@
             android:theme="@style/Toolbar"
             app:titleTextColor="#fff"
             >
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/toolbar_textview"
-                android:text="Edit Profile"
-                android:textColor="#fff"
-                android:textSize="24dp"
-                android:fontFamily="@font/rubik"
-                android:gravity="end|center_vertical"
-                android:textAlignment="textEnd"
-                android:layout_marginRight="10dp"
-                />
     </androidx.appcompat.widget.Toolbar>
 
 
@@ -230,6 +217,48 @@
                             android:textSize="15dp"
                             android:padding="10dp"
                             android:background="@drawable/border_bottom_primary"
+                            />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radius_layout"
+                        android:orientation="horizontal"
+                        android:background="#fff"
+                        android:layout_marginTop="30dp"
+                        android:padding="15dp"
+                        >
+                    <ImageView
+                            android:layout_width="28dp"
+                            android:layout_height="28dp"
+                            app:srcCompat="@drawable/ic_distance"
+                            />
+                    <SeekBar
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radius"
+                            android:text=""
+                            android:fontFamily="@font/rubik"
+                            android:paddingBottom="10dp"
+                            android:textSize="20sp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="20dp"
+                            android:thumbTint="@color/colorPrimary"
+                            android:progressTint="@color/colorPrimary"
+                            android:max="25"
+                            android:backgroundTint="@color/colorBlueGrey900"
+                            android:layout_marginRight="60dp"
+                            android:layout_marginEnd="60dp"
+                            android:focusable="false"
+                            />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="-50dp"
+                            android:text=""
+                            android:textColor="@color/colorPrimary"
+                            android:id="@+id/seekbar_value"
                             />
                 </LinearLayout>
 

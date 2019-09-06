@@ -129,7 +129,7 @@ class MenuCustom(
                                 val message = it.getValue(Message::class.java)
                                 messages.add(message!!)
                             }
-                            val sortedList = ArrayList(messages.sortedWith(compareBy({it.date}, {it.time})))
+                            val sortedList = ArrayList(messages.sortedWith(compareBy({it.dateTime})))
                             if(sortedList.size > 0) {
                                 val lastMessage = sortedList[sortedList.size - 1]
                                 if(lastMessage.addressee.key == session.getIdFromUser())

@@ -48,6 +48,8 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
     private lateinit var ratingBar : RatingBar
     private lateinit var fullTextView : TextView
     private lateinit var description : TextView
+    private lateinit var acceptInvitationButton : Button
+    private lateinit var refuseInvitationButton : Button
 
      /*-----------------------------------------------*/
 
@@ -82,10 +84,14 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
         cancelParticipationEventButton = findViewById(R.id.button_cancel)
         fullTextView = findViewById(R.id.full_event)
         description = findViewById(R.id.description)
+        acceptInvitationButton = findViewById(R.id.button_accept_invitation)
+        refuseInvitationButton = findViewById(R.id.button_refuse_invitation)
 
         /*--------------------------------Click------------------------------------*/
         participeEventButton.setOnClickListener(this)
         cancelParticipationEventButton.setOnClickListener(this)
+        acceptInvitationButton.setOnClickListener(this)
+        refuseInvitationButton.setOnClickListener(this)
         place.setOnClickListener(this)
 
 
@@ -104,7 +110,7 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
     private fun writeEventInfo(context: Context){
         val event = Event()
 
-        event.getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, fullTextView, noteTextView, ratingBar)
+        event.getButton(this, keyEvent, participeEventButton, cancelParticipationEventButton, acceptInvitationButton, refuseInvitationButton, fullTextView, noteTextView, ratingBar)
 
         event.writeInfoEvent(
             this,
@@ -214,10 +220,16 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
                 Event().participateEvent(this, keyEvent, session, participeEventButton, cancelParticipationEventButton, waitingNumber)
             }
             R.id.button_cancel -> {
-                Event().cancelParticipation(this, keyEvent, session, cancelParticipationEventButton, participeEventButton, waitingNumber)
+                Event().cancelParticipation(this, keyEvent, session)
             }
             R.id.place -> {
                 Event().goPlaceWithWaze(this@EventInfoViewParticipantActivity, keyEvent)
+            }
+            R.id.button_accept_invitation -> {
+                Event().confirmParticipation(this, keyEvent, session.getIdFromUser())
+            }
+            R.id.button_refuse_invitation -> {
+                Event().cancelParticipation(this, keyEvent, session)
             }
         }
     }

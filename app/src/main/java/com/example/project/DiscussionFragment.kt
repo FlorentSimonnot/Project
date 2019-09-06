@@ -247,7 +247,7 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
                                 }
                             }
                         }
-                        val sortedList = ArrayList(messages.sortedWith(compareBy({ it.date }, { it.time })).toList())
+                        val sortedList = ArrayList(messages.sortedWith(compareBy({ it.dateTime})).toList())
                         if (sortedList.size > 0) {
                             latestDiscussion.add(
                                 DiscussionViewLastMessage(
@@ -262,8 +262,7 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
                                 notFound.visibility = View.GONE
                                 latestDiscussion = ArrayList(
                                     latestDiscussion.sortedWith(
-                                        compareBy({ it.lastMessage.date },
-                                            { it.lastMessage.time })
+                                        compareBy({ it.lastMessage.dateTime})
                                     ).toList()
                                 )
                                 latestDiscussion.reverse()
