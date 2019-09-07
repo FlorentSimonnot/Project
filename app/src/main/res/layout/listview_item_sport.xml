@@ -38,18 +38,26 @@
                 android:layout_height="60dp"
                 />
 
-        <Switch
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:focusable="false"
-                android:clickable="false"
-                android:textOn="On"
-                android:textOff="Off"
-                android:id="@+id/switch_sport"
+                android:layout_toRightOf="@id/name_sport"
+                android:gravity="end|right"
+                >
 
-                />
+            <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:id="@+id/checkbox"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:theme="@style/MyCheckBoxStyle"
+                    />
+
+        </RelativeLayout>
+
 
 
     </RelativeLayout>

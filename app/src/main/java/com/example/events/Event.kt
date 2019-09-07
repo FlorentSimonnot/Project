@@ -299,7 +299,7 @@ data class Event (
      * @param key : the event's key
      * @param imageView : the imageview where we have to show the logo
      */
-    fun writeLogoSport(context: Context, key: String?, imageView : ImageView){
+    fun writeLogoSport(context: Context, key: String?, imageView : ImageView, size : Int = 24){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -307,7 +307,7 @@ data class Event (
                 if (value != null) {
                     val sport = value.sport
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        imageView.setImageDrawable(context.getDrawable(sport.getLogoSport()))
+                        imageView.setImageDrawable(context.getDrawable(sport.getLogoSport(size)))
                     }
                 }
             }

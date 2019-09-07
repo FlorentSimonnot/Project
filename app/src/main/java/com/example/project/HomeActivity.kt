@@ -91,7 +91,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.home_title)
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         fragmentContainer = findViewById(R.id.HomeFragment)
 

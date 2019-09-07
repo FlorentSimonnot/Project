@@ -40,14 +40,14 @@
                     android:layout_height="match_parent"
                     android:textColor="#fff"
                     android:id="@+id/friends_tab"
-                    android:text="Friends"/>
+                    android:text="@string/friend_friend"/>
 
             <com.google.android.material.tabs.TabItem
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="#fff"
                     android:id="@+id/invitations_tab"
-                    android:text="Invitations"/>
+                    android:text="@string/friend_invitation"/>
 
 
         </com.google.android.material.tabs.TabLayout>

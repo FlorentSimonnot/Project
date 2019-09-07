@@ -4,7 +4,7 @@ import com.example.project.R
 
 enum class Sport() {
     FOOTBALL {
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_football
         }
 
@@ -13,7 +13,7 @@ enum class Sport() {
         }
     },
     BASKETBALL{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_basketball
         }
 
@@ -22,7 +22,7 @@ enum class Sport() {
         }
     },
     CROSSFIT{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_crossfit
         }
 
@@ -31,7 +31,7 @@ enum class Sport() {
         }
     },
     HANDBALL{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_handball
         }
 
@@ -40,7 +40,7 @@ enum class Sport() {
         }
     },
     CANOE{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_canoe
         }
 
@@ -49,7 +49,7 @@ enum class Sport() {
         }
     },
     GOLF{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_golf
         }
 
@@ -58,7 +58,7 @@ enum class Sport() {
         }
     },
     MUSCULATION{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_musculation
         }
 
@@ -67,7 +67,7 @@ enum class Sport() {
         }
     },
     TENNISDETABLE{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_ping_pong
         }
 
@@ -76,7 +76,7 @@ enum class Sport() {
         }
     },
     TENNIS{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_tennis
         }
 
@@ -85,7 +85,7 @@ enum class Sport() {
         }
     },
     TRAIL{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_trail
         }
 
@@ -98,7 +98,10 @@ enum class Sport() {
             return this.toString().toLowerCase().capitalize()
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
+            if(size == 50){
+                return R.drawable.ic_baseball_50dp
+            }
             return R.drawable.ic_baseball
         }
 
@@ -108,7 +111,7 @@ enum class Sport() {
             return "Volley ball"
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_volleyball
         }
 
@@ -118,7 +121,7 @@ enum class Sport() {
             return this.toString().toLowerCase().capitalize()
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_badminton
         }
 
@@ -128,7 +131,7 @@ enum class Sport() {
             return this.toString().toLowerCase().capitalize()
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_swimming
         }
 
@@ -138,7 +141,7 @@ enum class Sport() {
             return this.toString().toLowerCase().capitalize()
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_petanque
         }
 
@@ -148,7 +151,7 @@ enum class Sport() {
             return this.toString().toLowerCase().capitalize()
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_rugby
         }
 
@@ -158,7 +161,7 @@ enum class Sport() {
             return "American Football"
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_american_football
         }
 
@@ -168,7 +171,7 @@ enum class Sport() {
             return "Cyclisme"
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_cyclist
         }
     },
@@ -177,12 +180,12 @@ enum class Sport() {
             return this.toString().toLowerCase().capitalize()
         }
 
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_climber
         }
     },
     INIT{
-        override fun getLogoSport(): Int {
+        override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_not_found
         }
 
@@ -219,5 +222,5 @@ enum class Sport() {
     }
 
     abstract fun getNameSport() : String
-    abstract fun getLogoSport() : Int
+    abstract fun getLogoSport(size : Int = 24) : Int
 }

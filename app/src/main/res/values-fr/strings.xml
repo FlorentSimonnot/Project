@@ -80,7 +80,7 @@
     <string name="event_public">Public</string>
     <string name="event_private">Privé</string>
     <string name="event_invitation">Sur invitations</string>
-    <string name="create_event_title">crée ton événement</string>
+    <string name="create_event_title">Crée ton événement</string>
 
     <!--NUMBER PICKER CUSTOM-->
     <string name="ok">Ok</string>
@@ -100,5 +100,30 @@
     <!--SEARCHBAR TEXT-->
     <string name="search_user">Rechercher quelqu\'un</string>
     <string name="search_conversation">Rechercher une conversation</string>
+
+    <!--FRIENDS ACTIVITY-->
+    <string name="friend_title">Vos Amis</string>
+    <string name="invitation_title">Vos invitations</string>
+    <string name="friend_friend">Amis</string>
+    <string name="friend_invitation">Invitations</string>
+
+    <!--EVENTS ACTIVITY-->
+    <string name="events_created_title">Evénements crées</string>
+    <string name="events_joined_title">Vos participations</string>
+    <string name="events_created">Evénement crées</string>
+    <string name="events_joined">Participations</string>
+
+    <string name="notifications_social_title">Notifications sociales</string>
+    <string name="notifications_events_title">Notifications sur les évènements</string>
+    <string name="notification_receive_invitation">M\'informer lorsque je reçois une demande d\'amis</string>
+    <string name="notification_accept_my_invitation">M\'informer lorsque ma demande d\'amis est acceptée</string>
+    <string name="notifications_receive_event_invitation">M\'informer lorsque l\'on m\'invite à un évènement</string>
+    <string name="notifications_accept_event_invitation">M\'informer lorsque ma participation est acceptée</string>
+    <string name="notification_someone_join_my_event">M\'informer lorsque l\'on veut rejoindre mon évènement</string>
+    <string name="notification_event_modify">M\'informer lorsque un évènement est modifié</string>
+    <string name="notification_receive_message">M\'informer lorsque je reçois un message</string>
+    <string name="notification_title">Configurer les notifications</string>
+    <string name="button_delete_all_notification">Supprimer toutes les notifications</string>
+
 
 </resources>

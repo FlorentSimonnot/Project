@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
+import com.example.dialog.BottomSheetDialogEventRecap
 import com.example.events.Event
 import com.example.events.EventAndMarker
 import com.example.menu.MenuCustom
@@ -79,8 +80,8 @@ open class MapFragment(
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-                val markerOptions = MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
-                placeMarkerOnMap(markerOptions, -1)
+                //val markerOptions = MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
+                //placeMarkerOnMap(markerOptions, -1)
             }
         }
 
@@ -283,18 +284,8 @@ open class MapFragment(
        }
         eventsAndMarkers.forEach {
             if(it.marker.position == p0.position){
-                if(it.event.creator == SessionUser(context!!).getIdFromUser()) {
-                    val intent = Intent(context!!, EventInfoJojoActivity::class.java)
-                    intent.putExtra("key", it.event.key)
-                    startActivity(intent)
-                    return@forEach
-                }
-                else{
-                    val intent = Intent(context!!, EventInfoViewParticipantActivity::class.java)
-                    intent.putExtra("key", it.event.key)
-                    startActivity(intent)
-                    return@forEach
-                }
+                val bottomSheetDialogEventRecap = BottomSheetDialogEventRecap(context!!, R.layout.bottom_sheet_layout, it.event.key)
+                bottomSheetDialogEventRecap.show(fragmentManager!!, "CARDVIEW EVENT")
             }
         }
         return true

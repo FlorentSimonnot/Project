@@ -29,7 +29,7 @@ class NotificationPushActivity : AppCompatActivity(), View.OnClickListener{
 
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Configure notifications"
+        supportActionBar?.title = resources.getString(R.string.notification_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         notifUserInvitation = findViewById(R.id.user_invitation_switch)

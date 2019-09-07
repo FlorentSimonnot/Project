@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener
 class SettingsSport : AppCompatActivity() {
     private lateinit var listView: ListView
     private lateinit var sportList : ArrayList<SportWithBoolean>
+    //Use for only update the item was changed
     private var sportListClone = ArrayList<SportWithBoolean>()
     private lateinit var adapter : ArrayAdapterSportWithBoolean
 

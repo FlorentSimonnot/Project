@@ -22,19 +22,11 @@ class ArrayAdapterSportWithBoolean(private val ctx : Context, private val resour
         val view : View = layoutInflater.inflate(resource , null )
         val imageView : ImageView = view.findViewById(R.id.icon_sport)
         val textView : TextView = view.findViewById(R.id.name_sport)
-        val btn : Switch = view.findViewById(R.id.switch_sport)
+        val btn : CheckBox = view.findViewById(R.id.checkbox)
 
         imageView.setImageDrawable(ctx.resources.getDrawable(sports[position].sport.getLogoSport()))
         textView.text = sports[position].sport.getNameSport()
-        if(sports[position].boolean){
-            btn.isChecked = true
-            //btn.setImageDrawable(context.resources.getDrawable(R.drawable.ic_checked_color_primary))
-
-        }
-        else{
-            btn.isChecked = false
-            //btn.setImageDrawable(context.resources.getDrawable(R.drawable.ic_cross))
-        }
+        btn.isChecked = sports[position].boolean
 
         view.setOnClickListener {
             sports[position].changeBoolean(SessionUser(context).getIdFromUser())

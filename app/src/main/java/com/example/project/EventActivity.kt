@@ -4,8 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.widget.ListView
 import android.widget.NumberPicker
 import android.widget.TextView
@@ -26,7 +25,7 @@ import com.google.firebase.database.*
 class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.OnValueChangeListener {
     override fun onValueChange(p0: NumberPicker?, p1: Int, p2: Int) {
         if(p0?.maxValue == 2){
-            filter.text = valuesFilter[p0?.value]
+            //filter.text = valuesFilter[p0?.value]
             filterValue = p0?.value
             eventsList(this)
         }
@@ -36,7 +35,6 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView
-    private lateinit var filter : TextView
     private var valuesFilter = arrayOf("All events", "Only finished events", "Only next events")
     private var filterValue = 0
     private var joinedView = false
@@ -47,11 +45,10 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
 
         val infos : Bundle? = intent.extras
         joinedView = infos?.getString("joinedView").toString().toBoolean()
-        println("DHDH : ${infos}")
 
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Events created"
+        supportActionBar?.title = resources.getString(R.string.events_created_title)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         tab = findViewById(R.id.tab)
@@ -75,15 +72,15 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
                 when(p0?.position){
                     0 -> {
                         filterValue = 0
-                        filter.text = valuesFilter[filterValue]
+                        //filter.text = valuesFilter[filterValue]
                         eventsList(applicationContext)
-                        supportActionBar?.title = "Events created"
+                        supportActionBar?.title = resources.getString(R.string.events_created_title)
                     }
                     1 ->{
                         filterValue = 0
-                        filter.text = valuesFilter[filterValue]
+                        //filter.text = valuesFilter[filterValue]
                         eventsJoinedList(applicationContext)
-                        supportActionBar?.title = "Events joined"
+                        supportActionBar?.title = resources.getString(R.string.events_joined_title)
                     }
                 }
             }
@@ -92,22 +89,21 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
 
         noResults = findViewById(R.id.noResults)
         listView = findViewById(R.id.listViewEvents)
-        filter = findViewById(R.id.selectFilter)
-
-        filter.setOnClickListener(this)
-        filter.text = valuesFilter[0]
-
-        println("JoinedView : $joinedView")
 
         if(joinedView){
             val item = tab.getTabAt(1)
             item?.isSelected
-            supportActionBar?.title = "Events joined"
+            supportActionBar?.title = resources.getString(R.string.events_joined_title)
             eventsJoinedList(this)
         }
         else {
             eventsList(this)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_events, menu)
+        return true
     }
 
     private fun eventsList(context: Context){
@@ -237,13 +233,17 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
         return true
     }
 
-    override fun onClick(p0: View?) {
-        when(p0?.id){
-            R.id.selectFilter -> {
+    override fun onClick(p0: View?) {}
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.action_filters -> {
                 val privacyPicker = StringPickerCustom(0, 2, "Filter", "select categorie of event", valuesFilter)
                 privacyPicker.setValueChangeListener(this)
                 privacyPicker.show(supportFragmentManager, "Filter picker")
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

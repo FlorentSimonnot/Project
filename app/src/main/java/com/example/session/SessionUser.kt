@@ -9,6 +9,7 @@ import android.widget.*
 import com.example.login.EmailLogin
 import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
+import com.example.project.R
 import com.example.user.Gender
 import com.example.user.User
 import com.example.utils.Utils
@@ -375,25 +376,7 @@ class SessionUser(val context: Context) : Serializable{
                         friends++
                     }
                 }
-                tab.getTabAt(0)?.text = "Friends (${friends.toString()})"
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    fun countWaiting(waitingTabItem: TextView) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/friends")
-        var waiting = 0
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                data.forEach {
-                    if(it.value == "waiting"){
-                        waiting++
-                    }
-                }
-                waitingTabItem.text = "${waiting.toString()}"
+                tab.getTabAt(0)?.text = "${context.resources.getString(R.string.friend_friend)} (${friends.toString()})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -427,7 +410,7 @@ class SessionUser(val context: Context) : Serializable{
                         friends++
                     }
                 }
-                tab.getTabAt(1)?.text = "Invitations (${friends.toString()})"
+                tab.getTabAt(1)?.text = "${context.resources.getString(R.string.friend_invitation)} (${friends.toString()})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -473,7 +456,6 @@ class SessionUser(val context: Context) : Serializable{
         Toast.makeText(ctx, "You have delete this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 
-
     fun setEventsOnTabItem(tab : TabLayout){
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsCreated")
         var events = 0
@@ -483,7 +465,7 @@ class SessionUser(val context: Context) : Serializable{
                 data.forEach {
                     events++
                 }
-                tab.getTabAt(0)?.text = "Events created (${events})"
+                tab.getTabAt(0)?.text = "${context.resources.getString(R.string.events_created)} (${events})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -499,7 +481,7 @@ class SessionUser(val context: Context) : Serializable{
                 data.forEach {
                     events++
                 }
-                tab.getTabAt(1)?.text = "Events joined (${events})"
+                tab.getTabAt(1)?.text = "${context.resources.getString(R.string.events_joined)} (${events})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

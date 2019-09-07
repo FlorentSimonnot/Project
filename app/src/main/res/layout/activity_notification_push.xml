@@ -44,7 +44,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Socials notifications"
+                            android:text="@string/notifications_social_title"
                             android:fontFamily="@font/rubik"
                             android:textSize="22sp"
                             android:padding="5dp"
@@ -63,7 +63,7 @@
                     <TextView
                             android:layout_width="280dp"
                             android:layout_height="wrap_content"
-                            android:text="Receive notification if someone invite me"
+                            android:text="@string/notification_receive_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
@@ -89,7 +89,7 @@
                     <TextView
                             android:layout_width="280dp"
                             android:layout_height="wrap_content"
-                            android:text="Receive notification if someone accept my invitation"
+                            android:text="@string/notification_accept_my_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
@@ -107,6 +107,34 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/messages"
+                        android:layout_marginTop="10dp"
+                        android:layout_below="@id/modifiedEvent"
+                        >
+
+                    <TextView
+                            android:layout_width="280dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/notification_receive_message"
+                            android:fontFamily="@font/rubik"
+                            android:paddingBottom="10dp"
+                            android:textSize="18sp"
+                            android:paddingTop="10dp"
+                            />
+                    <Switch
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_gravity="left"
+                            android:padding="10dp"
+                            android:id="@+id/messages_switch"
+                            />
+
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/textEvents"
                         android:layout_below="@+id/accepted"
                         android:layout_marginTop="30dp"
@@ -114,7 +142,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Events notifications"
+                            android:text="@string/notifications_events_title"
                             android:fontFamily="@font/rubik"
                             android:textSize="22sp"
                             android:padding="5dp"
@@ -133,7 +161,7 @@
                     <TextView
                             android:layout_width="280dp"
                             android:layout_height="wrap_content"
-                            android:text="Receive notification if someone invite me"
+                            android:text="@string/notifications_receive_event_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
@@ -159,7 +187,7 @@
                     <TextView
                             android:layout_width="280dp"
                             android:layout_height="wrap_content"
-                            android:text="Receive notification if someone accept my invitation"
+                            android:text="@string/notification_accept_my_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
@@ -184,7 +212,7 @@
                     <TextView
                             android:layout_width="280dp"
                             android:layout_height="wrap_content"
-                            android:text="Receive notification if someone join my event"
+                            android:text="@string/notification_someone_join_my_event"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
@@ -211,7 +239,7 @@
                     <TextView
                             android:layout_width="280dp"
                             android:layout_height="wrap_content"
-                            android:text="Receive notification if an event has been modified"
+                            android:text="@string/notification_event_modify"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
@@ -230,42 +258,15 @@
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:id="@+id/messages"
-                        android:layout_marginTop="10dp"
-                        android:layout_below="@id/modifiedEvent"
-                        >
-
-                    <TextView
-                            android:layout_width="280dp"
-                            android:layout_height="wrap_content"
-                            android:text="Receive notification you reveive a message"
-                            android:fontFamily="@font/rubik"
-                            android:paddingBottom="10dp"
-                            android:textSize="18sp"
-                            android:paddingTop="10dp"
-                            />
-                    <Switch
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:layout_gravity="left"
-                            android:padding="10dp"
-                            android:id="@+id/messages_switch"
-                            />
-
-                </LinearLayout>
-                <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:layout_below="@id/messages"
                         android:layout_marginTop="20dp"
+                        android:layout_alignParentBottom="true"
                         >
                     <Button
                             android:id="@+id/deleteNotifications"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Delete all notifications"
+                            android:text="@string/button_delete_all_notification"
                             android:background="@null"
                             android:textColor="@color/colorPrimary"
                             style="?android:attr/borderlessButtonStyle"

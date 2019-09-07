@@ -102,4 +102,30 @@
     <string name="search_user">Search user</string>
     <string name="search_conversation">Search conversation</string>
 
+    <!--FRIENDS ACTIVITY-->
+    <string name="friend_title">Your friends</string>
+    <string name="invitation_title">Your invitations</string>
+    <string name="friend_friend">Friends</string>
+    <string name="friend_invitation">Invitations</string>
+
+    <!--EVENTS ACTIVITY-->
+    <string name="events_created_title">Events created</string>
+    <string name="events_joined_title">Events joined</string>
+    <string name="events_created">Events created</string>
+    <string name="events_joined">Events joined</string>
+
+    <!--NOTIFICATIONS PUSH-->
+    <string name="notifications_social_title">Socials notifications</string>
+    <string name="notifications_events_title">Events notifications</string>
+    <string name="notification_receive_invitation">Receive notification if someone invite me</string>
+    <string name="notification_accept_my_invitation">Receive notification if someone accept my invitation</string>
+    <string name="notifications_receive_event_invitation">Receive notification if someone invite me</string>
+    <string name="notifications_accept_event_invitation">Receive notification if my participation is accepted</string>
+    <string name="notification_someone_join_my_event">Receive notification if someone want join my event</string>
+    <string name="notification_event_modify">Receive notification if an event is modify</string>
+    <string name="notification_receive_message">Receive notification if someone send me a message</string>
+    <string name="notification_title">Configure notifications</string>
+    <string name="button_delete_all_notification">Delete all notifications</string>
+
+
 </resources>
