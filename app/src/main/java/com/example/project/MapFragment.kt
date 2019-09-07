@@ -253,7 +253,7 @@ open class MapFragment(
                     val coords : LatLng? = place.latLng
                     if(coords != null){
                         val markerOptions = MarkerOptions()
-                            .icon(bitmapDescriptorFromVector(context!!, event.sport.getLogoSport()!!))
+                            .icon(bitmapDescriptorFromVector(context!!, event.sport.getLogoForMarker()))
                             .position(coords)
                             .title(event.name)
                         eventsAndMarkers.add(EventAndMarker(event, markerOptions))
@@ -266,11 +266,11 @@ open class MapFragment(
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorDrawableResourceId : Int) : BitmapDescriptor {
-        val background = ContextCompat.getDrawable(context, R.drawable.places_ic_clear)
+        val background = ContextCompat.getDrawable(context, R.drawable.ic_noun_map_marker_25579)
         background!!.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
 
         val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-        vectorDrawable!!.setBounds(40, 20, vectorDrawable.getIntrinsicWidth() + 40, vectorDrawable.getIntrinsicHeight() + 20);
+        vectorDrawable!!.setBounds(5, 10, vectorDrawable.getIntrinsicWidth()+5, vectorDrawable.getIntrinsicHeight()+10);
         val bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         val canvas = Canvas(bitmap);
         background.draw(canvas);
