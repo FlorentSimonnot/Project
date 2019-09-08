@@ -126,4 +126,22 @@
     <string name="notification_title">Configurer les notifications</string>
     <string name="button_delete_all_notification">Supprimer toutes les notifications</string>
 
+    <!--NAME OF SPORTS-->
+    <string name="football">Football</string>
+    <string name="us_football">American Football</string>
+    <string name="badminton">Football</string>
+    <string name="handball">Handball</string>
+    <string name="baseball">Baseball</string>
+    <string name="basketball">Basketball</string>
+    <string name="crossfit">Crossfit</string>
+    <string name="golf">Golf</string>
+    <string name="swimming">Swimming</string>
+    <string name="cycling">Cycling</string>
+    <string name="bodybuilding">Bodybuilding</string>
+    <string name="climbing">Climbing</string>
+    <string name="rugby">Rugby</string>
+    <string name="volley_ball">Volley ball</string>
+    <string name="tennis">Tennis</string>
+    <string name="table_tennis">Table tennis</string>
+
 </resources>

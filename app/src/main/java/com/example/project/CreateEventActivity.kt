@@ -136,7 +136,7 @@ class CreateEventActivity : AppCompatActivity(),
             event.place = placeId!!
             val formEvent = FormCreateEvent(
                 event.name,
-                event.sport.getNameSport(),
+                event.sport.getNameSport(this),
                 event.date,
                 event.time,
                 event.place,
@@ -192,7 +192,7 @@ class CreateEventActivity : AppCompatActivity(),
             name.setText(event.name)
         }
         if(event.sport != Sport.INIT){
-            autoCompleteSport.text = event.sport.getNameSport()
+            autoCompleteSport.text = event.sport.getNameSport(this@CreateEventActivity)
             autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(event.sport.getLogoSport(), 0, 0, 0)
         }
         if(event.place.isNotEmpty()){

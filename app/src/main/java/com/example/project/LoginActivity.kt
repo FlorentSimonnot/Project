@@ -3,6 +3,8 @@ package com.example.project
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
@@ -12,6 +14,7 @@ import com.example.login.FacebookLogin
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import com.example.form.FormLoginEmail
 import com.example.login.GoogleLogin
@@ -47,6 +50,10 @@ class LoginActivity : AppCompatActivity() {
                 .requestEmail()
                 .build()
         googleSignInClient = GoogleSignIn.getClient(this, googleSigninOptions)
+
+        val bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.background)
+        val bitmapScaled = Bitmap.createScaledBitmap(bitmap, bitmap.width, bitmap.height, false)
+        findViewById<ImageView>(R.id.image).setImageBitmap(bitmapScaled)
 
 
         val buttonFacebookLogin : Button = this.findViewById(R.id.facebookLoginButton)

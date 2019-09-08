@@ -1,5 +1,6 @@
 package com.example.sport
 
+import android.content.Context
 import com.example.project.R
 
 enum class Sport() {
@@ -12,8 +13,8 @@ enum class Sport() {
             return R.drawable.ic_football
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.football)
         }
     },
     BASKETBALL{
@@ -22,11 +23,11 @@ enum class Sport() {
         }
 
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_basketball_map_marker
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.basketball)
         }
     },
     CROSSFIT{
@@ -37,8 +38,8 @@ enum class Sport() {
             return R.drawable.ic_football
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.crossfit)
         }
     },
     HANDBALL{
@@ -49,8 +50,8 @@ enum class Sport() {
             return R.drawable.ic_football
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.handball)
         }
     },
     CANOE{
@@ -61,8 +62,8 @@ enum class Sport() {
             return R.drawable.ic_football
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.football)
         }
     },
     GOLF{
@@ -73,8 +74,8 @@ enum class Sport() {
             return R.drawable.ic_football
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.golf)
         }
     },
     MUSCULATION{
@@ -85,8 +86,8 @@ enum class Sport() {
             return R.drawable.ic_football
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.bodybuilding)
         }
     },
     TENNISDETABLE{
@@ -97,8 +98,8 @@ enum class Sport() {
         override fun getLogoForMarker(): Int {
             return R.drawable.ic_football
         }
-        override fun getNameSport(): String {
-            return "Tennis de table"
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.table_tennis)
         }
     },
     TENNIS{
@@ -107,11 +108,11 @@ enum class Sport() {
         }
 
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_tennis
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.tennis)
         }
     },
     TRAIL{
@@ -123,13 +124,13 @@ enum class Sport() {
             return R.drawable.ic_football
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.football)
         }
     },
     BASEBALL{
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.baseball)
         }
 
         override fun getLogoForMarker(): Int {
@@ -145,8 +146,8 @@ enum class Sport() {
 
     },
     VOLLEYBALL{
-        override fun getNameSport(): String {
-            return "Volley ball"
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.volley_ball)
         }
 
         override fun getLogoForMarker(): Int {
@@ -159,8 +160,8 @@ enum class Sport() {
 
     },
     BADMINTON{
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.badminton)
         }
 
         override fun getLogoForMarker(): Int {
@@ -173,8 +174,8 @@ enum class Sport() {
 
     },
     NATATION{
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.swimming)
         }
 
         override fun getLogoForMarker(): Int {
@@ -187,8 +188,8 @@ enum class Sport() {
 
     },
     PETANQUE{
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.football)
         }
 
         override fun getLogoForMarker(): Int {
@@ -201,8 +202,8 @@ enum class Sport() {
 
     },
     RUGBY{
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.rugby)
         }
 
         override fun getLogoForMarker(): Int {
@@ -215,8 +216,8 @@ enum class Sport() {
 
     },
     AMERICANFOOTBALL{
-        override fun getNameSport(): String {
-            return "American Football"
+        override fun getNameSport(context: Context): String {
+            return context.getString(R.string.us_football)
         }
 
         override fun getLogoForMarker(): Int {
@@ -229,8 +230,8 @@ enum class Sport() {
 
     },
     CYCLISME{
-        override fun getNameSport(): String {
-            return "Cyclisme"
+        override fun getNameSport(context: Context): String {
+            return context.getString(R.string.cycling)
         }
 
         override fun getLogoForMarker(): Int {
@@ -242,8 +243,8 @@ enum class Sport() {
         }
     },
     ESCALADE{
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return context.resources.getString(R.string.climbing)
         }
         override fun getLogoForMarker(): Int {
             return R.drawable.ic_football
@@ -262,8 +263,8 @@ enum class Sport() {
             return R.drawable.ic_not_found
         }
 
-        override fun getNameSport(): String {
-            return this.toString().toLowerCase().capitalize()
+        override fun getNameSport(context: Context): String {
+            return "OOPS"
         }
     }; //Add for instantiate sport and use whichSport
 
@@ -294,7 +295,7 @@ enum class Sport() {
         }
     }
 
-    abstract fun getNameSport() : String
+    abstract fun getNameSport(context : Context) : String
     abstract fun getLogoSport(size : Int = 24) : Int
     abstract fun getLogoForMarker() : Int
 }

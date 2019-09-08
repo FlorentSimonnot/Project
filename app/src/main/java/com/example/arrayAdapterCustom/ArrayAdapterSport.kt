@@ -25,7 +25,7 @@ class ArrayAdapterSport(private val ctx : Context, private val resource : Int, p
 
 
         imageView.setImageDrawable(ctx.resources.getDrawable(sports[position].getLogoSport()))
-        textView.text = sports[position].getNameSport()
+        textView.text = sports[position].getNameSport(ctx)
 
 
         return view

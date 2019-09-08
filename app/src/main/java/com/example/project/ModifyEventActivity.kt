@@ -263,7 +263,7 @@ class ModifyEventActivity : AppCompatActivity(),
         }
 
         if(event.sport != Sport.INIT){
-            modifySport.text = event.sport.getNameSport()
+            modifySport.text = event.sport.getNameSport(this)
             modifySport.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.sport.getLogoSport(), 0)
             modifySport.compoundDrawablePadding = 10
         }else{

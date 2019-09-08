@@ -3,7 +3,7 @@ package com.example.sport
 import com.google.firebase.database.FirebaseDatabase
 
 class SportWithBoolean(
-    val sport: Sport = Sport.INIT,
+    var sport: Sport = Sport.INIT,
     var boolean: Boolean = true
 ) {
 

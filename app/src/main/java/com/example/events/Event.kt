@@ -181,7 +181,7 @@ data class Event (
                         }
                         "description" -> textView.text = value.description
                         "sport" -> {
-                            textView.text = value.sport.getNameSport()
+                            textView.text = value.sport.getNameSport(context)
                             textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, value.sport!!.getLogo(), 0)
                             textView.compoundDrawablePadding = 20
                         }

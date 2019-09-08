@@ -25,7 +25,7 @@ class ArrayAdapterSportWithBoolean(private val ctx : Context, private val resour
         val btn : CheckBox = view.findViewById(R.id.checkbox)
 
         imageView.setImageDrawable(ctx.resources.getDrawable(sports[position].sport.getLogoSport()))
-        textView.text = sports[position].sport.getNameSport()
+        textView.text = sports[position].sport.getNameSport(ctx)
         btn.isChecked = sports[position].boolean
 
         view.setOnClickListener {

@@ -25,6 +25,8 @@ import com.example.events.EventAndMarker
 import com.example.menu.MenuCustom
 import com.example.place.SessionGooglePlace
 import com.example.session.SessionUser
+import com.example.sport.Sport
+import com.example.sport.SportWithBoolean
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.*
@@ -51,6 +53,8 @@ open class MapFragment(
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
     private var eventsAndMarkers = ArrayList<EventAndMarker>()
+    private val sports : ArrayList<Sport> = ArrayList()
+    private val events : ArrayList<Event> = ArrayList()
 
     val PERMISSION_LOCATION_REQUEST_CODE = 1
     val REQUEST_CHECK_SETTINGS = 2
@@ -80,8 +84,6 @@ open class MapFragment(
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-                //val markerOptions = MarkerOptions().position(LatLng(lastLocation.latitude, lastLocation.longitude))
-                //placeMarkerOnMap(markerOptions, -1)
             }
         }
 
@@ -91,7 +93,17 @@ open class MapFragment(
         mapView.onResume()
         mapView.getMapAsync(this)
 
-        searchEvents()
+        FirebaseDatabase
+            .getInstance()
+            .getReference("sports/${SessionUser(context!!).getIdFromUser()}/parameters")
+            .addValueEventListener(object  : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    searchEvents()
+                }
+
+            })
 
     }
 
@@ -207,23 +219,45 @@ open class MapFragment(
     }
 
     private fun searchEvents(){
+        sports.clear()
+        val ref = FirebaseDatabase.getInstance().getReference("sports/${SessionUser(context!!).getIdFromUser()}/parameters")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val data = dataSnapshot.children //Children = each sports with boolean
+                data.forEach {
+                    val sportWithBoolean = SportWithBoolean(Sport.valueOf(it.key!!), it.value as Boolean)
+                    if(sportWithBoolean.boolean){
+                        sports.add(sportWithBoolean.sport)
+                    }
+                }
+                searchEventsAux(sports)
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    private fun searchEventsAux(sportsWantsSee : ArrayList<Sport>){
+        events.clear()
+        eventsAndMarkers.clear()
         val ref = FirebaseDatabase.getInstance().getReference("events")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
-                val events : ArrayList<Event> = ArrayList()
                 data.forEach {
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     if(event != null){
-                        val date = DateCustom(event.date)
-                        val time = TimeCustom(event.time)
-                        if(date.isEqual(DateCustom("01/01/1971").getCurrentDate())){
-                            if(time.isAfter(TimeCustom("01:01").getCurrentTime())){
+                        if(event.creator != SessionUser(context!!).getIdFromUser() && sportsWantsSee.contains(event.sport)) {
+                            val date = DateCustom(event.date)
+                            val time = TimeCustom(event.time)
+                            if (date.isEqual(DateCustom("01/01/1971").getCurrentDate())) {
+                                if (time.isAfter(TimeCustom("01:01").getCurrentTime())) {
+                                    events.add(event)
+                                }
+                            } else if (date.isAfter(DateCustom("01/01/1971").getCurrentDate())) {
                                 events.add(event)
                             }
-                        }
-                        else if(date.isAfter(DateCustom("01/01/1971").getCurrentDate())){
-                            events.add(event)
                         }
                     }
                 }
@@ -236,6 +270,8 @@ open class MapFragment(
     }
 
     private fun makeEventsOnMap(events : ArrayList<Event>){
+        //Remove all markers from the map
+        map.clear()
         eventsAndMarkers.clear()
         events.forEach {
             val gg = SessionGooglePlace(context!!)
@@ -282,6 +318,11 @@ open class MapFragment(
        if(p0 == null){
            return false
        }
+        var count = 0
+        eventsAndMarkers.forEach {
+            println("HOLA ${it.event} AND COUNT $count")
+            count++
+        }
         eventsAndMarkers.forEach {
             if(it.marker.position == p0.position){
                 val bottomSheetDialogEventRecap = BottomSheetDialogEventRecap(context!!, R.layout.bottom_sheet_layout, it.event.key)
