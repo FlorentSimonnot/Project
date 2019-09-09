@@ -19,7 +19,7 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_user_info)
 
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
-        toolbar.title = "My personal information"
+        toolbar.title = getString(R.string.my_personnal_information)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

@@ -80,7 +80,7 @@
                         android:id="@+id/noResults"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="No results found"
+                        android:text="@string/no_result"
                         android:textColor="@color/colorPrimary"
                         android:fontFamily="@font/rubik"
                         android:textSize="22sp"

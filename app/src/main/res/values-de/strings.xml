@@ -63,6 +63,9 @@
     <string name="menu_drawer_terms_of_use">Nutzungsbedingungen</string>
     <string name="menu_drawer_advise">Diese Mobile App beraten</string>
     <string name="menu_drawer_logout">Abmelden</string>
+    <string name="version">Version 1.0</string>
+    <string name="menu_drawer_settings_title">Settings</string>
+    <string name="more">More</string>
 
     <!--*******************CREATE EVENT STRINGS***********************-->
     <string name="name_event">Name des Ereignisses</string>
@@ -92,6 +95,7 @@
     <string name="map_title">Karte</string>
     <string name="notifications_title">Mitteilungen</string>
     <string name="discussions_title">Chats</string>
+    <string name="home_coming_soon">Coming soon..</string>
 
     <!--NOTIFICATIONS-->
     <string name="no_notification">Jeder schläft hier, genießt es !</string>
@@ -116,6 +120,11 @@
     <string name="events_joined_title">Events joined</string>
     <string name="events_created">Events created</string>
     <string name="events_joined">Events joined</string>
+    <string name="filter_all_events">All events</string>
+    <string name="filter_only_finished">Only finished events</string>
+    <string name="filter_only_next">Only next events</string>
+    <string name="events_filter_title">Filter</string>
+    <string name="events_filter_message">Select a category of events</string>
 
     <string name="notifications_social_title">Socials notifications</string>
     <string name="notifications_events_title">Events notifications</string>
@@ -155,4 +164,23 @@
     <string name="password">Passwort</string>
     <string name="login_with_facebook">Mit facebook einloggen</string>
     <string name="login_with_google">Mit google einloggen</string>
+
+    <!--NO RESULT-->
+    <string name="no_result">Aucun résultat</string>
+
+    <!--CHOOSE RECIPIENT-->
+    <string name="choose_recipient_title">Choose recipient</string>
+
+    <!--SUGGESTIONS-->
+    <string name="suggestions">Suggestions</string>
+
+    <!--PROFILE-->
+    <string name="my_personnal_information">My personnal information</string>
+    <string name="user_info_description">Description</string>
+    <string name="user_info_edit_account">Edit my account</string>
+    <string name="user_info_delete">Delete my account</string>
+
+    <!--SETTINGS-->
+    <string name="settings">Settings</string>
+
 </resources>

@@ -62,6 +62,9 @@
     <string name="menu_drawer_terms_of_use">Conditions d\'utilisations</string>
     <string name="menu_drawer_advise">Partager cette application</string>
     <string name="menu_drawer_logout">Se déconnecter</string>
+    <string name="version">Version 1.0</string>
+    <string name="menu_drawer_settings_title">Réglages</string>
+    <string name="more">Plus</string>
 
     <!--*******************CREATE EVENT STRINGS***********************-->
     <string name="name_event">Nom de l\'event</string>
@@ -91,6 +94,7 @@
     <string name="map_title">Carte</string>
     <string name="notifications_title">Notifications</string>
     <string name="discussions_title">Messages</string>
+    <string name="home_coming_soon">A venir..</string>
 
     <!--NOTIFICATIONS-->
     <string name="no_notification">Tout le monde dort ici. Profites-en!</string>
@@ -112,6 +116,11 @@
     <string name="events_joined_title">Vos participations</string>
     <string name="events_created">Evénement crées</string>
     <string name="events_joined">Participations</string>
+    <string name="filter_all_events">Tous les événements</string>
+    <string name="filter_only_finished">Seulement les événements terminés</string>
+    <string name="filter_only_next">Seulement les événements à venir</string>
+    <string name="events_filter_title">Filtre</string>
+    <string name="events_filter_message">Choisissez une catégorie d\'événements</string>
 
     <string name="notifications_social_title">Notifications sociales</string>
     <string name="notifications_events_title">Notifications sur les évènements</string>
@@ -153,4 +162,23 @@
     <string name="login_with_google">Se connecter avec Google</string>
     <string name="forgot">Oublié?</string>
     <string name="not_a_member">Pas de compte ? Rejoins nous !</string>
+
+    <!--NO RESULT-->
+    <string name="no_result">Aucun résultat</string>
+
+    <!--CHOOSE RECIPIENT-->
+    <string name="choose_recipient_title">Nouveau message</string>
+
+    <!--SUGGESTIONS-->
+    <string name="suggestions">Suggestions</string>
+
+    <!--PROFILE-->
+    <string name="my_personnal_information">Mes informations personnelles</string>
+    <string name="user_info_description">Description</string>
+    <string name="user_info_edit_account">Editer le profil</string>
+    <string name="user_info_delete">Supprimer le compte</string>
+
+    <!--SETTINGS-->
+    <string name="settings">Réglages</string>
+
 </resources>

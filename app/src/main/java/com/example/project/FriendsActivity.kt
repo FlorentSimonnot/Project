@@ -31,7 +31,7 @@ class FriendsActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = this.getString(R.string.friend_title)
+        supportActionBar?.title = getString(R.string.friend_title)
 
         tab = findViewById(R.id.tab)
         tab.forEach {
@@ -54,11 +54,11 @@ class FriendsActivity : AppCompatActivity() {
                 when(p0?.position){
                     0 -> {
                         friendsList(applicationContext)
-                        supportActionBar?.title = this@FriendsActivity.getString(R.string.friend_title)
+                        supportActionBar?.title = getString(R.string.friend_title)
                     }
                     1 ->{
                         waitingList(applicationContext)
-                        supportActionBar?.title = this@FriendsActivity.getString(R.string.friend_title)
+                        supportActionBar?.title = getString(R.string.invitation_title)
                     }
                 }
             }

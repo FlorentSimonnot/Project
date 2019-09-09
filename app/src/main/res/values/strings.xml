@@ -62,6 +62,9 @@
     <string name="menu_drawer_terms_of_use">Terms of Use</string>
     <string name="menu_drawer_advise">Advise this application</string>
     <string name="menu_drawer_logout">Logout</string>
+    <string name="version">Version 1.0</string>
+    <string name="menu_drawer_settings_title">Settings</string>
+    <string name="more">More</string>
 
     <!--*******************CREATE EVENT STRINGS***********************-->
     <string name="name_event">Event\'s name</string>
@@ -92,6 +95,7 @@
     <string name="map_title">Map</string>
     <string name="notifications_title">Notifications</string>
     <string name="discussions_title">Chats</string>
+    <string name="home_coming_soon">Coming soon..</string>
 
     <!--NOTIFICATIONS-->
     <string name="no_notification">Everyone is sleeping here. Enjoy!</string>
@@ -113,6 +117,12 @@
     <string name="events_joined_title">Events joined</string>
     <string name="events_created">Events created</string>
     <string name="events_joined">Events joined</string>
+    <string name="filter_all_events">All events</string>
+    <string name="filter_only_finished">Only finished events</string>
+    <string name="filter_only_next">Only next events</string>
+    <string name="events_filter_title">Filter</string>
+    <string name="events_filter_message">Select a category of events</string>
+
 
     <!--NOTIFICATIONS PUSH-->
     <string name="notifications_social_title">Socials notifications</string>
@@ -153,5 +163,23 @@
     <string name="login_with_google">Log you with google</string>
     <string name="forgot">Forgot?</string>
     <string name="not_a_member">Not a member ? Join us !</string>
+
+    <!--NO RESULT-->
+    <string name="no_result">No result found</string>
+
+    <!--CHOOSE RECIPIENT-->
+    <string name="choose_recipient_title">Choose recipient</string>
+
+    <!--SUGGESTIONS-->
+    <string name="suggestions">Suggestions</string>
+
+    <!--PROFILE-->
+    <string name="my_personnal_information">My personnal information</string>
+    <string name="user_info_description">Description</string>
+    <string name="user_info_edit_account">Edit my account</string>
+    <string name="user_info_delete">Delete my account</string>
+
+    <!--SETTINGS-->
+    <string name="settings">Settings</string>
 
 </resources>

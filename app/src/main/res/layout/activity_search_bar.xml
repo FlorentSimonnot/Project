@@ -65,7 +65,7 @@
             <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Suggestions"
+                    android:text="@string/suggestions"
                     android:id="@+id/titleSuggestion"
                     android:padding="10dp"
                     />

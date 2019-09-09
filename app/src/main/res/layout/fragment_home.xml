@@ -18,7 +18,7 @@
                 android:id="@+id/comingSoon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Coming soon.."
+                android:text="@string/home_coming_soon"
                 android:padding="10dp"
                 android:fontFamily="@font/rubik"
                 />

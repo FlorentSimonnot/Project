@@ -17,7 +17,7 @@ class SettingsActivity : AppCompatActivity() {
 
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        toolbar.title = "Settings"
+        toolbar.title = getString(R.string.settings)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }

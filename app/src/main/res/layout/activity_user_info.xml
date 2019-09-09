@@ -208,7 +208,7 @@
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Description"
+                            android:text="@string/user_info_description"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
                             android:padding="10dp"
@@ -285,7 +285,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/edit_profile_button"
-                            android:text="edit my account"
+                            android:text="@string/user_info_edit_account"
                             android:background="@color/colorPrimary"
                             android:textColor="#fff"
                             android:fontFamily="@font/rubik"
@@ -299,7 +299,7 @@
                             android:id="@+id/btn_delete_account"
                             android:fontFamily="@font/rubik"
                             android:layout_marginTop="20dp"
-                            android:text="delete my account"
+                            android:text="@string/user_info_delete"
                             android:textColor="#000"
                             android:background="@color/colorGrey100"
                             />

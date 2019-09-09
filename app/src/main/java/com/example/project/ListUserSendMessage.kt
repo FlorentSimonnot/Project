@@ -31,7 +31,7 @@ class ListUserSendMessage : AppCompatActivity() {
 
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Choose recipient"
+        supportActionBar?.title = getString(R.string.choose_recipient_title)
 
         listView = findViewById(R.id.listViewUsers)
         noResults = findViewById(R.id.noResultsLayout)

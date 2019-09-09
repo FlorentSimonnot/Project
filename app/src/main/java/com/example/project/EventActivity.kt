@@ -238,7 +238,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.action_filters -> {
-                val privacyPicker = StringPickerCustom(0, 2, "Filter", "select categorie of event", valuesFilter)
+                val privacyPicker = StringPickerCustom(0, 2, getString(R.string.events_filter_title), getString(R.string.events_filter_message), valuesFilter)
                 privacyPicker.setValueChangeListener(this)
                 privacyPicker.show(supportFragmentManager, "Filter picker")
                 true
