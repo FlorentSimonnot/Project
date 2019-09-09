@@ -1,10 +1,29 @@
 package com.example.events
 
+import android.content.Context
+import com.example.project.R
+
 enum class Privacy {
-    PUBLIC,
-    PRIVATE,
-    GUESS,
-    INIT;
+    PUBLIC {
+        override fun namePrivacy(context : Context): String {
+            return context.resources.getString(R.string.event_public)
+        }
+    },
+    PRIVATE {
+        override fun namePrivacy(context: Context): String {
+            return context.resources.getString(R.string.event_private)
+        }
+    },
+    GUESS {
+        override fun namePrivacy(context: Context): String {
+            return  context.resources.getString(R.string.event_invitation)
+        }
+    },
+    INIT {
+        override fun namePrivacy(context: Context): String {
+            return "init"
+        }
+    };
 
     fun valueOfString(string : String) : Privacy{
         return when(string){
@@ -28,4 +47,6 @@ enum class Privacy {
             }
         }
     }
+
+    abstract fun namePrivacy(context: Context) : String
 }

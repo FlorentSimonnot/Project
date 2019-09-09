@@ -42,7 +42,7 @@ data class Event (
     var sport: Sport = Sport.INIT,
     var date: String = "",
     var time : String = "",
-    var place: String = "",
+    var place: PlaceEvent = PlaceEvent(""),
     var nb_people: Int = 0,
     var description: String = "",
     var privacy : Privacy = Privacy.INIT,
@@ -75,7 +75,7 @@ data class Event (
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
+                /*val value = dataSnapshot.getValue(Event::class.java)
                 if(value != null){
                     //INIT GOOGLE PLACE
                     val gg = SessionGooglePlace(context)
@@ -104,7 +104,7 @@ data class Event (
                         .addOnFailureListener {
                             //Error
                         }
-                }
+                }*/
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -125,27 +125,10 @@ data class Event (
                             getCreator(context, key, value.creator, textView)
                         }
                         "place" -> {
-                            //INIT GOOGLE PLACE
-                            //Init google place
-                            val gg = SessionGooglePlace(context)
-                            gg.init()
-                            val placesClient = gg.createClient()
-
-                            //Search place in according to the ID
-                            val placeId : String = value.place
-                            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS)
-                            val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
-
-
-                            placesClient.fetchPlace(request)
-                                .addOnSuccessListener {
-                                    val place : Place = it.place
-                                    textView.text = place.address
-                                }
-                                .addOnFailureListener {
-                                    //textView1.text = it.message
-                                    Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
-                                }
+                            val placeEvent = PlaceEvent(
+                                dataSnapshot.child("place").child("idPlace").value as String,
+                                dataSnapshot.child("place").child("address").value as String)
+                            textView.text = value.place.address
                         }
                         "numberOfParticipants" -> {
                             textView.text = "${value.nb_people}"
@@ -209,6 +192,7 @@ data class Event (
         })
 
     }
+
     /**
      * getCreator write the identity of the event's creator
      * @param key : the key of event
@@ -338,14 +322,7 @@ data class Event (
      * @param key : the key of event
      * @param session : the current session user wanted to be add
      */
-    fun participateEvent(
-        context: Context,
-        key : String?,
-        session : SessionUser,
-        buttonToHide : Button,
-        buttonToShow : Button,
-        textView: TextView
-        ){
+    fun participateEvent(context: Context, key : String?, session : SessionUser, buttonToHide : Button, buttonToShow : Button, textView: TextView){
         /* Add in event participants */
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.child("status").setValue("waiting").addOnSuccessListener {
@@ -362,11 +339,7 @@ data class Event (
      * @param key : the key of event
      * @param session : the current session user
      */
-    fun cancelParticipation(
-        context: Context,
-        key : String?,
-        session : SessionUser
-    ){
+    fun cancelParticipation(context: Context, key : String?, session : SessionUser){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
         ref.removeValue().addOnSuccessListener {
             Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
@@ -541,10 +514,9 @@ data class Event (
                 if(value != null){
                     val participants = value.participants
                     event.participants = participants
-                    if(place.isEmpty()){
+                    if(place.idPlace.isEmpty()){
                         place = value.place
                     }
-                    println("YESSS ICI ICIC IC I")
                     ref.setValue(event).addOnSuccessListener {
                         Toast.makeText(context, "Edit event successfully !", Toast.LENGTH_SHORT).show()
                         val intent = Intent(context, EventInfoJojoActivity::class.java)
@@ -555,9 +527,8 @@ data class Event (
                     }.addOnFailureListener {
                         Toast.makeText(context, "Error ${it.message} !", Toast.LENGTH_SHORT).show()
                     }
-                        .addOnCanceledListener {
-                            println("CANCEL")
-                        }
+                    .addOnCanceledListener {
+                    }
                 }
             }
 

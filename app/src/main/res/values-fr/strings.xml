@@ -143,4 +143,14 @@
     <string name="tennis">Tennis</string>
     <string name="table_tennis">Tennis de table</string>
 
+
+
+    <!--LOGIN-->
+    <string name="login">Connexion</string>
+    <string name="password">Mot de passe</string>
+    <string name="email">Email</string>
+    <string name="login_with_facebook">Se connecter avec Facebook</string>
+    <string name="login_with_google">Se connecter avec Google</string>
+    <string name="forgot">Oublié?</string>
+    <string name="not_a_member">Pas de compte ? Rejoins nous !</string>
 </resources>

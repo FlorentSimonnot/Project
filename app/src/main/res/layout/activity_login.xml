@@ -80,7 +80,7 @@
                         android:drawableStart="@drawable/ic_facebook_logo_white"
                         android:drawableLeft="@drawable/ic_facebook_logo_white"
                         android:paddingLeft="20dp"
-                        android:text="Log you with facebook"
+                        android:text="@string/login_with_facebook"
                         android:textColor="#fff"
                 />
 
@@ -94,7 +94,7 @@
                         android:drawableStart="@drawable/ic_google_logo_white"
                         android:drawableLeft="@drawable/ic_google_logo_white"
                         android:layout_marginTop="20dp"
-                        android:text="Log you with google"
+                        android:text="@string/login_with_google"
                         android:textColor="#fff"
                         android:paddingLeft="20dp"/>
 
@@ -170,7 +170,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/email"
-                            android:hint="Email"
+                            android:hint="@string/email"
                             android:textColor="@color/colorPrimary"
                             android:textColorHint="@color/colorPrimary"
                             android:background="@drawable/basic_input_rectangle"
@@ -202,7 +202,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/password"
-                            android:hint="Password"
+                            android:hint="@string/password"
                             android:textColor="@color/colorPrimary"
                             android:textColorHint="@color/colorPrimary"
                             android:inputType="textPassword"
@@ -219,7 +219,7 @@
                             android:layout_width="100dp"
                             android:layout_height="38dp"
                             android:id="@+id/forgotPassword"
-                            android:text="Forgot?"
+                            android:text="@string/forgot"
                             android:fontFamily="@font/rubik"
                             android:background="@null"
                             android:textColor="@color/colorPrimary"
@@ -234,31 +234,6 @@
 
             </LinearLayout>
 
-            <!-- =========PASSWORD FORGOT========== -->
-            <!--<LinearLayout
-                    android:id="@+id/buttonForgotPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/inputLogin"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="start"
-                    >
-
-                <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/forgotPassword"
-                        android:text="Forgot your Password ? Click Here"
-                        android:fontFamily="@font/rubik"
-                        android:background="@android:color/transparent"
-                        android:textColor="#fff"
-                        android:gravity="start"
-                        android:paddingTop="10dp"
-                        />
-            </LinearLayout>-->
-
             <!-- ===========LOGIN BUTTON=========== -->
             <LinearLayout
                     android:id="@+id/buttonLoginLayout"
@@ -268,16 +243,18 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
                     android:layout_marginTop="5dp"
+                    android:gravity="center"
                     >
 
                 <Button
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/buttonLogin"
-                        android:background="#fff"
-                        android:textColor="@color/colorTextDarkMode"
-                        android:text="LOGIN"
+                        android:textColor="@color/colorPrimary"
+                        android:background="@drawable/corners_button_login"
+                        android:text="@string/login"
                         android:textSize="18sp"
+                        android:padding="15dp"
                         />
             </LinearLayout>
 
@@ -295,7 +272,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/notAMember"
                         android:fontFamily="@font/rubik"
-                        android:text="Not a member ? Click Here to join US"
+                        android:text="@string/not_a_member"
                         android:layout_marginBottom="10dp"
                         android:textColor="#fff"
                         style="?android:attr/borderlessButtonStyle"

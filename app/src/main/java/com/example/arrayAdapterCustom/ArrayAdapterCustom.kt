@@ -50,7 +50,9 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
             }
         }
 
-        //Init google place
+        textView1.text = events[position].place.address
+
+        /*//Init google place
         val gg = SessionGooglePlace(ctx)
         gg.init()
         val placesClient = gg.createClient()
@@ -69,7 +71,7 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
             .addOnFailureListener {
                 textView1.text = it.message
                 Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
-            }
+            }*/
 
 
         return view

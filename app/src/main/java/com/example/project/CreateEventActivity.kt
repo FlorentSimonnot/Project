@@ -18,6 +18,7 @@ import android.annotation.SuppressLint
 import android.app.*
 import com.example.events.Event
 import com.example.events.EventFirstStep
+import com.example.events.PlaceEvent
 import com.example.form.FormCreateEvent
 import com.example.picker.NumberPickerCustom
 import com.example.picker.StringPickerCustom
@@ -30,6 +31,8 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_create_event.*
+import java.lang.Exception
+import kotlin.collections.ArrayList
 
 
 class CreateEventActivity : AppCompatActivity(),
@@ -48,7 +51,9 @@ class CreateEventActivity : AppCompatActivity(),
     private lateinit var description : EditText
     private lateinit var privacy : TextView
     private lateinit var error : TextView
-    private lateinit var stringPrivacy : Array<String>
+    private var stringPrivacy : ArrayList<String> = ArrayList()
+    private lateinit var stringPrivacyArray : Array<String>
+    private var privacys : ArrayList<Privacy> = ArrayList()
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     private val apiKey = "AIzaSyAOWv25i-loOcpNvUqCvJ9oe7LkVp8FGrw"
     private var placeId : String? = ""
@@ -72,7 +77,17 @@ class CreateEventActivity : AppCompatActivity(),
         privacy = findViewById(R.id.privacy_event)
         error = findViewById(R.id.error)
 
-        stringPrivacy = arrayOf(getString(R.string.event_public), getString(R.string.event_private), getString(R.string.event_invitation))
+        Privacy.values().forEach {
+            privacys.add(it)
+        }
+
+        stringPrivacyArray = Array(privacys.size) {""}
+        privacys.forEachIndexed {index, it ->
+            if(it != Privacy.INIT) {
+                stringPrivacy.add(it.namePrivacy(this))
+                stringPrivacyArray[index] = it.namePrivacy(this)
+            }
+        }
 
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
@@ -101,7 +116,7 @@ class CreateEventActivity : AppCompatActivity(),
             val intent = Intent(this, SportActivity::class.java)
             event.name = name.text.toString()
             event.description = description.text.toString()
-            event.place = placeId!!
+            event.place.idPlace = placeId!!
             intent.putExtra("event", event)
             startActivity(intent)
         }
@@ -113,7 +128,7 @@ class CreateEventActivity : AppCompatActivity(),
         }
 
         privacy.setOnClickListener {
-            val numberPicker = StringPickerCustom(0, 2, getString(R.string.event_privacy_title), getString(R.string.event_privacy_message), stringPrivacy)
+            val numberPicker = StringPickerCustom(0, 2, getString(R.string.event_privacy_title), getString(R.string.event_privacy_message), stringPrivacyArray)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "People picker")
         }
@@ -133,7 +148,7 @@ class CreateEventActivity : AppCompatActivity(),
         buttonCreate.setOnClickListener {
             event.name = name.text.toString()
             event.description = description.text.toString()
-            event.place = placeId!!
+
             val formEvent = FormCreateEvent(
                 event.name,
                 event.sport.getNameSport(this),
@@ -195,8 +210,8 @@ class CreateEventActivity : AppCompatActivity(),
             autoCompleteSport.text = event.sport.getNameSport(this@CreateEventActivity)
             autoCompleteSport.setCompoundDrawablesWithIntrinsicBounds(event.sport.getLogoSport(), 0, 0, 0)
         }
-        if(event.place.isNotEmpty()){
-            placeId = event.place
+        if(event.place.idPlace.isNotEmpty()){
+            placeId = event.place.idPlace
             val gg = SessionGooglePlace(this)
             gg.init()
             val placesClient = gg.createClient()
@@ -236,7 +251,7 @@ class CreateEventActivity : AppCompatActivity(),
             }
             else{
                 privacy.text = stringPrivacy[p0.value]
-                event.privacy = Privacy.INIT.valueOfString(stringPrivacy[p0.value])
+                event.privacy = privacys[p0.value]
             }
         }
     }
@@ -248,6 +263,9 @@ class CreateEventActivity : AppCompatActivity(),
                 val p = Autocomplete.getPlaceFromIntent(data!!)
                 placeId = p.id
                 place.text = p.name
+                event.place =  PlaceEvent(placeId!!)
+                event.place.initAddress(this@CreateEventActivity)
+
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 val status = Autocomplete.getStatusFromIntent(data!!)
                 println("ERROR : ${status.statusMessage}")

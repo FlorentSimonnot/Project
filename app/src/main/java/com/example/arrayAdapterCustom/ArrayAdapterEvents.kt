@@ -40,7 +40,7 @@ class ArrayAdapterEvents(
         if(events.size > 0) {
             textView.text = events[position].name
             Event().writeInfoEvent(ctx, events[position].key, textViewDescription, "place")
-            textViewDescription.text = events[position].place
+            textViewDescription.text = events[position].place.address
             val sport : Sport = events[position].sport
             iconSport.setImageResource(sport.getLogoSport())
             view.setOnClickListener {

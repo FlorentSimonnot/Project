@@ -278,7 +278,7 @@ open class MapFragment(
             gg.init()
 
             val event = it
-            val placeId = event.place
+            val placeId = event.place.idPlace
             val placesClient = gg.createClient()
             val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG)
             val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)

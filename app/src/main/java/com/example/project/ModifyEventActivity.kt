@@ -14,6 +14,7 @@ import com.example.dialog.AlertCustomWithEditText
 import com.example.dialog.AlertDialogCustom
 import com.example.events.Event
 import com.example.events.EventFirstStep
+import com.example.events.PlaceEvent
 import com.example.events.Privacy
 import com.example.picker.DatePicker
 import com.example.picker.NumberPickerCustom
@@ -132,7 +133,7 @@ class ModifyEventActivity : AppCompatActivity(),
             val intent = Intent(this, SportActivity::class.java)
             event.name = modifyTitle.text.toString()
             event.description = modifyDescription.text.toString()
-            event.place = modifyPlace.text.toString()
+            event.place.idPlace = modifyPlace.text.toString()
             event.nbPeople = modifyNumberOfParticipants.text.toString().toInt()
             event.privacy = Privacy.INIT.valueOfString(modifyPrivacy.text.toString())
             event.date = modifyDate.text.toString()
@@ -204,7 +205,7 @@ class ModifyEventActivity : AppCompatActivity(),
                     Sport.INIT.getString(modifySport.text.toString()),
                     modifyDate.text.toString(),
                     modifyHour.text.toString(),
-                    placeId!!,
+                    PlaceEvent(placeId!!),
                     modifyNumberOfParticipants.text.toString().toInt(),
                     modifyDescription.text.toString(),
                     Privacy.INIT.valueOfString(modifyPrivacy.text.toString()),
@@ -270,8 +271,8 @@ class ModifyEventActivity : AppCompatActivity(),
             Event().writeInfoEvent(this, keyEvent, modifySport, "sport")
         }
 
-        if(event.place.isNotEmpty()){
-            modifyPlace.text = event.place
+        if(event.place.idPlace.isNotEmpty()){
+            modifyPlace.text = event.place.address
         }else{
             Event().writeInfoEvent(this, keyEvent, modifyPlace, "place")
         }

@@ -188,7 +188,7 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
                     val placesClient = gg.createClient()
 
                     //Search place in according to the ID
-                    val placeId : String = value.place
+                    val placeId : String = value.place.idPlace
                     val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG)
                     val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
 

@@ -2,6 +2,7 @@ package com.example.form
 
 import com.example.dateCustom.DateCustom
 import com.example.dateCustom.TimeCustom
+import com.example.events.PlaceEvent
 import com.example.events.Privacy
 import com.example.validator.validateInputText
 
@@ -10,7 +11,7 @@ class FormCreateEvent (
     val sport : String = "",
     val date : String = "",
     val time : String = "",
-    val place : String? = "",
+    val place : PlaceEvent = PlaceEvent(""),
     val description : String? = "",
     val nbPeople : Int = 0,
     val privacy : Privacy = Privacy.INIT
@@ -20,7 +21,7 @@ class FormCreateEvent (
         return  validateInputText(name, 255).fieldIsValid() &&
                 validateInputText(sport, 255).fieldIsValid() &&
                 DateCustom(date).isAfter(DateCustom("00/00/0000").getCurrentDate()) &&
-                nbPeople > 0 && place!!.isNotEmpty() && description!!.isNotEmpty()
+                nbPeople > 0 && place.idPlace!!.isNotEmpty() && description!!.isNotEmpty()
     }
 
     override fun toString(): String {

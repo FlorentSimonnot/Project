@@ -9,8 +9,7 @@ class Notification(
     var type: Type = Type(),
     var date : String = "",
     var message: String = "",
-    var isSeen: Boolean = true,
-    var dateTime : DateTime = DateTime()
+    var isSeen: Boolean = true
 ) {
 
     override fun toString(): String {

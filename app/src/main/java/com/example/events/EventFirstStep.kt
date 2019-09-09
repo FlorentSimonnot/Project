@@ -8,7 +8,7 @@ data class EventFirstStep(
     var sport : Sport = Sport.INIT,
     var date : String = "",
     var time : String = "",
-    var place : String ="",
+    var place : PlaceEvent = PlaceEvent(""),
     var nbPeople : Int = 0,
     var description : String = "",
     var privacy : Privacy = Privacy.INIT
