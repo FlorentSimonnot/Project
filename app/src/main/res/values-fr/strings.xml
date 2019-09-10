@@ -67,7 +67,7 @@
     <string name="more">Plus</string>
 
     <!--*******************CREATE EVENT STRINGS***********************-->
-    <string name="name_event">Nom de l\'event</string>
+    <string name="name_event">Nom de l\'évenement</string>
     <string name="sport_event">Sport</string>
     <string name="place_event">Lieu</string>
     <string name="numberOfPeople_event">Nombre de participants</string>
@@ -83,7 +83,7 @@
     <string name="event_public">Public</string>
     <string name="event_private">Privé</string>
     <string name="event_invitation">Sur invitations</string>
-    <string name="create_event_title">Crée ton événement</string>
+    <string name="create_event_title">Créez votre événement</string>
 
     <!--NUMBER PICKER CUSTOM-->
     <string name="ok">Ok</string>
@@ -123,8 +123,8 @@
     <string name="events_filter_title">Filtre</string>
     <string name="events_filter_message">Choisissez une catégorie d\'événements</string>
 
-    <string name="notifications_social_title">Notifications sociales</string>
-    <string name="notifications_events_title">Notifications sur les évènements</string>
+    <string name="notifications_social_title">Social</string>
+    <string name="notifications_events_title">Evènements</string>
     <string name="notification_receive_invitation">M\'informer lorsque je reçois une demande d\'amis</string>
     <string name="notification_accept_my_invitation">M\'informer lorsque ma demande d\'amis est acceptée</string>
     <string name="notifications_receive_event_invitation">M\'informer lorsque l\'on m\'invite à un évènement</string>
@@ -192,20 +192,40 @@
     <!--EVENT INFO-->
     <string name="event_info_creator">Crée par: </string>
     <string name="event_info_creator_you">Crée par: Vous</string>
-    <string name="event_info_invite_people">Invite friends</string>
-    <string name="event_info_edit">Edit</string>
-    <string name="event_info_delete">Delete</string>
+    <string name="event_info_invite_people">Inviter des amis</string>
+    <string name="event_info_edit">Modifier</string>
+    <string name="event_info_delete">Supprimer</string>
     <string name="event_info_description">Description</string>
     <string name="event_info_participants">Participants</string>
-    <string name="event_info_waiting">Waiting</string>
-    <string name="event_info_join">Join this event</string>
-    <string name="event_info_cancel">Cancel Participation</string>
-    <string name="event_info_full">This event is full, you cannot join it</string>
-    <string name="event_info_note">This event is finished, please give a note</string>
-    <string name="event_info_accept">Accept</string>
-    <string name="event_info_refuse">Refuse</string>
-    <string name="event_info_share">Share your parcitipation with your friends</string>
-    <string name="event_info_places">free places</string>
+    <string name="event_info_waiting">En attente</string>
+    <string name="event_info_join">Rejoindre</string>
+    <string name="event_info_cancel">Annuler</string>
+    <string name="event_info_full">Cet événement est complet, vous ne pouvez pas le rejoindre</string>
+    <string name="event_info_note">Cet événement est terminé, veuillez le noter</string>
+    <string name="event_info_accept">Accepter</string>
+    <string name="event_info_refuse">Refuser</string>
+    <string name="event_info_share">Partager cet événement avec vos amis</string>
+    <string name="event_info_places">Places disponibles</string>
+    <string name="event_info_invite_friends">Amis à inviter</string>
+    <string name="event_info_send_invitation">Inviter</string>
+    <string name="event_info_cancel_invitation">Annuler</string>
+    <string name="event_info_cannot_invite">Cet événement est complet, vous ne pouvez pas inviter d\'amis</string>
+    <string name="event_info_invite_toast">Vous avez invité un ami</string>
+    <string name="event_info_cancel_invitation_toast">Vous avez annulé votre invitation</string>
+    <string name="modify_event_title">Modifier l\'événement</string>
+    <string name="modify_event_name">Nom</string>
+    <string name="modify_event_sport">Sport</string>
+    <string name="modify_event_description">Description</string>
+    <string name="modify_event_participants">Nombre de participants</string>
+    <string name="modify_event_privacy">Confidentialité</string>
+    <string name="modify_event_name_alert_title">Nom</string>
+    <string name="modify_event_name_alert_message">Nouveau nom</string>
+    <string name="modify_event_description_alert_title">Description</string>
+    <string name="modify_event_description_alert_message">Nouvelle description</string>
+    <string name="modify_event_participants_alert_title">Participants</string>
+    <string name="modify_event_participants_alert_message">Nouveau nombre de participants</string>
+    <string name="modify_event_privacy_alert_title">Confidentialité</string>
+    <string name="modify_event_privacy_alert_message"></string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">/</string>

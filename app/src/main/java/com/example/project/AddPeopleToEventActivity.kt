@@ -32,7 +32,7 @@ class AddPeopleToEventActivity : AppCompatActivity() {
         val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Invite your friends to your event"
+        supportActionBar?.title = getString(R.string.event_info_invite_friends)
 
         listView = findViewById(R.id.listViewFriends)
         noResults = findViewById(R.id.noResultsLayout)
@@ -47,7 +47,7 @@ class AddPeopleToEventActivity : AppCompatActivity() {
                 if(event.participants.size < event.nb_people){
                     createUsersParticipe(this@AddPeopleToEventActivity, keyEvent)
                 }else{
-                   noResultsText.text = "Oops you can't invite some people. Your event is full !"
+                   noResultsText.text = getString(R.string.event_info_cannot_invite)
                 }
             }
 

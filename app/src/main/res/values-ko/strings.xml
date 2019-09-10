@@ -207,6 +207,26 @@
     <string name="event_info_refuse">거절하다</string>
     <string name="event_info_share">친구들과 당신의 참여를 공유하기</string>
     <string name="event_info_places">무료 슬롯</string>
+    <string name="event_info_invite_friends">초대 할 친구</string>
+    <string name="event_info_send_invitation">초대</string>
+    <string name="event_info_cancel_invitation">취소하다</string>
+    <string name="event_info_cannot_invite">친구를 초대 할 수 없습니다. 이벤트가 가득 찼습니다</string>
+    <string name="event_info_invite_toast">당신의 친구를 초대했습니다</string>
+    <string name="event_info_cancel_invitation_toast">초대가 취소되었습니다</string>
+    <string name="modify_event_title">이벤트 수정</string>
+    <string name="modify_event_name">이름</string>
+    <string name="modify_event_sport">스포츠</string>
+    <string name="modify_event_description">전기</string>
+    <string name="modify_event_participants">참가자 수</string>
+    <string name="modify_event_privacy">프라이버시</string>
+    <string name="modify_event_name_alert_title">이름</string>
+    <string name="modify_event_name_alert_message">새로운 이름</string>
+    <string name="modify_event_description_alert_title">전기</string>
+    <string name="modify_event_description_alert_message">새로운 전기</string>
+    <string name="modify_event_participants_alert_title">참가자</string>
+    <string name="modify_event_participants_alert_message">새로운 참가자 수</string>
+    <string name="modify_event_privacy_alert_title">프라이버시</string>
+    <string name="modify_event_privacy_alert_message">새로운 프라이버시</string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">.</string>

@@ -386,13 +386,13 @@ data class Event (
     fun inviteFriend(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.child("status").setValue("invitation")
-        Toast.makeText(context, "You have invite user !", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.event_info_invite_toast), Toast.LENGTH_SHORT).show()
     }
 
     fun deleteInvitationEvent(context: Context, key: String?, user: String){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.removeValue()
-        Toast.makeText(context, "You have cancel your invitation !", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.event_info_cancel_invitation_toast), Toast.LENGTH_SHORT).show()
     }
 
     /**

@@ -208,6 +208,26 @@
     <string name="event_info_refuse">Refuse</string>
     <string name="event_info_share">Share your parcitipation with your friends</string>
     <string name="event_info_places">free places</string>
+    <string name="event_info_invite_friends">Invite your friends to your event</string>
+    <string name="event_info_send_invitation">Invite</string>
+    <string name="event_info_cancel_invitation">Cancel</string>
+    <string name="event_info_cannot_invite">You cannot invite friends, your event is full</string>
+    <string name="event_info_invite_toast">You have invited a friend</string>
+    <string name="event_info_cancel_invitation_toast">You have canceled your invitation</string>
+    <string name="modify_event_title">Modify your event</string>
+    <string name="modify_event_name">Name</string>
+    <string name="modify_event_sport">Sport</string>
+    <string name="modify_event_description">Description</string>
+    <string name="modify_event_participants">Number of participants</string>
+    <string name="modify_event_privacy">Privacy</string>
+    <string name="modify_event_name_alert_title">Name</string>
+    <string name="modify_event_name_alert_message">Change your event\'s name</string>
+    <string name="modify_event_description_alert_title">Description</string>
+    <string name="modify_event_description_alert_message">Change your event\'s description</string>
+    <string name="modify_event_participants_alert_title">Participants</string>
+    <string name="modify_event_participants_alert_message">Change your event\'s number of participants</string>
+    <string name="modify_event_privacy_alert_title">Privacy</string>
+    <string name="modify_event_privacy_alert_message">Change your event\'s privacy</string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">/</string>

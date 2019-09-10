@@ -68,7 +68,7 @@ class ModifyEventActivity : AppCompatActivity(),
         setContentView(R.layout.activity_modify_event)
 
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
-        toolbar.title = "Modify your event"
+        toolbar.title = getString(R.string.modify_event_title)
         toolbar.setTitleTextColor(Color.WHITE)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -161,8 +161,8 @@ class ModifyEventActivity : AppCompatActivity(),
                     this,
                     R.layout.layout_dialog_with_textview,
                     modifyTitle,
-                    "Title",
-                    "Change title for your event",
+                    getString(R.string.modify_event_name_alert_title),
+                    getString(R.string.modify_event_name_alert_message),
                     keyEvent,
                     "name"
                 )
@@ -181,20 +181,20 @@ class ModifyEventActivity : AppCompatActivity(),
                     this,
                     R.layout.layout_dialog_with_textview,
                     modifyDescription,
-                    "Description",
-                    "Change description for your event",
+                    getString(R.string.modify_event_description_alert_title),
+                    getString(R.string.modify_event_description_alert_message),
                     keyEvent,
                     "name"
                 )
                 dialog.show(supportFragmentManager, "Description")
             }
             R.id.button_number_of_participant -> {
-                val numberPicker = NumberPickerCustom(1, 22, "Choose max number people", "Select a value", modifyNumberOfParticipants.text.toString().toInt())
+                val numberPicker = NumberPickerCustom(1, 22, getString(R.string.modify_event_participants_alert_title), getString(R.string.modify_event_participants_alert_message), modifyNumberOfParticipants.text.toString().toInt())
                 numberPicker.setValueChangeListener(this)
                 numberPicker.show(supportFragmentManager, "People picker")
             }
             R.id.button_privacy -> {
-                val numberPicker = StringPickerCustom(0, 2, "Choose max number people", "Select a value", stringPrivacy, modifyPrivacy.text.toString())
+                val numberPicker = StringPickerCustom(0, 2, getString(R.string.modify_event_privacy_alert_title), getString(R.string.modify_event_privacy_alert_message), stringPrivacy, modifyPrivacy.text.toString())
                 numberPicker.setValueChangeListener(this)
                 numberPicker.show(supportFragmentManager, "People picker")
             }

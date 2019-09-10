@@ -37,7 +37,7 @@ class ArrayAdapterInviteFriends(
         User().showPhotoUser(ctx, imageView, users[position].key)
 
         if(users[position].status == "already"){
-            button.text = "Cancel"
+            button.text = ctx.getString(R.string.event_info_cancel_invitation)
             button.background = context.resources.getDrawable(R.drawable.rounded_button_rectangle_red)
             button.setOnClickListener {
                 Event().deleteInvitationEvent(ctx, keyEvent, users[position].key!!)
@@ -45,7 +45,7 @@ class ArrayAdapterInviteFriends(
             }
         }
         else{
-            button.text = "Invite"
+            button.text = ctx.getString(R.string.event_info_send_invitation)
             button.background = context.resources.getDrawable(R.drawable.rounded_button_rectangle_blue)
             button.setOnClickListener {
                 Event().inviteFriend(ctx, keyEvent, users[position].key!!)
