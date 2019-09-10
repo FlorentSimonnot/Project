@@ -130,7 +130,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Invite people"
+                        android:text="@string/event_info_invite_people"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
                         />
@@ -155,7 +155,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Edit"
+                        android:text="@string/event_info_edit"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
                         />
@@ -179,7 +179,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Delete"
+                        android:text="@string/event_info_delete"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
                         />
@@ -267,7 +267,7 @@
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Description"
+                    android:text="@string/event_info_description"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
                     />
@@ -308,7 +308,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Participants"
+                        android:text="@string/event_info_participants"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
                         />
@@ -337,7 +337,7 @@
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Waiting"
+                        android:text="@string/event_info_waiting"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
                         />

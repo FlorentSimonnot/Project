@@ -3,6 +3,7 @@ package com.example.events
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.net.Uri
 import android.opengl.Visibility
 import android.os.Build
@@ -160,7 +161,7 @@ data class Event (
                             textView.text = "$res"
                         }
                         "freePlace"  -> {
-                            textView.text = "${value.nb_people - value.participants.size} free places"
+                            textView.text = "${value.nb_people - value.participants.size} " + context.getString(R.string.event_info_places)
                         }
                         "description" -> textView.text = value.description
                         "sport" -> {
@@ -209,7 +210,7 @@ data class Event (
                 val accountPrivacy = dataSnapshot.child("privacyAccount").value as String
                 if (firstName != null) {
                     if(SessionUser(context).getIdFromUser() != uid) {
-                        val builder = StringBuilder("Created by : ")
+                        val builder = StringBuilder(context.getString(R.string.event_info_creator))
                         builder.append(firstName).append(" ").append(name)
                         textView.text = builder
 
@@ -229,7 +230,7 @@ data class Event (
                         }
                     }
                     else{
-                        textView.text = "Created by : You"
+                        textView.text = context.getString(R.string.event_info_creator_you)
                     }
                 }
             }

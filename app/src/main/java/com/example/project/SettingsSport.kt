@@ -32,7 +32,7 @@ class SettingsSport : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Your preferences"
+        supportActionBar?.title = getString(R.string.sports_preferences_title)
 
         listView = findViewById(R.id.listView)
         sportList = ArrayList()

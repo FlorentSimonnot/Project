@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/logo_discussion_not_found"
                 android:id="@+id/text_not_found"
-                android:text="Any discussions found"
+                android:text="@string/discussions_any_found"
                 android:textSize="16sp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="center"

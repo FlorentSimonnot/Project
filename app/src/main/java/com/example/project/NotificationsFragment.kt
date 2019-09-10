@@ -56,7 +56,7 @@ class NotificationsFragment(
         val itemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.HORIZONTAL)
         recyclerView.addItemDecoration(itemDecoration)
 
-        val s = "<u>Mark all as read</u>"
+        val s = getString(R.string.notifications_all_read)
         textView.text = Html.fromHtml(s)
         //Set see to false for every notification
         textView.setOnClickListener {

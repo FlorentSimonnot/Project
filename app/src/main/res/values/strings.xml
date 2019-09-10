@@ -99,6 +99,7 @@
 
     <!--NOTIFICATIONS-->
     <string name="no_notification">Everyone is sleeping here. Enjoy!</string>
+    <string name="notifications_all_read">Mark all as read</string>
 
     <string name="write_message">Write your message</string>
 
@@ -181,5 +182,33 @@
 
     <!--SETTINGS-->
     <string name="settings">Settings</string>
+
+    <!--DISCUSSIONS-->
+    <string name="discussions_any_found">No discussion found</string>
+
+    <!--SPORTS PREFERENCES-->
+    <string name="sports_preferences_message">Choose which sports you want to see on the map</string>
+    <string name="sports_preferences_title">Your preferences</string>
+
+    <!--EVENT INFO-->
+    <string name="event_info_creator">Created by: </string>
+    <string name="event_info_creator_you">Created by: You</string>
+    <string name="event_info_invite_people">Invite friends</string>
+    <string name="event_info_edit">Edit</string>
+    <string name="event_info_delete">Delete</string>
+    <string name="event_info_description">Description</string>
+    <string name="event_info_participants">Participants</string>
+    <string name="event_info_waiting">Waiting</string>
+    <string name="event_info_join">Join this event</string>
+    <string name="event_info_cancel">Cancel Participation</string>
+    <string name="event_info_full">This event is full, you cannot join it</string>
+    <string name="event_info_note">This event is finished, please give a note</string>
+    <string name="event_info_accept">Accept</string>
+    <string name="event_info_refuse">Refuse</string>
+    <string name="event_info_share">Share your parcitipation with your friends</string>
+    <string name="event_info_places">free places</string>
+
+    <!--DATE DELIMITER-->
+    <string name="date_delimiter">/</string>
 
 </resources>
