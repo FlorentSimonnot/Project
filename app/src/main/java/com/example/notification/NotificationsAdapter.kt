@@ -46,7 +46,7 @@ class NotificationsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var date = DateUTC(notifications[position].notification.dateTime.date.toLong())
+        var date = DateUTC(notifications[position].notification.date)
         if(date.isToday())
             holder.date.text = date.showTime()
         else{

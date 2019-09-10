@@ -91,6 +91,8 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.home_title)
 
+        configLanguage()
+
         //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         fragmentContainer = findViewById(R.id.HomeFragment)
@@ -183,4 +185,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         super.onConfigurationChanged(newConfig)
     }
 
+    private fun configLanguage(){
+        FirebaseDatabase.getInstance().reference.child("parameters/${session.getIdFromUser()}/language").setValue(Locale.getDefault().displayLanguage)
+    }
 }

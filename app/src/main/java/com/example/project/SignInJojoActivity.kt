@@ -2,10 +2,13 @@ package com.example.project
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.form.FormSignInFirst
 import com.example.validator.validateInputPassword
@@ -16,6 +19,10 @@ class SignInJojoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in_jojo)
 
         val nextButton = findViewById<Button>(R.id.next)
+
+        val bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.background)
+        val bitmapScaled = Bitmap.createScaledBitmap(bitmap, bitmap.width, bitmap.height, false)
+        findViewById<ImageView>(R.id.image).setImageBitmap(bitmapScaled)
 
         nextButton.setOnClickListener {
             var form = FormSignInFirst(

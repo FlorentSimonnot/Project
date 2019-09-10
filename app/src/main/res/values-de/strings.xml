@@ -166,21 +166,21 @@
     <string name="login_with_google">Mit google einloggen</string>
 
     <!--NO RESULT-->
-    <string name="no_result">Aucun résultat</string>
+    <string name="no_result">Kein Ergebnisse</string>
 
     <!--CHOOSE RECIPIENT-->
-    <string name="choose_recipient_title">Choose recipient</string>
+    <string name="choose_recipient_title">Adressat auswählen</string>
 
     <!--SUGGESTIONS-->
-    <string name="suggestions">Suggestions</string>
+    <string name="suggestions">Vorschläge</string>
 
     <!--PROFILE-->
-    <string name="my_personnal_information">My personnal information</string>
-    <string name="user_info_description">Description</string>
-    <string name="user_info_edit_account">Edit my account</string>
-    <string name="user_info_delete">Delete my account</string>
+    <string name="my_personnal_information">Meine persönlichen Informationen</string>
+    <string name="user_info_description">Beschreibung</string>
+    <string name="user_info_edit_account">Mein Account bearbeiten</string>
+    <string name="user_info_delete">Mein Account löschen</string>
 
     <!--SETTINGS-->
-    <string name="settings">Settings</string>
+    <string name="settings">Einstellungen</string>
 
 </resources>

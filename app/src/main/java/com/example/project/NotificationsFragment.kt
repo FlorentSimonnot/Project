@@ -123,7 +123,7 @@ class NotificationsFragment(
                     notifications.add(NotificationWithKey(notif, it.key!!))
                 }
                 if(notifications.size > 0){
-                    var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.dateTime.date.toString()}, {it.notification.dateTime.time.toString()})))
+                    var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.date})))
                     sortedList.reverse()
                     notifications = sortedList
                     adapter = NotificationsAdapter(context!!, R.layout.list_item_notification, sortedList, this@NotificationsFragment)

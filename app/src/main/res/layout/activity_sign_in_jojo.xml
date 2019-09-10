@@ -4,143 +4,169 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg1"
-        android:padding="10dp"
 >
 
-
-    <!--<ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/app_logo"
-            android:src="@drawable/logo"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-    />-->
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:id="@+id/name_and_first_name"
-    >
-
-        <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/name"
-                android:layout_weight="0.5"
-                android:hint="name"
-                android:background="@drawable/basic_input_rectangle"
-                android:layout_marginRight="10dp"
-                android:padding="10dp"
-        />
-
-        <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/first_name"
-                android:layout_weight="0.5"
-                android:layout_toRightOf="@id/name"
-                android:hint="first name"
-                android:background="@drawable/basic_input_rectangle"
-                android:padding="10dp"
-        />
-    </LinearLayout>
-
-    <LinearLayout
-
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/body"
-            android:layout_below="@id/name_and_first_name"
-
-    >
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/email_address"
-                android:layout_alignLeft="@id/name_and_first_name"
-                android:hint="email address"
-                android:background="@drawable/basic_input_rectangle"
-                android:layout_marginTop="15dp"
-                android:padding="10dp"
-                android:drawablePadding="15dp"
-                android:fontFamily="@font/rubik"
-                android:drawableLeft="@drawable/ic_mail_24dp"
-                android:drawableStart="@drawable/ic_mail_24dp"
-        />
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/password"
-                android:inputType="textPassword"
-                android:layout_below="@id/email_address"
-                android:hint="password"
-                android:background="@drawable/basic_input_rectangle"
-                android:layout_marginTop="15dp"
-                android:padding="10dp"
-                android:drawablePadding="15dp"
-                android:fontFamily="@font/rubik"
-                android:drawableLeft="@drawable/ic_lock_24dp"
-                android:drawableStart="@drawable/ic_lock_24dp"
-        />
-
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/confirm_password"
-                android:inputType="textPassword"
-                android:layout_below="@id/password"
-                android:hint="confirm password"
-                android:background="@drawable/basic_input_rectangle"
-                android:layout_marginTop="15dp"
-                android:padding="10dp"
-                android:drawablePadding="15dp"
-                android:fontFamily="@font/rubik"
-                android:drawableLeft="@drawable/ic_lock_24dp"
-                android:drawableStart="@drawable/ic_lock_24dp"
-        />
-
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/terms_of_use"
-                android:text='By clicking "JOINS US" below, you agree to our Terms of use bla bla bla'
-                android:layout_below="@id/confirm_password"
-                android:textSize="16sp"
-                android:layout_marginTop="25dp"
-                android:textColor="#fff"
-                android:fontFamily="@font/rubik"
-
-        />
-
-        <TextView
-                android:id="@+id/errorMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/terms_of_use"
-                android:layout_marginTop="20dp"
-                android:textColor="#d63031"
-
-        />
-    </LinearLayout>
-
-    <LinearLayout
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/body"
-            android:gravity="bottom|center">
+            >
 
-        <Button
-                android:layout_width="match_parent"
+        <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/next"
-                android:background="#fff"
-                android:text="JOINS US"/>
-    </LinearLayout>
+                android:background="@drawable/background"
+                android:scaleType="centerCrop"
+                android:id="@+id/image"
+                />
+
+    </FrameLayout>
+
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="100dp"
+                    android:id="@+id/name_and_first_name"
+                    >
+
+                <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name"
+                        android:layout_weight="0.5"
+                        android:hint="name"
+                        android:background="@drawable/input"
+                        android:layout_marginRight="10dp"
+                        android:padding="10dp"
+                        />
+
+                <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/first_name"
+                        android:layout_weight="0.5"
+                        android:layout_toRightOf="@id/name"
+                        android:hint="first name"
+                        android:background="@drawable/input"
+                        android:padding="10dp"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/body"
+                    android:layout_below="@id/name_and_first_name"
+
+                    >
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/email_address"
+                        android:layout_alignLeft="@id/name_and_first_name"
+                        android:hint="email address"
+                        android:background="@drawable/input"
+                        android:layout_marginTop="15dp"
+                        android:padding="10dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="@font/rubik"
+                        android:drawableLeft="@drawable/ic_email_login"
+                        android:drawableStart="@drawable/ic_email_login"
+                        />
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/password"
+                        android:inputType="textPassword"
+                        android:layout_below="@id/email_address"
+                        android:hint="password"
+                        android:background="@drawable/input"
+                        android:layout_marginTop="15dp"
+                        android:padding="10dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="@font/rubik"
+                        android:drawableLeft="@drawable/ic_password_login"
+                        android:drawableStart="@drawable/ic_password_login"
+                        />
+
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/confirm_password"
+                        android:inputType="textPassword"
+                        android:layout_below="@id/password"
+                        android:hint="confirm password"
+                        android:background="@drawable/input"
+                        android:layout_marginTop="15dp"
+                        android:padding="10dp"
+                        android:drawablePadding="15dp"
+                        android:fontFamily="@font/rubik"
+                        android:drawableLeft="@drawable/ic_password_login"
+                        android:drawableStart="@drawable/ic_password_login"
+                        />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/terms_of_use"
+                        android:text='By clicking "JOINS US" below, you agree to our Terms of use bla bla bla'
+                        android:layout_below="@id/confirm_password"
+                        android:textSize="16sp"
+                        android:layout_marginTop="25dp"
+                        android:textColor="#fff"
+                        android:fontFamily="@font/rubik"
+
+                        />
+
+                <TextView
+                        android:id="@+id/errorMessage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/terms_of_use"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#d63031"
+
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/body"
+                    android:gravity="center">
+
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/next"
+                        android:textColor="@color/colorPrimary"
+                        android:background="@drawable/corners_button_login"
+                        android:text="JOINS US"
+                        android:textSize="18sp"
+                        android:padding="15dp"
+                        />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 
 </RelativeLayout>

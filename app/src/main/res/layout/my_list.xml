@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:background="@drawable/item_list_event"
               android:padding="10dp"
@@ -15,9 +13,11 @@
             android:layout_height="60dp"
             android:padding="5dp" />
 
-    <LinearLayout android:layout_width="match_parent"
+    <RelativeLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
-                  android:layout_marginRight="70dp"
+                  android:layout_marginRight="90dp"
+                  android:id="@+id/name"
+                    android:layout_toRightOf="@id/icon_sport"
                   android:orientation="vertical">
 
         <TextView
@@ -36,11 +36,51 @@
                 android:id="@+id/event_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/event_name"
                 android:text=""
                 android:drawableLeft="@drawable/ic_pin"
                 android:drawablePadding="10dp"
                 android:padding="3dp"
                 android:fontFamily="@font/rubik"
                 android:layout_marginLeft="10dp"/>
-    </LinearLayout>
-</LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout android:layout_width="1dp"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@id/name"
+                    android:id="@+id/separator"
+                    android:layout_marginLeft="-90dp"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/border_left_red"
+                    android:orientation="vertical">
+    </RelativeLayout>
+
+    <RelativeLayout android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/separator"
+                    android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="26"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:textColor="@color/colorAccent"
+                />
+        <TextView
+                android:id="@+id/month"
+                android:layout_below="@id/day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sep."
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/colorBlueGrey900"
+                />
+
+    </RelativeLayout>
+
+    </RelativeLayout>

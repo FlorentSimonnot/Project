@@ -58,7 +58,7 @@
     <string name="menu_drawer_friends">Mes amis</string>
     <string name="menu_drawer_notifications_push">Notifications push</string>
     <string name="menu_drawer_settings">Paramètres</string>
-    <string name="menu_drawer_contact">Contactez nous</string>
+    <string name="menu_drawer_contact">À propos de nous</string>
     <string name="menu_drawer_terms_of_use">Conditions d\'utilisations</string>
     <string name="menu_drawer_advise">Partager cette application</string>
     <string name="menu_drawer_logout">Se déconnecter</string>
