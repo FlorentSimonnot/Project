@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.widget.*
 import com.example.arrayAdapterCustom.ArrayAdapterCustom
 import com.example.dateCustom.DateCustom
+import com.example.dateCustom.DateUTC
 import com.example.dateCustom.TimeCustom
 import com.example.discussion.LatestMessageAdapter
 import com.example.events.Event
@@ -106,16 +107,10 @@ open class HomeFragment(
                     //Add event in list if it isn't null
                     if(event != null){
                         /*there is a pb in this block*/
-                        /*val date = DateCustom(event.date)
-                        val time = TimeCustom(event.time)
-                        if(date.isEqual(DateCustom("01/01/1971").getCurrentDate())){
-                            if(time.isAfter(TimeCustom("01:01").getCurrentTime())){
-                                events.add(event)
-                            }
-                        }
-                        else if(date.isAfter(DateCustom("01/01/1971").getCurrentDate())){
+                        val date = DateUTC(event.date)
+                        if(date.isAfterNow())
                             events.add(event)
-                        }*/
+
                     }
                 }
                 val adapter = ArrayAdapterCustom(context, R.layout.my_list, events)

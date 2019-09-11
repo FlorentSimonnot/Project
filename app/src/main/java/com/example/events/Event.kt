@@ -10,6 +10,7 @@ import android.os.Build
 import android.text.Html
 import android.view.View
 import android.widget.*
+import com.example.dateCustom.DateUTC
 import com.example.notification.Action
 import com.example.notification.CloudFunction
 import com.example.place.SessionGooglePlace
@@ -133,9 +134,11 @@ data class Event (
                         "numberOfParticipants" -> {
                             textView.text = "${value.nb_people}"
                         }
-                        "date" -> textView.text = "${value.date.toString()}"
+                        "date" -> {
+                            textView.text = DateUTC(value.date).showDate()
+                        }
                         "dateAndTime" ->{
-                            textView.text = "${value.date}"
+                            textView.text = "${DateUTC(value.date).showDate()} at ${DateUTC(value.date).showTime()}"
                         }
                         "participant" -> {
                             var res = 0

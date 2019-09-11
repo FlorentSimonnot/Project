@@ -5,6 +5,7 @@ import com.example.dateCustom.TimeCustom
 import com.example.events.PlaceEvent
 import com.example.events.Privacy
 import com.example.validator.validateInputText
+import java.text.SimpleDateFormat
 import java.util.*
 
 class FormCreateEvent (
@@ -21,16 +22,22 @@ class FormCreateEvent (
         println("THIS : ${this.toString()}")
         return  validateInputText(name, 255).fieldIsValid() &&
                 validateInputText(sport, 255).fieldIsValid() &&
-                DateCustom(date).isAfter(DateCustom("00/00/0000").getCurrentDate()) &&
                 nbPeople > 0 && place.idPlace!!.isNotEmpty() && description!!.isNotEmpty()
     }
 
     override fun toString(): String {
-        return "$name | ${sport} |$date | $time | $place | $description | $nbPeople | ${privacy.name}"
+        return "$name | $sport |$date | $time | $place | $description | $nbPeople | ${privacy.name}"
+    }
+
+    fun getFormat() : SimpleDateFormat{
+        if(Locale.getDefault().displayLanguage == "한국어"){
+            return SimpleDateFormat("yyyy/MM/dd HH:mm")
+        }
+        return SimpleDateFormat("dd/MM/yyyy HH:mm")
     }
 
     fun getDate() : Long{
-        var date = Date("$date $time")
+        var date = getFormat().parse("$date $time")
         return date.time
     }
 }

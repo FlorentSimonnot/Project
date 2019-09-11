@@ -8,9 +8,22 @@ class DateUTC(
     val date : Long
 ) {
 
+    private fun getFormatDate() : SimpleDateFormat{
+        if(Locale.getDefault().displayLanguage == "한국어"){
+            return SimpleDateFormat("yyyy/MM/dd")
+        }
+        return SimpleDateFormat("dd/MM/yyyy")
+    }
+
+    private fun getFormatTime() : SimpleDateFormat{
+        if(Locale.getDefault().displayLanguage == "한국어"){
+            return SimpleDateFormat("hh:mm a")
+        }
+        return SimpleDateFormat("HH:mm")
+    }
+
     fun showDate() : String{
-        val format = "dd/MM/yyyy"
-        val simpleDate = SimpleDateFormat(format)
+        val simpleDate = getFormatDate()
         return simpleDate.format(date)
     }
 
@@ -20,8 +33,7 @@ class DateUTC(
             val simpleDate = SimpleDateFormat(format)
             return simpleDate.format(date)
         }
-        val format = "HH:mm"
-        val simpleDate = SimpleDateFormat(format)
+        val simpleDate = getFormatTime()
         return simpleDate.format(date)
     }
 
@@ -34,6 +46,11 @@ class DateUTC(
     fun isYesterday() : Boolean{
         val dateCustom = DateCustom(SimpleDateFormat("dd/MM/yyyy").format(date))
         return dateCustom.isYesterday()
+    }
+
+    fun isAfterNow() : Boolean{
+        var now = Date().time
+        return date >= now
     }
 
 }
