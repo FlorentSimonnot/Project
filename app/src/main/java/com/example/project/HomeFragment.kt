@@ -106,7 +106,7 @@ open class HomeFragment(
                     //Add event in list if it isn't null
                     if(event != null){
                         /*there is a pb in this block*/
-                        val date = DateCustom(event.date)
+                        /*val date = DateCustom(event.date)
                         val time = TimeCustom(event.time)
                         if(date.isEqual(DateCustom("01/01/1971").getCurrentDate())){
                             if(time.isAfter(TimeCustom("01:01").getCurrentTime())){
@@ -115,7 +115,7 @@ open class HomeFragment(
                         }
                         else if(date.isAfter(DateCustom("01/01/1971").getCurrentDate())){
                             events.add(event)
-                        }
+                        }*/
                     }
                 }
                 val adapter = ArrayAdapterCustom(context, R.layout.my_list, events)

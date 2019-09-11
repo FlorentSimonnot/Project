@@ -41,8 +41,7 @@ data class Event (
     val key : String = "",
     var name: String = "",
     var sport: Sport = Sport.INIT,
-    var date: String = "",
-    var time : String = "",
+    var date : Long = 0,
     var place: PlaceEvent = PlaceEvent(""),
     var nb_people: Int = 0,
     var description: String = "",
@@ -134,10 +133,9 @@ data class Event (
                         "numberOfParticipants" -> {
                             textView.text = "${value.nb_people}"
                         }
-                        "date" -> textView.text = value.date
-                        "time" -> textView.text = value.time
+                        "date" -> textView.text = "${value.date.toString()}"
                         "dateAndTime" ->{
-                            textView.text = "${value.date} at ${value.time}"
+                            textView.text = "${value.date}"
                         }
                         "participant" -> {
                             var res = 0

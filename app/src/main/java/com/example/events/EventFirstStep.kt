@@ -13,4 +13,5 @@ data class EventFirstStep(
     var description : String = "",
     var privacy : Privacy = Privacy.INIT
 ) : Serializable {
+    
 }

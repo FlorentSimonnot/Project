@@ -5,6 +5,7 @@ import com.example.dateCustom.TimeCustom
 import com.example.events.PlaceEvent
 import com.example.events.Privacy
 import com.example.validator.validateInputText
+import java.util.*
 
 class FormCreateEvent (
     val name : String = "",
@@ -26,5 +27,10 @@ class FormCreateEvent (
 
     override fun toString(): String {
         return "$name | ${sport} |$date | $time | $place | $description | $nbPeople | ${privacy.name}"
+    }
+
+    fun getDate() : Long{
+        var date = Date("$date $time")
+        return date.time
     }
 }

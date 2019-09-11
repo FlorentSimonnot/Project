@@ -249,15 +249,15 @@ open class MapFragment(
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     if(event != null){
                         if(event.creator != SessionUser(context!!).getIdFromUser() && sportsWantsSee.contains(event.sport)) {
-                            val date = DateCustom(event.date)
-                            val time = TimeCustom(event.time)
-                            if (date.isEqual(DateCustom("01/01/1971").getCurrentDate())) {
+                            //val date = DateCustom(event.date)
+                            //val time = TimeCustom(event.time)
+                            /*if (date.isEqual(DateCustom("01/01/1971").getCurrentDate())) {
                                 if (time.isAfter(TimeCustom("01:01").getCurrentTime())) {
                                     events.add(event)
                                 }
                             } else if (date.isAfter(DateCustom("01/01/1971").getCurrentDate())) {
                                 events.add(event)
-                            }
+                            }*/
                         }
                     }
                 }
