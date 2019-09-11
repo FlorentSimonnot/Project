@@ -226,6 +226,10 @@
     <string name="modify_event_participants_alert_message">Nouveau nombre de participants</string>
     <string name="modify_event_privacy_alert_title">Confidentialité</string>
     <string name="modify_event_privacy_alert_message"></string>
+    <string name="event_info_delete_title">Supprimer votre événement</string>
+    <string name="event_info_delete_message">Etes-vous sûr?\nConfirmer</string>
+    <string name="event_info_delete_positive">Oui</string>
+    <string name="event_info_delete_negative">Non</string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">/</string>

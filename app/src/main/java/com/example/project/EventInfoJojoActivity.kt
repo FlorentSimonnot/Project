@@ -228,13 +228,13 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
             }
             R.id.delete ->{
                 val deleteEventAlertDialog = AlertDialog.Builder(this)
-                deleteEventAlertDialog.setTitle("Are you sure?")
-                deleteEventAlertDialog.setMessage("Your event will be deleted.\nConfirm?")
-                deleteEventAlertDialog.setPositiveButton("Yes"){_, _ ->
+                deleteEventAlertDialog.setTitle(getString(R.string.event_info_delete_title))
+                deleteEventAlertDialog.setMessage(getString(R.string.event_info_delete_message))
+                deleteEventAlertDialog.setPositiveButton(getString(R.string.event_info_delete_positive)){_, _ ->
                     Event().deleteEvent(this, keyEvent, session)
                     startActivity(Intent(this, HomeActivity::class.java))
                 }
-                deleteEventAlertDialog.setNegativeButton("No"){_, _ ->
+                deleteEventAlertDialog.setNegativeButton(getString(R.string.event_info_delete_negative)){_, _ ->
 
                 }
                 deleteEventAlertDialog.show()

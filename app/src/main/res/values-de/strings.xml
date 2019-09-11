@@ -228,6 +228,10 @@
     <string name="modify_event_participants_alert_message">Change your event\'s number of participants</string>
     <string name="modify_event_privacy_alert_title">Privacy</string>
     <string name="modify_event_privacy_alert_message">Change your event\'s privacy</string>
+    <string name="event_info_delete_title">Delete your event</string>
+    <string name="event_info_delete_message">Are your sure?\nConfirm?</string>
+    <string name="event_info_delete_positive">Yes</string>
+    <string name="event_info_delete_negative">No</string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">/</string>
