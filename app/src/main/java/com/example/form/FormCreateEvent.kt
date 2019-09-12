@@ -1,7 +1,5 @@
 package com.example.form
 
-import com.example.dateCustom.DateCustom
-import com.example.dateCustom.TimeCustom
 import com.example.events.PlaceEvent
 import com.example.events.Privacy
 import com.example.validator.validateInputText
@@ -18,8 +16,8 @@ class FormCreateEvent (
     val nbPeople : Int = 0,
     val privacy : Privacy = Privacy.INIT
 ) : Form{
+
     override fun isFormValid(): Boolean {
-        println("THIS : ${this.toString()}")
         return  validateInputText(name, 255).fieldIsValid() &&
                 validateInputText(sport, 255).fieldIsValid() &&
                 nbPeople > 0 && place.idPlace!!.isNotEmpty() && description!!.isNotEmpty()
@@ -31,7 +29,7 @@ class FormCreateEvent (
 
     fun getFormat() : SimpleDateFormat{
         if(Locale.getDefault().displayLanguage == "한국어"){
-            return SimpleDateFormat("yyyy/MM/dd HH:mm")
+            return SimpleDateFormat("yyyy.MM.dd HH:mm")
         }
         return SimpleDateFormat("dd/MM/yyyy HH:mm")
     }

@@ -11,6 +11,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.core.view.forEach
 import com.example.arrayAdapterCustom.ArrayAdapterEvents
+import com.example.dialog.DialogProfilView
 import com.example.events.Event
 import com.example.session.SessionUser
 import com.example.user.User
@@ -71,10 +72,10 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 when(p0?.position){
                     0 -> {
-                        eventsList(applicationContext)
+                        eventsList(this@PublicUserActivity)
                     }
                     1 ->{
-                        eventsJoinedList(applicationContext)
+                        eventsJoinedList(this@PublicUserActivity)
                     }
                 }
             }
@@ -94,11 +95,28 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         SessionUser(this).writeInfoUser(this, userKey, identityTextView, "identity")
         SessionUser(this).writeInfoUser(this, userKey, placeTextView, "city")
         SessionUser(this).writeInfoUser(this, userKey, aboutMoreButton, "firstNameButton")
-        SessionUser(this).setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)
+
+        //Show the good button.
+        FirebaseDatabase.getInstance().getReference("friends/$userKey/${session.getIdFromUser()}").addChildEventListener(object : ChildEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {}
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)}
+
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)}
+
+        })
 
         addFriendButton.setOnClickListener(this)
         removeFriendButton.setOnClickListener(this)
         cancelFriendButton.setOnClickListener(this)
+        aboutMoreButton.setOnClickListener(this)
     }
 
     private fun eventsList(context: Context){
@@ -218,15 +236,19 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
                 userWithKey.addFriend(session)
             }
             R.id.removeFriendButton -> {
-
+                userWithKey.deleteFriend(this@PublicUserActivity, session)
             }
             R.id.cancelFriendButton -> {
-
+                userWithKey.cancelFriendInvitation(this@PublicUserActivity, session)
+            }
+            R.id.aboutMoreButton -> {
+                val dialog = DialogProfilView(this@PublicUserActivity, R.layout.dialog_profil_layout, userKey)
+                dialog.show()
             }
         }
     }
 
-    override fun onNavigateUp(): Boolean {
+    override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }

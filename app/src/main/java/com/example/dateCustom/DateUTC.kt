@@ -10,7 +10,7 @@ class DateUTC(
 
     private fun getFormatDate() : SimpleDateFormat{
         if(Locale.getDefault().displayLanguage == "한국어"){
-            return SimpleDateFormat("yyyy/MM/dd")
+            return SimpleDateFormat("yyyy.MM.dd")
         }
         return SimpleDateFormat("dd/MM/yyyy")
     }

@@ -15,6 +15,7 @@ import com.example.messages.Message
 import com.example.project.*
 import com.example.project.R
 import com.example.session.SessionUser
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -25,13 +26,13 @@ class MenuCustom(
     val context: Context,
     val menu : BottomNavigationView,
     val activity : Activity,
-    val onNavigationItemSelectedListener: BottomNavigationView.OnNavigationItemSelectedListener
+    val itemSelectedListener : BottomNavigationView.OnNavigationItemSelectedListener
 ) : FragmentActivity() {
 
     private val session = SessionUser(context)
 
     init{
-        menu.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        menu.setOnNavigationItemSelectedListener(itemSelectedListener)
     }
 
     fun setBadges(){

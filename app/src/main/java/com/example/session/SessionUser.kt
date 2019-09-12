@@ -219,13 +219,16 @@ class SessionUser(val context: Context) : Serializable{
     }
 
     fun setButtonFriend(buttonAddFriend : Button, buttonRemoveFriend : Button, buttonCancelFriend : Button, uid: String){
-        val ref = FirebaseDatabase.getInstance().getReference("friends/${getIdFromUser()}")
+        val ref = FirebaseDatabase.getInstance().getReference("friends/$uid")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
 
             override fun onDataChange(p0: DataSnapshot) {
+                buttonAddFriend.visibility = View.VISIBLE
+                buttonCancelFriend.visibility = View.GONE
+                buttonRemoveFriend.visibility = View.GONE
                 p0.children.forEach {
-                    if(it.key == uid){
+                    if(it.key == getIdFromUser()){
                         when(it.child("status").value){
                             "friend" -> {
                                 buttonAddFriend.visibility = View.GONE
@@ -347,24 +350,6 @@ class SessionUser(val context: Context) : Serializable{
         })
     }
 
-    fun countFriends(friendsTabItem: TextView) {
-        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}")
-        var friends = 0
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                data.forEach {
-                    if(it.child("status").value == "friend"){
-                        friends++
-                    }
-                }
-                friendsTabItem.text = "${friends.toString()}"
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
     fun setFriendsOnTabItem(tab : TabLayout){
         val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}")
         var friends = 0
@@ -383,22 +368,6 @@ class SessionUser(val context: Context) : Serializable{
         })
     }
 
-    fun countCreated(createdTextView: TextView) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsCreated")
-        var created = 0
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                data.forEach {
-                    created++
-                }
-                createdTextView.text = created.toString()
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
     fun setInvitationsOnTabItem(tab : TabLayout){
         val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}")
         var friends = 0
@@ -411,24 +380,6 @@ class SessionUser(val context: Context) : Serializable{
                     }
                 }
                 tab.getTabAt(1)?.text = "${context.resources.getString(R.string.friend_invitation)} (${friends.toString()})"
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
-
-    fun countJoined(joinedTextView: TextView) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsJoined")
-        var joined = 0
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                data.forEach {
-                    if(it.value == "confirmed") {
-                        joined++
-                    }
-                }
-                joinedTextView.text = joined.toString()
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

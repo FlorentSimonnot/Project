@@ -25,7 +25,9 @@ import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -40,8 +42,9 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
     private lateinit var buttonLogOut : Button
     private lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var bottomMenu : MenuCustom
+    private lateinit var createEventButton : FloatingActionButton
 
-    val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener  { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
                 val fragment : Fragment = HomeFragment(bottomMenu)
@@ -116,8 +119,10 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
             val navView: NavigationView = findViewById(R.id.nav_view)
             val bottomView : BottomNavigationView  = findViewById(R.id.nav_bottom)
+            createEventButton = findViewById(R.id.fab)
             buttonLogOut = findViewById(R.id.logout)
             buttonLogOut.setOnClickListener(this)
+            createEventButton.setOnClickListener(this)
 
             val activity = this@HomeActivity
             val toggle = ActionBarDrawerToggle(
@@ -157,6 +162,9 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                 }
                 logOutAlert.show()
 
+            }
+            R.id.fab -> {
+                startActivity(Intent(this@HomeActivity, CreateEventActivity::class.java))
             }
         }
     }
