@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
+import com.example.dateCustom.DateUTC
 import com.example.events.Event
 import com.example.place.SessionGooglePlace
 import com.example.project.*
@@ -34,6 +35,8 @@ class ArrayAdapterEvents(
         val layoutInflater : LayoutInflater = LayoutInflater.from(ctx)
         val view : View = layoutInflater.inflate(resource , null )
         val textView : TextView = view.findViewById(R.id.event_name)
+        val day = view.findViewById<TextView>(R.id.day)
+        val month = view.findViewById<TextView>(R.id.month)
         val textViewDescription : TextView = view.findViewById(R.id.event_desc)
         val iconSport : ImageView = view.findViewById(R.id.icon_sport)
 
@@ -41,6 +44,8 @@ class ArrayAdapterEvents(
             textView.text = events[position].name
             Event().writeInfoEvent(ctx, events[position].key, textViewDescription, "place")
             textViewDescription.text = events[position].place.address
+            day.text = DateUTC(events[position].date).getDay()
+            month.text = DateUTC(events[position].date).getMonthLetter()
             val sport : Sport = events[position].sport
             iconSport.setImageResource(sport.getLogoSport())
             view.setOnClickListener {

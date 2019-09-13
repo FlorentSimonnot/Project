@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dateCustom.DateUTC
 import com.example.messages.DiscussionViewLastMessage
 import com.example.messages.TypeMessage
+import com.example.project.R
 import com.example.session.SessionUser
 import com.example.user.User
 import de.hdodenhof.circleimageview.CircleImageView
@@ -44,9 +46,9 @@ class LatestMessageAdapter(
             User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.addressee.key)
             User().writeIdentity(holder.name, discussion[position].lastMessage.addressee.key)
             if(discussion[position].lastMessage.typeMessage == TypeMessage.TEXT)
-                holder.message.text = "You : ${discussion[position].lastMessage.text}"
+                holder.message.text = "${context.resources.getString(R.string.you)} ${discussion[position].lastMessage.text}"
             else{
-                holder.message.text = "You send an image"
+                holder.message.text = context.resources.getString(R.string.you_send_image)
             }
         }else {
             User().showPhotoUser(context, holder.photo, discussion[position].lastMessage.sender.key)
@@ -54,11 +56,11 @@ class LatestMessageAdapter(
             if(discussion[position].lastMessage.typeMessage == TypeMessage.TEXT)
                 holder.message.text = "${discussion[position].lastMessage.text}"
             else{
-                holder.message.text = "send an image"
+                holder.message.text = context.resources.getString(R.string.send_image)
             }
             discussion[position].discussionIsNotSeen(holder.message, holder.time, holder.see)
         }
-        holder.time.text = discussion[position].lastMessage.writeDate()
+        holder.time.text = DateUTC(discussion[position].lastMessage.dateTime).showDate()
     }
 
 

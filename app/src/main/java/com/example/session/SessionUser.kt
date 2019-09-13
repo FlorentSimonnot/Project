@@ -158,7 +158,7 @@ class SessionUser(val context: Context) : Serializable{
                     when (action) {
                         "identity" -> textView.text = value.firstName+" "+value.name
                         "firstName" -> textView.text = value.firstName
-                        "firstNameButton" -> textView.text = "Learn more about ${value.firstName}"
+                        "firstNameButton" -> textView.text = "${context.resources.getString(R.string.learn_more)} ${value.firstName}"
                         "name" -> textView.text = value.name
                         "email" -> textView.text = value.email
                         "password" -> textView.text = value.password

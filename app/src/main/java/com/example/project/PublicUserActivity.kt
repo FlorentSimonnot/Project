@@ -18,8 +18,7 @@ import com.example.user.User
 import com.example.user.UserWithKey
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.activity_next_sign_in_jojo.*
-import java.lang.StringBuilder
+import de.hdodenhof.circleimageview.CircleImageView
 
 class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -37,7 +36,7 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Profile"
+        supportActionBar?.title = getString(R.string.profile)
 
         val infos : Bundle? = intent.extras
         userKey = infos?.getString("user").toString()
@@ -49,16 +48,22 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         val removeFriendButton = findViewById<Button>(R.id.removeFriendButton)
         val cancelFriendButton = findViewById<Button>(R.id.cancelFriendButton)
         val aboutMoreButton = findViewById<Button>(R.id.aboutMoreButton)
+        val profilePhoto = findViewById<CircleImageView>(R.id.profile_photo)
         listView = findViewById(R.id.listViewEvents)
         tab = findViewById(R.id.tab)
+
+        addFriendButton.text = getString(R.string.add_friend)
+        removeFriendButton.text = getString(R.string.remove_friend)
+        cancelFriendButton.text = getString(R.string.cancel_invitation_friend)
+        User().showPhotoUser(this, profilePhoto, userKey)
 
 
         tab.forEach {
             val tabItem : TextView = LayoutInflater.from(this).inflate(R.layout.tab_tem_layout, null) as TextView
             tab.getTabAt(it.id)?.customView = tabItem
         }
-        User().setEventsOnTabItem(tab, userKey)
-        User().setEventsJoinedOnTabItem(tab, userKey)
+        User().setEventsOnTabItem(this, tab, userKey)
+        User().setEventsJoinedOnTabItem(this, tab, userKey)
 
         tab.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabReselected(p0: TabLayout.Tab?) {
@@ -243,7 +248,8 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.aboutMoreButton -> {
                 val dialog = DialogProfilView(this@PublicUserActivity, R.layout.dialog_profil_layout, userKey)
-                dialog.show()
+                dialog.createDialog()
+                dialog.showDialog()
             }
         }
     }

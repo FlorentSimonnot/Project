@@ -1,18 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:padding="10dp"
-              android:background="@drawable/background_dialog_profil"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
+
+    <RelativeLayout
+            android:layout_marginTop="-50dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gyro Zeppeli"
-            android:gravity="center_horizontal"
-            android:textColor="@color/colorPrimary"
-            android:textFontWeight="700"
-    />
+            android:layout_height="match_parent">
 
-</LinearLayout>
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_dialog_profil"
+                android:layout_marginTop="150dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:paddingTop="0dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:id="@+id/relativeLayout">
+
+            <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/close_layout"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true">
+
+                <ImageButton
+                        android:id="@+id/close"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:padding="10dp"
+                        app:srcCompat="@drawable/ic_close_dialog"/>
+
+            </RelativeLayout>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gyro Zeppeli"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/colorPrimary"
+                    android:textFontWeight="700"
+                    android:layout_marginTop="50dp"
+                    android:textSize="24sp"
+                    android:id="@+id/identity"
+            />
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:id="@+id/sex_layout"
+                    android:layout_marginTop="40dp"
+                    android:background="#fff"
+                    android:layout_below="@id/identity"
+            >
+                <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        app:srcCompat="@drawable/ic_gender"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/sex_account"
+                        android:text=""
+                        android:fontFamily="@font/rubik"
+                        android:paddingBottom="10dp"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                />
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="horizontal"
+                    android:background="@color/colorPrimary"
+                    android:layout_below="@id/sex_layout"
+                    android:id="@+id/sep1"
+                    android:layout_marginLeft="54dp"
+                    android:layout_marginStart="54dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="40dp"
+            >
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:id="@+id/birthday_layout"
+                    android:layout_below="@id/sep1"
+                    android:background="#fff"
+            >
+                <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        app:srcCompat="@drawable/ic_birthday_primary"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/birthday_account"
+                        android:text=""
+                        android:fontFamily="@font/rubik"
+                        android:paddingBottom="10dp"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                />
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:orientation="horizontal"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/sep2"
+                    android:layout_below="@id/birthday_layout"
+                    android:layout_marginLeft="54dp"
+                    android:layout_marginStart="54dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="40dp"
+            >
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="15dp"
+                    android:id="@+id/city_layout"
+                    android:background="#fff"
+                    android:layout_below="@id/sep2"
+            >
+                <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        app:srcCompat="@drawable/ic_city"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/city_account"
+                        android:text=""
+                        android:fontFamily="@font/rubik"
+                        android:paddingBottom="10dp"
+                        android:textSize="20sp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_photo"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/colorPrimary"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="-50dp"
+                android:layout_alignTop="@+id/relativeLayout"
+                app:civ_circle_background_color="#fff"
+                android:layout_centerHorizontal="true"
+        />
+
+    </RelativeLayout>
+
+</RelativeLayout>

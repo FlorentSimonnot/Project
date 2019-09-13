@@ -41,7 +41,6 @@ open class HomeFragment(
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val listView = view.findViewById<ListView>(R.id.events_listview)
-        //val createEventButton : Button = view.findViewById(R.id.create_event)
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
 

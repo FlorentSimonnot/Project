@@ -56,7 +56,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         cityEditText = findViewById(R.id.city_account)
         val descriptionEditText = findViewById<EditText>(R.id.describe_account)
         val modifyPasswordButton = findViewById<Button>(R.id.modify_password_button)
-        val confirmChangesButton = findViewById<Button>(R.id.confirm_changes)
+        val confirmChangesButton = findViewById<ImageButton>(R.id.confirm_changes)
         photo = findViewById(R.id.profile_photo)
         val buttonImage = findViewById<Button>(R.id.change_photo)
 

@@ -106,7 +106,10 @@ data class User(
                         }
                     }
                     else{
-                        imageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_boy))
+                        if(value.sex == Gender.Male)
+                            imageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_boy))
+                        if(value.sex == Gender.Female)
+                            imageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_woman))
                     }
                 }
             }
@@ -165,7 +168,7 @@ data class User(
         })
     }
 
-    fun setEventsOnTabItem(tab : TabLayout, keyUser : String){
+    fun setEventsOnTabItem(context: Context, tab : TabLayout, keyUser : String){
         val ref = FirebaseDatabase.getInstance().getReference("users/$keyUser/eventsCreated")
         var events = 0
         ref.addValueEventListener(object : ValueEventListener {
@@ -174,14 +177,14 @@ data class User(
                 data.forEach {
                     events++
                 }
-                tab.getTabAt(0)?.text = "Events created (${events})"
+                tab.getTabAt(0)?.text = "${context.resources.getString(R.string.events_created)} (${events})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    fun setEventsJoinedOnTabItem(tab : TabLayout, keyUser: String){
+    fun setEventsJoinedOnTabItem(context: Context, tab : TabLayout, keyUser: String){
         val ref = FirebaseDatabase.getInstance().getReference("users/$keyUser/eventsJoined")
         var events = 0
         ref.addValueEventListener(object : ValueEventListener {
@@ -190,7 +193,7 @@ data class User(
                 data.forEach {
                     events++
                 }
-                tab.getTabAt(1)?.text = "Events joined (${events})"
+                tab.getTabAt(1)?.text = "${context.resources.getString(R.string.events_joined)} (${events})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

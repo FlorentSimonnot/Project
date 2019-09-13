@@ -22,6 +22,14 @@ class DateUTC(
         return SimpleDateFormat("HH:mm")
     }
 
+    fun getDay() : String{
+        return SimpleDateFormat("dd").format(date)
+    }
+
+    fun getMonthLetter() : String{
+        return SimpleDateFormat("MMM", Locale.getDefault()).format(date)
+    }
+
     fun showDate() : String{
         val simpleDate = getFormatDate()
         return simpleDate.format(date)

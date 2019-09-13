@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.*
+import com.example.dateCustom.DateUTC
 import com.example.events.Event
 import com.example.place.SessionGooglePlace
 import com.example.project.EventInfoActivity
@@ -29,10 +30,14 @@ class ArrayAdapterCustom(private val ctx : Context , private val resource : Int,
         val imageView :ImageView = view.findViewById(R.id.icon_sport)
         val textView : TextView = view.findViewById(R.id.event_name)
         val textView1 : TextView = view.findViewById(R.id.event_desc)
+        val day = view.findViewById<TextView>(R.id.day)
+        val month = view.findViewById<TextView>(R.id.month)
 
 
         imageView.setImageDrawable(ctx.resources.getDrawable(events[position].sport.getLogoSport()))
         textView.text = events[position].name
+        day.text = DateUTC(events[position].date).getDay()
+        month.text = DateUTC(events[position].date).getMonthLetter()
         view.setOnClickListener {
             if(events[position].creator != SessionUser(context).getIdFromUser()){
                 context.startActivity(

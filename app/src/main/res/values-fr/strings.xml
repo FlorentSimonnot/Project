@@ -234,4 +234,17 @@
     <!--DATE DELIMITER-->
     <string name="date_delimiter">/</string>
 
+    <!--PROFIL VIEW USER-->
+    <string name="profile">Profil</string>
+    <string name="add_friend">Ajouter en amis</string>
+    <string name="remove_friend">Supprimer</string>
+    <string name="cancel_invitation_friend">Annuler l\'invitation</string>
+    <string name="message">Message</string>
+    <string name="learn_more">A propos de</string>
+
+    <string name="you">Vous :</string>
+    <string name="send_image">a envoyé un image</string>
+    <string name="you_send_image">Vous avez envoyé une image</string>
+    <string name="delete">Supprimer</string>
+
 </resources>

@@ -47,6 +47,9 @@ class DrawerMenu(
             R.id.navigation_settings -> {
                 context.startActivity(Intent(context, SettingsActivity::class.java))
             }
+            R.id.navigation_contact_us -> {
+                context.startActivity(Intent(context, AboutUsActivity::class.java))
+            }
         }
         val drawerLayout: DrawerLayout = activity.findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
