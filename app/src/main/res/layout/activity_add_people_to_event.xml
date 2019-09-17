@@ -58,7 +58,7 @@
                         android:id="@+id/noResultsText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="No results found"
+                        android:text="@string/event_info_invite_friends_no_result"
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
                         android:fontFamily="@font/rubik"

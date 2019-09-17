@@ -138,6 +138,7 @@
     <string name="notification_receive_message">Receive notification if someone send me a message</string>
     <string name="notification_title">Configurer les notifications</string>
     <string name="button_delete_all_notification">Supprimer toutes les notifications</string>
+    <string name="event_info_invite_friends_no_result">No result found</string>
 
     <!--NAME OF SPORTS-->
     <string name="football">Fußball</string>

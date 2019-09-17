@@ -234,6 +234,7 @@
     <string name="event_info_delete_message">Etes-vous sûr?\nConfirmer</string>
     <string name="event_info_delete_positive">Oui</string>
     <string name="event_info_delete_negative">Non</string>
+    <string name="event_info_invite_friends_no_result">Pas de résultat</string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">/</string>

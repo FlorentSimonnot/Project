@@ -235,6 +235,7 @@
     <string name="event_info_delete_message">확실해?\n확인하다</string>
     <string name="event_info_delete_positive">네</string>
     <string name="event_info_delete_negative">아니</string>
+    <string name="event_info_invite_friends_no_result">결과가 없다</string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">.</string>
