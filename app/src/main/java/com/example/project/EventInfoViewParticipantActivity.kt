@@ -226,7 +226,7 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
                 Event().goPlaceWithWaze(this@EventInfoViewParticipantActivity, keyEvent)
             }
             R.id.button_accept_invitation -> {
-                Event().confirmParticipation(this, keyEvent, session.getIdFromUser())
+                Event().acceptInvitation(this, keyEvent, session.getIdFromUser())
             }
             R.id.button_refuse_invitation -> {
                 Event().cancelParticipation(this, keyEvent, session)

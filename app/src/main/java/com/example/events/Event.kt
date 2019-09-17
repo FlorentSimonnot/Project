@@ -140,6 +140,9 @@ data class Event (
                         "dateAndTime" ->{
                             textView.text = "${DateUTC(value.date).showDate()} at ${DateUTC(value.date).showTime()}"
                         }
+                        "time" -> {
+                            textView.text = "${DateUTC(value.date).showTime()}"
+                        }
                         "participant" -> {
                             var res = 0
                             val data = value.participants
@@ -162,12 +165,18 @@ data class Event (
                             textView.text = "$res"
                         }
                         "freePlace"  -> {
-                            textView.text = "${value.nb_people - value.participants.size} " + context.getString(R.string.event_info_places)
+                            val number = value.nb_people - value.participants.size
+                            textView.text = if(number < 2){
+                                "$number " + context.getString(R.string.event_info_place)
+                            }else{
+                                "$number " + context.getString(R.string.event_info_places)
+                            }
+
                         }
                         "description" -> textView.text = value.description
                         "sport" -> {
                             textView.text = value.sport.getNameSport(context)
-                            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, value.sport!!.getLogo(), 0)
+                            textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, value.sport!!.getLogoSport(), 0)
                             textView.compoundDrawablePadding = 20
                         }
                         "privacy" -> textView.text = "${value.privacy.toString().capitalize()}"
@@ -250,6 +259,25 @@ data class Event (
                 }
                 else{
                     imageView.setImageDrawable(context.resources.getDrawable(R.drawable.ic_boy))
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun hideMore(context: Context, key: String?, textView: TextView, imageButton: ImageButton, userKey: String?){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                //Current user is the event's creator
+                if(value?.creator == userKey || userKey == SessionUser(context).getIdFromUser()){
+                    imageButton.visibility = View.GONE
+                    textView.text = "${context.resources.getString(R.string.you)}"
+                }
+                else{
+                    imageButton.visibility = View.VISIBLE
                 }
             }
 
@@ -358,6 +386,12 @@ data class Event (
         val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
         ref.child("status").setValue("confirmed")
         Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
+    }
+
+    fun acceptInvitation(context: Context, key: String?, user : String){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
+        ref.child("status").setValue("accepted")
+        Toast.makeText(context, "Welcome !", Toast.LENGTH_SHORT).show()
     }
 
     /**

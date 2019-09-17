@@ -197,62 +197,64 @@
     <string name="sports_preferences_title">Your preferences</string>
 
     <!--EVENT INFO-->
-    <string name="event_info_creator">Created by</string>
-    <string name="event_info_creator_you">Created by: You</string>
-    <string name="event_info_invite_people">Invite friends</string>
-    <string name="event_info_edit">Edit</string>
-    <string name="event_info_delete">Delete</string>
-    <string name="event_info_description">Description</string>
-    <string name="event_info_participants">Participants</string>
-    <string name="event_info_waiting">Waiting</string>
+    <string name="event_info_creator">Erstellt von : </string>
+    <string name="event_info_creator_you">Erstellt von : Sie</string>
+    <string name="event_info_invite_people">Freunde einladen</string>
+    <string name="event_info_edit">Bearbeiten</string>
+    <string name="event_info_delete">Löschen</string>
+    <string name="event_info_description">Beschreibung</string>
+    <string name="event_info_participants">Teilnehmer</string>
+    <string name="event_info_waiting">Warten</string>
     <string name="event_info_join">Join this event</string>
     <string name="event_info_cancel">Cancel Participation</string>
     <string name="event_info_full">This event is full, you cannot join it</string>
     <string name="event_info_note">This event is finished, please give a note</string>
-    <string name="event_info_accept">Accept</string>
-    <string name="event_info_refuse">Refuse</string>
-    <string name="event_info_share">Share your parcitipation with your friends</string>
-    <string name="event_info_places">free places</string>
-    <string name="event_info_invite_friends">Invite your friends to your event</string>
-    <string name="event_info_send_invitation">Invite</string>
+    <string name="event_info_accept">Annehmen</string>
+    <string name="event_info_refuse">Ablehnen</string>
+    <string name="event_info_share">Teile deine Teilnahme mit deinen Freunden</string>
+    <string name="event_info_places">Freie Plätze</string>
+    <string name="event_info_place">Frei Plätz</string>
+    <string name="event_info_invite_friends">Laden Sie Ihr Freunde zur Teilnahme ein</string>
+    <string name="event_info_send_invitation">Einladen</string>
     <string name="event_info_cancel_invitation">Cancel</string>
     <string name="event_info_cannot_invite">You cannot invite friends, your event is full</string>
     <string name="event_info_invite_toast">You have invited a friend</string>
     <string name="event_info_cancel_invitation_toast">You have canceled your invitation</string>
-    <string name="modify_event_title">Modify your event</string>
+    <string name="modify_event_title">Ändern Sie Ihr Ereignis</string>
     <string name="modify_event_name">Name</string>
     <string name="modify_event_sport">Sport</string>
-    <string name="modify_event_description">Description</string>
-    <string name="modify_event_participants">Number of participants</string>
-    <string name="modify_event_privacy">Privacy</string>
+    <string name="modify_event_description">Beschreibung</string>
+    <string name="modify_event_participants">Zahl der Teilnehmer</string>
+    <string name="modify_event_privacy">Privatsphäre</string>
     <string name="modify_event_name_alert_title">Name</string>
     <string name="modify_event_name_alert_message">Change your event\'s name</string>
-    <string name="modify_event_description_alert_title">Description</string>
+    <string name="modify_event_description_alert_title">Beschreibung</string>
     <string name="modify_event_description_alert_message">Change your event\'s description</string>
-    <string name="modify_event_participants_alert_title">Participants</string>
+    <string name="modify_event_participants_alert_title">Teilnehmer</string>
     <string name="modify_event_participants_alert_message">Change your event\'s number of participants</string>
-    <string name="modify_event_privacy_alert_title">Privacy</string>
+    <string name="modify_event_privacy_alert_title">Privatsphäre</string>
     <string name="modify_event_privacy_alert_message">Change your event\'s privacy</string>
-    <string name="event_info_delete_title">Delete your event</string>
-    <string name="event_info_delete_message">Are your sure?\nConfirm?</string>
-    <string name="event_info_delete_positive">Yes</string>
-    <string name="event_info_delete_negative">No</string>
+    <string name="event_info_delete_title">Löschen Sie Ihr Ereignis</string>
+    <string name="event_info_delete_message">Bist du sicher?\n Bestätigen?</string>
+    <string name="event_info_delete_positive">Ja</string>
+    <string name="event_info_delete_negative">Nein</string>
 
     <!--DATE DELIMITER-->
     <string name="date_delimiter">/</string>
 
     <!--PROFIL VIEW USER-->
     <string name="profile">Profile</string>
-    <string name="add_friend">Add friend</string>
-    <string name="remove_friend">Remove friend</string>
-    <string name="cancel_invitation_friend">Cancel invitation</string>
-    <string name="message">message</string>
-    <string name="learn_more">Learn more about</string>
+    <string name="add_friend">Freund hinzufügen</string>
+    <string name="remove_friend">Freund entfernen</string>
+    <string name="cancel_invitation_friend">Einladung stornieren</string>
+    <string name="message">Nachricht</string>
+    <string name="learn_more">Lerne mehr über</string>
 
-    <string name="you">Ihr :</string>
-    <string name="send_image">send an image</string>
-    <string name="you_send_image">Ihr send an image</string>
-    <string name="delete">Supprimer</string>
+    <string name="you">Sie </string>
+    <string name="send_image">sende ein Bild</string>
+    <string name="you_send_image">Sie senden ein Bild</string>
+    <string name="delete">Löschen</string>
+    <string name="delete_user">delete_user</string>
 
     <!--EDIT PROFILE-->
     <string name="edit_profile_title">Edit profile</string>

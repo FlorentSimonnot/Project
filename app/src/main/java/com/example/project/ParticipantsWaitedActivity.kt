@@ -85,7 +85,8 @@ class ParticipantsWaitedActivity : AppCompatActivity() {
                         R.layout.list_item_user_waiting,
                         keyEvent,
                         usersWaiting,
-                        "waiting"
+                        "waiting",
+                        supportFragmentManager
                     )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter

@@ -101,7 +101,7 @@
     <string name="no_notification">여기 모두가 자고 있습니다. 즐겨!</string>
     <string name="notifications_all_read">모두 읽은 것으로 표시</string>
 
-    <string name="write_message">메시지를 입력하세요</string>
+    <string name="write_message">Schreibe deine Message</string>
 
     <!--SEARCHBAR TEXT-->
     <string name="search_user">사용자를 검색</string>
@@ -179,10 +179,6 @@
     <string name="user_info_description">전기</string>
     <string name="user_info_edit_account">내 프로필 편집</string>
     <string name="user_info_delete">내 프로파일 삭제</string>
-    <string name="user_info_delete_dialog_title">프로파일 삭제</string>
-    <string name="user_info_delete_dialog_message">계정이 삭제됩니다.\n확인?</string>
-    <string name="user_info_delete_dialog_yes">네</string>
-    <string name="user_info_delete_dialog_no">아니</string>
 
     <!--SETTINGS-->
     <string name="settings">설정</string>
@@ -241,39 +237,17 @@
     <string name="date_delimiter">.</string>
 
     <!--PROFIL VIEW USER-->
-    <string name="profile">프로필</string>
-    <string name="add_friend">친구 추가</string>
-    <string name="remove_friend">친구를 제거하다</string>
-    <string name="cancel_invitation_friend">취소</string>
-    <string name="message">메시지를 보내다</string>
-    <string name="learn_more">더</string>
+    <string name="profile">Profile</string>
+    <string name="add_friend">Add friend</string>
+    <string name="remove_friend">Remove friend</string>
+    <string name="cancel_invitation_friend">Cancel invitation</string>
+    <string name="message">message</string>
+    <string name="learn_more">Learn more about</string>
 
-    <string name="you">당신:</string>
-    <string name="send_image">이미지를 보내다</string>
-    <string name="you_send_image">당신은 이미지를 보냈습니다</string>
-    <string name="delete">지우다</string>
-
-    <!--EDIT PROFILE-->
-    <string name="edit_profile_title">프로필 수정</string>
-    <string name="edit_profile_change_photo">업데이트</string>
-    <string name="edit_profile_description">전기</string>
-    <string name="edit_profile_modify_password">암호 수정</string>
-    <string name="edit_profile_dialog_title">확인</string>
-    <string name="edit_profile_dialog_message">프로필이 업데이트됩니다.\n확인?</string>
-    <string name="edit_profile_dialog_yes">네</string>
-    <string name="edit_profile_dialog_no">아니</string>
-    <string name="edit_profile_toast">계정이 성공적으로 업데이트되었습니다!</string>
-
-    <!--MODIFY PASSWORD-->
-    <string name="modify_password_title">암호 수정</string>
-    <string name="modify_password_current">현재 암호</string>
-    <string name="modify_password_new">새 암호</string>
-    <string name="modify_password_confirm_new">암호 확인</string>
-    <string name="modify_password_confirm">확인</string>
-    <string name="modify_password_dialog_title">암호 수정</string>
-    <string name="modify_password_dialog_message">암호 업데이트됩니다.\n확인?</string>
-    <string name="modify_password_dialog_yes">네</string>
-    <string name="modify_password_dialog_no">아니</string>
+    <string name="you">You :</string>
+    <string name="send_image">send an image</string>
+    <string name="you_send_image">Vous avez envoyé une image</string>
+    <string name="delete">Supprimer</string>
 
 
 </resources>

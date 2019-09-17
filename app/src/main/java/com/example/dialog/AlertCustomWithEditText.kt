@@ -23,7 +23,7 @@ class AlertCustomWithEditText(
     private var listener: ExampleDialogListener? = null
 
     interface ExampleDialogListener {
-        fun applyText(title : String, textView : TextView)
+        fun applyText(title : String, textView : TextView, action: String)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -39,9 +39,7 @@ class AlertCustomWithEditText(
 
             }
             .setPositiveButton("Ok"){ _, _ ->
-                //textViewResult.text = edit.text
-                listener!!.applyText(edit.text.toString(), textViewResult)
-                //Toast.makeText(ctx, "${edit.text}", Toast.LENGTH_SHORT).show()
+                listener!!.applyText(edit.text.toString(), textViewResult, action)
             }
 
         edit = view.findViewById(R.id.edit_field)

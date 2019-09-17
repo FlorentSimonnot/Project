@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="10dp"
+        >
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_sport"
+            android:padding="10dp"
+    >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_football"
+            android:id="@+id/sport_logo"
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/layout_sport"
+        android:layout_toEndOf="@id/layout_sport"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:id="@+id/layout_info"
+            >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nom de l'événement"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:fontFamily="@font/rubik"
+            android:id="@+id/name_event"
+                />
+
+        <RelativeLayout
+                android:layout_below="@id/name_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thursday, March 12th"
+                    android:textColor="@color/colorDark"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/rubik"
+                    android:id="@+id/date_event"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="150dp"
+                    />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="+ infos"
+                    android:textColor="@color/colorDark"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/rubik"
+                    android:id="@+id/more_info_event"
+                    android:layout_toRightOf="@id/date_event"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="-150dp"
+                    android:gravity="right"
+                    />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

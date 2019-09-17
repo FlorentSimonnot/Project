@@ -35,7 +35,7 @@ class ArrayAdapterInvitations(
         val button : Button
         when(action){
             "confirm" -> button = view.findViewById(R.id.btn_accept)
-            "cancel" -> button = view.findViewById(R.id.btn_remove)
+            "cancel" -> button = view.findViewById(R.id.more)
             else -> throw Exception("Impossible action")
         }
 

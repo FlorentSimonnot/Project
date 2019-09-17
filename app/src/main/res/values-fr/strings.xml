@@ -210,6 +210,7 @@
     <string name="event_info_refuse">Refuser</string>
     <string name="event_info_share">Partager cet événement avec vos amis</string>
     <string name="event_info_places">Places disponibles</string>
+    <string name="event_info_place">Place disponible</string>
     <string name="event_info_invite_friends">Amis à inviter</string>
     <string name="event_info_send_invitation">Inviter</string>
     <string name="event_info_cancel_invitation">Annuler</string>
@@ -247,10 +248,11 @@
     <string name="message">Message</string>
     <string name="learn_more">A propos de</string>
 
-    <string name="you">Vous :</string>
+    <string name="you">Vous </string>
     <string name="send_image">a envoyé un image</string>
     <string name="you_send_image">Vous avez envoyé une image</string>
     <string name="delete">Supprimer</string>
+    <string name="delete_user">delete_user</string>
 
     <!--EDIT PROFILE-->
     <string name="edit_profile_title">Editer le profil</string>

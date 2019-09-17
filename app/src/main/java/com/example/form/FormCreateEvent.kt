@@ -29,7 +29,7 @@ class FormCreateEvent (
 
     fun getFormat() : SimpleDateFormat{
         if(Locale.getDefault().displayLanguage == "한국어"){
-            return SimpleDateFormat("yyyy.MM.dd HH:mm")
+            return SimpleDateFormat("yy.MM.dd. HH:mm")
         }
         return SimpleDateFormat("dd/MM/yyyy HH:mm")
     }
