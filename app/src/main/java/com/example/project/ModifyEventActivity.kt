@@ -52,7 +52,6 @@ class ModifyEventActivity : AppCompatActivity(),
     private val apiKey = "AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
     private val AUTOCOMPLETE_REQUEST_CODE = 1
     private var placeId : String? = ""
-    private lateinit var stringPrivacy : Array<String>
     private lateinit var modifyTitle : TextView
     private lateinit var modifyDescription : TextView
     private lateinit var modifyPrivacy : TextView
@@ -61,6 +60,9 @@ class ModifyEventActivity : AppCompatActivity(),
     private lateinit var modifyDate : TextView
     private lateinit var modifyHour : TextView
     private lateinit var modifyPlace : TextView
+    private var stringPrivacy : ArrayList<String> = ArrayList()
+    private lateinit var stringPrivacyArray : Array<String>
+    private var privacys : ArrayList<Privacy> = ArrayList()
     private var event : EventFirstStep = EventFirstStep()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,9 +108,19 @@ class ModifyEventActivity : AppCompatActivity(),
         buttonPrivacy.setOnClickListener(this)
         buttonConfirm.setOnClickListener(this)
 
+        Privacy.values().forEach {
+            privacys.add(it)
+        }
+
+        stringPrivacyArray = Array(privacys.size) {""}
+        privacys.forEachIndexed {index, it ->
+            if(it != Privacy.INIT) {
+                stringPrivacy.add(it.namePrivacy(this))
+                stringPrivacyArray[index] = it.namePrivacy(this)
+            }
+        }
 
         createSportList()
-        stringPrivacy = arrayOf("Public", "Private", "Only invitation")
 
         if(intent.hasExtra("event")){
             event = intent.getSerializableExtra("event") as EventFirstStep
@@ -138,7 +150,7 @@ class ModifyEventActivity : AppCompatActivity(),
             event.privacy = Privacy.INIT.valueOfString(modifyPrivacy.text.toString())
             event.date = modifyDate.text.toString()
             event.time = modifyHour.text.toString()
-            event.sport = Sport.INIT.getString(modifySport.text.toString())
+            event.sport = Sport.INIT.getString(this, modifySport.text.toString())
             intent.putExtra("event", event)
             intent.putExtra("comeFrom", "ModifyEventActivity")
             intent.putExtra("placeId", placeId!!)
@@ -184,7 +196,7 @@ class ModifyEventActivity : AppCompatActivity(),
                     getString(R.string.modify_event_description_alert_title),
                     getString(R.string.modify_event_description_alert_message),
                     keyEvent,
-                    "name"
+                    "description"
                 )
                 dialog.show(supportFragmentManager, "Description")
             }
@@ -194,7 +206,7 @@ class ModifyEventActivity : AppCompatActivity(),
                 numberPicker.show(supportFragmentManager, "People picker")
             }
             R.id.button_privacy -> {
-                val numberPicker = StringPickerCustom(0, 2, getString(R.string.modify_event_privacy_alert_title), getString(R.string.modify_event_privacy_alert_message), stringPrivacy, modifyPrivacy.text.toString())
+                val numberPicker = StringPickerCustom(0, 2, getString(R.string.modify_event_privacy_alert_title), getString(R.string.modify_event_privacy_alert_message), stringPrivacyArray, modifyPrivacy.text.toString())
                 numberPicker.setValueChangeListener(this)
                 numberPicker.show(supportFragmentManager, "People picker")
             }
@@ -202,8 +214,8 @@ class ModifyEventActivity : AppCompatActivity(),
                 Event(
                     keyEvent,
                     modifyTitle.text.toString(),
-                    Sport.INIT.getString(modifySport.text.toString()),
-                    0,
+                    Sport.INIT.getString(this, modifySport.text.toString()),
+                    event.getDate(),
                     PlaceEvent(placeId!!),
                     modifyNumberOfParticipants.text.toString().toInt(),
                     modifyDescription.text.toString(),
@@ -215,8 +227,9 @@ class ModifyEventActivity : AppCompatActivity(),
     }
 
     override fun onTimeSet(p0: android.widget.TimePicker?, p1: Int, p2: Int) {
-        val textView = findViewById<TextView>(R.id.modify_hour)
+        val textView : TextView = findViewById(R.id.modify_hour)
         textView.text = "${p1}:$p2"
+        event.time = textView.text.toString()
     }
 
     override fun onDateSet(p0: android.widget.DatePicker?, p1: Int, p2: Int, p3: Int) {
@@ -224,12 +237,11 @@ class ModifyEventActivity : AppCompatActivity(),
         c.set(Calendar.YEAR, p1)
         c.set(Calendar.MONTH, p2)
         c.set(Calendar.DAY_OF_MONTH, p3)
-        //Format --> convert date to string
-        //getDateInstance (SORT) --> dd/MM/YYYY
         val currentDateString = DateFormat.getDateInstance(DateFormat.SHORT).format(c.time)
 
         val textView = findViewById<TextView>(R.id.modify_date)
         textView.text = currentDateString
+        event.date = textView.text.toString()
     }
 
     private fun createSportList(){
@@ -244,14 +256,24 @@ class ModifyEventActivity : AppCompatActivity(),
         if(p0 != null){
             if(p0.maxValue == 22) {
                 modifyNumberOfParticipants.text = p0.value.toString()
+                event.nbPeople = p0.value
             }
             else{
                 modifyPrivacy.text = stringPrivacy[p0.value]
+                event.privacy = privacys[p0.value]
             }
         }
     }
 
-    override fun applyText(title: String, textView: TextView) {
+    override fun applyText(title: String, textView: TextView, action: String) {
+        when(action){
+            "name" -> {
+                event.name = title
+            }
+            "description" -> {
+                event.description = title
+            }
+        }
         textView.text = title
     }
 
@@ -287,7 +309,6 @@ class ModifyEventActivity : AppCompatActivity(),
         }else{
             Event().writeInfoEvent(this, keyEvent, modifyHour, "time")
         }
-
         if(event.nbPeople > 0){
             modifyNumberOfParticipants.text = event.nbPeople.toString()
         }else{

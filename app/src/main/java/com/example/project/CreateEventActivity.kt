@@ -182,7 +182,7 @@ class CreateEventActivity : AppCompatActivity(),
     }
 
     override fun onTimeSet(p0: android.widget.TimePicker?, p1: Int, p2: Int) {
-        val textView = findViewById<TextView>(R.id.time) as TextView
+        val textView : TextView = findViewById(R.id.time)
         textView.text = "${p1}:$p2"
         event.time = textView.text.toString()
     }

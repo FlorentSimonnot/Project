@@ -71,7 +71,7 @@ enum class Sport() {
             return R.drawable.ic_golf
         }
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_golf_marker_map
         }
 
         override fun getNameSport(context: Context): String {
@@ -151,7 +151,7 @@ enum class Sport() {
         }
 
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_volleyball_marker_map
         }
 
         override fun getLogoSport(size: Int): Int {
@@ -165,7 +165,7 @@ enum class Sport() {
         }
 
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_badminton
         }
 
         override fun getLogoSport(size: Int): Int {
@@ -221,7 +221,7 @@ enum class Sport() {
         }
 
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_american_football_marker_map
         }
 
         override fun getLogoSport(size: Int): Int {
@@ -235,7 +235,7 @@ enum class Sport() {
         }
 
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_cyclist
         }
 
         override fun getLogoSport(size: Int): Int {
@@ -284,13 +284,15 @@ enum class Sport() {
         }
     }
 
-    fun getString(string : String) : Sport{
+    fun getString(context: Context, string : String) : Sport{
         return when(string){
-            "Football" -> FOOTBALL
-            "Handball" -> HANDBALL
-            "Basketball" -> BASKETBALL
-            "Crossfit" -> CROSSFIT
-            "Tennis de table" -> TENNISDETABLE
+            context.resources.getString(R.string.football) -> FOOTBALL
+            context.resources.getString(R.string.handball) -> HANDBALL
+            context.resources.getString(R.string.basketball) -> BASKETBALL
+            context.resources.getString(R.string.crossfit) -> CROSSFIT
+            context.resources.getString(R.string.table_tennis) -> TENNISDETABLE
+            context.resources.getString(R.string.tennis) -> TENNIS
+            context.resources.getString(R.string.climbing) -> ESCALADE
             else -> INIT
         }
     }

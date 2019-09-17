@@ -27,7 +27,7 @@ class FriendsListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
-        listView = findViewById<ListView>(R.id.listViewUsers)
+        listView = findViewById(R.id.listViewUsers)
         noResults = findViewById(R.id.noResultsLayout)
 
         friendsList(this)
@@ -73,7 +73,8 @@ class FriendsListActivity : AppCompatActivity() {
                         context,
                         R.layout.list_item_user_confirmed,
                         users,
-                        "friend"
+                        "friend",
+                        supportFragmentManager
                     )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter

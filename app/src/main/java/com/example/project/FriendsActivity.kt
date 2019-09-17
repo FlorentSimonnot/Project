@@ -139,7 +139,8 @@ class FriendsActivity : AppCompatActivity() {
                         context,
                         layout,
                         users,
-                        action
+                        action,
+                        supportFragmentManager
                     )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter

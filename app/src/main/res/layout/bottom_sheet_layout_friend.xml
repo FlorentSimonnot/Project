@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="10dp"
+        >
+
+    <RelativeLayout
+            android:id="@+id/send_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_chat_full"
+                android:id="@+id/send_message_icon"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_toRightOf="@id/send_message_icon"
+                android:padding="10dp"
+                android:gravity="center_vertical"
+                android:id="@+id/textViewSendMessage"
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/delete_layout"
+            android:layout_below="@id/send_message_layout"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_remove_user"
+                android:id="@+id/remove_user_icon"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_toRightOf="@id/remove_user_icon"
+                android:padding="10dp"
+                android:textColor="@color/colorAccent"
+                android:gravity="center_vertical"
+                android:id="@+id/textViewDeleteFriend"
+        />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

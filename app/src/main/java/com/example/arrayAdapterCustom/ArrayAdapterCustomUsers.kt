@@ -6,6 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.*
+import androidx.fragment.app.FragmentManager
+import com.example.dialog.BottomSheetDialogFriend
+import com.example.dialog.BottomSheetDialogParticipantsEvent
 import com.example.events.Event
 import com.example.place.SessionGooglePlace
 import com.example.project.*
@@ -23,7 +26,8 @@ class ArrayAdapterCustomUsers(
     private val resource : Int,
     private val keyEvent : String?,
     private val users : ArrayList<UserWithKey>,
-    private val action : String
+    private val action : String,
+    private val fragmentManager: FragmentManager
 ): ArrayAdapter<UserWithKey>( ctx , resource, users){
     private var buttonRefuse : ImageButton? = null
 
@@ -33,7 +37,6 @@ class ArrayAdapterCustomUsers(
         val view : View = layoutInflater.inflate(resource , null )
         val imageView : ImageView = view.findViewById(R.id.photo_user)
         val textView : TextView = view.findViewById(R.id.identity)
-        val message : ImageButton
         val button : ImageButton
 
         button = when(action){
@@ -41,7 +44,7 @@ class ArrayAdapterCustomUsers(
                 view.findViewById(R.id.btn_accept)
             }
             "confirm" -> {
-                view.findViewById(R.id.btn_remove)
+                view.findViewById(R.id.more)
             }
             else -> {
                 throw Exception("Nope")
@@ -52,10 +55,7 @@ class ArrayAdapterCustomUsers(
         }
 
         if(users.size > 0) {
-            if(action == "confirm"){
-                message = view.findViewById(R.id.send_message)
-                Event().verifyUserIsCreator(context, keyEvent, button, message, users[position].key)
-            }
+            Event().hideMore(ctx, keyEvent, textView, button, users[position].key)
             textView.text = users[position].user.firstName + " " + users[position].user.name
             User().showPhotoUser(ctx, imageView, users[position].key)
 
@@ -70,11 +70,9 @@ class ArrayAdapterCustomUsers(
                         }
                     }
                     "confirm" -> {
-                        val item = getItem(position)
-                        if(item != null){
-                            val userKey = users[position].key
-                            users.removeAt(position)
-                            Event().deleteParticipation(ctx, keyEvent, userKey!!)
+                        button.setOnClickListener {
+                            val dialog = BottomSheetDialogParticipantsEvent(ctx, R.layout.bottom_sheet_layout_friend, keyEvent!!, users[position].key!!)
+                            dialog.show(fragmentManager, "USER OPTIONS")
                         }
                     }
                 }

@@ -207,6 +207,7 @@
     <string name="event_info_refuse">Refuse</string>
     <string name="event_info_share">Share your parcitipation with your friends</string>
     <string name="event_info_places">free places</string>
+    <string name="event_info_place">free place</string>
     <string name="event_info_invite_friends">Invite your friends to your event</string>
     <string name="event_info_send_invitation">Invite</string>
     <string name="event_info_cancel_invitation">Cancel</string>
@@ -244,9 +245,10 @@
     <string name="learn_more">Learn more about</string>
 
     <!--MESSAGES-->
-    <string name="you">You :</string>
+    <string name="you">You </string>
     <string name="send_image">send an image</string>
     <string name="you_send_image">You send an image</string>
     <string name="delete">Delete</string>
+    <string name="delete_user">Delete </string>
 
 </resources>

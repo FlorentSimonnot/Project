@@ -207,6 +207,7 @@
     <string name="event_info_refuse">거절하다</string>
     <string name="event_info_share">친구들과 당신의 참여를 공유하기</string>
     <string name="event_info_places">무료 슬롯</string>
+    <string name="event_info_place">무료 슬롯</string>
     <string name="event_info_invite_friends">초대 할 친구</string>
     <string name="event_info_send_invitation">초대</string>
     <string name="event_info_cancel_invitation">취소하다</string>
@@ -243,10 +244,11 @@
     <string name="message">message</string>
     <string name="learn_more">Learn more about</string>
 
-    <string name="you">You :</string>
+    <string name="you">You </string>
     <string name="send_image">send an image</string>
     <string name="you_send_image">Vous avez envoyé une image</string>
     <string name="delete">Supprimer</string>
+    <string name="delete_user">delete_user</string>
 
 
 </resources>

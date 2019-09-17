@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.dateCustom.DateCustom
+import com.example.dateCustom.DateUTC
 import com.example.dateCustom.TimeCustom
 import com.example.dialog.BottomSheetDialogEventRecap
 import com.example.events.Event
@@ -55,6 +56,7 @@ open class MapFragment(
     private var eventsAndMarkers = ArrayList<EventAndMarker>()
     private val sports : ArrayList<Sport> = ArrayList()
     private val events : ArrayList<Event> = ArrayList()
+    private val eventsForMarker : ArrayList<Event> = ArrayList()
 
     val PERMISSION_LOCATION_REQUEST_CODE = 1
     val REQUEST_CHECK_SETTINGS = 2
@@ -220,6 +222,9 @@ open class MapFragment(
 
     private fun searchEvents(){
         sports.clear()
+        if(context == null){
+            println("NULLLL")
+        }
         val ref = FirebaseDatabase.getInstance().getReference("sports/${SessionUser(context!!).getIdFromUser()}/parameters")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -249,15 +254,10 @@ open class MapFragment(
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     if(event != null){
                         if(event.creator != SessionUser(context!!).getIdFromUser() && sportsWantsSee.contains(event.sport)) {
-                            //val date = DateCustom(event.date)
-                            //val time = TimeCustom(event.time)
-                            /*if (date.isEqual(DateCustom("01/01/1971").getCurrentDate())) {
-                                if (time.isAfter(TimeCustom("01:01").getCurrentTime())) {
-                                    events.add(event)
-                                }
-                            } else if (date.isAfter(DateCustom("01/01/1971").getCurrentDate())) {
+                            val date = event.date
+                            if(DateUTC(date).isAfterNow()){
                                 events.add(event)
-                            }*/
+                            }
                         }
                     }
                 }
@@ -303,32 +303,29 @@ open class MapFragment(
 
     private fun bitmapDescriptorFromVector(context: Context, vectorDrawableResourceId : Int) : BitmapDescriptor {
         val background = ContextCompat.getDrawable(context, R.drawable.ic_noun_map_marker_25579)
-        background!!.setBounds(0, 0, background.getIntrinsicWidth(), background.getIntrinsicHeight());
+        background!!.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight);
 
-        val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId);
-        vectorDrawable!!.setBounds(5, 10, vectorDrawable.getIntrinsicWidth()+5, vectorDrawable.getIntrinsicHeight()+10);
-        val bitmap = Bitmap.createBitmap(background.getIntrinsicWidth(), background.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        val canvas = Canvas(bitmap);
-        background.draw(canvas);
-        vectorDrawable.draw(canvas);
-        return BitmapDescriptorFactory.fromBitmap(bitmap);
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
+        vectorDrawable!!.setBounds(5, 10, vectorDrawable.intrinsicWidth +5, vectorDrawable.intrinsicHeight +10)
+        val bitmap = Bitmap.createBitmap(background.intrinsicWidth, background.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        background.draw(canvas)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     override fun onMarkerClick(p0: Marker?): Boolean {
        if(p0 == null){
            return false
        }
-        var count = 0
-        eventsAndMarkers.forEach {
-            println("HOLA ${it.event} AND COUNT $count")
-            count++
-        }
+        eventsForMarker.clear()
         eventsAndMarkers.forEach {
             if(it.marker.position == p0.position){
-                val bottomSheetDialogEventRecap = BottomSheetDialogEventRecap(context!!, R.layout.bottom_sheet_layout, it.event.key)
-                bottomSheetDialogEventRecap.show(fragmentManager!!, "CARDVIEW EVENT")
+                eventsForMarker.add(it.event)
             }
         }
+        val bottomSheetDialogEventRecap = BottomSheetDialogEventRecap(context!!, R.layout.bottom_sheet_layout, eventsForMarker)
+        bottomSheetDialogEventRecap.show(fragmentManager!!, "CARDVIEW EVENT")
         return true
     }
 

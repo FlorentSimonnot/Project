@@ -81,7 +81,8 @@ class ParticipantsActivity : AppCompatActivity() {
                         R.layout.list_item_user_confirmed,
                         keyEvent,
                         usersWaiting,
-                        "confirm"
+                        "confirm",
+                        supportFragmentManager
                     )
                     adapter.notifyDataSetChanged()
                     listView.adapter = adapter
