@@ -101,7 +101,7 @@
     <string name="no_notification">여기 모두가 자고 있습니다. 즐겨!</string>
     <string name="notifications_all_read">모두 읽은 것으로 표시</string>
 
-    <string name="write_message">Schreibe deine Message</string>
+    <string name="write_message">메시지를 입력하세요</string>
 
     <!--SEARCHBAR TEXT-->
     <string name="search_user">사용자를 검색</string>
@@ -236,17 +236,19 @@
     <string name="date_delimiter">.</string>
 
     <!--PROFIL VIEW USER-->
-    <string name="profile">Profile</string>
-    <string name="add_friend">Add friend</string>
-    <string name="remove_friend">Remove friend</string>
-    <string name="cancel_invitation_friend">Cancel invitation</string>
-    <string name="message">message</string>
-    <string name="learn_more">Learn more about</string>
+    <string name="profile">프로필</string>
+    <string name="add_friend">친구 추가</string>
+    <string name="remove_friend">친구를 제거하다</string>
+    <string name="cancel_invitation_friend">취소</string>
+    <string name="message">메시지를 보내다</string>
+    <string name="learn_more">더</string>
 
-    <string name="you">You :</string>
-    <string name="send_image">send an image</string>
-    <string name="you_send_image">Vous avez envoyé une image</string>
-    <string name="delete">Supprimer</string>
+    <string name="you">당신:</string>
+    <string name="send_image">이미지를 보내다</string>
+    <string name="you_send_image">당신은 이미지를 보냈습니다</string>
+    <string name="delete">지우다</string>
+
+    <!--EDIT PROFILE-->
 
 
 </resources>
