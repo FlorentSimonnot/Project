@@ -24,14 +24,12 @@ import kotlinx.android.synthetic.main.activity_messagerie.*
 
 
 class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
-    private lateinit var newMessage : ImageButton
     private lateinit var session : SessionUser
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchBar : RelativeLayout
     private lateinit var searchEditText : EditText
     private lateinit var notFound : RelativeLayout
     private lateinit var adapter : LatestMessageAdapter
-    private lateinit var buttonNewMessage : Button
 
     var keysChat = ArrayList<String>()
     var friends = ArrayList<String>()
