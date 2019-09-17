@@ -9,6 +9,8 @@ import com.example.notification.Action
 import com.example.notification.Notifications
 import com.example.project.R
 import com.example.session.SessionUser
+import com.example.sport.Sport
+import com.example.sport.SportWithBoolean
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -72,6 +74,11 @@ data class User(
                         val token = it.result?.token
                         val ref = FirebaseDatabase.getInstance().getReference("users")
                         ref.child("${session.getIdFromUser()}").child("idTokenRegistration").setValue(token)
+                        Sport.values().forEach {
+                            if(it != Sport.INIT) {
+                                FirebaseDatabase.getInstance().reference.child("sports/$uid/parameters/$it").setValue(true)
+                            }
+                        }
                     }
             }
 
