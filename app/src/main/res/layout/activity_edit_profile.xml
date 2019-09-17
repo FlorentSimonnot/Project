@@ -57,47 +57,48 @@
                     android:gravity="center"
                     >
                 <!--PROFILE PHOTO-->
+
+                <!--=============================================================-->
+
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_gravity="center"
-                        android:padding="20dp"
+                        android:gravity="center"
                         android:orientation="vertical"
+                        android:padding="20dp"
                         >
-                    <de.hdodenhof.circleimageview.CircleImageView
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/profile_photo"
                             android:layout_width="96dp"
                             android:layout_height="96dp"
-                            android:src="@drawable/com_facebook_profile_picture_blank_portrait"
-                            app:civ_border_width="2dp"
-                            app:civ_border_color="#FF000000"
+                            android:layout_gravity="center"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             android:gravity="center"
-                            android:layout_gravity="center"
+                            android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+                            app:civ_border_color="#FF000000"
+                            app:civ_border_width="2dp"
                             />
 
                     <Button
+                            android:id="@+id/change_photo"
+                            style="?android:attr/borderlessButtonStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:id="@+id/change_photo"
                             android:layout_below="@id/profile_photo"
                             android:background="#f5f6fa"
-                            style="?android:attr/borderlessButtonStyle"
-                            android:text="Change your photo"
-                            android:fontFamily="@font/rubik"
-                            android:textColor="@color/colorPrimary"
+                            android:drawableStart="@drawable/ic_camera"
                             android:drawableLeft="@drawable/ic_camera"
                             android:drawablePadding="10dp"
-                            android:drawableStart="@drawable/ic_camera"
+                            android:fontFamily="@font/rubik"
+                            android:padding="5dp"
+                            android:text="@string/edit_profile_change_photo"
+                            android:textColor="@color/colorPrimary"
                             />
 
                 </LinearLayout>
-
-                <!--=============================================================-->
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -222,7 +223,7 @@
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Description"
+                            android:text="@string/edit_profile_description"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
                             android:fontFamily="@font/rubik"
@@ -305,7 +306,7 @@
                             android:id="@+id/modify_password_button"
                             android:fontFamily="@font/rubik"
                             android:layout_marginTop="20dp"
-                            android:text="MODIFY MY PASSWORD"
+                            android:text="@string/edit_profile_modify_password"
                             android:textColor="#fff"
                             android:background="@color/colorPrimary"
                             android:layout_marginLeft="50dp"
