@@ -48,7 +48,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Edit profil"
+        supportActionBar?.title = getString(R.string.edit_profile_title)
 
         val emailEditText = findViewById<EditText>(R.id.email_account)
         sexTextView = findViewById(R.id.edit_sexe)
@@ -132,9 +132,9 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
             }
 
             val builder = AlertDialog.Builder(this)
-            builder.setTitle("Confirm changes")
-            builder.setMessage("Your profile will be updated.\nConfirm?")
-            builder.setPositiveButton("Yes"){_, _ ->
+            builder.setTitle(getString(R.string.edit_profile_dialog_title))
+            builder.setMessage(getString(R.string.edit_profile_dialog_message))
+            builder.setPositiveButton(getString(R.string.edit_profile_dialog_yes)){_, _ ->
                 session.updateAccount(
                     emailEditText.text.toString(),
                     sex,
@@ -145,9 +145,9 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
                     radiusSeekBar.progress
                 )
                 startActivity(Intent(this, HomeActivity::class.java))
-                Toast.makeText(this, "Your account has been successfully updated!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.edit_profile_toast), Toast.LENGTH_LONG).show()
             }
-            builder.setNegativeButton("No"){_, _ ->
+            builder.setNegativeButton(getString(R.string.edit_profile_dialog_no)){_, _ ->
 
             }
             builder.show()

@@ -179,6 +179,10 @@
     <string name="user_info_description">Description</string>
     <string name="user_info_edit_account">Edit my account</string>
     <string name="user_info_delete">Delete my account</string>
+    <string name="user_info_delete_dialog_title">Delete your account</string>
+    <string name="user_info_delete_dialog_message">Do you really want to delete your account?</string>
+    <string name="user_info_delete_dialog_yes">Yes</string>
+    <string name="user_info_delete_dialog_no">No</string>
 
     <!--SETTINGS-->
     <string name="settings">Settings</string>
@@ -248,5 +252,27 @@
     <string name="send_image">send an image</string>
     <string name="you_send_image">You send an image</string>
     <string name="delete">Delete</string>
+
+    <!--EDIT PROFILE-->
+    <string name="edit_profile_title">Edit profile</string>
+    <string name="edit_profile_change_photo">Update</string>
+    <string name="edit_profile_description">Description</string>
+    <string name="edit_profile_modify_password">Modify my password</string>
+    <string name="edit_profile_dialog_title">Confirm changes</string>
+    <string name="edit_profile_dialog_message">Your profile will be update\nConfirm?</string>
+    <string name="edit_profile_dialog_yes">Yes</string>
+    <string name="edit_profile_dialog_no">No</string>
+    <string name="edit_profile_toast">Your account has been successfully updated!</string>
+
+    <!--MODIFY PASSWORD-->
+    <string name="modify_password_title">Modify password</string>
+    <string name="modify_password_current">Current password</string>
+    <string name="modify_password_new">New password</string>
+    <string name="modify_password_confirm_new">Confirm new password</string>
+    <string name="modify_password_confirm">Confirm</string>
+    <string name="modify_password_dialog_title">Change your password</string>
+    <string name="modify_password_dialog_message">Do you really want to change your password?</string>
+    <string name="modify_password_dialog_yes">Yes</string>
+    <string name="modify_password_dialog_no">No</string>
 
 </resources>

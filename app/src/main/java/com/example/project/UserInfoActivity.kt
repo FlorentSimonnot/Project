@@ -96,12 +96,12 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_delete_account -> {
 
                 val builder = AlertDialog.Builder(this)
-                builder.setTitle("Delete user account")
-                builder.setMessage("Do you really want to delete your account?")
-                builder.setPositiveButton("Confirm"){_, _ ->
+                builder.setTitle(getString(R.string.user_info_delete_dialog_title))
+                builder.setMessage(getString(R.string.user_info_delete_dialog_message))
+                builder.setPositiveButton(getString(R.string.user_info_delete_dialog_yes)){_, _ ->
                     session.deleteUser(this)
                 }
-                builder.setNegativeButton("No"){_, _ ->
+                builder.setNegativeButton(getString(R.string.user_info_delete_dialog_no)){_, _ ->
 
                 }
                 builder.show()
