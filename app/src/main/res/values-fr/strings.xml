@@ -182,6 +182,7 @@
     <string name="user_info_delete_dialog_message">Voulez-vous vraiment supprimer votre compte?</string>
     <string name="user_info_delete_dialog_yes">Oui</string>
     <string name="user_info_delete_dialog_no">Non</string>
+    <string name="login_or">Ou</string>
 
     <!--SETTINGS-->
     <string name="settings">Réglages</string>
@@ -275,5 +276,29 @@
     <string name="modify_password_dialog_message">Voulez-vous vraiment changer votre mot de passe?</string>
     <string name="modify_password_dialog_yes">Oui</string>
     <string name="modify_password_dialog_no">Non</string>
+
+    <!--SIGN IN-->
+    <string name="sign_in_name">nom</string>
+    <string name="sign_in_first_name">prénom</string>
+    <string name="sign_in_email">email</string>
+    <string name="sign_in_password">mot de passe</string>
+    <string name="sign_in_confirm_password">confirmer mot de passe</string>
+    <string name="sign_in_terms_of_use">En cliquant sur \"NOUS REJOINDRE\", vous acceptez nos conditions d\'utilisation blablabla</string>
+    <string name="sign_in_join_us">nous rejoindre</string>
+
+    <!--NEXT SIGN IN-->
+    <string name="next_sign_in_gender">sexe</string>
+    <string name="next_sign_in_birthday">date de naissance</string>
+    <string name="next_sign_in_description">description</string>
+    <string name="next_sign_in_radius">aire de recherche</string>
+    <string name="next_sign_in_privacy">confidentialité de votre profil</string>
+    <string name="next_sign_in_create_account">créer mon compte</string>
+    <string name="next_sign_in_gender_title">sexe</string>
+    <string name="next_sign_in_privacy_title">confidentialité</string>
+    <string name="next_sign_in_city">ville</string>
+    <string name="next_sign_in_complete_message">Encore une étape avant de créer votre profile</string>
+    <string name="next_sign_in_male">Homme</string>
+    <string name="next_sign_in_female">Femme</string>
+    <string name="next_sign_in_other">Femme</string>
 
 </resources>

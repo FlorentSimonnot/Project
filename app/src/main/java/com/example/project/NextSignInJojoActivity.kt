@@ -48,20 +48,20 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_next_sign_in_jojo)
 
-        stringSex = arrayOf("Male", "Female", "Other")
+        stringSex = arrayOf(getString(R.string.next_sign_in_male), getString(R.string.next_sign_in_female), getString(R.string.next_sign_in_other))
         textViewSex = findViewById(R.id.edit_sexe)
         stringPrivacy = arrayOf("Public", "Private")
         privacyAccount = findViewById(R.id.privacy)
         radiusSeekBar = findViewById(R.id.distance_seekbar)
 
         textViewSex.setOnClickListener {
-            val numberPicker = StringPickerCustom(0, 2, "Gender", "", stringSex)
+            val numberPicker = StringPickerCustom(0, 2, getString(R.string.next_sign_in_gender_title), "", stringSex)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "Sex picker")
         }
 
         privacy.setOnClickListener {
-            val privacyPicker = StringPickerCustom(0, 1, "Privacy", resources.getString(R.string.describe_privacy), stringPrivacy)
+            val privacyPicker = StringPickerCustom(0, 1, getString(R.string.next_sign_in_privacy_title), resources.getString(R.string.describe_privacy), stringPrivacy)
             privacyPicker.setValueChangeListener(this)
             privacyPicker.show(supportFragmentManager, "Privacy picker")
         }
@@ -77,7 +77,7 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         //Autocomplete city
         val autocompleteFragment =
             supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment?
-        autocompleteFragment?.setHint("Choose your city")
+        autocompleteFragment?.setHint(getString(R.string.next_sign_in_city))
 
 
         // Specify the types of place data to return.
@@ -122,7 +122,7 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         var idServiceLogin = infos?.getString("id").toString()
 
         val textViewInfos : TextView = findViewById(R.id.textInfos)
-        textViewInfos.text = "Hi $firstName please complete your profil before sign in !"
+        textViewInfos.text = getString(R.string.next_sign_in_complete_message)
 
         val seekBar : SeekBar = findViewById(R.id.distance_seekbar)
 
@@ -162,8 +162,8 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         val buttonJoinUs : Button = findViewById(R.id.create_account)
         buttonJoinUs.setOnClickListener{
             sex = when(textViewSex.text) {
-                "Male" -> Gender.Male
-                "Female" -> Gender.Female
+                getString(R.string.next_sign_in_male) -> Gender.Male
+                getString(R.string.next_sign_in_female) -> Gender.Female
                 else -> Gender.Other
             }
 

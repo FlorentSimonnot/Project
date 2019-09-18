@@ -101,7 +101,7 @@
     <string name="no_notification">여기 모두가 자고 있습니다. 즐겨!</string>
     <string name="notifications_all_read">모두 읽은 것으로 표시</string>
 
-    <string name="write_message">Schreibe deine Message</string>
+    <string name="write_message">메시지를 작성</string>
 
     <!--SEARCHBAR TEXT-->
     <string name="search_user">사용자를 검색</string>
@@ -162,8 +162,9 @@
     <string name="email">이메일</string>
     <string name="login_with_facebook">페이스 북 로그</string>
     <string name="login_with_google">구글 로그</string>
-    <string name="forgot">암호를 잊어 버렸습니까?</string>
+    <string name="forgot">잊었습니까?</string>
     <string name="not_a_member">계정이 없습니까? 우리와 함께</string>
+    <string name="login_or">또는</string>
 
     <!--NO RESULT-->
     <string name="no_result">결과가 없다</string>
@@ -177,8 +178,12 @@
     <!--PROFILE-->
     <string name="my_personnal_information">계정</string>
     <string name="user_info_description">전기</string>
-    <string name="user_info_edit_account">내 프로필 편집</string>
-    <string name="user_info_delete">내 프로파일 삭제</string>
+    <string name="user_info_edit_account">프로필 업데이트</string>
+    <string name="user_info_delete">프로필 삭제</string>
+    <string name="user_info_delete_dialog_title">계정을 삭제합니다</string>
+    <string name="user_info_delete_dialog_message">정말로 계정을 삭제 하시겠습니까?</string>
+    <string name="user_info_delete_dialog_yes">네</string>
+    <string name="user_info_delete_dialog_no">아니</string>
 
     <!--SETTINGS-->
     <string name="settings">설정</string>
@@ -207,6 +212,7 @@
     <string name="event_info_refuse">거절하다</string>
     <string name="event_info_share">친구들과 당신의 참여를 공유하기</string>
     <string name="event_info_places">무료 슬롯</string>
+    <string name="event_info_place">무료 슬롯</string>
     <string name="event_info_invite_friends">초대 할 친구</string>
     <string name="event_info_send_invitation">초대</string>
     <string name="event_info_cancel_invitation">취소하다</string>
@@ -237,17 +243,65 @@
     <string name="date_delimiter">.</string>
 
     <!--PROFIL VIEW USER-->
-    <string name="profile">Profile</string>
-    <string name="add_friend">Add friend</string>
-    <string name="remove_friend">Remove friend</string>
-    <string name="cancel_invitation_friend">Cancel invitation</string>
-    <string name="message">message</string>
-    <string name="learn_more">Learn more about</string>
+    <string name="profile">프로필</string>
+    <string name="add_friend">친구를 추가</string>
+    <string name="remove_friend">친구를 제거하다</string>
+    <string name="cancel_invitation_friend">초대 취소</string>
+    <string name="message">메시지</string>
+    <string name="learn_more">더</string>
 
-    <string name="you">You :</string>
-    <string name="send_image">send an image</string>
-    <string name="you_send_image">Vous avez envoyé une image</string>
-    <string name="delete">Supprimer</string>
+    <!--MESSAGES-->
+    <string name="you">너:</string>
+    <string name="send_image">이미지를 보내다</string>
+    <string name="you_send_image">이미지를 보냈습니다</string>
+    <string name="delete">지우다</string>
+    <string name="delete_user">지우다</string>
+
+    <!--EDIT PROFILE-->
+    <string name="edit_profile_title">프로필 업데이트</string>
+    <string name="edit_profile_change_photo">업데이트</string>
+    <string name="edit_profile_description">전기</string>
+    <string name="edit_profile_modify_password">비밀번호 업데이트</string>
+    <string name="edit_profile_dialog_title">프로필 업데이트</string>
+    <string name="edit_profile_dialog_message">프로필이 업데이트됩니다.\n확인?</string>
+    <string name="edit_profile_dialog_yes">네</string>
+    <string name="edit_profile_dialog_no">아니</string>
+    <string name="edit_profile_toast">프로필이 업데이트되었습니다</string>
+
+    <!--MODIFY PASSWORD-->
+    <string name="modify_password_title">비밀번호 업데이트</string>
+    <string name="modify_password_current">기존 비밀번호</string>
+    <string name="modify_password_new">새 비밀번호</string>
+    <string name="modify_password_confirm_new">새 암호를 확인</string>
+    <string name="modify_password_confirm">확인</string>
+    <string name="modify_password_dialog_title">비밀번호 업데이트</string>
+    <string name="modify_password_dialog_message">비밀번호가 업데이트됩니다.\n확인?</string>
+    <string name="modify_password_dialog_yes">네</string>
+    <string name="modify_password_dialog_no">아니</string>
+
+    <!--SIGN IN-->
+    <string name="sign_in_name">이름</string>
+    <string name="sign_in_first_name">세례명</string>
+    <string name="sign_in_email">이메일</string>
+    <string name="sign_in_password">암호</string>
+    <string name="sign_in_confirm_password">비밀번호 확인</string>
+    <string name="sign_in_terms_of_use">아래 \"가입\"을 클릭하면 이용 약관에 동의하는 것으로 간주됩니다</string>
+    <string name="sign_in_join_us">우리와 함께</string>
+
+    <!--NEXT SIGN IN-->
+    <string name="next_sign_in_gender">성별</string>
+    <string name="next_sign_in_birthday">생일</string>
+    <string name="next_sign_in_description">전기</string>
+    <string name="next_sign_in_radius">검색 영역</string>
+    <string name="next_sign_in_privacy">프라이버시</string>
+    <string name="next_sign_in_create_account">프로필 만들기</string>
+    <string name="next_sign_in_gender_title">성별</string>
+    <string name="next_sign_in_privacy_title">프라이버시</string>
+    <string name="next_sign_in_city">시티</string>
+    <string name="next_sign_in_complete_message">프로필을 작성하기 전 마지막 단계</string>
+    <string name="next_sign_in_male">남자</string>
+    <string name="next_sign_in_female">여자</string>
+    <string name="next_sign_in_other">다른</string>
 
 
 </resources>
