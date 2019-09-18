@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:background="#16a085"
+              android:padding="10dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PAGE 1"
+            android:text="@string/page1_title"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:textAlignment="center"
+            android:id="@+id/title"
     />
 
-</LinearLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title"
+            android:layout_marginTop="20dp"
+    >
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/page1_content"
+                android:textColor="#fff"
+                android:textSize="26sp"
+        />
+
+    </RelativeLayout>
+
+</RelativeLayout>

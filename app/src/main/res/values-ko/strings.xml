@@ -303,5 +303,9 @@
     <string name="next_sign_in_female">여자</string>
     <string name="next_sign_in_other">다른</string>
 
+    <string name="page1_title">Found event near your localisation</string>
+    <string name="page1_content">
+        We display all sports events near your location. You can configure the display of events according to the sports you are interested in.
+    </string>
 
 </resources>

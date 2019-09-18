@@ -301,4 +301,9 @@
     <string name="next_sign_in_female">Femme</string>
     <string name="next_sign_in_other">Femme</string>
 
+    <string name="page1_title">Trouver les évènements proches de chez vous</string>
+    <string name="page1_content">
+        Nous affichons tous les évènements sportifs se trouvant près de votre localisation. Vous pouvez configurer l\'affichage des évènements selon les sports qui vous intérresse.
+    </string>
+
 </resources>
