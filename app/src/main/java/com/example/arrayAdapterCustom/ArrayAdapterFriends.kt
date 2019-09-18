@@ -41,22 +41,7 @@ class ArrayAdapterFriends(
         val textView : TextView = view.findViewById(R.id.identity)
         val button : ImageButton
 
-        button = when(action){
-            "waiting" -> {
-                view.findViewById(R.id.btn_accept)
-            }
-            "friend" -> {
-                view.findViewById(R.id.more)
-            }
-            else -> {
-                throw Exception("Nope")
-            }
-        }
-        if(action == "waiting"){
-            buttonRefuse = view.findViewById(R.id.btn_refuse)
-            button.setImageDrawable(context.resources.getDrawable(R.drawable.ic_checked_color_primary))
-            buttonRefuse!!.setImageDrawable(context.resources.getDrawable(R.drawable.ic_cross))
-        }
+        button = view.findViewById(R.id.more)
         if(action == "friend"){
             button.setImageDrawable(context.resources.getDrawable(R.drawable.ic_more))
         }

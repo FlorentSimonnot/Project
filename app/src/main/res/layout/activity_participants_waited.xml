@@ -26,19 +26,6 @@
                 android:theme="@style/Toolbar"
                 app:titleTextColor="#fff"
                 >
-
-            <!--<TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:id="@+id/event_name"
-                    android:text="Title"
-                    android:textColor="#fff"
-                    android:textSize="24dp"
-                    android:fontFamily="@font/rubik"
-                    android:gravity="end|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:layout_marginRight="10dp"
-                    />-->
         </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
@@ -47,7 +34,6 @@
                 android:id="@+id/layout_listView"
                 android:layout_below="@id/toolbar"
                 tools:ignore="MissingConstraints"
-                android:padding="10dp"
                 android:orientation="vertical"
         >
             <ListView
@@ -69,6 +55,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="No results found"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
                 />
             </RelativeLayout>
 

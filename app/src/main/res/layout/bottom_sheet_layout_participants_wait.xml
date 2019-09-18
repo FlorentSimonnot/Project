@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="10dp"
+        >
+
+    <RelativeLayout
+            android:id="@+id/accept_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_checked_color_primary"
+                android:id="@+id/icon_accept"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_toRightOf="@id/icon_accept"
+                android:padding="10dp"
+                android:gravity="center_vertical"
+                android:id="@+id/textViewAccept"
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/refuse_layout"
+            android:layout_below="@id/accept_layout"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_cross"
+                android:id="@+id/icon_refuse"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_toRightOf="@id/icon_refuse"
+                android:padding="10dp"
+                android:textColor="@color/colorAccent"
+                android:gravity="center_vertical"
+                android:id="@+id/textViewRefuse"
+        />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

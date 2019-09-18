@@ -203,7 +203,7 @@
     <string name="event_info_participants">Participants</string>
     <string name="event_info_waiting">En attente</string>
     <string name="event_info_join">Rejoindre</string>
-    <string name="event_info_cancel">Annuler</string>
+    <string name="event_info_cancel">Me retirer</string>
     <string name="event_info_full">Cet événement est complet, vous ne pouvez pas le rejoindre</string>
     <string name="event_info_note">Cet événement est terminé, veuillez le noter</string>
     <string name="event_info_accept">Accepter</string>

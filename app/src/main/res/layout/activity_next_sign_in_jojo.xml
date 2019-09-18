@@ -5,11 +5,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".NextSignInJojoActivity"
-        android:background="@drawable/bg1"
 >
 
 
-    <LinearLayout
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    >
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background"
+                android:scaleType="centerCrop"
+                android:id="@+id/image"
+        />
+
+    </FrameLayout>
+
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:fillViewport="true"
+    >
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -17,14 +37,6 @@
         android:padding="10dp"
     >
 
-
-        <!--<ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/app_logo"
-                android:src="@drawable/logo"
-                android:layout_centerHorizontal="true"
-        />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +64,7 @@
                 android:layout_below="@id/layoutText"
                 android:text="Gender"
                 android:padding="10dp"
-                android:background="@drawable/basic_input_rectangle"
+                android:background="@drawable/border_bottom_primary"
                 />
 
         <TextView
@@ -62,7 +74,7 @@
             android:layout_below="@id/edit_sexe"
             android:hint="Birthday"
             android:layout_marginTop="10dp"
-            android:background="@drawable/basic_input_rectangle"
+            android:background="@drawable/border_bottom_primary"
             android:drawableLeft="@drawable/ic_birthday"
             android:drawablePadding="20dp"
             android:padding="10dp"
@@ -79,8 +91,9 @@
                 android:gravity="start"
                 android:hint="description"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/basic_input_rectangle"
+                android:background="@drawable/border_bottom_primary"
                 android:padding="10dp"
+
         />
 
         <LinearLayout
@@ -88,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/description"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/basic_input_rectangle"
+                android:background="@drawable/border_bottom_primary"
                 android:drawableLeft="@drawable/ic_placeholder"
                 android:drawableStart="@drawable/ic_placeholder"
                 android:id="@+id/city"
@@ -110,6 +123,7 @@
                 android:textColor="#fff"
                 android:fontFamily="@font/rubik"
                 android:textSize="18dp"
+
         />
 
         <SeekBar
@@ -120,6 +134,7 @@
                 android:layout_below="@id/city"
                 android:max="25"
                 android:progress="5"
+
                 android:layout_alignTop="@id/distance"
                 android:layout_toRightOf="@id/distance"
                 android:thumbTint="#fff"
@@ -134,6 +149,7 @@
             android:layout_marginLeft="150dp"
             android:textColor="#fff"
             android:paddingLeft="10dp"
+
         />
 
         <LinearLayout
@@ -150,7 +166,7 @@
                     android:id="@+id/privacy"
                     android:hint="Privacy of your account"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/basic_input_rectangle"
+                    android:background="@drawable/border_bottom_primary"
                     android:drawableLeft="@drawable/ic_view"
                     android:drawablePadding="20dp"
                     android:padding="10dp"
@@ -179,5 +195,6 @@
             />
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

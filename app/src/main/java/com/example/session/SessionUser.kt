@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_about_us.view.*
 import java.io.Serializable
 import java.lang.StringBuilder
 import java.util.*
@@ -168,6 +169,8 @@ class SessionUser(val context: Context) : Serializable{
                         "deleteFriend" -> textView.text = "Supprimer ${value.firstName} ${value.name} de ses amis"
                         "sendMessage" -> textView.text = "Envoyé un message à ${value.firstName} ${value.name}"
                         "deleteFromEvent" -> textView.text = "Retirer ${value.firstName} ${value.name} de l'évènement"
+                        "AcceptJoinEvent" -> textView.text = "Accepter ${value.firstName} ${value.name}"
+                        "RefuseJoinEvent" -> textView.text = "Refuser ${value.firstName} ${value.name}"
                         "city" -> {
                             //INIT GOOGLE PLACE
                             //Init google place
