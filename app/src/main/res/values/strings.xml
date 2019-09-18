@@ -30,9 +30,13 @@
     <string name="client_id">314370239409-n8rhasb1b0pfjjm2f13qq6du7e0mho5m.apps.googleusercontent.com</string>
     <string name="title_activity_event_info">EventInfoActivity</string>
 
-    <string name="describe_privacy">With choosing private privacy users can only see your name or your events created and joined</string>
+    <string name="describe_privacy">With choosing private privacy users can only see your name or your events created
+        and joined
+    </string>
     <string name="description_test">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum velit eget felis tempus, a fringilla mi feugiat. Nullam ac augue ut sapien pharetra tincidunt. Praesent luctus nisi ut risus consequat pulvinar. Pellentesque hendrerit vitae sed.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum velit eget felis tempus, a
+        fringilla mi feugiat. Nullam ac augue ut sapien pharetra tincidunt. Praesent luctus nisi ut risus consequat
+        pulvinar. Pellentesque hendrerit vitae sed.
     </string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -195,7 +199,7 @@
     <string name="sports_preferences_title">Your preferences</string>
 
     <!--EVENT INFO-->
-    <string name="event_info_creator">Created by: </string>
+    <string name="event_info_creator">Created by:</string>
     <string name="event_info_creator_you">Created by: You</string>
     <string name="event_info_invite_people">Invite friends</string>
     <string name="event_info_edit">Edit</string>
@@ -249,11 +253,11 @@
     <string name="learn_more">Learn more about</string>
 
     <!--MESSAGES-->
-    <string name="you">You </string>
+    <string name="you">You</string>
     <string name="send_image">send an image</string>
     <string name="you_send_image">You send an image</string>
     <string name="delete">Delete</string>
-    <string name="delete_user">Delete </string>
+    <string name="delete_user">Delete</string>
 
     <!--EDIT PROFILE-->
     <string name="edit_profile_title">Edit profile</string>

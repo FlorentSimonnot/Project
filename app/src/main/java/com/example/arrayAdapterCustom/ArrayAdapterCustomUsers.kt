@@ -9,6 +9,7 @@ import android.widget.*
 import androidx.fragment.app.FragmentManager
 import com.example.dialog.BottomSheetDialogFriend
 import com.example.dialog.BottomSheetDialogParticipantsEvent
+import com.example.dialog.BottomSheetDialogParticipantsWaitingEvent
 import com.example.events.Event
 import com.example.place.SessionGooglePlace
 import com.example.project.*
@@ -39,20 +40,7 @@ class ArrayAdapterCustomUsers(
         val textView : TextView = view.findViewById(R.id.identity)
         val button : ImageButton
 
-        button = when(action){
-            "waiting" -> {
-                view.findViewById(R.id.btn_accept)
-            }
-            "confirm" -> {
-                view.findViewById(R.id.more)
-            }
-            else -> {
-                throw Exception("Nope")
-            }
-        }
-        if(action == "waiting"){
-            buttonRefuse = view.findViewById(R.id.btn_refuse)
-        }
+        button = view.findViewById(R.id.more)
 
         if(users.size > 0) {
             Event().hideMore(ctx, keyEvent, textView, button, users[position].key)
@@ -62,11 +50,9 @@ class ArrayAdapterCustomUsers(
             button.setOnClickListener {
                 when (action) {
                     "waiting" -> {
-                        val item = getItem(position)
-                        if(item != null){
-                            val userKey = users[position].key
-                            users.removeAt(position)
-                            Event().confirmParticipation(ctx, keyEvent, userKey!!)
+                        button.setOnClickListener {
+                            val dialog = BottomSheetDialogParticipantsWaitingEvent(ctx, R.layout.bottom_sheet_layout_participants_wait, keyEvent!!, users[position].key!!)
+                            dialog.show(fragmentManager, "USER OPTIONS")
                         }
                     }
                     "confirm" -> {
@@ -75,14 +61,6 @@ class ArrayAdapterCustomUsers(
                             dialog.show(fragmentManager, "USER OPTIONS")
                         }
                     }
-                }
-            }
-            buttonRefuse?.setOnClickListener {
-                val item = getItem(position)
-                if(item != null){
-                    val userKey = users[position].key
-                    users.removeAt(position)
-                    Event().refuseParticipation(ctx, keyEvent, userKey!!)
                 }
             }
         }

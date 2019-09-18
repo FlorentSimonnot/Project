@@ -138,6 +138,8 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
 
             loadFragment(HomeFragment(bottomMenu))
 
+            //startActivity(Intent(this, Tutorial::class.java))
+
 
         }
 
