@@ -162,8 +162,8 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         when(p0?.id){
             R.id.logout -> {
                 val logOutAlert = AlertDialog.Builder(this)
-                logOutAlert.setTitle("Log out?")
-                logOutAlert.setPositiveButton("Yes"){ _, _ ->
+                logOutAlert.setTitle(getString(R.string.log_out_dialog_title))
+                logOutAlert.setPositiveButton(getString(R.string.log_out_dialog_yes)){ _, _ ->
                     session.signOut()
                     googleSignInClient.signOut()
                     LoginManager.getInstance().logOut()
@@ -172,7 +172,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                     finish()
                     startActivity(intent)
                 }
-                logOutAlert.setNegativeButton("No"){ _, _ ->
+                logOutAlert.setNegativeButton(getString(R.string.log_out_dialog_no)){ _, _ ->
 
                 }
                 logOutAlert.show()

@@ -35,7 +35,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView
-    private var valuesFilter = arrayOf("All events", "Only finished events", "Only next events")
+    private lateinit var valuesFilter: Array<String>
     private var filterValue = 0
     private var joinedView = false
 
@@ -43,6 +43,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_event)
 
+        valuesFilter = arrayOf(getString(R.string.events_filter_all_events), getString(R.string.events_filter_only_finished), getString(R.string.events_filter_only_next))
         val infos : Bundle? = intent.extras
         joinedView = infos?.getString("joinedView").toString().toBoolean()
 

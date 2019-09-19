@@ -30,7 +30,6 @@
     <string name="client_id">314370239409-n8rhasb1b0pfjjm2f13qq6du7e0mho5m.apps.googleusercontent.com</string>
     <string name="title_activity_event_info">EventInfoActivity</string>
 
-    <string name="describe_privacy">With choosing private privacy users can only see your name or your events created and joined</string>
     <string name="description_test">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum velit eget felis tempus, a fringilla mi feugiat. Nullam ac augue ut sapien pharetra tincidunt. Praesent luctus nisi ut risus consequat pulvinar. Pellentesque hendrerit vitae sed.
     </string>
@@ -122,7 +121,11 @@
     <string name="filter_only_next">Seulement les événements à venir</string>
     <string name="events_filter_title">Filtre</string>
     <string name="events_filter_message">Choisissez une catégorie d\'événements</string>
+    <string name="events_filter_all_events">Tout</string>
+    <string name="events_filter_only_finished">Seulement ceux terminés</string>
+    <string name="events_filter_only_next">Seulement ceux à venir</string>
 
+    <!--NOTIFICATIONS PUSH-->
     <string name="notifications_social_title">Social</string>
     <string name="notifications_events_title">Evènements</string>
     <string name="notification_receive_invitation">M\'informer lorsque je reçois une demande d\'amis</string>
@@ -134,6 +137,7 @@
     <string name="notification_receive_message">M\'informer lorsque je reçois un message</string>
     <string name="notification_title">Configurer les notifications</string>
     <string name="button_delete_all_notification">Supprimer toutes les notifications</string>
+    <string name="notifications_push_toast">Modifié</string>
 
     <!--NAME OF SPORTS-->
     <string name="football">Football</string>
@@ -300,6 +304,22 @@
     <string name="next_sign_in_male">Homme</string>
     <string name="next_sign_in_female">Femme</string>
     <string name="next_sign_in_other">Femme</string>
+    <string name="next_sign_in_privacy_message">En choisissant privé, votre profil ne sera pas visible pour les utilisateurs que ne sont pas vos amis
+    </string>
+    <string name="next_sign_in_public">Public</string>
+    <string name="next_sign_in_private">Privé</string>
+
+    <!--LOG OUT-->
+    <string name="log_out_dialog_title">Se déconnecter?</string>
+    <string name="log_out_dialog_yes">Oui</string>
+    <string name="log_out_dialog_no">Non</string>
+
+    <!--ABOUT US-->
+    <string name="about_us_title">A propos de nous</string>
+    <string name="about_us_text">text</string>
+    <string name="about_us_contact_us">Nous contacter</string>
+    <string name="about_us_facebook">Facebook</string>
+    <string name="about_us_twitter">Twitter</string>
 
     <string name="page1_title">Trouver les évènements proches de chez vous</string>
     <string name="page1_content">
@@ -312,5 +332,6 @@
     <string name="page3_title">Et surtout, gardez le contact.</string>
     <string name="page3_content">
         Communiquer avec vos amis, les autres membres de l\'application et même les participants d\'un de vos évènements. </string>
+    <string name="tutorial_lets_go">Commencer</string>
 
 </resources>

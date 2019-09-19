@@ -50,7 +50,7 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
 
         stringSex = arrayOf(getString(R.string.next_sign_in_male), getString(R.string.next_sign_in_female), getString(R.string.next_sign_in_other))
         textViewSex = findViewById(R.id.edit_sexe)
-        stringPrivacy = arrayOf("Public", "Private")
+        stringPrivacy = arrayOf(getString(R.string.next_sign_in_public), getString(R.string.next_sign_in_private))
         privacyAccount = findViewById(R.id.privacy)
         radiusSeekBar = findViewById(R.id.distance_seekbar)
 
@@ -61,7 +61,7 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         }
 
         privacy.setOnClickListener {
-            val privacyPicker = StringPickerCustom(0, 1, getString(R.string.next_sign_in_privacy_title), resources.getString(R.string.describe_privacy), stringPrivacy)
+            val privacyPicker = StringPickerCustom(0, 1, getString(R.string.next_sign_in_privacy_title), getString(R.string.next_sign_in_privacy_message), stringPrivacy)
             privacyPicker.setValueChangeListener(this)
             privacyPicker.show(supportFragmentManager, "Privacy picker")
         }
