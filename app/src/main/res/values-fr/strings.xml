@@ -305,5 +305,12 @@
     <string name="page1_content">
         Nous affichons tous les évènements sportifs se trouvant près de votre localisation. Vous pouvez configurer l\'affichage des évènements selon les sports qui vous intérresse.
     </string>
+    <string name="page2_title">Créer votre propre évènement</string>
+    <string name="page2_content">
+        Créer votre évènement sportif quand vous voulez, où voulez.
+        Vous pouvez créer un évènement visible par tous ou seulement pour vos amis. </string>
+    <string name="page3_title">Et surtout, gardez le contact.</string>
+    <string name="page3_content">
+        Communiquer avec vos amis, les autres membres de l\'application et même les participants d\'un de vos évènements. </string>
 
 </resources>

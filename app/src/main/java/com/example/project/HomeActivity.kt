@@ -116,6 +116,21 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             startActivity(logInIntent)
         }else {
 
+            //Verify if user has already seen the tutorial for beginner
+            FirebaseDatabase.getInstance().getReference("parameters/${session.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if(!p0.hasChild("tutorialBeginner")){
+                        val intent = Intent(this@HomeActivity, Tutorial::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                    }
+                }
+
+            })
+
             val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
             val navView: NavigationView = findViewById(R.id.nav_view)
             val bottomView : BottomNavigationView  = findViewById(R.id.nav_bottom)
@@ -137,8 +152,6 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             drawerMenu.setInfo()
 
             loadFragment(HomeFragment(bottomMenu))
-
-            //startActivity(Intent(this, Tutorial::class.java))
 
 
         }

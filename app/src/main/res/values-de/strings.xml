@@ -307,5 +307,12 @@
     <string name="page1_content">
         We display all sports events near your location. You can configure the display of events according to the sports you are interested in.
     </string>
-
+    <string name="page2_title">Create your own event</string>
+    <string name="page2_content">
+        Create your sporting event whenever you want, where you want.
+        You can create an event visible to all or only to your friends.</string>
+    <string name="page3_title">Create your own event</string>
+    <string name="page3_content">
+        Create your sporting event whenever you want, where you want.
+        You can create an event visible to all or only to your friends.</string>
 </resources>

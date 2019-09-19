@@ -13,4 +13,5 @@ class SliderPageFragment(val listFm : List<Fragment>, val fm : FragmentManager) 
     override fun getCount(): Int {
         return listFm.size
     }
+
 }

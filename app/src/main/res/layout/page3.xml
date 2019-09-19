@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:background="#f39c12"
+              android:padding="10dp"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -7,7 +9,48 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PAGE 3"
+            android:text="@string/page3_title"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:textAlignment="center"
+            android:id="@+id/title"
     />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/title"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="80dp"
+    >
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/page3_content"
+                android:textColor="#fff"
+                android:textSize="26sp"
+        />
+
+    </RelativeLayout>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="-80dp"
+            android:gravity="right|end"
+    >
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:text="Let's go !"
+            android:textColor="#fff"
+            android:drawableRight="@drawable/ic_arrow_right"
+            android:drawablePadding="30dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_marginRight="30dp"
+            android:id="@+id/buttonTutoSee"
+        />
+    </RelativeLayout>
 
 </LinearLayout>
