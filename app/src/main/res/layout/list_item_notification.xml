@@ -6,6 +6,7 @@
               android:padding="10dp"
               android:layout_height="wrap_content"
               android:id="@+id/content"
+              android:background="@drawable/background_notif_seen"
         >
 
     <RelativeLayout
@@ -19,6 +20,7 @@
                 android:src="@drawable/com_facebook_profile_picture_blank_portrait"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                app:civ_circle_background_color="#FF0D91BD"
                 />
         <ImageButton
                 android:layout_width="24dp"
@@ -49,7 +51,7 @@
                     android:text="Name"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
-                    android:textColor="#000"
+                    android:textColor="@color/colorText"
                     />
         </RelativeLayout>
         <RelativeLayout
@@ -73,6 +75,7 @@
                         android:fontFamily="@font/rubik"
                         android:gravity="center_vertical"
                         android:padding="5dp"
+                        android:textColor="@color/colorText"
                         />
 
             </RelativeLayout>

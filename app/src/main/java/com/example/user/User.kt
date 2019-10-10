@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.Html
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.login.EmailLogin
 import com.example.notification.Action
 import com.example.notification.Notifications
@@ -106,10 +107,14 @@ data class User(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
+                    Toast.makeText(context, "${value.urlPhoto}", Toast.LENGTH_SHORT).show()
                     if(value.urlPhoto.isNotEmpty()) {
                         val refPhoto  = FirebaseStorage.getInstance().getReference("images/${value.urlPhoto}").downloadUrl
                         refPhoto.addOnSuccessListener {
                             Picasso.get().load(it).into(imageView)
+                        }
+                        refPhoto.addOnFailureListener {
+                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                     else{

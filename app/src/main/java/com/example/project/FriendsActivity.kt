@@ -1,20 +1,17 @@
 package com.example.project
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.core.view.forEach
 import com.example.arrayAdapterCustom.ArrayAdapterFriends
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
-import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.*
 
@@ -55,10 +52,12 @@ class FriendsActivity : AppCompatActivity() {
                     0 -> {
                         friendsList(applicationContext)
                         supportActionBar?.title = getString(R.string.friend_title)
+                        session.getNightMode()
                     }
                     1 ->{
                         waitingList(applicationContext)
                         supportActionBar?.title = getString(R.string.invitation_title)
+                        session.getNightMode()
                     }
                 }
             }

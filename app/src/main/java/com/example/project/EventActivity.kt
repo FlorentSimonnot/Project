@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.ListView
 import android.widget.NumberPicker
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.forEach
 import androidx.core.view.get
@@ -25,7 +26,6 @@ import com.google.firebase.database.*
 class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.OnValueChangeListener {
     override fun onValueChange(p0: NumberPicker?, p1: Int, p2: Int) {
         if(p0?.maxValue == 2){
-            //filter.text = valuesFilter[p0?.value]
             filterValue = p0?.value
             eventsList(this)
         }
@@ -73,13 +73,11 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
                 when(p0?.position){
                     0 -> {
                         filterValue = 0
-                        //filter.text = valuesFilter[filterValue]
                         eventsList(applicationContext)
                         supportActionBar?.title = resources.getString(R.string.events_created_title)
                     }
                     1 ->{
                         filterValue = 0
-                        //filter.text = valuesFilter[filterValue]
                         eventsJoinedList(applicationContext)
                         supportActionBar?.title = resources.getString(R.string.events_joined_title)
                     }
@@ -170,15 +168,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
                     listView.clearChoices()
-                    var layout = 0
-                    when(action){
-                        "created" -> {
-                            layout = R.layout.my_list
-                        }
-                        "joined" -> {
-                            layout = R.layout.my_list
-                        }
-                    }
+                    var layout = R.layout.my_list_mini
                     val adapter = ArrayAdapterEvents(
                         context,
                         layout,

@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".FriendsActivity"
+        android:background="@color/backgroundColor"
         >
 
     <RelativeLayout
@@ -59,7 +60,8 @@
                 android:layout_below="@id/tab"
                 tools:ignore="MissingConstraints"
                 android:orientation="vertical"
-                android:background="#fff"
+                android:background="@color/backgroundColor"
+                android:paddingTop="20dp"
                 >
 
             <ListView
@@ -75,13 +77,14 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:padding="10dp"
+                    android:gravity="center_vertical"
                     >
                 <TextView
                         android:id="@+id/noResults"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/no_result"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorText"
                         android:fontFamily="@font/rubik"
                         android:textSize="22sp"
                         android:gravity="center"

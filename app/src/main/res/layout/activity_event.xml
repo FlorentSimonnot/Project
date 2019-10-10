@@ -57,7 +57,7 @@
                 android:layout_below="@id/tab"
                 tools:ignore="MissingConstraints"
                 android:orientation="vertical"
-                android:background="#fff"
+                android:background="@color/backgroundColor"
                 >
 
             <ListView
@@ -83,7 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/no_result"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorText"
                         android:fontFamily="@font/rubik"
                         android:textSize="22sp"
                         android:gravity="center_horizontal|center_vertical"

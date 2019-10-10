@@ -334,4 +334,14 @@
         Communiquer avec vos amis, les autres membres de l\'application et même les participants d\'un de vos évènements. </string>
     <string name="tutorial_lets_go">Commencer</string>
 
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+
+    <string name="discussion_turn_off">L\'administrateur a désactivité la discussion de groupe.</string>
+
 </resources>

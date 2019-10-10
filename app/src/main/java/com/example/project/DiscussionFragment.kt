@@ -59,8 +59,6 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
         recyclerView.layoutManager = llm
 
 
-        //newMessage = view.findViewById(R.id.btn_new_message)
-
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 friendsList(context!!, p0?.toString()!!)

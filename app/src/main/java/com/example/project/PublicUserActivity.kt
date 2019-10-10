@@ -161,7 +161,7 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
-                val events: ArrayList<Event> = ArrayList()
+                var events: ArrayList<Event> = ArrayList()
                 data.forEach {
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
@@ -178,12 +178,13 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
                     var layout = 0
                     when(action){
                         "created" -> {
-                            layout = R.layout.my_list
+                            layout = R.layout.my_list_mini
                         }
                         "joined" -> {
-                            layout = R.layout.my_list
+                            layout = R.layout.my_list_mini
                         }
                     }
+                    events = ArrayList(events.sortedWith(compareBy{ it.date }).reversed())
                     val adapter = ArrayAdapterEvents(
                         context,
                         layout,

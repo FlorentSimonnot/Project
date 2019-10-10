@@ -2,6 +2,7 @@ package com.example.project
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
@@ -174,6 +176,19 @@ class EventInfoViewParticipantActivity : AppCompatActivity(), OnMapReadyCallback
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val context = this
+
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = googleMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    this, R.raw.style_json
+                )
+            )
+
+            if(!success) {}
+        } catch (e: Resources.NotFoundException) {
+        }
 
         val ref = FirebaseDatabase.getInstance().getReference("events/$keyEvent")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {

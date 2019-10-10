@@ -334,4 +334,14 @@
         친구, 다른 사용자 및 이벤트 멤버와 대화</string>
     <string name="tutorial_lets_go">가자!</string>
 
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+
+    <string name="discussion_turn_off">The admin turned off the discussion</string>
+
 </resources>

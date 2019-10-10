@@ -14,6 +14,7 @@
             android:orientation="vertical"
             tools:ignore="MissingConstraints"
             android:id="@+id/layout_header"
+            android:background="@color/backgroundColor"
             >
 
         <androidx.appcompat.widget.Toolbar
@@ -59,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="28sp"
                     android:fontFamily="@font/rubik"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorText"
                     android:gravity="center"
                     android:id="@+id/identity"
                     android:layout_marginLeft="100dp"
@@ -244,7 +245,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:text="About FirstName"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorText"
                         android:drawableLeft="@drawable/ic_more"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/ic_more"

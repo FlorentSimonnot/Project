@@ -26,8 +26,16 @@ class DateUTC(
         return SimpleDateFormat("dd").format(date)
     }
 
+    fun getDayInt() : Int{
+        return SimpleDateFormat("dd").format(date).toInt()
+    }
+
     fun getMonthLetter() : String{
         return SimpleDateFormat("MMM", Locale.getDefault()).format(date)
+    }
+
+    fun getMonthInt() : Int{
+        return SimpleDateFormat("MM", Locale.getDefault()).format(date).toInt()
     }
 
     fun showDate() : String{
@@ -43,6 +51,14 @@ class DateUTC(
         }
         val simpleDate = getFormatTime()
         return simpleDate.format(date)
+    }
+
+    fun showHour() : String{
+        return SimpleDateFormat("HH").format(date)
+    }
+
+    fun showMinutes() : String{
+        return SimpleDateFormat("mm").format(date)
     }
 
     fun isToday() : Boolean{

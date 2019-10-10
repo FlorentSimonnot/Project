@@ -17,6 +17,47 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundColor"
+            android:orientation="vertical">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+        >
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:text="Activate/Deactivate night mode"
+                    android:padding="10dp"
+                    android:id="@+id/nightMode"
+            />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+        >
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:text="Activate/Deactivate night mode"
+                    android:padding="10dp"
+                    android:id="@+id/unities"
+            />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
 
 
 </LinearLayout>

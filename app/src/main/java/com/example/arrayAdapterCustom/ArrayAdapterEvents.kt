@@ -41,7 +41,7 @@ class ArrayAdapterEvents(
         val iconSport : ImageView = view.findViewById(R.id.icon_sport)
 
         if(events.size > 0) {
-            textView.text = events[position].name
+            textView.text = events[position].name.toUpperCase()
             Event().writeInfoEvent(ctx, events[position].key, textViewDescription, "place")
             textViewDescription.text = events[position].place.address
             day.text = DateUTC(events[position].date).getDay()

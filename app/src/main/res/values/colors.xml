@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#60a3bc</color>
+    <color name="colorPrimary">#0097A7</color>
     <color name="colorPrimaryTwo">#0277BD</color>
     <color name="colorPrimaryAlpha50">#E60277BD</color>
     <color name="colorPrimaryDark">#fff</color>
@@ -17,4 +17,19 @@
     <color name="colorButtonPressed">#CFD8DC</color>
     <color name="colorGrey50">#FAFAFA</color>
     <color name="backgroundColor">#fff</color>
+    <color name="backgroundEvent">#E3F2FD</color>
+    <color name="colorTextPrimary">#60a3bc</color>
+    <color name="colorText">#000</color>
+    <color name="colorTextTitleEventList">#2d3436</color>
+    <color name="colorTextPlaceEventList">#dedede</color>
+    <color name="colorBackgroundMenu">#fff</color>
+    <color name="colorBackgroundTitleEvent">#fff</color>
+    <color name="colorSeparatorInfo">#60a3bc</color>
+    <color name="colorNotificationNotSeen">#60a3bc</color>
+    <color name="colorSelector">#d50000</color>
+    <color name="backgroundCalendar">#00ACC1</color>
+    <color name="backgroundListView">#fafafa</color>
+    <color name="colorCircleMessageNotRead">#0097A7</color>
+    <color name="deleteNotification">#b71c1c</color>
+    <color name="backgroundAlertDialog">#fff</color>
 </resources>

@@ -1,6 +1,5 @@
 package com.example.events
 
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -12,20 +11,12 @@ import android.view.View
 import android.widget.*
 import com.example.dateCustom.DateUTC
 import com.example.notification.Action
-import com.example.notification.CloudFunction
-import com.example.place.SessionGooglePlace
 import com.example.project.*
 import com.example.session.SessionUser
 import com.example.sport.Sport
 import com.example.status.Status
 import com.example.user.Gender
 import com.example.user.PrivacyAccount
-import com.example.user.User
-import com.example.user.UserWithKey
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -132,7 +123,15 @@ data class Event (
                             textView.text = value.place.address
                         }
                         "numberOfParticipants" -> {
-                            textView.text = "${value.nb_people}"
+                            var res = 0
+                            val data = value.participants
+                            data.forEach {
+                                if(it.value.status == "confirmed"){
+                                    res++
+                                }
+                            }
+                            res++
+                            textView.text = "$res/${value.nb_people}"
                         }
                         "date" -> {
                             textView.text = DateUTC(value.date).showDate()
@@ -153,6 +152,17 @@ data class Event (
                             }
                             res++
                             textView.text ="$res"
+                        }
+                        "participants" -> {
+                            var res = 0
+                            val data = value.participants
+                            data.forEach {
+                                if(it.value.status == "confirmed"){
+                                    res++
+                                }
+                            }
+                            res++
+                            textView.text ="$res participants"
                         }
                         "waiting" -> {
                             var res = 0
@@ -183,6 +193,18 @@ data class Event (
                         else -> textView.text = "NULL"
                     }
                 }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+    }
+
+    fun writeInfoTitleDiscussioEvent(context: Context, key: String?, supportActionBar: androidx.appcompat.app.ActionBar) {
+        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val value = dataSnapshot.getValue(Event::class.java)
+                supportActionBar.title = value?.name
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

@@ -308,7 +308,8 @@
     <string name="next_sign_in_male">Male</string>
     <string name="next_sign_in_female">Female</string>
     <string name="next_sign_in_other">Other</string>
-    <string name="next_sign_in_privacy_message">With choosing private privacy users can only see your name or your events created
+    <string name="next_sign_in_privacy_message">With choosing private privacy users can only see your name or your
+        events created
         and joined
     </string>
     <string name="next_sign_in_public">Public</string>
@@ -329,15 +330,29 @@
     <!--TUTORIAL-->
     <string name="page1_title">Found event near your location</string>
     <string name="page1_content">
-        We display all sports events near your location. You can configure the display of events according to the sports you are interested in.
+        We display all sports events near your location. You can configure the display of events according to the sports
+        you are interested in.
     </string>
     <string name="page2_title">Create your own event</string>
     <string name="page2_content">
         Create your sporting event whenever you want, where you want.
-        You can create an event visible to all or only to your friends.</string>
+        You can create an event visible to all or only to your friends.
+    </string>
     <string name="page3_title">And most importantly, keep in touch.</string>
     <string name="page3_content">
-        Communicate with your friends, other app members, and even attendees of one of your events.</string>
+        Communicate with your friends, other app members, and even attendees of one of your events.
+    </string>
     <string name="tutorial_lets_go">Let\'s go!</string>
+
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.
+    </string>
+
+    <string name="discussion_turn_off">The admin turned off the discussion</string>
 
 </resources>

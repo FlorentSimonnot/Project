@@ -1,8 +1,16 @@
 package com.example.project
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.IntentSender
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -14,9 +22,9 @@ import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.menu.DrawerMenu
 import com.example.menu.MenuCustom
@@ -25,6 +33,10 @@ import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -43,6 +55,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
     private lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var bottomMenu : MenuCustom
     private lateinit var createEventButton : FloatingActionButton
+
 
     val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener  { item ->
         when (item.itemId) {
@@ -94,9 +107,6 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.home_title)
 
-        configLanguage()
-
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         fragmentContainer = findViewById(R.id.HomeFragment)
 
@@ -115,6 +125,9 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             this.finish()
             startActivity(logInIntent)
         }else {
+            configLanguage()
+            session.getNightMode()
+            //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
             //Verify if user has already seen the tutorial for beginner
             FirebaseDatabase.getInstance().getReference("parameters/${session.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
@@ -152,7 +165,6 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
             drawerMenu.setInfo()
 
             loadFragment(HomeFragment(bottomMenu))
-
 
         }
 
@@ -211,4 +223,5 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
     private fun configLanguage(){
         FirebaseDatabase.getInstance().reference.child("parameters/${session.getIdFromUser()}/language").setValue(Locale.getDefault().displayLanguage)
     }
+
 }

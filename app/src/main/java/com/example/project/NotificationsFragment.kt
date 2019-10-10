@@ -2,21 +2,21 @@ package com.example.project
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.discussion.NotificationsAdapter
 import com.example.menu.MenuCustom
+import com.example.notification.SwipeNotificationToDelete
 import com.example.notification.*
 import com.example.session.SessionUser
 import com.google.firebase.database.DataSnapshot
@@ -116,18 +116,30 @@ class NotificationsFragment(
 
             override fun onDataChange(p0: DataSnapshot) {
                 notifications.clear()
+
                 val notifs = p0.children
                 notifs.forEach {
                     val notif = it.getValue(Notification::class.java) as Notification
-                    notif.isSeen = it.child("isSeen").value as Boolean
-                    notifications.add(NotificationWithKey(notif, it.key!!))
+                    if(notif.type.key.isNotEmpty()){
+                        println("OUPSI NOTIF $notif")
+                        notif.isSeen = it.child("isSeen").value as Boolean
+                        notifications.add(NotificationWithKey(notif, it.key!!))
+                    }
                 }
+
                 if(notifications.size > 0){
                     var sortedList= ArrayList(notifications.sortedWith(compareBy({it.notification.date})))
                     sortedList.reverse()
                     notifications = sortedList
-                    adapter = NotificationsAdapter(context!!, R.layout.list_item_notification, sortedList, this@NotificationsFragment)
+                    adapter = NotificationsAdapter(activity!!, context!!, R.layout.list_item_notification, sortedList, this@NotificationsFragment)
                     recyclerView.adapter = adapter
+                    val itemTouchHelper = ItemTouchHelper(
+                        SwipeNotificationToDelete(
+                            context!!,
+                            adapter
+                        )
+                    )
+                    itemTouchHelper.attachToRecyclerView(recyclerView)
                     textView.visibility = View.VISIBLE
                     recyclerView.visibility = View.VISIBLE
                     noResults.visibility = View.GONE
@@ -150,6 +162,10 @@ class NotificationsFragment(
                         Action.ACCEPT, Action.INVITATION, Action.MODIFY -> {
                             notifications[position].seeNotification(context!!)
                             startActivity(Intent(context, EventInfoViewParticipantActivity::class.java).putExtra("key",notifications[position].notification.type.key ))
+                        }
+                        Action.WAIT -> {
+                            notifications[position].seeNotification(context!!)
+                            startActivity(Intent(context, EventInfoJojoActivity::class.java).putExtra("key",notifications[position].notification.type.key ))
                         }
                         else -> {
                             notifications[position].seeNotification(context!!)

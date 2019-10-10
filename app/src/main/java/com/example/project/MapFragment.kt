@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
@@ -132,6 +133,18 @@ open class MapFragment(
         map = p0!!
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = p0.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    context!! , R.raw.style_json
+                )
+            )
+
+            if(!success) {}
+        } catch (e: Resources.NotFoundException) {
+        }
         setUpMap()
     }
 

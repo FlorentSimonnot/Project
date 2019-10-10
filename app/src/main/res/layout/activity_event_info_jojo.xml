@@ -6,11 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".EventInfoJojoActivity"
+        android:background="@color/backgroundColor"
         >
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/event_info_layout"
             tools:ignore="MissingConstraints"
             >
@@ -38,13 +39,14 @@
                   android:id="@+id/map"
                   tools:context=".MapsActivity"
                   android:name="com.google.android.gms.maps.SupportMapFragment" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/title_creator_sport"
             android:layout_below="@id/map"
             android:orientation="horizontal"
-            android:background="#fff"
+            android:background="@color/colorBackgroundTitleEvent"
         >
             <LinearLayout
                     android:layout_width="match_parent"
@@ -62,7 +64,7 @@
                     android:text="title"
                     android:fontFamily="@font/rubik"
                     android:textSize="22sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#fff"
                 />
                 <TextView
                     android:layout_width="match_parent"
@@ -70,7 +72,7 @@
                     android:id="@+id/creator"
                     android:text="title"
                     android:fontFamily="@font/rubik"
-                    android:textColor="@color/colorBlueGrey900"
+                    android:textColor="#fff"
                     android:layout_marginTop="10dp"
                         />
 
@@ -109,6 +111,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp"
                 android:background="@drawable/border_bottom"
+
                 >
 
             <LinearLayout
@@ -133,6 +136,7 @@
                         android:text="@string/event_info_invite_people"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
+                        android:textColor="#fff"
                         />
 
             </LinearLayout>
@@ -158,6 +162,7 @@
                         android:text="@string/event_info_edit"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
+                        android:textColor="#fff"
                         />
 
             </LinearLayout>
@@ -182,6 +187,7 @@
                         android:text="@string/event_info_delete"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
+                        android:textColor="#fff"
                         />
 
             </LinearLayout>
@@ -194,7 +200,7 @@
                 android:id="@+id/date_hour_place"
                 android:layout_below="@id/accessibility"
                 android:orientation="vertical"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 android:padding="10dp"
         >
             <TextView
@@ -208,6 +214,7 @@
                     android:fontFamily="@font/rubik"
                     android:layout_marginTop="20dp"
                     android:textSize="16sp"
+                    android:textColor="#fff"
                     />
             <RelativeLayout
                     android:layout_width="match_parent"
@@ -228,6 +235,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/rubik"
                 android:textSize="16sp"
+                android:textColor="#fff"
             />
             <RelativeLayout
                 android:id="@+id/separator"
@@ -249,6 +257,7 @@
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
+                    android:textColor="#fff"
                     />
 
         </LinearLayout>
@@ -259,7 +268,7 @@
                 android:id="@+id/layout_description"
                 android:layout_below="@id/date_hour_place"
                 android:orientation="vertical"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
                 >
@@ -270,6 +279,7 @@
                     android:text="@string/event_info_description"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
+                    android:textColor="#fff"
                     />
 
         </LinearLayout>
@@ -282,7 +292,7 @@
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 >
 
             <LinearLayout
@@ -311,6 +321,7 @@
                         android:text="@string/event_info_participants"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
+                        android:textColor="#079992"
                         />
 
             </LinearLayout>
@@ -319,7 +330,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:id="@+id/waiting"
-                    android:background="#fff"
+                    android:background="@color/colorBackgroundTitleEvent"
                     android:orientation="vertical"
                     android:padding="10dp"
                     android:gravity="center"
@@ -340,9 +351,37 @@
                         android:text="@string/event_info_waiting"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
+                        android:textColor="#fad390"
                         />
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/discussion"
+                android:layout_below="@id/stats"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:gravity="end"
+        >
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:id="@+id/goChat"
+                    app:srcCompat="@drawable/ic_comment"
+                    app:borderWidth="0dp"
+                    app:elevation="0dp"
+                    android:background="@null"
+                    android:elevation="0dp"
+                    style="?android:attr/borderlessButtonStyle"
+        />
+
 
         </LinearLayout>
 

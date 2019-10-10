@@ -19,22 +19,23 @@ class NotificationWithKey(
     fun seeNotification(context : Context){
         sessionUser = SessionUser(context)
         val ref = FirebaseDatabase.getInstance().reference
-        ref.child("notifications").child("${sessionUser.getIdFromUser()}").child("$key").child("isSeen").setValue(true)
+        ref.child("notifications").child(sessionUser.getIdFromUser()).child(key).child("isSeen").setValue(true)
     }
 
     fun removeNotification(context: Context){
         sessionUser = SessionUser(context)
-        val deleteNotificationAlertDialog = AlertDialog.Builder(context)
-        deleteNotificationAlertDialog.setTitle("You are deleting a notification")
-        deleteNotificationAlertDialog.setMessage("Confirm?")
-        deleteNotificationAlertDialog.setPositiveButton("Yes") { _, _ ->
-            val ref = FirebaseDatabase.getInstance().reference
-            ref.child("notifications").child("${sessionUser.getIdFromUser()}").child("$key").removeValue()
-        }
-        deleteNotificationAlertDialog.setNegativeButton("No"){ _, _ ->
+        val ref = FirebaseDatabase.getInstance().reference
+        ref.child("notifications").child(sessionUser.getIdFromUser()).child(key).removeValue()
+    }
 
-        }
-        deleteNotificationAlertDialog.show()
+    fun insertNotification(context: Context){
+        sessionUser = SessionUser(context)
+        val ref = FirebaseDatabase.getInstance().reference
+        println("LALA ${this.notification}")
+        ref.child("notifications").child(sessionUser.getIdFromUser()).child(key).child("date").setValue(this.notification.date)
+        ref.child("notifications").child(sessionUser.getIdFromUser()).child(key).child("message").setValue(this.notification.message)
+        ref.child("notifications").child(sessionUser.getIdFromUser()).child(key).child("isSeen").setValue(this.notification.isSeen)
+        ref.child("notifications").child(sessionUser.getIdFromUser()).child(key).child("type").setValue(this.notification.type)
     }
 
 

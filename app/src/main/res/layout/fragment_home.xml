@@ -2,31 +2,104 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context=".HomeFragment"
-             android:padding="10dp"
+>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/backgroundCalendar"
+            android:id="@+id/barMonth"
+            android:layout_below="@id/toolbar"
+    >
+        <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
         >
+
+            <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_back"
+                    android:background="@null"
+                    android:id="@+id/backArrow"
+            />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+        >
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Septembre 2019"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:textSize="22sp"
+                    android:id="@+id/calendarMonthYear"
+            />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+        >
+
+            <ImageButton
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_next"
+                    android:background="@null"
+                    android:id="@+id/nextArrow"
+            />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundCalendar"
+            android:id="@+id/barWeek"
+            android:layout_below="@id/barMonth"
+            android:layout_marginTop="60dp"
+    >
+
+        <devs.mulham.horizontalcalendar.HorizontalCalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                app:selectedDateBackground="@drawable/background_notif_seen"
+                app:selectorColor="@color/colorSelector"
+                app:textColorNormal="#fff"
+                app:textColorSelected="@color/colorSelector"/>
+        
+    </RelativeLayout>
 
     <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar"
+            android:layout_below="@id/barWeek"
             android:id="@+id/layoutEventsView"
+            android:layout_marginTop="130dp"
             tools:ignore="MissingConstraints">
-        <TextView
-                android:id="@+id/comingSoon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_coming_soon"
-                android:padding="10dp"
-                android:fontFamily="@font/rubik"
-                />
         <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/events_listview"
-                android:layout_below="@id/comingSoon"
                 android:dividerHeight="10.0sp"
                 android:divider="@android:color/transparent"
                 android:layout_marginBottom="10dp"
@@ -57,25 +130,5 @@
 
     </RelativeLayout>
 
-    <!--<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="MissingConstraints"
-            >
-        <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:textColor="#fff"
-                android:id="@+id/create_event"
-                android:text="+"
-                android:textSize="36sp"
-                android:background="@drawable/rounded_button"
-                tools:ignore="MissingConstraints"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="30dp"
-                android:layout_marginRight="30dp"
-                />
-    </RelativeLayout>-->
 
 </FrameLayout>

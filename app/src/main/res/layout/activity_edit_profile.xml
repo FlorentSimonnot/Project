@@ -55,6 +55,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
+                    android:background="@color/backgroundColor"
                     >
                 <!--PROFILE PHOTO-->
 
@@ -88,14 +89,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/profile_photo"
-                            android:background="#f5f6fa"
+                            android:background="@color/backgroundColor"
                             android:drawableStart="@drawable/ic_camera"
                             android:drawableLeft="@drawable/ic_camera"
                             android:drawablePadding="10dp"
                             android:fontFamily="@font/rubik"
                             android:padding="5dp"
                             android:text="@string/edit_profile_change_photo"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             />
 
                 </LinearLayout>
@@ -107,7 +108,7 @@
                         android:padding="15dp"
                         android:id="@+id/email_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:layout_marginTop="10dp"
                         >
                     <ImageView
@@ -120,6 +121,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/email_account"
                             android:text=""
+                            android:textColor="@color/colorText"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="20sp"
@@ -134,7 +136,7 @@
                         android:padding="15dp"
                         android:id="@+id/sex_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         >
                     <ImageView
                             android:layout_width="28dp"
@@ -151,6 +153,7 @@
                             android:textSize="20sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
+                            android:textColor="@color/colorText"
                             android:background="@drawable/border_bottom_primary"
                             />
                 </LinearLayout>
@@ -161,7 +164,7 @@
                         android:padding="15dp"
                         android:id="@+id/birthday_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         >
                     <ImageView
                             android:layout_width="28dp"
@@ -178,6 +181,7 @@
                             android:textSize="20sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
+                            android:textColor="@color/colorText"
                             android:background="@drawable/border_bottom_primary"
                             />
                 </LinearLayout>
@@ -188,7 +192,7 @@
                         android:padding="15dp"
                         android:id="@+id/city_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         >
                     <ImageView
                             android:layout_width="28dp"
@@ -205,6 +209,7 @@
                             android:textSize="20sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
+                            android:textColor="@color/colorText"
                             android:background="@drawable/border_bottom_primary"
                             />
                 </LinearLayout>
@@ -216,7 +221,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/describe_layout"
                         android:orientation="vertical"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:layout_marginTop="30dp"
                         android:padding="10dp"
                         >
@@ -226,6 +231,7 @@
                             android:text="@string/edit_profile_description"
                             android:layout_marginLeft="2dp"
                             android:layout_marginRight="2dp"
+                            android:textColor="@color/colorText"
                             android:fontFamily="@font/rubik"
                             />
                     <EditText
@@ -234,6 +240,7 @@
                             android:id="@+id/describe_account"
                             android:textSize="15dp"
                             android:padding="10dp"
+                            android:textColor="@color/colorText"
                             android:background="@drawable/border_bottom_primary"
                             />
                 </LinearLayout>
@@ -243,7 +250,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/radius_layout"
                         android:orientation="horizontal"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:layout_marginTop="30dp"
                         android:padding="15dp"
                         >
@@ -262,8 +269,8 @@
                             android:textSize="20sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
-                            android:thumbTint="@color/colorPrimary"
-                            android:progressTint="@color/colorPrimary"
+                            android:thumbTint="@color/colorSeparatorInfo"
+                            android:progressTint="@color/colorSeparatorInfo"
                             android:max="25"
                             android:backgroundTint="@color/colorBlueGrey900"
                             android:layout_marginRight="60dp"
@@ -275,7 +282,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="-50dp"
                             android:text=""
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             android:id="@+id/seekbar_value"
                             />
                 </LinearLayout>

@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".FriendsActivity"
-        android:background="#fff"
+        android:background="@color/backgroundColor"
         >
 
     <RelativeLayout
@@ -32,7 +32,7 @@
                 >
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="10dp"
                     >
 
@@ -48,7 +48,7 @@
                             android:fontFamily="@font/rubik"
                             android:textSize="22sp"
                             android:padding="5dp"
-                            android:background="@drawable/border_bottom"
+                            android:textColor="@color/colorText"
                             />
 
                 </LinearLayout>
@@ -61,21 +61,25 @@
                         android:id="@+id/invitation"
                         >
                     <TextView
-                            android:layout_width="280dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/notification_receive_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
                             android:paddingTop="10dp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginRight="100dp"
                             />
                     <Switch
                             android:layout_width="100dp"
+                            android:layout_marginLeft="-100dp"
                             android:layout_height="match_parent"
                             android:gravity="left"
                             android:layout_gravity="left"
                             android:padding="10dp"
                             android:id="@+id/user_invitation_switch"
+                            android:theme="@style/MySwitchStyle"
                             />
                 </LinearLayout>
                 <LinearLayout
@@ -87,13 +91,15 @@
                         android:id="@+id/accepted"
                         >
                     <TextView
-                            android:layout_width="280dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/notification_accept_my_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
                             android:paddingTop="10dp"
+                            android:layout_marginRight="100dp"
+                            android:textColor="@color/colorText"
                             />
                     <Switch
                             android:layout_width="100dp"
@@ -101,7 +107,9 @@
                             android:gravity="left"
                             android:layout_gravity="left"
                             android:padding="10dp"
+                            android:layout_marginLeft="-100dp"
                             android:id="@+id/user_accept_switch"
+                            android:theme="@style/MySwitchStyle"
                             />
                 </LinearLayout>
                 <LinearLayout
@@ -114,21 +122,25 @@
                         >
 
                     <TextView
-                            android:layout_width="280dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/notification_receive_message"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
                             android:paddingTop="10dp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginRight="100dp"
                             />
                     <Switch
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="left"
                             android:layout_gravity="left"
+                            android:layout_marginLeft="-100dp"
                             android:padding="10dp"
                             android:id="@+id/messages_switch"
+                            android:theme="@style/MySwitchStyle"
                             />
 
                 </LinearLayout>
@@ -146,7 +158,7 @@
                             android:fontFamily="@font/rubik"
                             android:textSize="22sp"
                             android:padding="5dp"
-                            android:background="@drawable/border_bottom"
+                            android:textColor="@color/colorText"
                             />
 
                 </LinearLayout>
@@ -159,21 +171,26 @@
                         android:id="@+id/invitation_event"
                         >
                     <TextView
-                            android:layout_width="280dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/notifications_receive_event_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
                             android:paddingTop="10dp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginRight="100dp"
                             />
                     <Switch
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="left"
                             android:layout_gravity="left"
+                            android:layout_marginLeft="-100dp"
                             android:padding="10dp"
                             android:id="@+id/event_invitation_switch"
+                            android:textColor="@color/colorText"
+                            android:theme="@style/MySwitchStyle"
                             />
                 </LinearLayout>
                 <LinearLayout
@@ -185,13 +202,15 @@
                         android:id="@+id/accepted_event"
                         >
                     <TextView
-                            android:layout_width="280dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/notification_accept_my_invitation"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
                             android:paddingTop="10dp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginRight="100dp"
                             />
                     <Switch
                             android:layout_width="100dp"
@@ -199,6 +218,8 @@
                             android:gravity="left"
                             android:padding="10dp"
                             android:id="@+id/event_accept_switch"
+                            android:theme="@style/MySwitchStyle"
+                            android:layout_marginLeft="-100dp"
                             />
                 </LinearLayout>
                 <LinearLayout
@@ -210,13 +231,15 @@
                         android:layout_below="@id/accepted_event"
                         >
                     <TextView
-                            android:layout_width="280dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/notification_someone_join_my_event"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
                             android:paddingTop="10dp"
+                            android:textColor="@color/colorText"
+                            android:layout_marginRight="100dp"
                             />
                     <Switch
                             android:layout_width="100dp"
@@ -225,6 +248,8 @@
                             android:layout_gravity="left"
                             android:padding="10dp"
                             android:id="@+id/event_join_switch"
+                            android:layout_marginLeft="-100dp"
+                            android:theme="@style/MySwitchStyle"
                             />
                 </LinearLayout>
                 <LinearLayout
@@ -237,27 +262,31 @@
                         >
 
                     <TextView
-                            android:layout_width="280dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/notification_event_modify"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="18sp"
+                            android:layout_marginRight="100dp"
                             android:paddingTop="10dp"
+                            android:textColor="@color/colorText"
                             />
                     <Switch
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:gravity="left"
+                            android:layout_marginLeft="-100dp"
                             android:layout_gravity="left"
                             android:padding="10dp"
                             android:id="@+id/modified_event_switch"
+                            android:theme="@style/MySwitchStyle"
                             />
 
                 </LinearLayout>
                 <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_below="@id/messages"
                         android:layout_marginTop="20dp"
                         android:layout_alignParentBottom="true"
@@ -268,7 +297,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/button_delete_all_notification"
                             android:background="@null"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             style="?android:attr/borderlessButtonStyle"
                             />
 

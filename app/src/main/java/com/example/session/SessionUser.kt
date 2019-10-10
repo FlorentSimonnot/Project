@@ -4,8 +4,10 @@ import androidx.appcompat.app.ActionBar
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.renderscript.Sampler
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.login.EmailLogin
 import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
@@ -445,4 +447,29 @@ class SessionUser(val context: Context) : Serializable{
         })
     }
 
+    fun setNightMode(boolean: Boolean){
+        FirebaseDatabase.getInstance().reference.child("parameters/${getIdFromUser()}/nightMode").setValue(boolean)
+    }
+
+    fun getNightMode(){
+        FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.hasChild("nightMode")){
+                    if(p0.child("nightMode").value as Boolean){
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    }
+                    else{
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    }
+                }
+                else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+
+        })
+    }
 }
