@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".RequestFriendActivity">
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#212121"
+                android:id="@+id/toolbar"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                android:theme="@style/Toolbar"
+                app:titleTextColor="#fff"
+                tools:ignore="MissingConstraints"
+        >
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="#fff"
+                        android:text="Your have a request"
+                        android:gravity="center"
+                        android:id="@+id/title"
+                        android:layout_marginRight="40dp"
+                        android:textSize="22sp"
+                        android:layout_marginEnd="40dp"/>
+
+                <ImageButton android:layout_width="match_parent"
+                             android:layout_height="match_parent"
+                             android:layout_toRightOf="@id/title"
+                             android:layout_marginLeft="-40dp"
+                             app:srcCompat="@drawable/ic_user_profile"
+                             android:background="@null"
+                             android:id="@+id/seeProfileButton"
+                             android:layout_marginStart="-40dp"/>
+
+            </RelativeLayout>
+
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp"
+        >
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageBackground"
+                    android:scaleType="centerCrop"
+                    android:alpha="0.60"
+            />
+
+            <FrameLayout android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:background="#212121"
+                         android:id="@+id/layout"
+                         android:layout_gravity="center_horizontal"
+            >
+
+                <RelativeLayout android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_horizontal"
+                >
+
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/profile_photo_layout"
+                                    android:gravity="center_horizontal"
+                                    android:layout_marginTop="30dp"
+                    >
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/profile_photo"
+                                android:layout_width="120dp"
+                                android:layout_height="120dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp"
+                                android:gravity="center_horizontal"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+                                app:civ_border_color="#FFFFFF"
+                                app:civ_border_width="2dp"
+                        />
+                    </RelativeLayout>
+
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_below="@id/profile_photo_layout"
+                                    android:id="@+id/name_layout"
+                    >
+
+
+                        <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/name"
+                                android:text="name"
+                                android:gravity="center"
+                                android:textColor="#fff"
+                                android:textSize="38sp"
+                        />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_below="@id/name_layout"
+                                    android:layout_marginTop="20dp"
+                                    android:gravity="center"
+                    >
+
+                        <Button
+                                android:layout_width="300dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rounded_button_rectangle_accept_invitation"
+                                android:textColor="#fff"
+                                android:text="Accept invitation"
+                                android:drawableLeft="@drawable/ic_verified_white"
+                                android:padding="10dp"
+                                android:id="@+id/button_accept_invitation"
+                                android:layout_marginBottom="60dp"
+
+                        />
+
+                        <Button
+                                android:layout_width="300dp"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rounded_button_rectangle_refuse_invitation"
+                                android:textColor="#fff"
+                                android:text="Refuse invitation"
+                                android:drawableLeft="@drawable/ic_cancel_white"
+                                android:padding="10dp"
+                                android:id="@+id/button_refuse_invitation"
+                                android:layout_below="@id/button_accept_invitation"
+                        />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+            </FrameLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

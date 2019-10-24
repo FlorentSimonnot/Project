@@ -13,6 +13,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".RequestFriendActivity">
+        </activity>
         <activity android:name=".ChooseBackgroundColor">
         </activity>
         <activity android:name=".GroupInformationEventDiscussion">

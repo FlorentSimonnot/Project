@@ -25,29 +25,28 @@ class AlertCustomWithRadioGroup(
     private val builder : AlertDialog.Builder = AlertDialog.Builder(context)
     private lateinit var dialog : AlertDialog
 
-    fun create(bool : Boolean) {
+    fun create(value : String) {
 
         val session = SessionUser(context)
 
         builder.setTitle(title)
         builder.setPositiveButton("Ok") {
-                dialog, id -> session.getNightMode()
+                _, _ -> //session.getNightMode()
         }
         builder.setNegativeButton("Cancel") {
-                dialog, id -> session.setNightMode(bool)
+                _, _ -> //Nothing
         }
-        val int = if(bool){0}else{1}
-        builder.setSingleChoiceItems(values, int, DialogInterface.OnClickListener { dialog, item ->
+        val int = if(value == "Km"){0}else{1}
+        builder.setSingleChoiceItems(values, int) { _, item ->
             when(item){
                 0 -> {
-                    session.setNightMode(true)
+                    session.setMeasuringSystem("Km")
                 }
                 1 -> {
-                    session.setNightMode(false)
+                    session.setMeasuringSystem("Miles")
                 }
             }
         }
-        )
 
         dialog = builder.create()
         dialog.show()

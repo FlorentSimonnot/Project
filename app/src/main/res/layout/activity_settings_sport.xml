@@ -38,6 +38,7 @@
             android:text="@string/sports_preferences_message"
             android:gravity="center"
             android:id="@+id/message"
+            android:textColor="@color/colorText"
         />
 
         <ListView

@@ -8,8 +8,32 @@
         >
 
     <RelativeLayout
+            android:id="@+id/see_profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_user_profile_primary"
+                android:id="@+id/see_profil_icon"
+        />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_toRightOf="@id/see_profil_icon"
+                android:padding="10dp"
+                android:gravity="center_vertical"
+                android:id="@+id/textViewSeeProfile"
+        />
+
+    </RelativeLayout>
+
+    <RelativeLayout
             android:id="@+id/send_message_layout"
             android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content">
 
         <ImageView

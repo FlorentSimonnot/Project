@@ -52,6 +52,7 @@
                             android:src="@drawable/com_facebook_profile_picture_blank_portrait"
                             app:civ_border_width="2dp"
                             app:civ_border_color="#FF000000"
+                            app:civ_circle_background_color="#fff"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             />
@@ -249,30 +250,32 @@
                         android:background="@color/colorBackgroundTitleEvent"
                         android:layout_marginTop="30dp"
                         android:padding="15dp"
+                        android:layout_gravity="center_vertical"
                         >
                     <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             app:srcCompat="@drawable/ic_distance"
                             />
-                    <SeekBar
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/radius"
-                            android:text=""
-                            android:fontFamily="@font/rubik"
-                            android:paddingBottom="10dp"
-                            android:textSize="20sp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginStart="20dp"
-                            android:thumbTint="@color/colorSeparatorInfo"
-                            android:progressTint="@color/colorSeparatorInfo"
-                            android:max="25"
-                            android:backgroundTint="@color/colorBlueGrey900"
-                            android:layout_marginRight="60dp"
-                            android:layout_marginEnd="60dp"
-                            android:focusable="false"
-                            />
+
+                    <ProgressBar android:layout_width="match_parent"
+                                    android:layout_height="10dp"
+                                    android:id="@+id/radius"
+                                    android:paddingBottom="10dp"
+                                    android:textSize="20sp"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginRight="60dp"
+                                    android:layout_marginEnd="60dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    android:progress="18"
+                                    android:progressTint="#fff"
+                                    android:secondaryProgressTint="@color/colorText"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    >
+
+                    </ProgressBar>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

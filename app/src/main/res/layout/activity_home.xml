@@ -36,8 +36,8 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="0dp"
                 android:background="@color/colorPrimary"
-                app:itemTextColor="#fff"
-                app:itemIconTint="#fff"
+                app:itemTextColor="@drawable/menu_icon_color"
+                app:itemIconTint="@drawable/menu_icon_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -96,14 +96,6 @@
                 android:layout_gravity="bottom"
                 android:orientation="vertical"
         >
-            <TextView
-                    android:id="@+id/version"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/version"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    />
 
             <Button
                     android:id="@+id/logout"

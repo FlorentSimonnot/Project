@@ -32,4 +32,9 @@
     <color name="colorCircleMessageNotRead">#0097A7</color>
     <color name="deleteNotification">#b71c1c</color>
     <color name="backgroundAlertDialog">#fff</color>
+    <color name="colorMenuItemActive">#fff</color>
+    <color name="colorMenuItem">#dedede</color>
+    <color name="colorParameterTitle">#0097A7</color>
+    <color name="colorParameterSub">#616161</color>
+    <color name="backgroundPage">#E0E0E0</color>
 </resources>

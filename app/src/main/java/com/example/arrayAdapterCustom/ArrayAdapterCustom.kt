@@ -11,6 +11,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.widget.*
 import com.example.dateCustom.DateUTC
+import com.example.events.Distance
 import com.example.events.Event
 import com.example.events.EventWithDistance
 import com.example.images.Image
@@ -37,15 +38,14 @@ class ArrayAdapterCustom(private val ctx : Context , val activity : Activity, pr
         val imageView :ImageView = view.findViewById(R.id.icon_sport)
         val textView : TextView = view.findViewById(R.id.event_name)
         val textView1 : TextView = view.findViewById(R.id.event_desc)
-        val day = view.findViewById<TextView>(R.id.day)
+        val time = view.findViewById<TextView>(R.id.time)
         val month = view.findViewById<TextView>(R.id.month)
         val distance = view.findViewById<TextView>(R.id.event_distance)
         val numberParticipants : TextView = view.findViewById(R.id.event_participants)
 
         imageView.setImageDrawable(ctx.resources.getDrawable(events[position].event.sport.getLogoSport()))
         textView.text = events[position].event.name.toString().toUpperCase()
-        day.text = DateUTC(events[position].event.date).showHour()
-        month.text = DateUTC(events[position].event.date).showMinutes()
+        time.text = "${DateUTC(events[position].event.date).showHour()}H${DateUTC(events[position].event.date).showMinutes()}"
         Event().writeInfoEvent(ctx, events[position].event.key, numberParticipants, "numberOfParticipants")
         view.setOnClickListener {
             if(events[position].event.creator != SessionUser(context).getIdFromUser()){
@@ -65,7 +65,9 @@ class ArrayAdapterCustom(private val ctx : Context , val activity : Activity, pr
         }
 
         textView1.text = events[position].event.place.address
-        distance.text = "${String.format("%.2f", (events[position].distance)/1000)} km"
+        val distanceV = Distance(events[position].distance.toDouble())
+        distanceV.convertMetersToKilometers()
+        SessionUser(ctx).writeKmOrMiles(distanceV, distance, false)
 
         return view
     }

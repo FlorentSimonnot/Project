@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.GridView
 import android.widget.ListView
 import android.widget.RelativeLayout
 import com.example.arrayAdapterCustom.ArrayAdapterCustomUsers
@@ -14,16 +16,16 @@ import com.example.user.User
 import com.example.user.UserWithKey
 import com.google.firebase.database.*
 
-class FriendsListActivity : AppCompatActivity() {
+class FriendsListActivity : AppCompatActivity(){
     val session = SessionUser(this)
-    private lateinit var listView : ListView
+    private lateinit var listView : GridView
     private lateinit var noResults : RelativeLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friends_list)
 
-        var toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        val toolbar : androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.title = ""
 
@@ -118,4 +120,5 @@ class FriendsListActivity : AppCompatActivity() {
         startActivity(intent)
         return true
     }
+
 }

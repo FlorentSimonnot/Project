@@ -3,11 +3,16 @@ package com.example.session
 import androidx.appcompat.app.ActionBar
 import android.content.Context
 import android.content.Intent
+import android.graphics.*
+import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.renderscript.Sampler
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.events.Distance
 import com.example.login.EmailLogin
 import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
@@ -35,21 +40,26 @@ import kotlin.collections.HashMap
 class SessionUser(val context: Context) : Serializable{
     val user = FirebaseAuth.getInstance().currentUser
 
-    /** isLogin verify if a user is connected
+    /**
+     *  isLogin()
+     *  isLogin verify if a user is connected
      *  @return true if user is connected. False else
-     *  @author Florent
+     *  @author Florent SIMONNOT
      */
     fun isLogin() : Boolean{
         return FirebaseAuth.getInstance().uid != null
     }
 
-    /** signOut close the login session.
-     *  @author Florent
+    /**
+     *  signOut()
+     *  signOut close the current login session.
+     *  @author Florent SIMONNOT
      */
     fun signOut() {
         FirebaseAuth.getInstance().signOut()
     }
 
+    /*
     /** getEmailFromUser return the email from current user
      * @return String which is the email of user
      * @exception \throw exception if any user is connected
@@ -60,21 +70,34 @@ class SessionUser(val context: Context) : Serializable{
             throw Exception("User not connected")
         }
         return user.email.toString()
-    }
+    }*/
 
-    /** getIdFromUser return the id from current user
+    /**
+     * getIdFromUser()
+     * getIdFromUser return the id from current user
      * @return String which is the id of user
      * @exception \throw exception if any user is connected
-     * @author Florent
+     * @author Florent SIMONNOT
      */
     fun getIdFromUser() : String{
         if(user == null){
             context.startActivity(Intent(context, LoginActivity::class.java))
             return ""
         }
-        return user!!.uid.toString()
+        return user!!.uid
     }
 
+    /**
+     *
+     * login(email: String, password : String, context: Context)
+     * log a user with an email and password
+     * @param email - the email of user
+     * @param password - the password of user
+     * @param context - the context of application
+     * @exception \throw exception if a user is already connected
+     * @author Florent SIMONNOT
+     *
+     */
     fun login(email: String, password : String, context: Context){
         if(user != null){
             throw Exception("Impossible")
@@ -85,9 +108,11 @@ class SessionUser(val context: Context) : Serializable{
         }
     }
 
-    /**deleteUser delete the current user from database
+    /**
+     * deleteUser(context: Context)
+     * deleteUser delete the current user from database
      * @param context for intent
-     * @author Florent
+     * @author Florent SIMONNOT
      */
     fun deleteUser(context: Context){
         user?.delete()
@@ -106,8 +131,12 @@ class SessionUser(val context: Context) : Serializable{
             }
     }
 
-    /**resetPassword send an email to reset password.
-     *
+    /**
+     * resetPassword(context: Context, auth : FirebaseAuth, emailAddress : String)
+     * resetPassword send an email to reset password.
+     * @param context - The context of application
+     * @param auth - A FirebaseAuth
+     * @param emailAddress - the address mail of user we want change his password
      */
     fun resetPassword(context: Context, auth : FirebaseAuth, emailAddress : String){
         if(user == null){
@@ -120,13 +149,20 @@ class SessionUser(val context: Context) : Serializable{
         }
     }
 
+    /**
+     * writeNameUserDiscussion(context: Context, uid: String?, supportActionBar: ActionBar)
+     * write the user's name in a discussion
+     * @param context - the context of application
+     * @param uid - the id of user
+     * @param supportActionBar - the toolbar
+     * @author Florent SIMONNOT.
+     */
     fun writeNameUserDiscussion(context: Context, uid: String?, supportActionBar: ActionBar){
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
-                    println("VALUE ${value.firstName}")
                     supportActionBar.title = "${value.firstName} ${value.name}"
                 }
             }
@@ -136,14 +172,14 @@ class SessionUser(val context: Context) : Serializable{
 
     }
 
-    fun writeRadius(context: Context, uid: String?, seekBar: SeekBar, textView: TextView){
+    fun writeRadius(context: Context, uid: String?, seekBar: ProgressBar, textView: TextView){
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.hasChild("radius")) {
                     val arround = dataSnapshot.child("radius").value as Long
-                    seekBar.progress = arround.toInt()
-                    textView.text = "$arround km"
+                    seekBar.progress = 100/25*arround.toInt()
+                    writeKmOrMiles(Distance(arround.toDouble()), textView, false)
                 }
             }
 
@@ -165,11 +201,12 @@ class SessionUser(val context: Context) : Serializable{
                         "name" -> textView.text = value.name
                         "email" -> textView.text = value.email
                         "password" -> textView.text = value.password
-                        "sex" -> textView.text = "${value.sex}"
+                        "sex" -> textView.text = value.sex.getString(context)
                         "birthday" -> textView.text = value.birthday
                         "describe" -> textView.text = value.description
                         "deleteFriend" -> textView.text = "Supprimer ${value.firstName} ${value.name} de ses amis"
                         "sendMessage" -> textView.text = "Envoyé un message à ${value.firstName} ${value.name}"
+                        "seeProfile" -> textView.text = "Voir le profil de ${value.firstName} ${value.name}"
                         "deleteFromEvent" -> textView.text = "Retirer ${value.firstName} ${value.name} de l'évènement"
                         "AcceptJoinEvent" -> textView.text = "Accepter ${value.firstName} ${value.name}"
                         "RefuseJoinEvent" -> textView.text = "Refuser ${value.firstName} ${value.name}"
@@ -192,7 +229,6 @@ class SessionUser(val context: Context) : Serializable{
                                     textView.text = place.name
                                 }
                                 .addOnFailureListener {
-                                    //textView1.text = it.message
                                     Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                                 }
                         }
@@ -206,28 +242,41 @@ class SessionUser(val context: Context) : Serializable{
 
     }
 
-    fun showPhotoUser(context: Context, imageView: ImageView) {
-        val ref = FirebaseDatabase.getInstance().getReference("users/${user?.uid}")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(User::class.java)
-                if (value != null) {
-                    if(value.urlPhoto != null) {
-                        val refPhoto  = FirebaseStorage.getInstance().getReference("images/${value.urlPhoto}").downloadUrl
-                        refPhoto.addOnSuccessListener {
-                            Picasso.get().load(it).into(imageView)
-                        }
+    fun writeKmOrMiles(distance : Distance, textView: TextView, type : Boolean = true){
+        FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.hasChild("measuringSystem")){
+                    if(p0.child("measuringSystem").value as String == "Km"){
+                        textView.text = if(!type){"${String.format("%.2f", distance.getDistance(false))} Km" }else{"${distance.getDistanceLong(false)} Km"}
                     }
+                    else{
+                        textView.text = if(!type){"${String.format("%.2f", distance.getDistance(true))} Mi" }else{"${distance.getDistanceLong(true)} Mi"}
+                    }
+                }
+                else{
+                    textView.text = if(!type){"${String.format("%.2f", distance.getDistance(false))} Km" }else{"${distance.getDistanceLong(false)} Km"}
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
         })
-
     }
 
-    fun setButtonFriend(buttonAddFriend : Button, buttonRemoveFriend : Button, buttonCancelFriend : Button, uid: String){
-        val ref = FirebaseDatabase.getInstance().getReference("friends/$uid")
+    /**
+     * showPhotoUser(context: Context, imageView: ImageView)
+     * Show the photo of current user in an imageView.
+     * @param context - the context of application
+     * @param imageView - the imageView where set the image
+     * @author Florent SIMONNOT.
+     */
+    fun showPhotoUser(context: Context, imageView: ImageView) {
+        User().showPhotoUser(context, imageView, this.getIdFromUser())
+    }
+
+    fun setButtonFriend(buttonAddFriend : Button, buttonRemoveFriend : Button, buttonCancelFriend : Button, buttonAcceptFriend : Button , uid: String){
+        val ref = FirebaseDatabase.getInstance().getReference("friends/$uid/${getIdFromUser()}")
         ref.addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
 
@@ -235,27 +284,42 @@ class SessionUser(val context: Context) : Serializable{
                 buttonAddFriend.visibility = View.VISIBLE
                 buttonCancelFriend.visibility = View.GONE
                 buttonRemoveFriend.visibility = View.GONE
-                p0.children.forEach {
-                    if(it.key == getIdFromUser()){
-                        when(it.child("status").value){
-                            "friend" -> {
-                                buttonAddFriend.visibility = View.GONE
-                                buttonCancelFriend.visibility = View.GONE
-                                buttonRemoveFriend.visibility = View.VISIBLE
-                            }
-                            "waiting" -> {
-                                buttonAddFriend.visibility = View.GONE
-                                buttonCancelFriend.visibility = View.VISIBLE
-                                buttonRemoveFriend.visibility = View.GONE
-                            }
-                        }
+                buttonAcceptFriend.visibility = View.GONE
+
+                when(p0.child("status").value) {
+                    "friend" -> {
+                        buttonAddFriend.visibility = View.GONE
+                        buttonCancelFriend.visibility = View.GONE
+                        buttonRemoveFriend.visibility = View.VISIBLE
                     }
+                    "waiting" -> {
+                        buttonAddFriend.visibility = View.GONE
+                        buttonCancelFriend.visibility = View.VISIBLE
+                        buttonRemoveFriend.visibility = View.GONE
+                    }
+                }
+            }
+        })
+    }
+
+    fun setButtonAcceptFriend(uid : String, buttonAcceptFriend: Button, buttonAddFriend: Button){
+        val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}/$uid")
+        ref.addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                println("YES ! ${p0.child("status").value}")
+                if(p0.child("status").value == "waiting"){
+                    buttonAcceptFriend.visibility = View.VISIBLE
+                    buttonAddFriend.visibility = View.GONE
                 }
             }
 
         })
     }
 
+    /*
     fun identity(uid: String?, textView: TextView) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$uid")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -270,8 +334,15 @@ class SessionUser(val context: Context) : Serializable{
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-    }
+    }*/
 
+    /**
+     *  setNewPassword(oldPassword: String, newPassword: String)
+     *  Change the current password for a new password.
+     *  @param oldPassword - the former password
+     *  @param newPassword - the new password
+     *  @author Florent SIMONNOT
+     */
     fun setNewPassword(oldPassword: String, newPassword: String) {
         val ref = FirebaseDatabase.getInstance().getReference("users").child("${user?.uid}")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -409,48 +480,90 @@ class SessionUser(val context: Context) : Serializable{
         Toast.makeText(ctx, "You have refused this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 
+
     fun deleteFriend(ctx: Context, userKey: String?) {
         val ref = FirebaseDatabase.getInstance().getReference("friends/${this.getIdFromUser()}/$userKey")
         ref.removeValue()
         Toast.makeText(ctx, "You have delete this user as friend :(", Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * setEventsOnTabItem(tab : TabLayout)
+     * Set the title of the tabLayout. We write the number of events created by the current user.
+     * @param tab - The Tablayout
+     * @author Florent SIMONNOT
+     */
     fun setEventsOnTabItem(tab : TabLayout){
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsCreated")
-        var events = 0
+        //var events = 0
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
-                data.forEach {
+                /*data.forEach {
                     events++
-                }
-                tab.getTabAt(0)?.text = "${context.resources.getString(R.string.events_created)} (${events})"
+                }*/
+                tab.getTabAt(0)?.text = "${context.resources.getString(R.string.events_created)} (${data.count()})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
+    /**
+     * setEventsJoinedOnTabItem(tab : TabLayout)
+     * Set the title of the tabLayout. We write the number of events joined by the current user.
+     * @param tab - The Tablayout
+     * @author Florent SIMONNOT
+     */
     fun setEventsJoinedOnTabItem(tab : TabLayout){
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.getIdFromUser()}/eventsJoined")
-        var events = 0
+        //var events = 0
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
-                data.forEach {
+                /*data.forEach {
                     events++
-                }
-                tab.getTabAt(1)?.text = "${context.resources.getString(R.string.events_joined)} (${events})"
+                }*/
+                tab.getTabAt(1)?.text = "${context.resources.getString(R.string.events_joined)} (${data.count()})"
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    fun setNightMode(boolean: Boolean){
-        FirebaseDatabase.getInstance().reference.child("parameters/${getIdFromUser()}/nightMode").setValue(boolean)
+    /**
+     * setNightMode()
+     * Change parameter of dark theme in database. Set to true activate if the value is false. Else set deactivate.
+     * @author Florent SIMONNOT
+     */
+    fun setNightMode(){
+
+        FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                if(p0.hasChild("nightMode")){
+                    if(p0.child("nightMode").value as Boolean){
+                        FirebaseDatabase.getInstance().reference.child("parameters/${getIdFromUser()}/nightMode").setValue(false)
+                    }
+                    else{
+                        FirebaseDatabase.getInstance().reference.child("parameters/${getIdFromUser()}/nightMode").setValue(true)
+                    }
+                }
+                else{
+                    FirebaseDatabase.getInstance().reference.child("parameters/${getIdFromUser()}/nightMode").setValue(true)
+                }
+            }
+
+        })
     }
 
+    /**
+     * getNightMode()
+     * Change dark mode in application if user want to use dark mode
+     * @author Florent SIMONNOT.
+     */
     fun getNightMode(){
         FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
@@ -471,5 +584,14 @@ class SessionUser(val context: Context) : Serializable{
             }
 
         })
+    }
+
+    /**
+     * setMeasuringSystem(value : String)
+     * Change the measuring system value in database with the new value from parameter
+     * @param value - the new value of measuring system
+     */
+    fun setMeasuringSystem(value : String){
+        FirebaseDatabase.getInstance().reference.child("parameters/${getIdFromUser()}/measuringSystem").setValue(value)
     }
 }

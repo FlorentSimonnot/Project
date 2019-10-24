@@ -55,13 +55,13 @@ class NextSignInJojoActivity : AppCompatActivity(), NumberPicker.OnValueChangeLi
         radiusSeekBar = findViewById(R.id.distance_seekbar)
 
         textViewSex.setOnClickListener {
-            val numberPicker = StringPickerCustom(0, 2, getString(R.string.next_sign_in_gender_title), "", stringSex)
+            val numberPicker = StringPickerCustom(this, 0, 2, getString(R.string.next_sign_in_gender_title), "", stringSex)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "Sex picker")
         }
 
         privacy.setOnClickListener {
-            val privacyPicker = StringPickerCustom(0, 1, getString(R.string.next_sign_in_privacy_title), getString(R.string.next_sign_in_privacy_message), stringPrivacy)
+            val privacyPicker = StringPickerCustom(this, 0, 1, getString(R.string.next_sign_in_privacy_title), getString(R.string.next_sign_in_privacy_message), stringPrivacy)
             privacyPicker.setValueChangeListener(this)
             privacyPicker.show(supportFragmentManager, "Privacy picker")
         }

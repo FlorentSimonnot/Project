@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".EventInfoJojoActivity"
-        android:background="@color/backgroundColor"
+        android:background="@color/backgroundPage"
         >
 
     <RelativeLayout
@@ -227,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/invitations"
                     android:orientation="vertical"
-                    android:background="@color/colorBackgroundTitleEvent"
+                    android:background="@drawable/border_right"
                     android:padding="5dp"
                     android:gravity="center"
                     >
@@ -245,6 +245,33 @@
                         android:fontFamily="@font/rubik"
                         android:textColor="@color/colorText"
                         />
+
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/reminder"
+                    android:orientation="vertical"
+                    android:background="@color/colorBackgroundTitleEvent"
+                    android:padding="5dp"
+                    android:paddingTop="0dp"
+                    android:gravity="center"
+            >
+                <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        app:srcCompat="@drawable/ic_alarm_deactivate"
+                        android:contentDescription="bell"
+                />
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/event_info_create_reminder"
+                        android:gravity="center"
+                        android:fontFamily="@font/rubik"
+                        android:textColor="@color/colorText"
+                />
 
             </LinearLayout>
         </LinearLayout>

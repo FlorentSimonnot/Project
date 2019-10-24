@@ -85,29 +85,12 @@ data class User(
 
     }
 
-    fun toMap(): Map<String, Any> {
-        val result = HashMap<String, Any>()
-        result.put("firstName", firstName)
-        result.put("name", name)
-        result.put("email", email)
-        result.put("password", password)
-        result.put("sex", sex)
-        result.put("birthday", birthday)
-        result.put("describe", description)
-        result.put("city", city)
-        result.put("typeLog", typeLog)
-        result.put("idServiceLog", idServiceLog)
-
-        return result
-    }
-
     fun showPhotoUser(context: Context, imageView: ImageView, key : String?) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(User::class.java)
                 if (value != null) {
-                    Toast.makeText(context, "${value.urlPhoto}", Toast.LENGTH_SHORT).show()
                     if(value.urlPhoto.isNotEmpty()) {
                         val refPhoto  = FirebaseStorage.getInstance().getReference("images/${value.urlPhoto}").downloadUrl
                         refPhoto.addOnSuccessListener {

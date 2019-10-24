@@ -128,7 +128,7 @@ class CreateEventActivity : AppCompatActivity(),
         }
 
         privacy.setOnClickListener {
-            val numberPicker = StringPickerCustom(0, 2, getString(R.string.event_privacy_title), getString(R.string.event_privacy_message), stringPrivacyArray)
+            val numberPicker = StringPickerCustom(this, 0, 2, getString(R.string.event_privacy_title), getString(R.string.event_privacy_message), stringPrivacyArray)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "People picker")
         }

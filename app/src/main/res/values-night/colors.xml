@@ -26,10 +26,15 @@
     <color name="colorBackgroundTitleEvent">#212121</color>
     <color name="colorSeparatorInfo">#E6F5F5F5</color>
     <color name="colorNotificationNotSeen">#081B33</color>
-    <color name="colorSelector">#fff</color>
+    <color name="colorSelector">#0097A7</color>
     <color name="backgroundCalendar">#303030</color>
     <color name="backgroundListView">#212121</color>
     <color name="colorCircleMessageNotRead">#fff</color>
     <color name="deleteNotification">#b71c1c</color>
     <color name="backgroundAlertDialog">#212121</color>
+    <color name="colorMenuItemActive">#0097A7</color>
+    <color name="colorMenuItem">#dedede</color>
+    <color name="colorParameterTitle">#0097A7</color>
+    <color name="colorParameterSub">#fff</color>
+    <color name="backgroundPage">#424242</color>
 </resources>

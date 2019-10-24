@@ -35,13 +35,19 @@
                 android:padding="10dp"
                 android:orientation="vertical"
                 >
-            <ListView
+            <GridView
                     android:id="@+id/listViewUsers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:columnWidth="100dp"
+                    android:numColumns="2"
+                    android:verticalSpacing="24dp"
+                    android:horizontalSpacing="10dp"
+                    android:stretchMode="spacingWidthUniform"
                     >
 
-            </ListView>
+            </GridView>
             <RelativeLayout
                     android:id="@+id/noResultsLayout"
                     android:layout_width="match_parent"

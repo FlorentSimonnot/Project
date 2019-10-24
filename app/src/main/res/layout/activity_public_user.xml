@@ -52,6 +52,7 @@
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="10dp"
+                    app:civ_circle_background_color="#fff"
                     />
 
             <TextView
@@ -105,22 +106,21 @@
                     android:orientation="horizontal"
                     android:layout_below="@id/place_layout"
                     android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    >
+                    android:layout_marginTop="10dp">
 
                 <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:orientation="vertical"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginEnd="60dp"
+                        android:id="@+id/button1"
                 >
                     <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_input_rectangle_color_blue"
+                            android:background="@drawable/rounded_input_rectangle_color_blue_dark"
                             android:drawableLeft="@drawable/ic_add_user"
                             android:id="@+id/addFriendButton"
                             android:layout_gravity="center_horizontal"
@@ -129,7 +129,7 @@
                             android:padding="10dp"
                             android:drawablePadding="10dp"
                             android:gravity="center"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="#fff"
                             android:fontFamily="@font/rubik"
                             style="?android:attr/borderlessButtonStyle"
                             />
@@ -169,65 +169,47 @@
                             style="?android:attr/borderlessButtonStyle"
                             android:visibility="gone"
                             />
-                </LinearLayout>
-
-                <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginStart="10dp"
-                        >
-
                     <Button
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/rounded_input_rectangle_color_blue"
-                            android:id="@+id/sendMessageButton"
+                            android:drawableLeft="@drawable/ic_verified_white"
+                            android:id="@+id/acceptFriendButton"
                             android:layout_gravity="center_horizontal"
-                            android:drawableStart="@drawable/ic_paper_plane_primary"
-                            android:text="message"
+                            android:drawableStart="@drawable/ic_verified_white"
+                            android:text="accept invitation"
                             android:padding="10dp"
-                            android:gravity="center"
                             android:drawablePadding="10dp"
+                            android:gravity="center"
                             android:textColor="@color/colorPrimary"
                             android:fontFamily="@font/rubik"
-                            android:drawableLeft="@drawable/ic_paper_plane_primary"
                             style="?android:attr/borderlessButtonStyle"
-                            />
+                            android:visibility="gone"
+                    />
                 </LinearLayout>
 
-               <!--<LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginStart="20dp"
+                <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
+                        android:layout_marginLeft="-50dp"
+                        android:layout_marginStart="-50dp"
                         >
 
                     <ImageButton
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:background="@drawable/rounded_button_grey50"
-                            app:srcCompat="@drawable/ic_question"
-                            android:id="@+id/learnMore"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            />
-                    <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Learn more"
-                            android:layout_below="@id/learnMore"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/rubik"
+                            android:background="@drawable/rounded_input_rectangle_color_blue_dark"
+                            android:id="@+id/sendMessageButton"
+                            android:layout_gravity="center_horizontal"
+                            app:srcCompat="@drawable/ic_chat_two_bubble"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            style="?android:attr/borderlessButtonStyle"
                             />
-                </LinearLayout>-->
+                </LinearLayout>
 
             </LinearLayout>
 

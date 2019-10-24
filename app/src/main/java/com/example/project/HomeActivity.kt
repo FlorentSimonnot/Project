@@ -127,7 +127,6 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         }else {
             configLanguage()
             session.getNightMode()
-            //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
             //Verify if user has already seen the tutorial for beginner
             FirebaseDatabase.getInstance().getReference("parameters/${session.getIdFromUser()}").addValueEventListener(object : ValueEventListener{

@@ -73,12 +73,12 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
                 when(p0?.position){
                     0 -> {
                         filterValue = 0
-                        eventsList(applicationContext)
+                        eventsList(this@EventActivity)
                         supportActionBar?.title = resources.getString(R.string.events_created_title)
                     }
                     1 ->{
                         filterValue = 0
-                        eventsJoinedList(applicationContext)
+                        eventsJoinedList(this@EventActivity)
                         supportActionBar?.title = resources.getString(R.string.events_joined_title)
                     }
                 }
@@ -142,7 +142,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
-                val events: ArrayList<Event> = ArrayList()
+                var events: ArrayList<Event> = ArrayList()
                 data.forEach {
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
@@ -168,7 +168,8 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
                     noResults.visibility = View.GONE
                     listView.visibility = View.VISIBLE
                     listView.clearChoices()
-                    var layout = R.layout.my_list_mini
+                    events = ArrayList(events.sortedWith(compareBy{ it.date }).reversed())
+                    val layout = R.layout.my_list_mini
                     val adapter = ArrayAdapterEvents(
                         context,
                         layout,
@@ -229,7 +230,7 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId){
             R.id.action_filters -> {
-                val privacyPicker = StringPickerCustom(0, 2, getString(R.string.events_filter_title), getString(R.string.events_filter_message), valuesFilter)
+                val privacyPicker = StringPickerCustom(this, 0, 2, getString(R.string.events_filter_title), getString(R.string.events_filter_message), valuesFilter)
                 privacyPicker.setValueChangeListener(this)
                 privacyPicker.show(supportFragmentManager, "Filter picker")
                 true

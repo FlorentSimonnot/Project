@@ -222,6 +222,7 @@
     <string name="event_info_cannot_invite">Cet événement est complet, vous ne pouvez pas inviter d\'amis</string>
     <string name="event_info_invite_toast">Vous avez invité un ami</string>
     <string name="event_info_cancel_invitation_toast">Vous avez annulé votre invitation</string>
+    <string name="event_info_create_reminder">Créer un rappel pour cet événement</string>
     <string name="modify_event_title">Modifier l\'événement</string>
     <string name="modify_event_name">Nom</string>
     <string name="modify_event_sport">Sport</string>
@@ -343,5 +344,16 @@
         functionality.</string>
 
     <string name="discussion_turn_off">L\'administrateur a désactivité la discussion de groupe.</string>
+
+    <string name="dark_theme">Thème sombre</string>
+    <string name="dark_theme_activate">Le thème sombre est activé</string>
+    <string name="dark_theme_deactivate">Le thème sombre est désactivé</string>
+
+    <string name="measuring_system">Système de mesure</string>
+    <string name="measuring_system_sub_km">Cette application utilise les kilometres</string>
+    <string name="measuring_system_sub_milles">Cette application utilise les Miles</string>
+
+    <string name="sports_title">Sports</string>
+    <string name="sports">Choisissez les sports à afficher</string>
 
 </resources>

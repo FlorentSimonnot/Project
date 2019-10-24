@@ -91,5 +91,7 @@
         </item>
     </style>
 
+    <style name="MySeekBarTheme" parent="Theme.AppCompat"></style>
+
 
 </resources>

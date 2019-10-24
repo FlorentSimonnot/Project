@@ -7,11 +7,15 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.session.SessionUser
+import kotlinx.android.synthetic.main.activity_user_info.*
 
 class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
 
     var session = SessionUser(this)
     private lateinit var progressBar: ProgressBar
+    private lateinit var radiusSeekBar : ProgressBar
+    private lateinit var radiusSeekBarTint : RelativeLayout
+    private lateinit var radiusTextView : TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +37,8 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
         val cityTextView = findViewById<TextView>(R.id.city_account)
         val describeTextView = findViewById<TextView>(R.id.describe_account)
         val photoImageView = findViewById<ImageView>(R.id.profile_photo)
-        val radiusSeekBar = findViewById<SeekBar>(R.id.radius)
-        val radiusTextView = findViewById<TextView>(R.id.seekbar_value)
+        radiusSeekBar = findViewById(R.id.radius)
+        radiusTextView = findViewById(R.id.seekbar_value)
         progressBar = findViewById(R.id.progressBar)
 
         progressBar.visibility = View.VISIBLE
@@ -81,11 +85,17 @@ class UserInfoActivity : AppCompatActivity(), View.OnClickListener {
             "describe"
         ).toString()
 
-        session.writeRadius(this, session.getIdFromUser(), radiusSeekBar, radiusTextView)
-        radiusSeekBar.isEnabled = false
-
         progressBar.visibility = View.GONE
 
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        updateInfos()
+    }
+
+    private fun updateInfos() {
+        session.writeRadius(this, session.getIdFromUser(), radiusSeekBar, radiusTextView)
     }
 
     override fun onClick(v: View) {

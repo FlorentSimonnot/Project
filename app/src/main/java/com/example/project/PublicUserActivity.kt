@@ -22,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 
 class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
 
-    lateinit var user: UserWithKey
+    private lateinit var user: UserWithKey
     var session = SessionUser(this)
     lateinit var tab : TabLayout
     lateinit var userKey : String
@@ -47,6 +47,7 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
         val addFriendButton = findViewById<Button>(R.id.addFriendButton)
         val removeFriendButton = findViewById<Button>(R.id.removeFriendButton)
         val cancelFriendButton = findViewById<Button>(R.id.cancelFriendButton)
+        val acceptFriendButton = findViewById<Button>(R.id.acceptFriendButton)
         val aboutMoreButton = findViewById<Button>(R.id.aboutMoreButton)
         val profilePhoto = findViewById<CircleImageView>(R.id.profile_photo)
         listView = findViewById(R.id.listViewEvents)
@@ -108,19 +109,23 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {}
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)}
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, acceptFriendButton, userKey)}
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)
+                session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, acceptFriendButton, userKey)
             }
 
-            override fun onChildRemoved(p0: DataSnapshot) {session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, userKey)}
+            override fun onChildRemoved(p0: DataSnapshot) {session.setButtonFriend(addFriendButton, removeFriendButton, cancelFriendButton, acceptFriendButton, userKey)}
 
         })
+        session.setButtonAcceptFriend(userKey, acceptFriendButton, addFriendButton)
+
+
 
         addFriendButton.setOnClickListener(this)
         removeFriendButton.setOnClickListener(this)
         cancelFriendButton.setOnClickListener(this)
+        acceptFriendButton.setOnClickListener(this)
         aboutMoreButton.setOnClickListener(this)
     }
 
@@ -246,6 +251,9 @@ class PublicUserActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.cancelFriendButton -> {
                 userWithKey.cancelFriendInvitation(this@PublicUserActivity, session)
+            }
+            R.id.acceptFriendButton -> {
+                session.acceptFriend(this@PublicUserActivity, userKey)
             }
             R.id.aboutMoreButton -> {
                 val dialog = DialogProfilView(this@PublicUserActivity, R.layout.dialog_profil_layout, userKey)

@@ -39,7 +39,7 @@ class AlertDialogCustom(
             val sport = adapter.getItem(i)
             textView.text = sport?.name
             textView.setCompoundDrawablesWithIntrinsicBounds(sport!!.getLogo(), 0, 0, 0)
-            Toast.makeText(ctx, "${adapter.getItem(i)}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(ctx, "${adapter.getItem(i)}", Toast.LENGTH_SHORT).show()
         })
         alertDialog = alertDialogBuilder.create()
     }

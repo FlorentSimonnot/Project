@@ -55,7 +55,7 @@ open class HomeFragment(
     private var isClickMonth : Boolean = false
     private var lastPosition : Int = 0
     private lateinit var activity: Activity
-    private val events : ArrayList<EventWithDistance> = ArrayList()
+    private var events : ArrayList<EventWithDistance> = ArrayList()
 
     val REQUEST_PERMISSIONS_REQUEST_CODE = 1
 
@@ -198,7 +198,6 @@ open class HomeFragment(
                     val event = it.getValue(Event::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
                     if(event != null){
-                        /*there is a pb in this block*/
                         val date = DateUTC(event.date)
                         if(date.getDayInt() == calendar.day && date.getMonthInt() == calendar.month) {
                             val coordsEvent = Location("")
@@ -215,6 +214,7 @@ open class HomeFragment(
 
                     }
                 }
+                events = ArrayList(events.sortedWith(compareBy{ it.event.date }).reversed())
                 val adapter = ArrayAdapterCustom(context, activity!!, R.layout.my_list, events )
                 listView.adapter = adapter
                 progressBar.visibility = View.GONE
