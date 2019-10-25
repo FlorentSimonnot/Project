@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.EditText
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +16,7 @@ import com.example.search.SearchAdapter
 import com.google.firebase.database.DataSnapshot
 import android.text.method.TextKeyListener.clear
 import android.view.View
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat
 import com.example.search.SearchAdapterSuggestion
@@ -42,11 +39,14 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
     private lateinit var searchAdapterSuggestions : SearchAdapterSuggestion
     private lateinit var suggestions : RelativeLayout
     private lateinit var buttonDeleteInput : ImageButton
-
+    private lateinit var progressBar : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_bar)
+
+        progressBar = findViewById(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
 
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -202,7 +202,7 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
                     }
 
                     if(index == users.size-1 || counter == 15){
-                        println("USERS FINAL : ${usersSuggestion.size}")
+                        progressBar.visibility = View.GONE
                         if (usersSuggestion.size > 0) {
                             findViewById<RelativeLayout>(R.id.noResults).visibility = View.GONE
                             searchAdapterSuggestions = SearchAdapterSuggestion(
@@ -264,7 +264,8 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
     override fun onClick(p0: View?) {
         when(p0?.id){
             R.id.searchLogo -> {
-
+                searchBar.text = Editable.Factory.getInstance().newEditable("")
+                usersSuggestion.clear()
             }
         }
     }

@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.form.FormLoginEmail
 import com.example.login.GoogleLogin
 import com.example.session.SessionUser
@@ -39,6 +40,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         val mAuth = FirebaseAuth.getInstance()
         callbackManager = CallbackManager.Factory.create()

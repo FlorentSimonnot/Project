@@ -42,7 +42,7 @@
         <menu>
             <item
                     android:id="@+id/navigation_advise"
-                    android:icon="@drawable/ic_notification"
+                    android:icon="@drawable/ic_like"
                     android:title="@string/menu_drawer_advise"
                     />
             <item

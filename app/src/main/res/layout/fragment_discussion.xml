@@ -77,7 +77,7 @@
                 android:id="@+id/text_not_found"
                 android:text="@string/discussions_any_found"
                 android:textSize="16sp"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorText"
                 android:gravity="center"
                 />
     </RelativeLayout>

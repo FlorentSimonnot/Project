@@ -28,7 +28,6 @@
         <activity
                 android:name=".HomeActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden"
-                android:label="@string/title_activity_home"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -75,7 +74,6 @@
         </activity>
         <activity
                 android:name=".EventInfoActivity"
-                android:label="@string/title_activity_event_info"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".UserInfoActivity">
