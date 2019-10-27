@@ -11,11 +11,53 @@
             android:layout_height="wrap_content"
             android:background="@color/backgroundCalendar"
             android:id="@+id/barMonth"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_below="@id/toolbar"
     >
+        <LinearLayout
+                android:id="@+id/calendar_week_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="7" />
+
+        <LinearLayout
+                android:id="@+id/calendar_week_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="7" />
+
+        <LinearLayout
+                android:id="@+id/calendar_week_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="7" />
+
+        <LinearLayout
+                android:id="@+id/calendar_week_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="7" />
+
+        <LinearLayout
+                android:id="@+id/calendar_week_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="7" />
+
+        <LinearLayout
+                android:id="@+id/calendar_week_6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="7" />
 
             <CalendarView
+                    android:visibility="gone"
                     android:id="@+id/calendarView"
                     android:layout_width="match_parent"
                     android:weekSeparatorLineColor="#fff"

@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
@@ -34,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
+import kotlinx.android.synthetic.main.list_item_user_confirmed.*
 import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.ArrayList
@@ -57,6 +59,8 @@ open class HomeFragment(
     private lateinit var textDay : TextView
     private lateinit var textMonth : TextView
     private var date : Calendar = Calendar()
+    private lateinit var listWeeks : ArrayList<LinearLayout>
+    private lateinit var listDays : ArrayList<Button>
 
     val REQUEST_PERMISSIONS_REQUEST_CODE = 1
 
@@ -75,6 +79,8 @@ open class HomeFragment(
         val listView = view.findViewById<ListView>(R.id.events_listview)
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.GONE
+
+        createCalendar(view, date)
 
         calendarLayout = view.findViewById(R.id.barMonth)
         calendar = view.findViewById(R.id.calendarView)
@@ -314,6 +320,92 @@ open class HomeFragment(
                     View.GONE
                 }
             }
+        }
+    }
+
+    private fun createCalendar(view : View, calendar: Calendar){
+        val weekOne = view.findViewById<LinearLayout>(R.id.calendar_week_1)
+        val weekSecond = view.findViewById<LinearLayout>(R.id.calendar_week_2)
+        val weekThird = view.findViewById<LinearLayout>(R.id.calendar_week_3)
+        val weekFourth = view.findViewById<LinearLayout>(R.id.calendar_week_4)
+        val weekFifth = view.findViewById<LinearLayout>(R.id.calendar_week_5)
+        val weekSixth = view.findViewById<LinearLayout>(R.id.calendar_week_6)
+        listWeeks.add(weekOne); listWeeks.add(weekSecond); listWeeks.add(weekThird)
+        listWeeks.add(weekFourth); listWeeks.add(weekFifth); listWeeks.add(weekSixth)
+
+        initDays()
+        initCalendarWithDate(calendar)
+    }
+
+    private fun initDays(){
+
+        val buttonParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        buttonParams.weight = 1.0f
+
+        var daysArrayCount = 0
+        for (weekNumber in 0..6) {
+            for (dayInWeek in 0..6) {
+                val day = Button(context)
+                day.setTextColor(Color.parseColor("#dedede"))
+                day.setBackgroundColor(Color.TRANSPARENT)
+                day.layoutParams = buttonParams
+                day.textSize = resources.displayMetrics.density * 5
+                day.setSingleLine()
+
+                listDays[daysArrayCount] = day
+                listWeeks[weekNumber].addView(day)
+
+                ++daysArrayCount
+            }
+        }
+    }
+
+    private fun initCalendarWithDate(calendar: Calendar){
+        val c = java.util.Calendar.getInstance()
+        c.set(calendar.year, calendar.month, calendar.day)
+        val maxDayInMonth = c.get(java.util.Calendar.DAY_OF_MONTH)
+        c.set(calendar.year, calendar.month, 1)
+        val firstDayInMonth = c.get(java.util.Calendar.DAY_OF_WEEK)
+
+        c.set(calendar.year, calendar.month, maxDayInMonth)
+
+        var dayNumber = 1
+        var daysLeftInFirstWeek = 0
+        var indexOfDayAfterLastDayOfMonth = 0
+
+        if(firstDayInMonth != 1){
+            daysLeftInFirstWeek = firstDayInMonth
+            indexOfDayAfterLastDayOfMonth = daysLeftInFirstWeek + maxDayInMonth
+
+             for (i in firstDayInMonth..(firstDayInMonth + maxDayInMonth)) {
+                if (currentDateMonth == chosenDateMonth
+                        && currentDateYear == chosenDateYear
+                        && dayNumber == currentDateDay) {
+                    listDays[i].setBackgroundColor(getResources().getColor(R.color.pink));
+                    listDays[i].setTextColor(Color.WHITE);
+                } else {
+                    listDays[i].setTextColor(Color.BLACK);
+                    listDays[i].setBackgroundColor(Color.TRANSPARENT);
+                }
+
+                int[] dateArr = new int[3];
+                dateArr[0] = dayNumber;
+                dateArr[1] = chosenDateMonth;
+                dateArr[2] = chosenDateYear;
+                listDays[i].setTag(dateArr);
+                listDays[i].setText(String.valueOf(dayNumber));
+
+                listDays[i].setOnClickListener(View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onDayClick(v);
+                    }
+                });
+                ++dayNumber;
+            }
+        }
+        else{
+
         }
     }
 
