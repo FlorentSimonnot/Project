@@ -312,7 +312,7 @@ class ModifyEventActivity : AppCompatActivity(),
         if(event.nbPeople > 0){
             modifyNumberOfParticipants.text = event.nbPeople.toString()
         }else{
-            Event().writeInfoEvent(this, keyEvent, modifyNumberOfParticipants, "numberOfParticipants")
+            Event().writeInfoEvent(this, keyEvent, modifyNumberOfParticipants, "participant")
         }
 
         if(event.description.isNotEmpty()){

@@ -34,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
+import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,16 +47,16 @@ open class HomeFragment(
     lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var lastLocation : Location
     private var currentLatLng = LatLng(.0, .0)
-    private lateinit var barMonth : TextView
-    private lateinit var backArrow : ImageButton
-    private lateinit var nextArrow : ImageButton
-    private val calendar = Calendar()
 
-    private lateinit var horizontalCalendar : HorizontalCalendar
-    private var isClickMonth : Boolean = false
-    private var lastPosition : Int = 0
     private lateinit var activity: Activity
     private var events : ArrayList<EventWithDistance> = ArrayList()
+    private lateinit var buttonCalendar : LinearLayout
+    private lateinit var calendar : CalendarView
+    private lateinit var calendarLayout : RelativeLayout
+    private lateinit var calendarValue : java.util.Calendar
+    private lateinit var textDay : TextView
+    private lateinit var textMonth : TextView
+    private var date : Calendar = Calendar()
 
     val REQUEST_PERMISSIONS_REQUEST_CODE = 1
 
@@ -73,16 +74,37 @@ open class HomeFragment(
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val listView = view.findViewById<ListView>(R.id.events_listview)
         progressBar = view.findViewById(R.id.progressBar)
-        progressBar.visibility = View.VISIBLE
+        progressBar.visibility = View.GONE
 
+        calendarLayout = view.findViewById(R.id.barMonth)
+        calendar = view.findViewById(R.id.calendarView)
+        buttonCalendar = view.findViewById(R.id.buttonCalendar)
 
-        barMonth = view.findViewById(R.id.calendarMonthYear)
-        backArrow = view.findViewById(R.id.backArrow)
-        nextArrow = view.findViewById(R.id.nextArrow)
+        textDay = view.findViewById(R.id.textDay)
+        textMonth = view.findViewById(R.id.textMonth)
 
-        calendar.showMonthYear(barMonth)
-        nextArrow.setOnClickListener(this)
-        backArrow.setOnClickListener(this)
+        calendarValue = java.util.Calendar.getInstance()
+        calendar.date = calendarValue.timeInMillis
+        date.day = calendarValue.get(java.util.Calendar.DATE)
+        date.month = calendarValue.get(java.util.Calendar.MONTH)
+        date.year = calendarValue.get(java.util.Calendar.YEAR)
+
+        val min = java.util.Calendar.getInstance()
+        min.set(date.year, date.month, 1)
+        calendar.minDate = min.timeInMillis
+
+        textDay.text = date.day.toString()
+        textMonth.text = date.getMonth()
+
+        buttonCalendar.setOnClickListener(this)
+
+        calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            date.month = month
+            date.day = dayOfMonth
+            textDay.text = date.day.toString()
+            textMonth.text = date.getMonth()
+        }
+
 
         //Recreate badges when discussion is updated
         FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
@@ -105,52 +127,7 @@ open class HomeFragment(
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
-        showEventsNearLocation(context!!, listView!!, calendar)
-
-        val endDate = java.util.Calendar.getInstance()
-        val dayMissing = endDate.getActualMaximum(java.util.Calendar.DAY_OF_MONTH) - endDate.get(java.util.Calendar.DATE)
-        endDate.add(java.util.Calendar.DATE, dayMissing)
-        val startDate = java.util.Calendar.getInstance()
-        startDate.add(java.util.Calendar.MONTH, 0)
-
-        horizontalCalendar = HorizontalCalendar.Builder(view, R.id.calendarView)
-            .range(startDate, endDate)
-            .datesNumberOnScreen(5)
-            .configure()
-                .showBottomText(false)
-                .formatTopText("EEE")
-            .end()
-            .build()
-
-        horizontalCalendar.calendarListener = object : HorizontalCalendarListener() {
-
-            override fun  onDateSelected(date : java.util.Calendar, position : Int) {
-                calendar.day = date.get(java.util.Calendar.DATE)
-                if(!isClickMonth) {
-                    val dayOfThisMonth = java.util.Calendar.getInstance()
-                    dayOfThisMonth.set(calendar.year, calendar.month, calendar.day)
-
-                    if(dayOfThisMonth.getMaximum(java.util.Calendar.DAY_OF_MONTH) == date.get(java.util.Calendar.DATE)) {
-                        if(position <= lastPosition) {
-                            calendar.setPreviousMonth()
-                            calendar.showMonthYear(barMonth)
-                        }
-                    } else if (date.get(java.util.Calendar.DATE) == 1) {
-                        if(position > lastPosition) {
-                            calendar.setNextMonth()
-                            calendar.showMonthYear(barMonth)
-                        }
-                    }
-                }
-                else{
-                    isClickMonth = false
-                }
-                lastPosition = position
-                showEventsNearLocation(context!!, listView!!, calendar)
-            }
-        }
-
-
+        showEventsNearLocation(context!!, listView!!, date)
         return view
     }
 
@@ -190,7 +167,7 @@ open class HomeFragment(
 
     private fun showAllEvents(context: Context, listView : ListView, distance : Long, calendar: Calendar){
         events.clear()
-        val ref = FirebaseDatabase.getInstance().getReference("events")
+        val ref = FirebaseDatabase.getInstance().getReference("events/${calendar.year}-${calendar.month}")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
@@ -236,7 +213,7 @@ open class HomeFragment(
     }
 
     private fun startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(activity!!,
+        ActivityCompat.requestPermissions(activity,
             arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
             REQUEST_PERMISSIONS_REQUEST_CODE)
     }
@@ -330,29 +307,12 @@ open class HomeFragment(
 
     override fun onClick(p0: View?) {
         when(p0?.id){
-            R.id.nextArrow -> {
-                calendar.setNextMonth()
-                calendar.showMonthYear(barMonth)
-
-                val c = java.util.Calendar.getInstance()
-                c.set(calendar.year, calendar.month, 1)
-                horizontalCalendar.selectDate(
-                    c,
-                    true
-                )
-                isClickMonth = true
-            }
-            R.id.backArrow -> {
-                calendar.setPreviousMonth()
-                calendar.showMonthYear(barMonth)
-
-                val c = java.util.Calendar.getInstance()
-                c.set(calendar.year, calendar.month, 1)
-                horizontalCalendar.selectDate(
-                    c,
-                    true
-                )
-                isClickMonth = true
+            R.id.buttonCalendar -> {
+                calendarLayout.visibility = if(calendarLayout.visibility == View.GONE){
+                    View.VISIBLE
+                }else{
+                    View.GONE
+                }
             }
         }
     }

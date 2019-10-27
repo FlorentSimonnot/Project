@@ -53,17 +53,18 @@ data class Event (
      */
     fun insertEvent(context: Context){
         //Add into events table
-        val ref = FirebaseDatabase.getInstance().getReference("events/${this.key}")
+        val date = DateUTC(date)
+        val ref = FirebaseDatabase.getInstance().getReference("events/${date.getYearEnglish()}-${date.getMonthEnglish()}/${this.key}")
         ref.setValue(this)
             .addOnSuccessListener {
-                val refU = FirebaseDatabase.getInstance().getReference("events/$key/participants/${SessionUser(context).getIdFromUser()}")
+                val refU = FirebaseDatabase.getInstance().getReference("events/${date.getYearEnglish()}-${date.getMonthEnglish()}/$key/participants/${SessionUser(context).getIdFromUser()}")
                 refU.child("status").setValue("creator").addOnSuccessListener {
-                    //Ok
+
                 }
             }
     }
 
-    fun goPlaceWithWaze(context: Context, key : String?){
+    fun goPlaceWithWaze(key : String?){
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -104,7 +105,21 @@ data class Event (
     }
 
     fun writeInfoEvent(context: Context, key: String?, textView: TextView, action: String) {
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+
+        val ref = FirebaseDatabase.getInstance().getReference("linker/$key")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val date = p0.value as String
+                writeInfoAux(context, date, key, textView, action)
+            }
+
+        })
+    }
+
+    private fun writeInfoAux(context: Context, date : String, key: String?, textView: TextView, action: String){
+        val ref = FirebaseDatabase.getInstance().getReference("events/$date/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
@@ -146,11 +161,10 @@ data class Event (
                             var res = 0
                             val data = value.participants
                             data.forEach {
-                                if(it.value.status == "confirmed"){
+                                if(it.value.status == "confirmed" || it.value.status == "creator"){
                                     res++
                                 }
                             }
-                            res++
                             textView.text ="$res"
                         }
                         "participants" -> {
@@ -200,30 +214,26 @@ data class Event (
     }
 
     fun writeInfoTitleDiscussioEvent(context: Context, key: String?, supportActionBar: androidx.appcompat.app.ActionBar) {
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                supportActionBar.title = value?.name
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-    }
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener{
 
-    fun showPhotoCreatorEvent(context: Context, key: String?, imageView: ImageView) {
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if (value != null) {
-                    getCreatorPhoto(context, key, value.creator, imageView)
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key")
+                    ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val value = dataSnapshot.getValue(Event::class.java)
+                            supportActionBar.title = value?.name
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
                 }
+
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-
+        )
     }
 
     /**
@@ -307,28 +317,6 @@ data class Event (
         })
     }
 
-    fun writeNotificationEvent(context: Context, key: String?, textView: TextView, action : Action){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if (value != null) {
-                    //textView.text =
-                    /*when (action) {
-                        Action.ACCEPT -> {
-                            //val s = "Your participation to <b> ${value.name} </b> has been accepted !"
-                            //textView.text = Html.fromHtml(s)
-                        }
-                        else -> "NULL"
-                    }*/
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
-
-    }
-
     /**
      * writeLogoSport show the logo of event's sport
      * @param context : the context
@@ -336,20 +324,30 @@ data class Event (
      * @param imageView : the imageview where we have to show the logo
      */
     fun writeLogoSport(context: Context, key: String?, imageView : ImageView, size : Int = 24){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if (value != null) {
-                    val sport = value.sport
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        imageView.setImageDrawable(context.getDrawable(sport.getLogoSport(size)))
-                    }
+
+        FirebaseDatabase.getInstance().getReference("linker/$key").addListenerForSingleValueEvent(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key")
+                    ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val value = dataSnapshot.getValue(Event::class.java)
+                            if (value != null) {
+                                val sport = value.sport
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    imageView.setImageDrawable(context.getDrawable(sport.getLogoSport(size)))
+                                }
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
                 }
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+        )
 
     }
 
@@ -360,12 +358,21 @@ data class Event (
      * @param session : the current session user
      */
     fun deleteEvent(context: Context, key : String?, session : SessionUser){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.removeValue()
-        val intent = Intent(context,HomeActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        EventInfoJojoActivity::finish
-        context.startActivity(intent)
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key")
+                    ref.removeValue()
+                    val intent = Intent(context,HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    EventInfoJojoActivity::finish
+                    context.startActivity(intent)
+                }
+            }
+        )
     }
 
     /**
@@ -374,15 +381,22 @@ data class Event (
      * @param key : the key of event
      * @param session : the current session user wanted to be add
      */
-    fun participateEvent(context: Context, key : String?, session : SessionUser, buttonToHide : Button, buttonToShow : Button, textView: TextView){
-        /* Add in event participants */
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
-        ref.child("status").setValue("waiting").addOnSuccessListener {
-            buttonToHide.visibility = View.GONE
-            buttonToShow.visibility = View.VISIBLE
-            textView.text = "${textView.text.toString().toInt()+1}"
-            Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
-        }
+    fun participateEvent(context: Context, key : String?, session : SessionUser, buttonToHide : Button, buttonToShow : Button){
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/${session.getIdFromUser()}")
+                    ref.child("status").setValue("waiting").addOnSuccessListener {
+                        buttonToHide.visibility = View.GONE
+                        buttonToShow.visibility = View.VISIBLE
+                        Toast.makeText(context, "Add your participation successfully. Wait your acceptation", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        )
     }
 
     /**
@@ -392,10 +406,19 @@ data class Event (
      * @param session : the current session user
      */
     fun cancelParticipation(context: Context, key : String?, session : SessionUser){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/${session.getIdFromUser()}")
-        ref.removeValue().addOnSuccessListener {
-            Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
-        }
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/${session.getIdFromUser()}")
+                    ref.removeValue().addOnSuccessListener {
+                        Toast.makeText(context, "Delete your participation successfully", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        )
     }
 
     /**
@@ -405,15 +428,33 @@ data class Event (
      * @param user : the key which identify the user
      */
     fun confirmParticipation(context: Context, key: String?, user : String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
-        ref.child("status").setValue("confirmed")
-        Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/$user")
+                    ref.child("status").setValue("confirmed")
+                    Toast.makeText(context, "Accept successfully", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 
     fun acceptInvitation(context: Context, key: String?, user : String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
-        ref.child("status").setValue("accepted")
-        Toast.makeText(context, "Welcome !", Toast.LENGTH_SHORT).show()
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/$user")
+                    ref.child("status").setValue("accepted")
+                    Toast.makeText(context, "Welcome !", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 
     /**
@@ -423,9 +464,18 @@ data class Event (
      * @param user : the key which identify the user
      */
     fun refuseParticipation(context: Context, key: String?, user : String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
-        ref.removeValue()
-        Toast.makeText(context, "You have refuse !", Toast.LENGTH_SHORT).show()
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/$user")
+                    ref.removeValue()
+                    Toast.makeText(context, "You have refuse !", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 
     /**
@@ -435,21 +485,48 @@ data class Event (
      * @param user : the key which identify the user
      */
     fun deleteParticipation(context: Context, key: String?, user: String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
-        ref.removeValue()
-        Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/$user")
+                    ref.removeValue()
+                    Toast.makeText(context, "You have delete this user !", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 
     fun inviteFriend(context: Context, key: String?, user: String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
-        ref.child("status").setValue("invitation")
-        Toast.makeText(context, context.getString(R.string.event_info_invite_toast), Toast.LENGTH_SHORT).show()
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/$user")
+                    ref.child("status").setValue("invitation")
+                    Toast.makeText(context, context.getString(R.string.event_info_invite_toast), Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 
     fun deleteInvitationEvent(context: Context, key: String?, user: String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants/$user")
-        ref.removeValue()
-        Toast.makeText(context, context.getString(R.string.event_info_cancel_invitation_toast), Toast.LENGTH_SHORT).show()
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onCancelled(p0: DatabaseError) {}
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants/$user")
+                    ref.removeValue()
+                    Toast.makeText(context, context.getString(R.string.event_info_cancel_invitation_toast), Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
     }
 
     /**
@@ -459,17 +536,20 @@ data class Event (
      * @param button_cancel : the button for cancel his participation
      *
      */
-    fun getButton(context: Context, key: String?,
-                  button_participe: Button,
-                  button_cancel : Button,
-                  buttonAcceptInvitation : Button,
-                  buttonRefuseInvitaton : Button,
-                  textView : TextView,
-                  textViewNote : TextView,
-                  ratingBar: RatingBar
-                  ){
+    private fun getButtonAux(
+        context: Context,
+        date : String,
+        key: String?,
+        button_participe: Button,
+        button_cancel : Button,
+        buttonAcceptInvitation : Button,
+        buttonRefuseInvitaton : Button,
+        textView : TextView,
+        textViewNote : TextView,
+        ratingBar: RatingBar
+    ){
         var isInvited = false
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
+        val ref = FirebaseDatabase.getInstance().getReference("events/$date/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val value = dataSnapshot.getValue(Event::class.java)
@@ -530,39 +610,67 @@ data class Event (
 
     }
 
-    /**
-     * verifyUserIsCreator hide the "Delete" button for the creator of event
-     * @param key : the key of event
-     * @param button : the button we want to hide
-     * @param userKey : the key of user we want to check
-     */
-    fun verifyUserIsCreator(context: Context, key : String?, button: ImageButton, buttonMessage : ImageButton, userKey : String?){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                //Current user is the event's creator
-                if(value?.creator == SessionUser(context).getIdFromUser()){
-                    //User from item is not the creator
-                    if(userKey != value?.creator){
-                        button.visibility = View.VISIBLE
-                        buttonMessage.visibility = View.VISIBLE
-                    }
-                    else{
-                        button.visibility = View.GONE
-                        buttonMessage.visibility = View.GONE
-                    }
+    fun getButton(
+        context: Context,
+        key: String?,
+        button_participe: Button,
+        button_cancel : Button,
+        buttonAcceptInvitation : Button,
+        buttonRefuseInvitaton : Button,
+        textView : TextView,
+        textViewNote : TextView,
+        ratingBar: RatingBar
+    ){
+        FirebaseDatabase.getInstance().getReference("linker/$key").addListenerForSingleValueEvent(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
                 }
-                else{
-                    button.visibility = View.GONE
-                    buttonMessage.visibility = View.GONE
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    getButtonAux(context, p0.value as String, key, button_participe, button_cancel, buttonAcceptInvitation, buttonRefuseInvitaton, textView, textViewNote, ratingBar)
                 }
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+        )
     }
 
+    /**
+     * showCreatorBadge show the badge "creator" if the userKey correspond to the event creator
+     * @param key : the key of event
+     * @param badge : the badge to show
+     * @param userKey : the key of user we want to check
+     */
+    fun showCreatorBadge(key : String?,  badge : TextView, userKey : String?){
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key")
+                    ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val value = dataSnapshot.getValue(Event::class.java)
+                            if(userKey != value?.creator){
+                                badge.visibility = View.GONE
+                            }
+                            else{
+                                badge.visibility = View.VISIBLE
+                            }
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
+                }
+            }
+        )
+    }
+
+    /**
+     * updateEvent(context : Context)
+     * update this event with its new information
+     * @param context - the context of application
+     * @author Florent Simonnot
+     */
     fun updateEvent(context: Context) {
         val event = this
         val ref = FirebaseDatabase.getInstance().getReference("events/$key")

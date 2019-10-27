@@ -95,7 +95,7 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
 
 
         /*-------------------------------Show info---------------------------------*/
-        FirebaseDatabase.getInstance().getReference("events/$keyEvent").addValueEventListener(object:ValueEventListener{
+        FirebaseDatabase.getInstance().getReference("events").addValueEventListener(object:ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -194,43 +194,51 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
         }
 
 
-        val ref = FirebaseDatabase.getInstance().getReference("events/$keyEvent")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
+        val refLinker = FirebaseDatabase.getInstance().getReference("linker/$keyEvent")
+        refLinker.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val date = p0.value as String
+                val ref = FirebaseDatabase.getInstance().getReference("events/$date/$keyEvent")
+                ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val value = dataSnapshot.getValue(Event::class.java)
+                        if (value != null) {
+                            //INIT GOOGLE PLACE
+                            //Init google place
+                            val gg = SessionGooglePlace(context)
+                            gg.init()
+                            val placesClient = gg.createClient()
+
+                            //Search place in according to the ID
+                            val placeId : String = value.place.idPlace
+                            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG)
+                            val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+
+                            placesClient.fetchPlace(request)
+                                .addOnSuccessListener {
+                                    val place : Place = it.place
+                                    val coords : LatLng? = place.latLng
+                                    if(coords != null){
+                                        mMap?.addMarker(MarkerOptions().position(coords).title(place.name))
+                                        mMap?.moveCamera(CameraUpdateFactory.newLatLng(coords))
+                                        mMap?.setMinZoomPreference(11F)
+                                    }
+                                }
+                                .addOnFailureListener {
+                                    //textView1.text = it.message
+                                }
+                        }
+                    }
+                })
             }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if (value != null) {
-                    //INIT GOOGLE PLACE
-                    //Init google place
-                    val gg = SessionGooglePlace(context)
-                    gg.init()
-                    val placesClient = gg.createClient()
-
-                    //Search place in according to the ID
-                    val placeId : String = value.place.idPlace
-                    val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG)
-                    val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
-
-
-                    placesClient.fetchPlace(request)
-                        .addOnSuccessListener {
-                            val place : Place = it.place
-                            val coords : LatLng? = place.latLng
-                            if(coords != null){
-                                mMap?.addMarker(MarkerOptions().position(coords).title(place.name))
-                                mMap?.moveCamera(CameraUpdateFactory.newLatLng(coords))
-                                mMap?.setMinZoomPreference(11F)
-                            }
-                        }
-                        .addOnFailureListener {
-                            //textView1.text = it.message
-                        }
-                }
-            }
         })
-
     }
 
     override fun onClick(p0: View?) {

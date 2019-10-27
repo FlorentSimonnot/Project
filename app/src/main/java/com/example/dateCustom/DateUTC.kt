@@ -38,6 +38,14 @@ class DateUTC(
         return SimpleDateFormat("MM", Locale.getDefault()).format(date).toInt()
     }
 
+    fun getMonthEnglish() : Int{
+        return SimpleDateFormat("MM", Locale.ENGLISH).format(date).toInt()
+    }
+
+    fun getYearEnglish() : Int{
+        return SimpleDateFormat("YYYY", Locale.ENGLISH).format(date).toInt()
+    }
+
     fun showDate() : String{
         val simpleDate = getFormatDate()
         return simpleDate.format(date)

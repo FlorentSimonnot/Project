@@ -2,6 +2,7 @@ package com.example.project
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.*
@@ -19,6 +20,7 @@ import com.example.picker.StringPickerCustom
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
+import com.example.utils.Pair
 import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.*
@@ -38,6 +40,9 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
     private lateinit var valuesFilter: Array<String>
     private var filterValue = 0
     private var joinedView = false
+    private val eventsKey : ArrayList<String?> = ArrayList()
+    private var events : ArrayList<Event> = ArrayList()
+    private val list = ArrayList<Pair>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,11 +78,17 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
                 when(p0?.position){
                     0 -> {
                         filterValue = 0
+                        eventsKey.clear()
+                        events.clear()
+                        list.clear()
                         eventsList(this@EventActivity)
                         supportActionBar?.title = resources.getString(R.string.events_created_title)
                     }
                     1 ->{
                         filterValue = 0
+                        eventsKey.clear()
+                        events.clear()
+                        list.clear()
                         eventsJoinedList(this@EventActivity)
                         supportActionBar?.title = resources.getString(R.string.events_joined_title)
                     }
@@ -107,14 +118,18 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
 
     private fun eventsList(context: Context){
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/eventsCreated")
-        val events : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    events.add(it.key)
+                    eventsKey.add(it.key)
                 }
-                searchEvents(context, events, "created", filterValue)
+                if(eventsKey.size > 0)
+                    searchEventFromDate(context, eventsKey,"created", filterValue)
+                else{
+                    noResults.visibility = View.VISIBLE
+                    listView.visibility = View.GONE
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
@@ -123,101 +138,103 @@ class EventActivity : AppCompatActivity(), View.OnClickListener, NumberPicker.On
 
     private fun eventsJoinedList(context: Context){
         val ref = FirebaseDatabase.getInstance().getReference("users/${this.session.getIdFromUser()}/eventsJoined")
-        val events : ArrayList<String?> = ArrayList()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    events.add(it.key)
+                    eventsKey.add(it.key)
                 }
-                searchEvents(context, events, "joined", 0)
+                if(eventsKey.size > 0)
+                    searchEventFromDate(context, eventsKey,"joined", 0)
+                else{
+                    noResults.visibility = View.VISIBLE
+                    listView.visibility = View.GONE
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
     }
 
-    private fun searchEvents(context: Context, participants : ArrayList<String?>, action : String, filter : Int) {
-        val ref = FirebaseDatabase.getInstance().getReference("events")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                var events: ArrayList<Event> = ArrayList()
-                data.forEach {
-                    val event = it.getValue(Event::class.java) //Get event in a Event class
-                    //Add event in list if it isn't null
-                    if (event != null) {
-                        if (participants.contains(it.key)) {
-                            when(filter){
-                                0 -> events.add(event)
-                                1 -> {
-                                    if(event.finish){
-                                        events.add(event)
-                                    }
-                                }
-                                2 -> {
-                                    if(!event.finish){
-                                        events.add(event)
-                                    }
-                                }
-                            }
-                        }
+    private fun searchEventFromDate(context: Context, events : ArrayList<String?>, action : String, filter : Int){
+        events.forEachIndexed { i, it ->
+
+            FirebaseDatabase.getInstance().getReference("linker/${it}").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    list.add(Pair(it!!, p0.value!! as String))
+
+                    if(i == events.size - 1){
+                        searchEvents(context, list, action, filter)
                     }
                 }
-                if (events.size > 0) {
-                    noResults.visibility = View.GONE
-                    listView.visibility = View.VISIBLE
-                    listView.clearChoices()
-                    events = ArrayList(events.sortedWith(compareBy{ it.date }).reversed())
-                    val layout = R.layout.my_list_mini
-                    val adapter = ArrayAdapterEvents(
-                        context,
-                        layout,
-                        events,
-                        action
-                    )
-                    adapter.notifyDataSetChanged()
-                    listView.adapter = adapter
-                    val dref = FirebaseDatabase.getInstance().reference;
-                    dref.addChildEventListener(object : ChildEventListener {
-                        override fun onCancelled(p0: DatabaseError) {
-                            //
-                        }
 
-                        override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                            //
-                        }
+            })
+        }
+    }
 
-                        override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                            when(action){
-                                "created" -> {
-                                    eventsList(context)
-                                }
-                                "joined" -> {
-                                    eventsJoinedList(context)
-                                }
+    private fun searchEvents(context: Context, participants : ArrayList<Pair>,  action : String, filter : Int) {
+        participants.forEachIndexed{ i, it ->
+            val ref = FirebaseDatabase.getInstance().getReference("events/${it.second}/${it.first}")
+            ref.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val event = dataSnapshot.getValue(Event::class.java)!!
+                    events.add(event)
 
+                    if(i == participants.size - 1){
+                        noResults.visibility = View.GONE
+                        listView.visibility = View.VISIBLE
+                        listView.clearChoices()
+                        events = ArrayList(events.sortedWith(compareBy{ it.date }).reversed())
+                        val layout = R.layout.my_list_mini
+                        val adapter = ArrayAdapterEvents(
+                            context,
+                            layout,
+                            events,
+                            action
+                        )
+                        adapter.notifyDataSetChanged()
+                        listView.adapter = adapter
+                        val dref = FirebaseDatabase.getInstance().reference
+                        dref.addChildEventListener(object : ChildEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+                                //
                             }
-                            session.setFriendsOnTabItem(tab)
-                            session.setInvitationsOnTabItem(tab)
-                        }
 
-                        override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                            //
-                        }
+                            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                                //
+                            }
 
-                        override fun onChildRemoved(p0: DataSnapshot) {
-                            //
-                        }
-                    })
-                } else {
-                    listView.visibility = View.GONE
-                    noResults.visibility = View.VISIBLE
+                            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                                when(action){
+                                    "created" -> {
+                                        eventsList(context)
+                                    }
+                                    "joined" -> {
+                                        eventsJoinedList(context)
+                                    }
+
+                                }
+                                session.setFriendsOnTabItem(tab)
+                                session.setInvitationsOnTabItem(tab)
+                            }
+
+                            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                                //
+                            }
+
+                            override fun onChildRemoved(p0: DataSnapshot) {
+                                //
+                            }
+                        })
+                    }
                 }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

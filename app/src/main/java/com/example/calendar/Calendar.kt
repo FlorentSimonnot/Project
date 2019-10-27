@@ -3,6 +3,7 @@ package com.example.calendar
 import android.widget.TextView
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.Calendar
 
 class Calendar {
     var day : Int = 0
@@ -20,34 +21,16 @@ class Calendar {
         year = formaterYear.format(date).toString().toInt()
     }
 
+    fun getMonth() : String{
+        val date = Calendar.getInstance()
+        date.set(year, month, day)
+        return SimpleDateFormat("MMM").format(date.time).toString()
+    }
+
     fun showMonthAndYear() : String{
         val dateString = if(month < 10){"$day/0$month/$year"}else{"$day/$month/$year"}
         val date = SimpleDateFormat("dd/MM/yyyy").parse(dateString)
         return SimpleDateFormat("MMMM yyyy").format(date)
-    }
-
-    fun setNextMonth(){
-        if(month == 12){
-            month = 1
-            year++
-        }
-        else{
-            month++
-        }
-    }
-
-    fun setPreviousMonth(){
-        if(month == 1){
-            month = 12
-            year--
-        }
-        else{
-            month--
-        }
-    }
-
-    fun showMonthYear(textView: TextView){
-        textView.text = showMonthAndYear()
     }
 
 }

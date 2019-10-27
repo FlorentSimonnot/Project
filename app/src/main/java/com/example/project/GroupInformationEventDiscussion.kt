@@ -102,21 +102,32 @@ class GroupInformationEventDiscussion : AppCompatActivity(), View.OnClickListene
     }
 
     private fun createUsersParticipe(context: Context, key: String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants")
-        val participants : ArrayList<String?> = ArrayList()
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                data.forEach {
-                    if(it.child("status").value == "confirmed" || it.child("status").value == "creator"){
-                        participants.add(it.key)
-                    }
-                }
-                searchUser(context, participants)
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
-        })
+        FirebaseDatabase.getInstance().getReference("linker/$key").addValueEventListener(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    val ref = FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$key/participants")
+                    val participants : ArrayList<String?> = ArrayList()
+                    ref.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val data = dataSnapshot.children //Children = each event
+                            data.forEach {
+                                if(it.child("status").value == "confirmed" || it.child("status").value == "creator"){
+                                    participants.add(it.key)
+                                }
+                            }
+                            searchUser(context, participants)
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
+                }
+
+            }
+        )
     }
 
     private fun searchUser(context: Context, participants : ArrayList<String?>){

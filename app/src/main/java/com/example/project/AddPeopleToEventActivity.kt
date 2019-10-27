@@ -41,21 +41,29 @@ class AddPeopleToEventActivity : AppCompatActivity() {
         val infos : Bundle? = intent.extras
         keyEvent = infos?.getString("key").toString()
 
-        FirebaseDatabase.getInstance().getReference("events/$keyEvent").addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(p0: DataSnapshot) {
-                val event = p0.getValue(Event::class.java) as Event
-                if(event.participants.size < event.nb_people){
-                    createUsersParticipe(this@AddPeopleToEventActivity, keyEvent)
-                }else{
-                   noResultsText.text = getString(R.string.event_info_cannot_invite)
+        FirebaseDatabase.getInstance().getReference("linker/$keyEvent").addValueEventListener(
+            object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    FirebaseDatabase.getInstance().getReference("events/${p0.value as String}/$keyEvent").addValueEventListener(object : ValueEventListener{
+                        override fun onDataChange(p0: DataSnapshot) {
+                            val event = p0.getValue(Event::class.java) as Event
+                            if(event.participants.size < event.nb_people){
+                                createUsersParticipe(this@AddPeopleToEventActivity, keyEvent)
+                            }else{
+                                noResultsText.text = getString(R.string.event_info_cannot_invite)
+                            }
+                        }
+
+                        override fun onCancelled(p0: DatabaseError) {}
+
+                    })
                 }
             }
 
-            override fun onCancelled(p0: DatabaseError) {}
-
-        })
-
-        //createUsersParticipe(this, keyEvent)
+        )
     }
 
     private fun createUsersParticipe(context: Context, key: String){

@@ -358,5 +358,8 @@
     <string name="measuring_system_sub_milles">This application use Miles</string>
     <string name="sports_title">Sports</string>
     <string name="sports">Select which sports have to be show</string>
+    <string name="myEvents_title">myEvents_title</string>
+    <string name="myEvents">myEvents</string>
+    <string name="myEventsShow">Afficher mes évènemens dans l\'accueil et sur la carte</string>
 
 </resources>

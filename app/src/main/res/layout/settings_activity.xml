@@ -134,6 +134,42 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                    android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    >
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutShowMyEvents"
+                    >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterTitle"
+                        android:text="@string/myEvents_title"
+                        android:padding="10dp"
+                        android:id="@+id/myEvents"
+                        />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterSub"
+                        android:text="@string/myEvents"
+                        android:padding="10dp"
+                        android:id="@+id/myEventsValue"
+                        android:layout_below="@id/myEvents"
+                        android:paddingLeft="30dp"
+                        android:paddingStart="30dp"/>
+
+            </RelativeLayout>
 
         </LinearLayout>
 

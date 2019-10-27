@@ -18,6 +18,7 @@
                 android:src="@drawable/com_facebook_profile_picture_blank_portrait"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                app:civ_circle_background_color="#fff"
                 />
     </RelativeLayout>
 

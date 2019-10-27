@@ -29,9 +29,6 @@ class ColorsAdapter(
         buttonColor.setBackgroundColor(color)
         buttonColor.setOnClickListener {
             com.example.messages.ChatEvent(keyChat).changeBackgroundColor(colors[p0])
-            val intent = Intent(context, GroupInformationEventDiscussion::class.java).putExtra("keyChat", keyChat)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            context.startActivity(intent)
         }
 
         return view

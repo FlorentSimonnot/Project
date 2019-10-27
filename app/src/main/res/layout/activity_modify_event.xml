@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ededed"
+        android:background="@color/backgroundColor"
         tools:context=".EventInfoJojoActivity"
         >
 
@@ -56,7 +56,8 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorBackgroundTitleEvent"
                 >
 
             <LinearLayout
@@ -76,7 +77,7 @@
                 >
                     <TextView
                         android:text="@string/modify_event_name"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorText"
                         android:fontFamily="@font/rubik"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -124,7 +125,7 @@
                         >
                     <TextView
                             android:text="@string/modify_event_sport"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             android:fontFamily="@font/rubik"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -164,7 +165,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 >
 
             <TextView
@@ -228,8 +229,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="#fff"
                 android:padding="10dp"
+                android:background="@color/colorBackgroundTitleEvent"
                 >
 
             <LinearLayout
@@ -241,7 +242,7 @@
                     >
                 <TextView
                         android:text="@string/modify_event_description"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorText"
                         android:fontFamily="@font/rubik"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -279,7 +280,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 >
 
             <LinearLayout
@@ -299,7 +300,7 @@
                         >
                     <TextView
                             android:text="@string/modify_event_participants"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             android:fontFamily="@font/rubik"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -347,7 +348,7 @@
                         >
                     <TextView
                             android:text="@string/modify_event_privacy"
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             android:fontFamily="@font/rubik"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -356,7 +357,7 @@
 
                 </LinearLayout>
                 <LinearLayout
-                        android:layout_width="300dp"
+                        android:layout_width="180dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -379,22 +380,6 @@
 
 
         </LinearLayout>
-
-        <!--<Button
-                android:id="@+id/confirm_edit"
-                android:layout_below="@id/more"
-                android:layout_marginTop="40dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Confirm changes"
-                android:layout_centerHorizontal="true"
-                android:textColor="#fff"
-                android:background="@color/colorPrimary"
-                android:padding="10dp"
-                android:fontFamily="@font/rubik"
-                android:textSize="22sp"
-                />-->
-
 
 
     </RelativeLayout>

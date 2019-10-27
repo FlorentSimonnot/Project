@@ -365,4 +365,7 @@
     <string name="measuring_system_sub_milles">This application use Miles</string>
     <string name="sports_title">Sports</string>
     <string name="sports">Select which sports have to be show</string>
+    <string name="myEvents_title">My Events</string>
+    <string name="myEvents">Don\'t show my events at home and in the map</string>
+    <string name="myEventsShow">Show my events at home and in the map</string>
 </resources>

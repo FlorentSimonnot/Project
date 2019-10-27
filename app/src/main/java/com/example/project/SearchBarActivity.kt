@@ -157,7 +157,11 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
                 p0.children.forEach {
                     eventsJoined.add(it.key!!)
                 }
-
+                if(eventsJoined.size == 0){
+                    suggestions.visibility = View.GONE
+                    progressBar.visibility = View.GONE
+                    return
+                }
                 setAdapterUsersSuggestionAux(context, eventsJoined)
             }
 
@@ -177,7 +181,6 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
                             users.add(it.key!!)
                         }
                     }
-                    println("USERS $users")
                     setAdapterUsersSuggestionAuxAux(context, users)
                 }
             })
@@ -187,6 +190,11 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
     private fun setAdapterUsersSuggestionAuxAux(context: Context, users : ArrayList<String>){
         var counter = 0
         usersSuggestion.clear()
+        if(users.size == 0){
+            suggestions.visibility = View.GONE
+            progressBar.visibility = View.GONE
+            return
+        }
         users.forEachIndexed { index, it ->
             FirebaseDatabase.getInstance().getReference("users/$it").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -212,8 +220,6 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
                                 this@SearchBarActivity
                             )
                             recyclerViewSuggestion.adapter = searchAdapterSuggestions
-                        } else {
-                            suggestions.visibility = View.GONE
                         }
                     }
 

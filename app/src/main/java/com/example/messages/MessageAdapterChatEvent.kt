@@ -174,7 +174,7 @@ class MessageAdapterChatEvent(
                 }
             }
             photo.setOnClickListener {
-                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender}")
+                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender.key}")
                 ref.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                         //Nothing
@@ -225,7 +225,7 @@ class MessageAdapterChatEvent(
                 true
             }
             photo.setOnClickListener {
-                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender}")
+                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender.key}")
                 ref.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                         //Nothing

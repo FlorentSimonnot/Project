@@ -355,5 +355,8 @@
 
     <string name="sports_title">Sports</string>
     <string name="sports">Choisissez les sports à afficher</string>
+    <string name="myEvents_title">Mes évènements</string>
+    <string name="myEvents">Ne pas afficher mes évènements dans l\'accueil et sur la carte</string>
+    <string name="myEventsShow">Afficher mes évènemens dans l\'accueil et sur la carte</string>
 
 </resources>

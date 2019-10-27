@@ -235,9 +235,6 @@ open class MapFragment(
 
     private fun searchEvents(){
         sports.clear()
-        if(context == null){
-            println("NULLLL")
-        }
         val ref = FirebaseDatabase.getInstance().getReference("sports/${SessionUser(context!!).getIdFromUser()}/parameters")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -264,12 +261,15 @@ open class MapFragment(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    val event = it.getValue(Event::class.java) //Get event in a Event class
-                    if(event != null){
-                        if(event.creator != SessionUser(context!!).getIdFromUser() && sportsWantsSee.contains(event.sport)) {
-                            val date = event.date
-                            if(DateUTC(date).isAfterNow()){
-                                events.add(event)
+                    val month = it.children
+                    month.forEach {
+                        val event = it.getValue(Event::class.java) //Get event in a Event class
+                        if(event != null){
+                            if(event.creator != SessionUser(context!!).getIdFromUser() && sportsWantsSee.contains(event.sport)) {
+                                val date = event.date
+                                if(DateUTC(date).isAfterNow()){
+                                    events.add(event)
+                                }
                             }
                         }
                     }

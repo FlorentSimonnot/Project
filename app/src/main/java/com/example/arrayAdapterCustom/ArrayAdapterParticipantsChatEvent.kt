@@ -18,6 +18,7 @@ import com.example.user.User
 import com.example.user.UserWithKey
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import org.w3c.dom.Text
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -38,28 +39,25 @@ class ArrayAdapterParticipantsChatEvent(
         val view : View = layoutInflater.inflate(resource , null )
         val imageView : ImageView = view.findViewById(R.id.photo_user)
         val textView : TextView = view.findViewById(R.id.identity)
+        val badge : TextView = view.findViewById(R.id.badge)
 
         if(users.size > 0) {
-            //Event().hideMore(ctx, keyEvent, textView, button, users[position].key)
-            textView.text = users[position].user.firstName + " " + users[position].user.name
-            User().showPhotoUser(ctx, imageView, users[position].key)
 
-            /*button.setOnClickListener {
-                when (action) {
-                    "waiting" -> {
-                        button.setOnClickListener {
-                            val dialog = BottomSheetDialogParticipantsWaitingEvent(ctx, R.layout.bottom_sheet_layout_participants_wait, keyEvent!!, users[position].key!!)
-                            dialog.show(fragmentManager, "USER OPTIONS")
-                        }
-                    }
-                    "confirm" -> {
-                        button.setOnClickListener {
-                            val dialog = BottomSheetDialogParticipantsEvent(ctx, R.layout.bottom_sheet_layout_friend, keyEvent!!, users[position].key!!)
-                            dialog.show(fragmentManager, "USER OPTIONS")
-                        }
-                    }
+            if(users[position].key != SessionUser(context).getIdFromUser()){
+                textView.text = users[position].user.firstName + " " + users[position].user.name
+                User().showPhotoUser(ctx, imageView, users[position].key)
+
+                view.setOnClickListener {
+                    val dialog = BottomSheetDialogParticipantsEvent(ctx, R.layout.bottom_sheet_layout_friend, keyEvent!!, users[position].key!!)
+                    dialog.show(fragmentManager, "USER OPTIONS")
                 }
-            }*/
+            }
+            else{
+                textView.text = context.resources.getString(R.string.you)
+                User().showPhotoUser(ctx, imageView, users[position].key)
+            }
+            Event().showCreatorBadge(keyEvent, badge, users[position].key)
+
         }
 
         return view
