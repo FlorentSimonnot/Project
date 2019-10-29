@@ -4,7 +4,7 @@
     <color name="colorPrimaryTwo">#0277BD</color>
     <color name="colorPrimaryAlpha50">#E60277BD</color>
     <color name="colorPrimaryDark">#fff</color>
-    <color name="colorAccent">#eb2f06</color>
+    <color name="colorAccent">#b71c1c</color>
     <color name="background_light">#dedede</color>
     <color name="colorAccentDark">#fff</color>
     <color name="colorButtonAdded">#fdcb6e</color>

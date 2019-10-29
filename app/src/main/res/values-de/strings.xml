@@ -362,4 +362,16 @@
     <string name="myEvents">myEvents</string>
     <string name="myEventsShow">Afficher mes évènemens dans l\'accueil et sur la carte</string>
 
+    <!-- DAYS -->
+    <string-array name="days">
+        <item>S</item>
+        <item>M</item>
+        <item>D</item>
+        <item>M</item>
+        <item>D</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
+
+
 </resources>

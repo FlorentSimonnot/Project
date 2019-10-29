@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -35,8 +36,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import devs.mulham.horizontalcalendar.HorizontalCalendar
 import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener
+import kotlinx.android.synthetic.main.activity_modify_event.*
 import kotlinx.android.synthetic.main.list_item_user_confirmed.*
 import org.w3c.dom.Text
+import java.time.Month
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -53,14 +56,15 @@ open class HomeFragment(
     private lateinit var activity: Activity
     private var events : ArrayList<EventWithDistance> = ArrayList()
     private lateinit var buttonCalendar : LinearLayout
-    private lateinit var calendar : CalendarView
-    private lateinit var calendarLayout : RelativeLayout
+    private lateinit var calendarLayout : LinearLayout
     private lateinit var calendarValue : java.util.Calendar
     private lateinit var textDay : TextView
     private lateinit var textMonth : TextView
     private var date : Calendar = Calendar()
-    private lateinit var listWeeks : ArrayList<LinearLayout>
-    private lateinit var listDays : ArrayList<Button>
+
+    private lateinit var buttonPreviousMonth : ImageButton
+    private lateinit var buttonNextMonth : ImageButton
+    private lateinit var calendarViewCustom : CalendarViewCustom
 
     val REQUEST_PERMISSIONS_REQUEST_CODE = 1
 
@@ -80,36 +84,31 @@ open class HomeFragment(
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.GONE
 
-        createCalendar(view, date)
-
         calendarLayout = view.findViewById(R.id.barMonth)
-        calendar = view.findViewById(R.id.calendarView)
         buttonCalendar = view.findViewById(R.id.buttonCalendar)
+        buttonPreviousMonth = view.findViewById(R.id.previousMonth)
+        buttonNextMonth = view.findViewById(R.id.nextMonth)
 
         textDay = view.findViewById(R.id.textDay)
         textMonth = view.findViewById(R.id.textMonth)
 
         calendarValue = java.util.Calendar.getInstance()
-        calendar.date = calendarValue.timeInMillis
         date.day = calendarValue.get(java.util.Calendar.DATE)
         date.month = calendarValue.get(java.util.Calendar.MONTH)
         date.year = calendarValue.get(java.util.Calendar.YEAR)
 
-        val min = java.util.Calendar.getInstance()
-        min.set(date.year, date.month, 1)
-        calendar.minDate = min.timeInMillis
+        calendarViewCustom = CalendarViewCustom(view, context!!)
+        calendarViewCustom.init()
+        calendarViewCustom.writeCurrentMonth()
 
         textDay.text = date.day.toString()
         textMonth.text = date.getMonth()
 
         buttonCalendar.setOnClickListener(this)
+        buttonPreviousMonth.setOnClickListener(this)
+        buttonNextMonth.setOnClickListener(this)
 
-        calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            date.month = month
-            date.day = dayOfMonth
-            textDay.text = date.day.toString()
-            textMonth.text = date.getMonth()
-        }
+        buttonPreviousMonth.visibility = View.GONE
 
 
         //Recreate badges when discussion is updated
@@ -224,7 +223,7 @@ open class HomeFragment(
             REQUEST_PERMISSIONS_REQUEST_CODE)
     }
 
-    public override fun onStart() {
+    override fun onStart() {
         super.onStart()
 
         if (!checkPermissions()) {
@@ -320,93 +319,24 @@ open class HomeFragment(
                     View.GONE
                 }
             }
-        }
-    }
+            R.id.previousMonth -> {
+                calendarViewCustom.previousMonth()
 
-    private fun createCalendar(view : View, calendar: Calendar){
-        val weekOne = view.findViewById<LinearLayout>(R.id.calendar_week_1)
-        val weekSecond = view.findViewById<LinearLayout>(R.id.calendar_week_2)
-        val weekThird = view.findViewById<LinearLayout>(R.id.calendar_week_3)
-        val weekFourth = view.findViewById<LinearLayout>(R.id.calendar_week_4)
-        val weekFifth = view.findViewById<LinearLayout>(R.id.calendar_week_5)
-        val weekSixth = view.findViewById<LinearLayout>(R.id.calendar_week_6)
-        listWeeks.add(weekOne); listWeeks.add(weekSecond); listWeeks.add(weekThird)
-        listWeeks.add(weekFourth); listWeeks.add(weekFifth); listWeeks.add(weekSixth)
-
-        initDays()
-        initCalendarWithDate(calendar)
-    }
-
-    private fun initDays(){
-
-        val buttonParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        buttonParams.weight = 1.0f
-
-        var daysArrayCount = 0
-        for (weekNumber in 0..6) {
-            for (dayInWeek in 0..6) {
-                val day = Button(context)
-                day.setTextColor(Color.parseColor("#dedede"))
-                day.setBackgroundColor(Color.TRANSPARENT)
-                day.layoutParams = buttonParams
-                day.textSize = resources.displayMetrics.density * 5
-                day.setSingleLine()
-
-                listDays[daysArrayCount] = day
-                listWeeks[weekNumber].addView(day)
-
-                ++daysArrayCount
-            }
-        }
-    }
-
-    private fun initCalendarWithDate(calendar: Calendar){
-        val c = java.util.Calendar.getInstance()
-        c.set(calendar.year, calendar.month, calendar.day)
-        val maxDayInMonth = c.get(java.util.Calendar.DAY_OF_MONTH)
-        c.set(calendar.year, calendar.month, 1)
-        val firstDayInMonth = c.get(java.util.Calendar.DAY_OF_WEEK)
-
-        c.set(calendar.year, calendar.month, maxDayInMonth)
-
-        var dayNumber = 1
-        var daysLeftInFirstWeek = 0
-        var indexOfDayAfterLastDayOfMonth = 0
-
-        if(firstDayInMonth != 1){
-            daysLeftInFirstWeek = firstDayInMonth
-            indexOfDayAfterLastDayOfMonth = daysLeftInFirstWeek + maxDayInMonth
-
-             for (i in firstDayInMonth..(firstDayInMonth + maxDayInMonth)) {
-                if (currentDateMonth == chosenDateMonth
-                        && currentDateYear == chosenDateYear
-                        && dayNumber == currentDateDay) {
-                    listDays[i].setBackgroundColor(getResources().getColor(R.color.pink));
-                    listDays[i].setTextColor(Color.WHITE);
-                } else {
-                    listDays[i].setTextColor(Color.BLACK);
-                    listDays[i].setBackgroundColor(Color.TRANSPARENT);
+                if(calendarViewCustom.currentDate.month == java.util.Calendar.getInstance().get(java.util.Calendar.MONTH)){
+                    buttonPreviousMonth.visibility = View.GONE
                 }
 
-                int[] dateArr = new int[3];
-                dateArr[0] = dayNumber;
-                dateArr[1] = chosenDateMonth;
-                dateArr[2] = chosenDateYear;
-                listDays[i].setTag(dateArr);
-                listDays[i].setText(String.valueOf(dayNumber));
+            }
+            R.id.nextMonth -> {
+                calendarViewCustom.nextMonth()
 
-                listDays[i].setOnClickListener(View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onDayClick(v);
-                    }
-                });
-                ++dayNumber;
+                if(calendarViewCustom.currentDate.month > java.util.Calendar.getInstance().get(java.util.Calendar.MONTH)){
+                    buttonPreviousMonth.visibility = View.VISIBLE
+                }
+
             }
         }
-        else{
-
-        }
     }
+
 
 }
