@@ -17,6 +17,7 @@ import com.example.login.EmailLogin
 import com.example.place.SessionGooglePlace
 import com.example.project.LoginActivity
 import com.example.project.R
+import com.example.project.SettingsActivity
 import com.example.user.Gender
 import com.example.user.User
 import com.example.utils.Utils
@@ -538,7 +539,11 @@ class SessionUser(val context: Context) : Serializable{
      */
     fun setNightMode(){
 
-        FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addListenerForSingleValueEvent(object : ValueEventListener{
+        val sharedPref = SharedPref(context.applicationContext)
+        sharedPref.setNightModeState(!(sharedPref.loadNightModeState()!!))
+        getNightMode()
+
+        /*FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
 
@@ -556,7 +561,7 @@ class SessionUser(val context: Context) : Serializable{
                 }
             }
 
-        })
+        })*/
     }
 
     /**
@@ -565,7 +570,14 @@ class SessionUser(val context: Context) : Serializable{
      * @author Florent SIMONNOT.
      */
     fun getNightMode(){
-        FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+
+        if(SharedPref(context.applicationContext).loadNightModeState()!!){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+
+        /*FirebaseDatabase.getInstance().getReference("parameters/${getIdFromUser()}").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {
             }
 
@@ -583,7 +595,7 @@ class SessionUser(val context: Context) : Serializable{
                 }
             }
 
-        })
+        })*/
     }
 
     /**

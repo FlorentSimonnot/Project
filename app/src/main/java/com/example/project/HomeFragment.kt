@@ -48,19 +48,18 @@ open class HomeFragment(
     val menu :  MenuCustom
 ) : Fragment(), View.OnClickListener {
 
-    private lateinit var progressBar : ProgressBar
+    private lateinit var progressBar : RelativeLayout
     lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var lastLocation : Location
     private var currentLatLng = LatLng(.0, .0)
 
     private lateinit var activity: Activity
-    private var events : ArrayList<EventWithDistance> = ArrayList()
     private lateinit var buttonCalendar : LinearLayout
     private lateinit var calendarLayout : LinearLayout
-    private lateinit var calendarValue : java.util.Calendar
     private lateinit var textDay : TextView
     private lateinit var textMonth : TextView
-    private var date : Calendar = Calendar()
+    private lateinit var date : Calendar
+    private lateinit var listView : ListView
 
     private lateinit var buttonPreviousMonth : ImageButton
     private lateinit var buttonNextMonth : ImageButton
@@ -80,36 +79,27 @@ open class HomeFragment(
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val listView = view.findViewById<ListView>(R.id.events_listview)
-        progressBar = view.findViewById(R.id.progressBar)
-        progressBar.visibility = View.GONE
+
+        listView = view.findViewById(R.id.events_listview)
+        progressBar = view.findViewById(R.id.loadingBar)
+        progressBar.visibility = View.VISIBLE
 
         calendarLayout = view.findViewById(R.id.barMonth)
         buttonCalendar = view.findViewById(R.id.buttonCalendar)
         buttonPreviousMonth = view.findViewById(R.id.previousMonth)
         buttonNextMonth = view.findViewById(R.id.nextMonth)
-
         textDay = view.findViewById(R.id.textDay)
         textMonth = view.findViewById(R.id.textMonth)
 
-        calendarValue = java.util.Calendar.getInstance()
-        date.day = calendarValue.get(java.util.Calendar.DATE)
-        date.month = calendarValue.get(java.util.Calendar.MONTH)
-        date.year = calendarValue.get(java.util.Calendar.YEAR)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
 
-        calendarViewCustom = CalendarViewCustom(view, context!!)
-        calendarViewCustom.init()
-        calendarViewCustom.writeCurrentMonth()
-
-        textDay.text = date.day.toString()
-        textMonth.text = date.getMonth()
-
+        calendarLayout.visibility = View.GONE
+        buttonCalendar.visibility = View.GONE
         buttonCalendar.setOnClickListener(this)
         buttonPreviousMonth.setOnClickListener(this)
         buttonNextMonth.setOnClickListener(this)
 
         buttonPreviousMonth.visibility = View.GONE
-
 
         //Recreate badges when discussion is updated
         FirebaseDatabase.getInstance().getReference("discussions").addValueEventListener(object : ValueEventListener{
@@ -130,10 +120,21 @@ open class HomeFragment(
 
         })
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context!!)
-
-        showEventsNearLocation(context!!, listView!!, date)
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //getLastLocation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        calendarLayout.visibility = View.GONE
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
     }
 
     /*--------CUSTOM MENU FOR THIS FRAGMENT-------------------*/
@@ -156,23 +157,26 @@ open class HomeFragment(
         fun onFragmentInteraction(sendBackText: String)
     }
 
-    private fun showEventsNearLocation(context: Context, listView: ListView, calendar: Calendar){
+    private fun showEventsNearLocation(context: Context, view : View){
+        println("LAT ${currentLatLng.latitude}")
         FirebaseDatabase.getInstance().getReference("users/${SessionUser(context).getIdFromUser()}").addValueEventListener(
             object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {}
 
                 override fun onDataChange(p0: DataSnapshot) {
                     val distance = p0.child("radius").value as Long
-                    showAllEvents(context, listView, distance*1000, calendar)
+                    calendarViewCustom = CalendarViewCustom(view, context, activity, progressBar, calendarLayout,  buttonCalendar, listView,  buttonPreviousMonth, buttonNextMonth, textDay, textMonth, distance*1000, currentLatLng)
+                    calendarViewCustom.init()
+                    date = calendarViewCustom.selectedDate
                 }
 
             }
         )
     }
 
-    private fun showAllEvents(context: Context, listView : ListView, distance : Long, calendar: Calendar){
+    /*private fun showAllEvents(context: Context, listView : ListView, distance : Long, calendar: Calendar){
         events.clear()
-        val ref = FirebaseDatabase.getInstance().getReference("events/${calendar.year}-${calendar.month}")
+        val ref = FirebaseDatabase.getInstance().getReference("events/${calendar.year}-${calendar.month+1}")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
@@ -181,7 +185,7 @@ open class HomeFragment(
                     //Add event in list if it isn't null
                     if(event != null){
                         val date = DateUTC(event.date)
-                        if(date.getDayInt() == calendar.day && date.getMonthInt() == calendar.month) {
+                        if(date.getDayInt() == calendar.day && date.getMonthInt() == calendar.month+1) {
                             val coordsEvent = Location("")
                             coordsEvent.latitude = event.place.lat
                             coordsEvent.longitude = event.place.lng
@@ -204,7 +208,7 @@ open class HomeFragment(
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
-    }
+    }*/
 
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
@@ -240,8 +244,9 @@ open class HomeFragment(
                 if (task.isSuccessful && task.result != null) {
                     lastLocation = task.result!!
                     currentLatLng = LatLng(lastLocation.latitude, lastLocation.longitude)
+                    showEventsNearLocation(context!!, view!!)
                 } else {
-
+                    //Toast.makeText(context, "FAILED COORDS", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -320,23 +325,36 @@ open class HomeFragment(
                 }
             }
             R.id.previousMonth -> {
-                calendarViewCustom.previousMonth()
-
-                if(calendarViewCustom.currentDate.month == java.util.Calendar.getInstance().get(java.util.Calendar.MONTH)){
-                    buttonPreviousMonth.visibility = View.GONE
+                val c = Calendar()
+                c.setDate(1, calendarViewCustom.selectedDate.month, calendarViewCustom.selectedDate.year)
+                if(!calendarViewCustom.isCurrentMonth(c)){
+                    calendarViewCustom.decreaseMonth()
+                    c.setDate(calendarViewCustom.selectedDate.day, calendarViewCustom.selectedDate.month, calendarViewCustom.selectedDate.year)
+                    if(!calendarViewCustom.isCurrentMonth(c)) {
+                        calendarViewCustom.previousMonth(
+                            calendarViewCustom.selectedDate.year,
+                            calendarViewCustom.selectedDate.month,
+                            1
+                        )
+                    }else{
+                        calendarViewCustom.selectedDate.day = c.day
+                        calendarViewCustom.previousMonth(
+                            calendarViewCustom.selectedDate.year,
+                            calendarViewCustom.selectedDate.month,
+                            calendarViewCustom.selectedDate.day
+                        )
+                    }
                 }
-
             }
             R.id.nextMonth -> {
-                calendarViewCustom.nextMonth()
-
-                if(calendarViewCustom.currentDate.month > java.util.Calendar.getInstance().get(java.util.Calendar.MONTH)){
-                    buttonPreviousMonth.visibility = View.VISIBLE
-                }
-
+                calendarViewCustom.incrementMonth()
+                calendarViewCustom.nextMonth(
+                    calendarViewCustom.selectedDate.year,
+                    calendarViewCustom.selectedDate.month,
+                    1
+                )
             }
         }
     }
-
 
 }

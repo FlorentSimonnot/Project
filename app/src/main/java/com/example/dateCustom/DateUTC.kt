@@ -42,6 +42,10 @@ class DateUTC(
         return SimpleDateFormat("MM", Locale.ENGLISH).format(date).toInt()
     }
 
+    fun getYearInt() : Int{
+        return SimpleDateFormat("YYYY", Locale.getDefault()).format(date).toInt()
+    }
+
     fun getYearEnglish() : Int{
         return SimpleDateFormat("YYYY", Locale.ENGLISH).format(date).toInt()
     }

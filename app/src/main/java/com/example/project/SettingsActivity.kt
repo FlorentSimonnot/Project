@@ -12,6 +12,7 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.example.dialog.AlertCustomWithRadioGroup
 import com.example.session.SessionUser
+import com.example.session.SharedPref
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -83,7 +84,12 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initDarkThemeValue(){
-        FirebaseDatabase.getInstance().getReference("parameters/${SessionUser(this).getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+        if(SharedPref(this@SettingsActivity).loadNightModeState()!!){
+            darkThemeValue.text = this@SettingsActivity.getText(R.string.dark_theme_activate)
+        }else{
+            darkThemeValue.text = this@SettingsActivity.getText(R.string.dark_theme_deactivate)
+        }
+        /*FirebaseDatabase.getInstance().getReference("parameters/${SessionUser(this).getIdFromUser()}").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(p0: DataSnapshot) {
                 if(p0.hasChild("nightMode")){
                     if(p0.child("nightMode").value as Boolean){
@@ -100,7 +106,7 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
             override fun onCancelled(p0: DatabaseError) {
             }
-        })
+        })*/
     }
 
     private fun initMeasuringSystem(){
