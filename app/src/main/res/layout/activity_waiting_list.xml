@@ -32,6 +32,7 @@
                 android:layout_below="@id/toolbar"
                 tools:ignore="MissingConstraints"
                 android:orientation="vertical"
+                android:background="@color/backgroundColor"
                 >
             <ListView
                     android:id="@+id/listViewUsers"

@@ -30,7 +30,6 @@
     <string name="client_id">314370239409-n8rhasb1b0pfjjm2f13qq6du7e0mho5m.apps.googleusercontent.com</string>
     <string name="title_activity_event_info">EventInfoActivity</string>
 
-    <string name="describe_privacy">With choosing private privacy users can only see your name or your events created and joined</string>
     <string name="description_test">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum velit eget felis tempus, a fringilla mi feugiat. Nullam ac augue ut sapien pharetra tincidunt. Praesent luctus nisi ut risus consequat pulvinar. Pellentesque hendrerit vitae sed.
     </string>
@@ -81,8 +80,8 @@
     <string name="event_nb_people_message"></string>
     <string name="event_privacy_title">프라이버시</string>
     <string name="event_privacy_message"></string>
-    <string name="event_public">공개</string>
-    <string name="event_private">개인</string>
+    <string name="event_public">드러난</string>
+    <string name="event_private">은밀한</string>
     <string name="event_invitation">초대에 의해</string>
     <string name="create_event_title">이벤트를 만들다</string>
 
@@ -123,6 +122,9 @@
     <string name="filter_only_next">들어오는 이벤트 만</string>
     <string name="events_filter_title">필터</string>
     <string name="events_filter_message"></string>
+    <string name="events_filter_all_events">모두</string>
+    <string name="events_filter_only_finished">끝마친</string>
+    <string name="events_filter_only_next">들어오는</string>
 
     <!--NOTIFICATIONS PUSH-->
     <string name="notifications_social_title">사회적인</string>
@@ -136,6 +138,7 @@
     <string name="notification_receive_message">누군가 나에게 메시지를 보내면 알림을받습니다</string>
     <string name="notification_title">알림 푸시</string>
     <string name="button_delete_all_notification">모든 알림을 삭제</string>
+    <string name="notifications_push_toast">업데이트</string>
 
     <!--NAME OF SPORTS-->
     <string name="football">축구</string>
@@ -219,6 +222,7 @@
     <string name="event_info_cannot_invite">친구를 초대 할 수 없습니다. 이벤트가 가득 찼습니다</string>
     <string name="event_info_invite_toast">당신의 친구를 초대했습니다</string>
     <string name="event_info_cancel_invitation_toast">초대가 취소되었습니다</string>
+    <string name="event_info_create_reminder">Create a reminder for this event</string>
     <string name="modify_event_title">이벤트 수정</string>
     <string name="modify_event_name">이름</string>
     <string name="modify_event_sport">스포츠</string>
@@ -302,17 +306,68 @@
     <string name="next_sign_in_male">남자</string>
     <string name="next_sign_in_female">여자</string>
     <string name="next_sign_in_other">다른</string>
+    <string name="next_sign_in_privacy_message">프로필이 비공개 인 경우하면, 친구가 아닌 사람들은 귀하의 정보를 볼 수 없습니다</string>
+    <string name="next_sign_in_public">드러난</string>
+    <string name="next_sign_in_private">은밀한</string>
 
-    <string name="page1_title">Found event near your localisation</string>
+    <!--LOG OUT-->
+    <string name="log_out_dialog_title">로그 아웃?</string>
+    <string name="log_out_dialog_yes">네</string>
+    <string name="log_out_dialog_no">아니</string>
+
+    <!--ABOUT US-->
+    <string name="about_us_title">우리에 대해</string>
+    <string name="about_us_text">text</string>
+    <string name="about_us_contact_us">문의하기</string>
+    <string name="about_us_facebook">페이스 북</string>
+    <string name="about_us_twitter">트위터</string>
+
+    <!--TUTORIAL-->
+    <string name="page1_title">가까운 이벤트를 찾으십시오</string>
     <string name="page1_content">
-        We display all sports events near your location. You can configure the display of events according to the sports you are interested in.
+        우리는 가까운 모든 이벤트를 표시합니다. 관심있는 스포츠에 따라 이벤트 표시를 구성 할 수 있습니다.
     </string>
-    <string name="page2_title">Create your own event</string>
+    <string name="page2_title">나만의 이벤트 만들기</string>
     <string name="page2_content">
-        Create your sporting event whenever you want, where you want.
-        You can create an event visible to all or only to your friends.</string>
-    <string name="page3_title">And most importantly, keep in touch.</string>
+        이벤트 만들기. 장소를 선택하십시오. 날짜를 선택하십시오. 친구 초대.</string>
+    <string name="page3_title">그리고 가장 중요한, 연락을 유지.</string>
     <string name="page3_content">
-        Create your sporting event whenever you want, where you want.
-        You can create an event visible to all or only to your friends.</string>
+        친구, 다른 사용자 및 이벤트 멤버와 대화</string>
+    <string name="tutorial_lets_go">가자!</string>
+
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+
+    <string name="discussion_turn_off">The admin turned off the discussion</string>
+
+    <string name="dark_theme">Dark Theme</string>
+    <string name="dark_theme_activate">Dark theme is activate</string>
+    <string name="dark_theme_deactivate">Dark theme is deactivate</string>
+
+    <string name="measuring_system">Measuring system</string>
+    <string name="measuring_system_sub_km">This application use kilometers</string>
+    <string name="measuring_system_sub_milles">This application use Miles</string>
+    <string name="sports_title">Sports</string>
+    <string name="sports">Select which sports have to be show</string>
+    <string name="myEvents_title">myEvents_title</string>
+    <string name="myEvents">myEvents</string>
+    <string name="myEventsShow">Afficher mes évènemens dans l\'accueil et sur la carte</string>
+
+    <!-- DAYS -->
+    <string-array name="days">
+        <item>D</item>
+        <item>L</item>
+        <item>M</item>
+        <item>M</item>
+        <item>J</item>
+        <item>V</item>
+        <item>S</item>
+    </string-array>
+
+
 </resources>

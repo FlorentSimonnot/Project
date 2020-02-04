@@ -49,6 +49,7 @@
                 android:layout_below="@id/toolbar"
                 android:orientation="horizontal"
                 android:padding="5dp"
+                android:background="@color/backgroundColor"
                 >
 
             <GridView

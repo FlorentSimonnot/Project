@@ -41,20 +41,31 @@ class ParticipantsActivity : AppCompatActivity() {
     }
 
     private fun createUsersParticipe(context: Context, key: String){
-        val ref = FirebaseDatabase.getInstance().getReference("events/$key/participants")
-        val participants : ArrayList<String?> = ArrayList()
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val data = dataSnapshot.children //Children = each event
-                data.forEach {
-                    if(it.child("status").value == "confirmed" || it.child("status").value == "creator"){
-                        participants.add(it.key)
-                    }
-                }
-                searchUser(context, participants)
+
+        val refLinker = FirebaseDatabase.getInstance().getReference("linker/$keyEvent")
+        refLinker.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {}
+            override fun onDataChange(p0: DataSnapshot) {
+                val date = p0.value as String
+                val ref = FirebaseDatabase.getInstance().getReference("events/$date/$key/participants")
+                val participants : ArrayList<String?> = ArrayList()
+                ref.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val data = dataSnapshot.children //Children = each event
+                        data.forEach {
+                            if(it.child("status").value == "confirmed" || it.child("status").value == "creator"){
+                                participants.add(it.key)
+                            }
+                        }
+                        searchUser(context, participants)
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {}
+                })
+            }
+
         })
     }
 
@@ -81,7 +92,6 @@ class ParticipantsActivity : AppCompatActivity() {
                         R.layout.list_item_user_confirmed,
                         keyEvent,
                         usersWaiting,
-                        "confirm",
                         supportFragmentManager
                     )
                     adapter.notifyDataSetChanged()

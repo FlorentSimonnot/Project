@@ -1,86 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="150dp" xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="horizontal"
-              android:background="@drawable/item_list_event"
-              android:padding="10dp"
+              android:gravity="center_vertical"
+              android:id="@+id/item"
+              android:background="@null"
+>
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
+    >
+
+        <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:background="#e74c3c"
         >
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:orientation="horizontal"
+            >
 
-    <ImageView
-            android:id="@+id/icon_sport"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:padding="5dp" />
-
-    <RelativeLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginRight="90dp"
-                  android:id="@+id/name"
-                    android:layout_toRightOf="@id/icon_sport"
-                  android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/event_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:padding="2dp"
-                android:textColor="#2d3436"
-                android:fontFamily="@font/rubik"
-                android:textFontWeight="700"
-                />
-        <TextView
-                android:id="@+id/event_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/event_name"
-                android:text=""
-                android:drawableLeft="@drawable/ic_pin"
-                android:drawablePadding="10dp"
-                android:padding="3dp"
-                android:fontFamily="@font/rubik"
-                android:layout_marginLeft="10dp"/>
-    </RelativeLayout>
-
-    <RelativeLayout android:layout_width="1dp"
-                    android:layout_height="50dp"
-                    android:layout_toRightOf="@id/name"
-                    android:id="@+id/separator"
-                    android:layout_marginLeft="-90dp"
-                    android:gravity="center_vertical"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/border_left_red"
-                    android:orientation="vertical">
-    </RelativeLayout>
-
-    <RelativeLayout android:layout_width="90dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/separator"
-                    android:orientation="vertical">
-
-        <TextView
-                android:id="@+id/day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="26"
-                android:gravity="center"
-                android:textSize="22sp"
-                android:textColor="@color/colorAccent"
-                />
-        <TextView
-                android:id="@+id/month"
-                android:layout_below="@id/day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sep."
-                android:gravity="center"
-                android:textSize="18sp"
-                android:textColor="@color/colorBlueGrey900"
+                <TextView
+                        android:id="@+id/time"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:gravity="center"
+                        android:textSize="26sp"
+                        android:textColor="#fff"
                 />
 
-    </RelativeLayout>
+            </LinearLayout>
 
-    </RelativeLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+            >
+                <ImageView
+                        android:id="@+id/icon_sport"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:padding="5dp"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/left"
+                android:layout_marginLeft="120dp"
+                android:layout_marginStart="120dp"
+                android:background="@color/backgroundListView"
+                android:orientation="horizontal">
+
+
+            <RelativeLayout android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/name"
+                            android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/event_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:padding="2dp"
+                        android:textColor="@color/colorText"
+                        android:fontFamily="@font/rubik"
+                        android:textFontWeight="700"
+                        android:layout_marginStart="10dp"/>
+                <TextView
+                        android:id="@+id/event_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/event_name"
+                        android:text=""
+                        android:textColor="@color/colorText"
+                        android:padding="3dp"
+                        android:fontFamily="@font/rubik"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"/>
+                <TextView
+                        android:id="@+id/event_distance"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/event_desc"
+                        android:text=""
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rubik"
+                        android:textColor="@color/colorText"
+                        android:layout_marginLeft="10dp"/>
+                <TextView
+                        android:id="@+id/event_participants"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/event_distance"
+                        android:layout_below="@id/event_distance"
+                        android:text="2/11"
+                        android:layout_alignParentRight="true"
+                        android:paddingTop="10dp"
+                        android:layout_marginTop="-20dp"
+                        android:fontFamily="@font/rubik"
+                        android:textColor="@color/colorText"
+                        android:gravity="end"
+                        android:drawableRight="@drawable/ic_user_my_list"
+                        android:drawablePadding="6dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"/>
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

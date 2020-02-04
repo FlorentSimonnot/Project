@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="10dp"
-        >
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:background="@color/backgroundColor"
+>
 
     <RelativeLayout
             android:id="@+id/accept_layout"
@@ -26,14 +28,25 @@
                 android:padding="10dp"
                 android:gravity="center_vertical"
                 android:id="@+id/textViewAccept"
-        />
+                android:textColor="@color/colorText"
+                android:layout_toEndOf="@id/icon_accept"
+                />
+
+    </RelativeLayout>
+    
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorText"
+            android:layout_marginTop="10dp"
+    >
 
     </RelativeLayout>
 
     <RelativeLayout
             android:id="@+id/refuse_layout"
             android:layout_below="@id/accept_layout"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

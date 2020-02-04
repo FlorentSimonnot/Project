@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.Html
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.login.EmailLogin
 import com.example.notification.Action
 import com.example.notification.Notifications
@@ -84,22 +85,6 @@ data class User(
 
     }
 
-    fun toMap(): Map<String, Any> {
-        val result = HashMap<String, Any>()
-        result.put("firstName", firstName)
-        result.put("name", name)
-        result.put("email", email)
-        result.put("password", password)
-        result.put("sex", sex)
-        result.put("birthday", birthday)
-        result.put("describe", description)
-        result.put("city", city)
-        result.put("typeLog", typeLog)
-        result.put("idServiceLog", idServiceLog)
-
-        return result
-    }
-
     fun showPhotoUser(context: Context, imageView: ImageView, key : String?) {
         val ref = FirebaseDatabase.getInstance().getReference("users/$key")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -110,6 +95,9 @@ data class User(
                         val refPhoto  = FirebaseStorage.getInstance().getReference("images/${value.urlPhoto}").downloadUrl
                         refPhoto.addOnSuccessListener {
                             Picasso.get().load(it).into(imageView)
+                        }
+                        refPhoto.addOnFailureListener {
+                            Toast.makeText(context, "${it.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
                     else{

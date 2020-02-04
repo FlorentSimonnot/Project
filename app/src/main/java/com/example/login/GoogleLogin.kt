@@ -27,12 +27,11 @@ class GoogleLogin (
                     val user = auth.currentUser
                     if(it.result != null){
                         if(it.result!!.additionalUserInfo.isNewUser){
-                            println("FIRST VISIT")
                             val nextSignInJojo = Intent(context, NextSignInJojoActivity::class.java)
                             nextSignInJojo.action = Context.INPUT_SERVICE
                             nextSignInJojo.addCategory("UserSignInWithGoogle")
-                            nextSignInJojo.putExtra("firstName", account.givenName)
-                            nextSignInJojo.putExtra("name", account.familyName)
+                            nextSignInJojo.putExtra("firstName", account.givenName!!.capitalize())
+                            nextSignInJojo.putExtra("name", account.familyName!!.capitalize())
                             nextSignInJojo.putExtra("email", account.email)
                             nextSignInJojo.putExtra("password", "")
                             nextSignInJojo.putExtra("uid", user?.uid!!)
@@ -61,6 +60,9 @@ class GoogleLogin (
                     Toast.makeText(context, "Can't login ! ${it.exception}", Toast.LENGTH_SHORT).show()
                 }
 
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "E : $it", Toast.LENGTH_LONG).show()
             }
         return true
     }

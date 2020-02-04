@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
+            android:background="@color/backgroundColor"
             >
 
         <ScrollView
@@ -51,6 +52,7 @@
                             android:src="@drawable/com_facebook_profile_picture_blank_portrait"
                             app:civ_border_width="2dp"
                             app:civ_border_color="#FF000000"
+                            app:civ_circle_background_color="#fff"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="5dp"
                             />
@@ -65,7 +67,7 @@
                         android:padding="15dp"
                         android:id="@+id/email_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         >
                     <ImageView
                             android:layout_width="28dp"
@@ -81,13 +83,14 @@
                             android:paddingBottom="10dp"
                             android:textSize="20sp"
                             android:layout_marginLeft="20dp"
+                            android:textColor="@color/colorText"
                             />
                 </LinearLayout>
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:orientation="horizontal"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorSeparatorInfo"
                         android:layout_marginLeft="54dp"
                         android:layout_marginStart="54dp"
                         android:layout_marginRight="20dp"
@@ -101,7 +104,7 @@
                         android:padding="15dp"
                         android:id="@+id/sex_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         >
                     <ImageView
                             android:layout_width="28dp"
@@ -118,13 +121,14 @@
                             android:textSize="20sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
+                            android:textColor="@color/colorText"
                             />
                 </LinearLayout>
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:orientation="horizontal"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorSeparatorInfo"
                         android:layout_marginLeft="54dp"
                         android:layout_marginStart="54dp"
                         android:layout_marginRight="20dp"
@@ -138,7 +142,7 @@
                         android:padding="15dp"
                         android:id="@+id/birthday_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         >
                     <ImageView
                             android:layout_width="28dp"
@@ -155,13 +159,14 @@
                             android:textSize="20sp"
                             android:layout_marginLeft="20dp"
                             android:layout_marginStart="20dp"
+                            android:textColor="@color/colorText"
                             />
                 </LinearLayout>
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:orientation="horizontal"
-                        android:background="@color/colorPrimary"
+                        android:background="@color/colorSeparatorInfo"
                         android:layout_marginLeft="54dp"
                         android:layout_marginStart="54dp"
                         android:layout_marginRight="20dp"
@@ -175,7 +180,7 @@
                         android:padding="15dp"
                         android:id="@+id/city_layout"
                         android:layout_below="@id/name_and_firstName_layout"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         >
                     <ImageView
                             android:layout_width="28dp"
@@ -187,6 +192,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/city_account"
                             android:text=""
+                            android:textColor="@color/colorText"
                             android:fontFamily="@font/rubik"
                             android:paddingBottom="10dp"
                             android:textSize="20sp"
@@ -202,7 +208,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/describe_layout"
                         android:orientation="vertical"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:layout_marginTop="30dp"
                         >
                     <TextView
@@ -213,12 +219,13 @@
                             android:layout_marginRight="2dp"
                             android:padding="10dp"
                             android:fontFamily="@font/rubik"
+                            android:textColor="@color/colorText"
                             />
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:orientation="horizontal"
-                            android:background="@color/colorPrimary"
+                            android:background="@color/colorSeparatorInfo"
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_marginRight="10dp"
@@ -231,6 +238,7 @@
                             android:id="@+id/describe_account"
                             android:textSize="15dp"
                             android:padding="10dp"
+                            android:textColor="@color/colorText"
                             />
                 </LinearLayout>
 
@@ -239,39 +247,41 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/radius_layout"
                         android:orientation="horizontal"
-                        android:background="#fff"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:layout_marginTop="30dp"
                         android:padding="15dp"
+                        android:layout_gravity="center_vertical"
                         >
                     <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             app:srcCompat="@drawable/ic_distance"
                             />
-                    <SeekBar
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/radius"
-                            android:text=""
-                            android:fontFamily="@font/rubik"
-                            android:paddingBottom="10dp"
-                            android:textSize="20sp"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginStart="20dp"
-                            android:thumbTint="@color/colorPrimary"
-                            android:progressTint="@color/colorPrimary"
-                            android:max="25"
-                            android:backgroundTint="@color/colorBlueGrey900"
-                            android:layout_marginRight="60dp"
-                            android:layout_marginEnd="60dp"
-                            android:focusable="false"
-                            />
+
+                    <ProgressBar android:layout_width="match_parent"
+                                    android:layout_height="10dp"
+                                    android:id="@+id/radius"
+                                    android:paddingBottom="10dp"
+                                    android:textSize="20sp"
+                                    android:layout_marginLeft="20dp"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginRight="60dp"
+                                    android:layout_marginEnd="60dp"
+                                    android:gravity="center_vertical"
+                                    android:layout_gravity="center_vertical"
+                                    android:progress="18"
+                                    android:progressTint="#fff"
+                                    android:secondaryProgressTint="@color/colorText"
+                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    >
+
+                    </ProgressBar>
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="-50dp"
                             android:text=""
-                            android:textColor="@color/colorPrimary"
+                            android:textColor="@color/colorText"
                             android:id="@+id/seekbar_value"
                             />
                 </LinearLayout>
@@ -300,8 +310,8 @@
                             android:fontFamily="@font/rubik"
                             android:layout_marginTop="20dp"
                             android:text="@string/user_info_delete"
-                            android:textColor="#000"
-                            android:background="@color/colorGrey100"
+                            android:textColor="@color/colorText"
+                            android:background="@color/backgroundColor"
                             />
 
                 </LinearLayout>

@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".EventInfoJojoActivity"
+        android:background="@color/backgroundPage"
         >
 
     <RelativeLayout
@@ -44,7 +45,7 @@
                 android:id="@+id/title_creator_sport"
                 android:layout_below="@id/map"
                 android:orientation="horizontal"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 >
             <LinearLayout
                     android:layout_width="match_parent"
@@ -62,7 +63,7 @@
                         android:text="title"
                         android:fontFamily="@font/rubik"
                         android:textSize="22sp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorText"
                         />
                 <TextView
                         android:layout_width="match_parent"
@@ -70,7 +71,7 @@
                         android:id="@+id/creator"
                         android:text="title"
                         android:fontFamily="@font/rubik"
-                        android:textColor="@color/colorBlueGrey900"
+                        android:textColor="@color/colorText"
                         android:layout_marginTop="10dp"
                         />
 
@@ -217,7 +218,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:padding="5dp"
-                android:background="@drawable/border_bottom"
+                android:background="@drawable/border_bottom_primary"
                 >
 
             <LinearLayout
@@ -226,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/invitations"
                     android:orientation="vertical"
-                    android:background="#fff"
+                    android:background="@drawable/border_right"
                     android:padding="5dp"
                     android:gravity="center"
                     >
@@ -242,59 +243,37 @@
                         android:text="@string/event_info_share"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
-                        />
-
-            </LinearLayout>
-            <!--<LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/edit"
-                    android:background="@drawable/border_right"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    >
-                <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        app:srcCompat="@drawable/ic_edit"
-                        android:contentDescription="edit"
-                        />
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Edit"
-                        android:gravity="center"
-                        android:fontFamily="@font/rubik"
+                        android:textColor="@color/colorText"
                         />
 
             </LinearLayout>
             <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/delete"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/reminder"
                     android:orientation="vertical"
-                    android:padding="10dp"
+                    android:background="@color/colorBackgroundTitleEvent"
+                    android:padding="5dp"
+                    android:paddingTop="0dp"
                     android:gravity="center"
-                    >
+            >
                 <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        app:srcCompat="@drawable/ic_trash"
-                        android:contentDescription="trash"
-                        />
+                        app:srcCompat="@drawable/ic_alarm_deactivate"
+                        android:contentDescription="bell"
+                />
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Delete"
+                        android:text="@string/event_info_create_reminder"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
-                        />
+                        android:textColor="@color/colorText"
+                />
 
-            </LinearLayout>-->
-
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -303,7 +282,7 @@
                 android:id="@+id/date_hour_place"
                 android:layout_below="@id/accessibility"
                 android:orientation="vertical"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 android:padding="10dp"
                 >
             <TextView
@@ -317,12 +296,13 @@
                     android:fontFamily="@font/rubik"
                     android:layout_marginTop="20dp"
                     android:textSize="16sp"
+                    android:textColor="@color/colorText"
                     />
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/colorPrimaryAlpha50"
+                    android:background="@color/colorSeparatorInfo"
                     >
 
             </RelativeLayout>
@@ -337,13 +317,14 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
+                    android:textColor="@color/colorText"
                     />
             <RelativeLayout
                     android:id="@+id/separator"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/colorPrimaryAlpha50"
+                    android:background="@color/colorSeparatorInfo"
                     >
 
             </RelativeLayout>
@@ -358,6 +339,7 @@
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
+                    android:textColor="@color/colorText"
                     />
 
         </LinearLayout>
@@ -368,7 +350,7 @@
                 android:id="@+id/layout_description"
                 android:layout_below="@id/date_hour_place"
                 android:orientation="vertical"
-                android:background="#fff"
+                android:background="@color/colorBackgroundTitleEvent"
                 android:layout_marginTop="20dp"
                 android:padding="10dp"
                 >
@@ -379,6 +361,7 @@
                     android:text="@string/event_info_description"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
+                    android:textColor="@color/colorText"
                     />
         </LinearLayout>
 
@@ -390,7 +373,7 @@
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:background="#fff"
+                android:background="@drawable/border_bottom_primary"
                 >
 
             <LinearLayout
@@ -419,6 +402,7 @@
                         android:text="@string/event_info_participants"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
+                        android:textColor="#079992"
                         />
 
             </LinearLayout>
@@ -427,7 +411,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:id="@+id/waiting"
-                    android:background="#fff"
+                    android:background="@null"
                     android:orientation="vertical"
                     android:padding="10dp"
                     android:gravity="center"
@@ -448,10 +432,35 @@
                         android:text="@string/event_info_waiting"
                         android:gravity="center"
                         android:fontFamily="@font/rubik"
+                        android:textColor="#fad390"
                         />
 
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/discussion"
+                android:layout_below="@id/stats"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:gravity="end">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:id="@+id/goChat"
+                    app:srcCompat="@drawable/ic_comment"
+                    app:borderWidth="0dp"
+                    app:elevation="0dp"
+                    android:background="@null"
+                    android:elevation="0dp"
+                    style="?android:attr/borderlessButtonStyle"
+                    />
         </LinearLayout>
 
 

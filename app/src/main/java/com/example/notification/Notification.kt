@@ -14,8 +14,8 @@ class Notification(
 
     override fun toString(): String {
         return """
-            type : $type
-            message : $message
+            type : $type \n
+            message : $message \n
             isSeen : $isSeen
         """.trimIndent()
     }

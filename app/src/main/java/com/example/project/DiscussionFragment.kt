@@ -54,12 +54,12 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
         notFound = view.findViewById(R.id.noResults)
         searchEditText = view.findViewById(R.id.searchUser)
 
+        notFound.visibility = View.VISIBLE
+
         recyclerView.setHasFixedSize(true)
         val llm = LinearLayoutManager(context!!)
         recyclerView.layoutManager = llm
 
-
-        //newMessage = view.findViewById(R.id.btn_new_message)
 
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -161,10 +161,8 @@ class DiscussionFragment : Fragment(), LatestMessageAdapter.OnItemListener {
                     if(stringSearch.isNotEmpty()){
                         if(firstName.contains(stringSearch) || name.contains(stringSearch)){
                             users.add(p0.key!!)
-                            println("STRING $stringSearch")
                         }
                         else{
-                            println("NO STRING $stringSearch")
                         }
                     }
                     else{

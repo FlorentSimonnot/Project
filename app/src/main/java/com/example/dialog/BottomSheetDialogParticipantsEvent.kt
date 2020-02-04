@@ -11,6 +11,7 @@ import android.widget.*
 import com.example.events.Event
 import com.example.project.Dialog
 import com.example.project.EventInfoViewParticipantActivity
+import com.example.project.PublicUserActivity
 import com.example.project.R
 import com.example.session.SessionUser
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,8 +29,10 @@ class BottomSheetDialogParticipantsEvent(
 ) : BottomSheetDialogFragment(), View.OnClickListener {
     private lateinit var textViewSendMessage : TextView
     private lateinit var textViewDeleteUser : TextView
+    private lateinit var textViewSeeProfil : TextView
     private lateinit var layoutSendMessage : RelativeLayout
     private lateinit var layoutDeleteUser : RelativeLayout
+    private lateinit var layoutSeeProfil : RelativeLayout
     val sessionUser = SessionUser(ctx)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,13 +40,17 @@ class BottomSheetDialogParticipantsEvent(
 
         textViewSendMessage = v.findViewById(R.id.textViewSendMessage)
         textViewDeleteUser = v.findViewById(R.id.textViewDeleteFriend)
+        textViewSeeProfil = v.findViewById(R.id.textViewSeeProfile)
         layoutSendMessage = v.findViewById(R.id.send_message_layout)
         layoutDeleteUser = v.findViewById(R.id.delete_layout)
+        layoutSeeProfil = v.findViewById(R.id.see_profile_layout)
 
         sessionUser.writeInfoUser(ctx, keyUser, textViewSendMessage, "sendMessage")
         sessionUser.writeInfoUser(ctx, keyUser, textViewDeleteUser, "deleteFromEvent")
+        sessionUser.writeInfoUser(ctx, keyUser, textViewSeeProfil, "seeProfile")
         layoutDeleteUser.setOnClickListener(this)
         layoutSendMessage.setOnClickListener(this)
+        layoutSeeProfil.setOnClickListener(this)
 
 
         return v
@@ -51,6 +58,11 @@ class BottomSheetDialogParticipantsEvent(
 
     override fun onClick(p0: View?) {
         when(p0?.id){
+            R.id.see_profile_layout -> {
+                val intent = Intent(ctx, PublicUserActivity::class.java)
+                intent.putExtra("user", keyUser)
+                startActivity(intent)
+            }
             R.id.send_message_layout -> {
                 FirebaseDatabase.getInstance().getReference("friends/${sessionUser.getIdFromUser()}/$keyUser").addValueEventListener(object : ValueEventListener{
                     override fun onCancelled(p0: DatabaseError) {}

@@ -2,31 +2,228 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
              tools:context=".HomeFragment"
-             android:padding="10dp"
-        >
+>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundCalendar"
+            android:id="@+id/barMonth"
+            android:visibility="gone"
+            android:orientation="vertical"
+            android:elevation="10dp"
+    >
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:orientation="horizontal"
+                >
+            <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
+                    >
+                <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_back"
+                        android:background="@null"
+                        android:id="@+id/previousMonth"
+                        />
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+            >
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/monthTextView"
+                        android:textColor="@color/colorText"
+                        android:textSize="16sp"
+                        android:gravity="center"
+                        android:drawablePadding="15dp"
+                        android:drawableRight="@drawable/ic_calendar"
+                        android:drawableEnd="@drawable/ic_calendar"
+                        />
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="fill_parent"
+                    android:paddingEnd="15dp"
+                    android:paddingRight="15dp"
+                    >
+                <ImageButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_next"
+                        android:background="@null"
+                        android:id="@+id/nextMonth"
+                        />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:weightSum="7"
+                android:paddingStart="20dp"
+                >
+
+            <Button
+                    android:id="@+id/firstDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="S"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+            <Button
+                    android:id="@+id/SecondDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="S"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+            <Button
+                    android:id="@+id/ThirdDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="M"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+            <Button
+                    android:id="@+id/FourthDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="T"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+            <Button
+                    android:id="@+id/FifthDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="W"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+            <Button
+                    android:id="@+id/SixthDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="T"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+            <Button
+                    android:id="@+id/SeventhDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="F"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+        </LinearLayout>
+        <LinearLayout
+                android:id="@+id/calendar_week_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:weightSum="7"
+                android:paddingStart="20dp"
+                android:paddingRight="20dp"
+                />
+        <LinearLayout
+                android:id="@+id/calendar_week_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:weightSum="7"
+                android:paddingStart="20dp"
+                android:paddingRight="20dp"
+                />
+        <LinearLayout
+                android:id="@+id/calendar_week_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:weightSum="7"
+                android:paddingStart="20dp"
+                android:paddingRight="20dp"
+                />
+        <LinearLayout
+                android:id="@+id/calendar_week_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:weightSum="7"
+                android:paddingStart="20dp"
+                android:paddingRight="20dp"
+                />
+        <LinearLayout
+                android:id="@+id/calendar_week_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:weightSum="7"
+                android:paddingStart="20dp"
+                android:paddingRight="20dp"
+                />
+        <LinearLayout
+                android:id="@+id/calendar_week_6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:weightSum="7"
+                android:paddingStart="20dp"
+                android:paddingRight="20dp"
+                />
+
+    </LinearLayout>
 
     <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/toolbar"
-            android:id="@+id/layoutEventsView"
             tools:ignore="MissingConstraints">
-        <TextView
-                android:id="@+id/comingSoon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_coming_soon"
-                android:padding="10dp"
-                android:fontFamily="@font/rubik"
-                />
         <ListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/events_listview"
-                android:layout_below="@id/comingSoon"
                 android:dividerHeight="10.0sp"
                 android:divider="@android:color/transparent"
                 android:layout_marginBottom="10dp"
@@ -35,47 +232,71 @@
 
         </ListView>
 
+        <LinearLayout
+                android:elevation="5dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_below="@id/events_listview"
+                android:layout_marginTop="-90dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/rounded_button_accent_color"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:id="@+id/buttonCalendar"
+                >
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:text=""
+                    android:id="@+id/textDay"
+                    android:textSize="24sp"
+                    android:gravity="center_horizontal"
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:id="@+id/textMonth"
+                    android:text=""
+                    android:gravity="center_horizontal"
+            />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/loadingBar"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
             android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/item_list_event"
             >
         <ProgressBar
                 style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/progressBar"
-                android:background="@drawable/item_list_event"
                 android:padding="50dp"
                 android:indeterminateDrawable="@drawable/progress"
                 />
 
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading.."
+                android:layout_below="@id/progressBar"
+                android:padding="10dp"
+                android:gravity="center_horizontal"
+        />
 
     </RelativeLayout>
 
-    <!--<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="MissingConstraints"
-            >
-        <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:textColor="#fff"
-                android:id="@+id/create_event"
-                android:text="+"
-                android:textSize="36sp"
-                android:background="@drawable/rounded_button"
-                tools:ignore="MissingConstraints"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="30dp"
-                android:layout_marginRight="30dp"
-                />
-    </RelativeLayout>-->
 
 </FrameLayout>

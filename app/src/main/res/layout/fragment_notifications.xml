@@ -13,8 +13,12 @@
             android:padding="10dp"
             android:text="@string/notifications_all_read"
             android:id="@+id/text"
-            android:textColor="@color/colorPrimary"
-            />
+            android:textColor="#fff"
+            android:background="@color/colorPrimary"
+            android:drawableLeft="@drawable/ic_trash"
+            android:drawablePadding="15dp"
+            android:paddingLeft="20dp"
+            android:drawableStart="@drawable/ic_trash_notif"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -36,7 +40,7 @@
             <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_notifications_silence"
+                    app:srcCompat="@drawable/ic_notification_sleep"
                     android:id="@+id/bell"
                     />
 
@@ -48,6 +52,7 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/no_notification"
                     android:gravity="center"
+                    android:textColor="@color/colorText"
                     />
 
 

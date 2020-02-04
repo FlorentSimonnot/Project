@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
@@ -132,6 +133,18 @@ open class MapFragment(
         map = p0!!
         map.uiSettings.isZoomControlsEnabled = true
         map.setOnMarkerClickListener(this)
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = p0.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    context!! , R.raw.style_json
+                )
+            )
+
+            if(!success) {}
+        } catch (e: Resources.NotFoundException) {
+        }
         setUpMap()
     }
 
@@ -222,9 +235,6 @@ open class MapFragment(
 
     private fun searchEvents(){
         sports.clear()
-        if(context == null){
-            println("NULLLL")
-        }
         val ref = FirebaseDatabase.getInstance().getReference("sports/${SessionUser(context!!).getIdFromUser()}/parameters")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -251,12 +261,15 @@ open class MapFragment(
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each event
                 data.forEach {
-                    val event = it.getValue(Event::class.java) //Get event in a Event class
-                    if(event != null){
-                        if(event.creator != SessionUser(context!!).getIdFromUser() && sportsWantsSee.contains(event.sport)) {
-                            val date = event.date
-                            if(DateUTC(date).isAfterNow()){
-                                events.add(event)
+                    val month = it.children
+                    month.forEach {
+                        val event = it.getValue(Event::class.java) //Get event in a Event class
+                        if(event != null){
+                            if(event.creator != SessionUser(context!!).getIdFromUser() && sportsWantsSee.contains(event.sport)) {
+                                val date = event.date
+                                if(DateUTC(date).isAfterNow()){
+                                    events.add(event)
+                                }
                             }
                         }
                     }

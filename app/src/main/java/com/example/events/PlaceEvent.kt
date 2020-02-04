@@ -25,7 +25,7 @@ class PlaceEvent(
         gg.init()
         val placesClient = gg.createClient()
 
-        val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.LAT_LNG)
+        val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG, Place.Field.ADDRESS)
         val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(idPlace, placeFields)
 
         placesClient.fetchPlace(request)

@@ -36,8 +36,8 @@
                 android:layout_marginEnd="0dp"
                 android:layout_marginStart="0dp"
                 android:background="@color/colorPrimary"
-                app:itemTextColor="#fff"
-                app:itemIconTint="#fff"
+                app:itemTextColor="@drawable/menu_icon_color"
+                app:itemIconTint="@drawable/menu_icon_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -68,6 +68,12 @@
 
     </RelativeLayout>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+                                                         android:layout_height="wrap_content"
+                                                         android:id="@+id/coordinatorLayout"
+    >
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
@@ -77,11 +83,12 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_home"
             app:menu="@menu/activity_home_drawer"
-            app:itemTextColor="@color/colorPrimary"
+            app:itemTextColor="@color/colorText"
             android:fontFamily="@font/rubik"
-            app:itemIconTint="@color/colorPrimary"
+            app:itemIconTint="@color/colorText"
             android:theme="@style/AppTheme"
             android:textSize="16sp"
+            android:background="@color/colorBackgroundMenu"
             >
         <LinearLayout
                 android:layout_width="match_parent"
@@ -89,14 +96,6 @@
                 android:layout_gravity="bottom"
                 android:orientation="vertical"
         >
-            <TextView
-                    android:id="@+id/version"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/version"
-                    android:padding="10dp"
-                    android:gravity="center"
-                    />
 
             <Button
                     android:id="@+id/logout"

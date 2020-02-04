@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Full name goes here"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorText"
                 android:fontFamily="@font/rubik"
                 android:textSize="22sp" />
 

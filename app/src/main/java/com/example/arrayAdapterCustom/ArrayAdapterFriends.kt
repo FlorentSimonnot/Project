@@ -29,9 +29,8 @@ class ArrayAdapterFriends(
     private val resource : Int,
     private val users : ArrayList<UserWithKey>,
     private val action : String,
-    private val fragmentManager : FragmentManager
-): ArrayAdapter<UserWithKey>( ctx , resource, users){
-    private var buttonRefuse : ImageButton? = null
+    private val fragment : FragmentManager
+): ArrayAdapter<UserWithKey>(ctx, resource, users){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
@@ -39,57 +38,27 @@ class ArrayAdapterFriends(
         val view : View = layoutInflater.inflate(resource , null )
         val imageView : ImageView = view.findViewById(R.id.photo_user)
         val textView : TextView = view.findViewById(R.id.identity)
-        val button : ImageButton
-
-        button = view.findViewById(R.id.more)
-        if(action == "friend"){
-            button.setImageDrawable(context.resources.getDrawable(R.drawable.ic_more))
-        }
 
         if(users.size > 0) {
             textView.text = users[position].user.firstName + " " + users[position].user.name
             User().showPhotoUser(ctx, imageView, users[position].key)
 
-            button.setOnClickListener {
-                when (action) {
-                    "waiting" -> {
-                        val item = getItem(position)
-                        if(item != null){
-                            val userKey = users[position].key
-                            users.removeAt(position)
-                            SessionUser(context).acceptFriend(ctx, userKey)
-                        }
-                    }
-                    "friend" -> {
-                        button.setOnClickListener {
-                            val dialog = BottomSheetDialogFriend(ctx, R.layout.bottom_sheet_layout_friend, users[position].key!!)
-                            dialog.show(fragmentManager, "USER OPTIONS")
-                        }
-                    }
-                }
-            }
-            buttonRefuse?.setOnClickListener {
-                val item = getItem(position)
-                if(item != null){
-                    val userKey = users[position].key
-                    users.removeAt(position)
-                    SessionUser(context).refuseFriend(ctx, userKey)
-                }
-            }
+
             view.setOnClickListener {
-                if(users[position].user.privacyAccount == PrivacyAccount.Public) {
-                    val intent = Intent(ctx, PublicUserActivity::class.java)
-                    intent.putExtra("user", users[position].key)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    ctx.startActivity(intent)
-                }
-                else{
-                    val intent = Intent(ctx, PrivateUserActivity::class.java)
-                    intent.putExtra("user", users[position].key)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    ctx.startActivity(intent)
+                when (action) {
+                    "friend" -> {
+                        val dialog = BottomSheetDialogFriend(ctx, R.layout.bottom_sheet_layout_friend, users[position].key!!)
+                        dialog.show(fragment, "USER OPTIONS")
+                    }
+                    "waiting" -> {
+                        val userKey = users[position].key
+                        val intent = Intent(ctx, RequestFriendActivity::class.java).putExtra("key", userKey)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        ctx.startActivity(intent)
+                    }
                 }
             }
+
         }
 
         return view

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.project">
+        package="com.example.project"
+        >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
             android:allowBackup="true"
@@ -12,119 +13,106 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".Tutorial">
+            android:theme="@style/AppTheme"
+            >
+        <activity android:name=".StartActivity"></activity>
+        <activity
+                android:name=".LoadingActivity"
+                >
         </activity>
-        <activity android:name=".AboutUsActivity">
-        </activity>
-        <activity android:name=".SettingsSport">
-        </activity>
+        <activity android:name=".RequestFriendActivity" />
+        <activity android:name=".ChooseBackgroundColor" />
+        <activity android:name=".GroupInformationEventDiscussion" />
+        <activity android:name=".Tutorial" />
+        <activity android:name=".AboutUsActivity" />
+        <activity android:name=".SettingsSport" />
         <activity
                 android:name=".HomeActivity"
                 android:configChanges="orientation|screenSize|keyboardHidden"
-                android:label="@string/title_activity_home"
-                android:theme="@style/AppTheme.NoActionBar">
+                android:launchMode="singleTask"
+                android:theme="@style/AppTheme.NoActionBar"
+                >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".FullscreenImageActivity">
-        </activity>
-        <activity android:name=".SportActivity">
-        </activity>
-        <activity android:name=".SearchBarActivity">
-        </activity>
-        <activity android:name=".Dialog">
-        </activity>
-        <activity android:name=".ListUserSendMessage">
-        </activity>
-        <activity android:name=".NotificationPushActivity">
-        </activity>
-        <activity android:name=".AddPeopleToEventActivity">
-        </activity>
-        <activity android:name=".EventActivity">
-        </activity>
-        <activity android:name=".ActivityInfoUser">
-        </activity>
-        <activity android:name=".WaitingListActivity">
-        </activity>
-        <activity android:name=".FriendsListActivity">
-        </activity>
-        <activity android:name=".FriendsActivity">
-        </activity>
-        <activity android:name=".ModifyEventActivity">
-        </activity>
-        <activity android:name=".EventInfoViewParticipantActivity">
-        </activity>
-        <activity android:name=".PrivateUserActivity">
-        </activity>
-        <activity android:name=".PublicUserActivity">
-        </activity>
-        <activity android:name=".ParticipantsActivity">
-        </activity>
-        <activity android:name=".ParticipantsWaitedActivity">
-        </activity>
-        <activity android:name=".EventInfoJojoActivity">
-        </activity>
+        <activity android:name=".FullscreenImageActivity" />
+        <activity android:name=".SportActivity" />
+        <activity android:name=".SearchBarActivity" />
+        <activity android:name=".ChatEvent" />
+        <activity android:name=".Dialog" />
+        <activity android:name=".ListUserSendMessage" />
+        <activity android:name=".NotificationPushActivity" />
+        <activity android:name=".AddPeopleToEventActivity" />
+        <activity android:name=".EventActivity" />
+        <activity android:name=".WaitingListActivity" />
+        <activity android:name=".FriendsListActivity" />
+        <activity android:name=".FriendsActivity" />
+        <activity android:name=".ModifyEventActivity" />
+        <activity android:name=".EventInfoViewParticipantActivity" />
+        <activity android:name=".PrivateUserActivity" />
+        <activity android:name=".PublicUserActivity" />
+        <activity android:name=".ParticipantsActivity" />
+        <activity android:name=".ParticipantsWaitedActivity" />
+        <activity android:name=".EventInfoJojoActivity" />
         <activity
                 android:name=".EventInfoActivity"
-                android:label="@string/title_activity_event_info"
-                android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".UserInfoActivity">
-        </activity>
-        <activity android:name=".CreateEventActivity">
-        </activity>
-        <activity android:name=".LoginActivity">
-        </activity>
-        <activity android:name=".NextSignInJojoActivity">
-        </activity>
-        <activity android:name=".SignInJojoActivity">
-        </activity>
-        <activity android:name=".ForgotPasswordActivity">
-        </activity>
+                android:theme="@style/AppTheme.NoActionBar"
+                />
+        <activity android:name=".UserInfoActivity" />
+        <activity android:name=".CreateEventActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".NextSignInJojoActivity" />
+        <activity android:name=".SignInJojoActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
         <activity
                 android:name=".SettingsActivity"
-                android:label="@string/title_activity_settings">
-        </activity>
-        <activity android:name=".EditProfileActivity"/>
+                android:label="@string/title_activity_settings"
+                />
+        <activity android:name=".EditProfileActivity" />
 
         <meta-data
                 android:name="com.facebook.sdk.ApplicationId"
-                android:value="@string/facebook_app_id"/>
+                android:value="@string/facebook_app_id"
+                />
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"/>
+                android:value="AIzaSyDdY6X8SWrQv4o8bR2dM_c8AX7C2-4n434"
+                />
         <meta-data
                 android:name="com.google.android.gms.version"
-                android:value="@integer/google_play_services_version"/>
+                android:value="@integer/google_play_services_version"
+                />
 
         <activity
                 android:name="com.facebook.FacebookActivity"
                 android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-                android:label="@string/app_name"/>
+                android:label="@string/app_name"
+                />
         <activity
                 android:name="com.facebook.CustomTabActivity"
-                android:exported="true">
+                android:exported="true"
+                >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="@string/fb_login_protocol_scheme"/>
+                <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".ModifyPasswordActivity">
-        </activity>
+        <activity android:name=".ModifyPasswordActivity" />
 
         <service
                 android:name=".notification.MyFirebaseMessagingService"
-                android:exported="false">
+                android:exported="false"
+                >
             <intent-filter>
-                <action android:name="com.gogole.firebase:MESSAGING_EVENT"/>
+                <action android:name="com.gogole.firebase:MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <!--
@@ -133,14 +121,16 @@
         -->
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_icon"
-                android:resource="@drawable/ic_push_notification"/>
+                android:resource="@drawable/ic_push_notification"
+                />
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
              notification message. See README(https://goo.gl/6BKBk7) for more.
         -->
         <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
-                android:resource="@color/colorPrimary"/>
+                android:resource="@color/colorPrimary"
+                />
     </application>
 
 </manifest>

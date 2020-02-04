@@ -89,7 +89,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
         ).toString()
 
         sexTextView.setOnClickListener {
-            val numberPicker = StringPickerCustom(0, 2, "Gender", "", stringSex)
+            val numberPicker = StringPickerCustom(this, 0, 2, "Gender", "", stringSex)
             numberPicker.setValueChangeListener(this)
             numberPicker.show(supportFragmentManager, "Sex picker")
         }
@@ -116,7 +116,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
             "describe"
         ).toString()
 
-        session.writeRadius(this, session.getIdFromUser(), radiusSeekBar, radiusTextView)
+        //session.writeRadius(this, session.getIdFromUser(), radiusSeekBar, radiusTextView)
 
         radiusSeekBar.setOnSeekBarChangeListener(this)
 
@@ -145,7 +145,7 @@ class EditProfileActivity : AppCompatActivity(), NumberPicker.OnValueChangeListe
                     radiusSeekBar.progress
                 )
                 startActivity(Intent(this, HomeActivity::class.java))
-                Toast.makeText(this, getString(R.string.edit_profile_toast), Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, getString(R.string.edit_profile_toast), Toast.LENGTH_LONG).show()
             }
             builder.setNegativeButton(getString(R.string.edit_profile_dialog_no)){_, _ ->
 

@@ -37,7 +37,7 @@
                     android:text="Name"
                     android:fontFamily="@font/rubik"
                     android:textSize="16sp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorText"
                     android:textFontWeight="900"
                     />
         </RelativeLayout>
@@ -61,6 +61,7 @@
                         android:text="message"
                         android:fontFamily="@font/rubik"
                         android:gravity="center_vertical"
+                        android:textColor="@color/colorText"
                         />
                 <TextView
                         android:layout_width="100dp"
@@ -69,6 +70,7 @@
                         android:text="11h00"
                         android:gravity="center_vertical|right"
                         android:id="@+id/time"
+                        android:textColor="@color/colorText"
                         />
 
 

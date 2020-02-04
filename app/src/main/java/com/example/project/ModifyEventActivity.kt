@@ -206,7 +206,7 @@ class ModifyEventActivity : AppCompatActivity(),
                 numberPicker.show(supportFragmentManager, "People picker")
             }
             R.id.button_privacy -> {
-                val numberPicker = StringPickerCustom(0, 2, getString(R.string.modify_event_privacy_alert_title), getString(R.string.modify_event_privacy_alert_message), stringPrivacyArray, modifyPrivacy.text.toString())
+                val numberPicker = StringPickerCustom(this, 0, 2, getString(R.string.modify_event_privacy_alert_title), getString(R.string.modify_event_privacy_alert_message), stringPrivacyArray, modifyPrivacy.text.toString())
                 numberPicker.setValueChangeListener(this)
                 numberPicker.show(supportFragmentManager, "People picker")
             }
@@ -312,7 +312,7 @@ class ModifyEventActivity : AppCompatActivity(),
         if(event.nbPeople > 0){
             modifyNumberOfParticipants.text = event.nbPeople.toString()
         }else{
-            Event().writeInfoEvent(this, keyEvent, modifyNumberOfParticipants, "numberOfParticipants")
+            Event().writeInfoEvent(this, keyEvent, modifyNumberOfParticipants, "participant")
         }
 
         if(event.description.isNotEmpty()){

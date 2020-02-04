@@ -8,15 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dateCustom.DateUTC
-import com.example.dateCustom.TimeCustom
-import com.example.events.Privacy
 import com.example.project.FullscreenImageActivity
 import com.example.project.PrivateUserActivity
 import com.example.project.PublicUserActivity
 import com.example.session.SessionUser
 import com.example.user.PrivacyAccount
 import com.example.user.User
-import com.example.user.UserWithKey
 import com.example.utils.Image
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -27,7 +24,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_item_message.view.*
 import kotlinx.android.synthetic.main.list_item_message.view.time
 import kotlinx.android.synthetic.main.list_item_message_image.view.*
-import kotlinx.android.synthetic.main.search_list_item_user.view.*
 import kotlinx.android.synthetic.main.search_list_item_user.view.profile_photo
 
 
@@ -171,7 +167,7 @@ class MessageAdapter(
                 }
             }
             photo.setOnClickListener {
-                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender}")
+                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender.key}")
                 ref.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                         //Nothing
@@ -221,7 +217,7 @@ class MessageAdapter(
                 true
             }
             photo.setOnClickListener {
-                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender}")
+                val ref = FirebaseDatabase.getInstance().getReference("users/${message.sender.key}")
                 ref.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {
                         //Nothing

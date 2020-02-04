@@ -2,6 +2,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:background="@color/backgroundColor"
         android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -17,6 +19,177 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingConstraints"
+            android:layout_marginBottom="50dp"
+            android:id="@+id/scrollview"
+    >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/backgroundColor"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutDarkTheme"
+            >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterTitle"
+                        android:text="@string/dark_theme"
+                        android:padding="10dp"
+                        android:id="@+id/nightMode"
+                />
+
+                <TextView android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/colorParameterSub"
+                          android:text=""
+                          android:padding="10dp"
+                          android:id="@+id/nightModeValue"
+                          android:layout_below="@id/nightMode"
+                          android:paddingLeft="30dp"
+                          android:paddingStart="30dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+            >
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutDistance"
+            >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterTitle"
+                        android:text="@string/measuring_system"
+                        android:padding="10dp"
+                        android:id="@+id/measuringSystem"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterSub"
+                        android:text=""
+                        android:padding="10dp"
+                        android:id="@+id/measuringSystemValue"
+                        android:layout_below="@id/measuringSystem"
+                        android:paddingLeft="30dp"
+                        android:paddingStart="30dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+            >
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutSports"
+            >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterTitle"
+                        android:text="@string/sports_title"
+                        android:padding="10dp"
+                        android:id="@+id/sports"
+                />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterSub"
+                        android:text="@string/sports"
+                        android:padding="10dp"
+                        android:id="@+id/sportsValue"
+                        android:layout_below="@id/sports"
+                        android:paddingLeft="30dp"
+                        android:paddingStart="30dp"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    >
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutShowMyEvents"
+                    >
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterTitle"
+                        android:text="@string/myEvents_title"
+                        android:padding="10dp"
+                        android:id="@+id/myEvents"
+                        />
+
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorParameterSub"
+                        android:text="@string/myEvents"
+                        android:padding="10dp"
+                        android:id="@+id/myEventsValue"
+                        android:layout_below="@id/myEvents"
+                        android:paddingLeft="30dp"
+                        android:paddingStart="30dp"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/scrollview"
+            android:layout_marginTop="-50dp"
+    >
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="V 1.0.0"
+                android:gravity="center"
+                android:textColor="@color/colorText"
+        />
+
+    </RelativeLayout>
 
 
 </LinearLayout>

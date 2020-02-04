@@ -6,24 +6,23 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ListView
-import android.widget.TextView
-import android.widget.Toolbar
+import android.widget.*
 import androidx.core.view.forEach
 import com.example.arrayAdapterCustom.ArrayAdapterFriends
+import com.example.dialog.BottomSheetDialogFriend
 import com.example.session.SessionUser
 import com.example.user.User
 import com.example.user.UserWithKey
-import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.database.*
 
-class FriendsActivity : AppCompatActivity() {
+class FriendsActivity : AppCompatActivity(){
     var session = SessionUser(this)
     private lateinit var tab : TabLayout
     private lateinit var listView : ListView
     private lateinit var noResults: TextView
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+    private val users: ArrayList<UserWithKey> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,14 +50,16 @@ class FriendsActivity : AppCompatActivity() {
             }
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
-                when(p0?.position){
+                when(p0?.position) {
                     0 -> {
-                        friendsList(applicationContext)
+                        friendsList(this@FriendsActivity)
                         supportActionBar?.title = getString(R.string.friend_title)
+                        session.getNightMode()
                     }
-                    1 ->{
-                        waitingList(applicationContext)
+                    1 -> {
+                        waitingList(this@FriendsActivity)
                         supportActionBar?.title = getString(R.string.invitation_title)
+                        session.getNightMode()
                     }
                 }
             }
@@ -66,7 +67,7 @@ class FriendsActivity : AppCompatActivity() {
         })
 
         noResults = findViewById(R.id.noResults)
-        listView = findViewById<ListView>(R.id.listViewUsers)
+        listView = findViewById(R.id.listViewUsers)
         friendsList(this)
 
     }
@@ -112,7 +113,8 @@ class FriendsActivity : AppCompatActivity() {
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val data = dataSnapshot.children //Children = each user
-                val users: ArrayList<UserWithKey> = ArrayList()
+                //val users: ArrayList<UserWithKey> = ArrayList()
+                users.clear()
                 data.forEach {
                     val user = it.getValue(User::class.java) //Get event in a Event class
                     //Add event in list if it isn't null
@@ -190,5 +192,6 @@ class FriendsActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
 
 }

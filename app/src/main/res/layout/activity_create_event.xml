@@ -27,6 +27,7 @@
             android:layout_marginTop="60dp"
             android:orientation="vertical"
             android:id="@+id/scrollView"
+            android:background="@color/backgroundColor"
             >
         <RelativeLayout
                 android:layout_width="match_parent"
@@ -55,9 +56,11 @@
                     android:id="@+id/name_event"
                     android:layout_below="@id/error"
                     android:hint="@string/name_event"
-                    android:background="@drawable/border_bottom_primary"
                     android:padding="10dp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/colorText"
                     android:layout_marginTop="20dp"
+                    android:background="@color/colorBackgroundTitleEvent"
                     />
 
             <TextView
@@ -67,10 +70,12 @@
                     android:layout_below="@id/name_event"
                     android:text="@string/sport_event"
                     android:textSize="18sp"
-                    android:background="@drawable/border_bottom_primary"
+                    android:background="@color/colorBackgroundTitleEvent"
                     android:padding="10dp"
                     android:layout_marginTop="30dp"
                     android:drawablePadding="15dp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/colorText"
                     />
 
             <LinearLayout
@@ -88,7 +93,7 @@
                         android:id="@+id/date"
                         android:layout_below="@id/sport"
                         android:text="@string/event_date"
-                        android:background="@drawable/border_bottom_primary"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:padding="10dp"
                         android:drawableLeft="@drawable/ic_calendar"
                         android:drawablePadding="10dp"
@@ -96,6 +101,8 @@
                         android:layout_weight="1"
                         android:layout_marginRight="10dp"
                         android:textSize="18sp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorText"
                         />
 
                 <TextView
@@ -104,13 +111,15 @@
                         android:id="@+id/time"
                         android:layout_below="@id/sport"
                         android:text="@string/event_time"
-                        android:background="@drawable/border_bottom_primary"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:padding="10dp"
                         android:drawableLeft="@drawable/ic_clock"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/ic_clock"
                         android:layout_weight="1"
                         android:textSize="18sp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorText"
                         />
 
 
@@ -138,7 +147,9 @@
                         android:drawableStart="@drawable/ic_map"
                         android:drawablePadding="10dp"
                         android:id="@+id/place"
-                        android:background="@drawable/border_bottom_primary"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorText"
+                        android:background="@color/colorBackgroundTitleEvent"
                         />
             </LinearLayout>
 
@@ -160,11 +171,13 @@
                         android:id="@+id/numberPeople"
                         android:text="@string/numberOfPeople_event"
                         android:padding="10dp"
-                        android:background="@drawable/border_bottom_primary"
+                        android:background="@color/colorBackgroundTitleEvent"
                         android:drawableLeft="@drawable/ic_people"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/ic_people"
                         android:textSize="18sp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorText"
                         />
             </LinearLayout>
 
@@ -185,6 +198,9 @@
                         android:text="@string/description_event"
                         android:padding="10dp"
                         android:textSize="18sp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorText"
+                        android:background="@color/colorBackgroundTitleEvent"
                         />
 
                 <EditText
@@ -194,6 +210,8 @@
                         android:gravity="start"
                         android:textAlignment="textStart"
                         android:padding="10dp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorText"
                         android:background="@drawable/input_rectangle_with_border"
                         />
 
@@ -217,10 +235,12 @@
                         android:text="@string/privacy_event"
                         android:layout_below="@id/description"
                         android:padding="10dp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorText"
                         android:drawableLeft="@drawable/ic_privacy"
                         android:drawablePadding="20dp"
                         android:drawableStart="@drawable/ic_privacy"
-                        android:background="@drawable/border_bottom_primary"
+                        android:background="@color/colorBackgroundTitleEvent"
                         />
 
 

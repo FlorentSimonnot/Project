@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:padding="30dp"
                     android:gravity="center_horizontal"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet libero dictum tortor iaculis bibendum nec id justo. Sed fermentum elit id nibh pellentesque, in vulputate metus auctor. Aenean condimentum aliquet pretium. Vestibulum at auctor mi. Pellentesque varius molestie turpis. Aliquam erat volutpat. Cras tortor libero, tempor at rutrum at, ultrices ut lectus. In semper dictum nulla sed suscipit. In facilisis velit at nibh dignissim, sed semper sem convallis. "
+                    android:text="@string/about_us_text"
                     android:textColor="@color/colorBlueGrey900"
                     />
 
@@ -70,7 +70,7 @@
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Contact Us"
+                            android:text="@string/about_us_contact_us"
                             />
 
                 </RelativeLayout>
@@ -107,7 +107,7 @@
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Like on Facebook"
+                            android:text="@string/about_us_facebook"
                             />
 
                 </RelativeLayout>
@@ -144,7 +144,7 @@
                     <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="Like on Twitter"
+                            android:text="@string/about_us_twitter"
                             />
 
                 </RelativeLayout>

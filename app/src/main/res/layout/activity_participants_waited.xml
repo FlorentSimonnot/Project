@@ -13,6 +13,7 @@
             android:layout_height="match_parent"
             android:id="@+id/event_info_layout"
             tools:ignore="MissingConstraints"
+            android:background="@color/backgroundColor"
             >
 
         <!--TOOLBAR-->
@@ -40,6 +41,9 @@
                 android:id="@+id/listViewUsers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:divider="@color/colorText"
+                    android:dividerHeight="1px"
+
             >
 
             </ListView>
@@ -57,7 +61,7 @@
                     android:text="No results found"
                     android:gravity="center"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorText"
                 />
             </RelativeLayout>
 

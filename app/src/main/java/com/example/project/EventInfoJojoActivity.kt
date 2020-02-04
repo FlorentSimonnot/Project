@@ -2,6 +2,7 @@ package com.example.project
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -26,7 +27,11 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import java.util.*
 import com.google.android.libraries.places.api.Places
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.w3c.dom.Text
+import com.google.android.gms.maps.model.MapStyleOptions
+
+
 
 
 class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
@@ -45,6 +50,7 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
     private lateinit var place : TextView
     private lateinit var participantsNumber : TextView
     private lateinit var description : TextView
+    private lateinit var buttonChat : FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +77,7 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
         participantsNumber = findViewById(R.id.participant_number)
         waitingNumber = findViewById(R.id.waiting_number)
         description = findViewById(R.id.description)
+        buttonChat = findViewById(R.id.goChat)
 
         val deleteEventButton = findViewById<LinearLayout>(R.id.delete)
         val editEventButton = findViewById<LinearLayout>(R.id.edit)
@@ -84,10 +91,11 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
         editEventButton.setOnClickListener(this)
         deleteEventButton.setOnClickListener(this)
         accessibility.setOnClickListener(this)
+        buttonChat.setOnClickListener(this)
 
 
         /*-------------------------------Show info---------------------------------*/
-        FirebaseDatabase.getInstance().getReference("events/$keyEvent").addValueEventListener(object:ValueEventListener{
+        FirebaseDatabase.getInstance().getReference("events").addValueEventListener(object:ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -172,44 +180,65 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         val context = this
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = googleMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    this, R.raw.style_json
+                )
+            )
 
-        val ref = FirebaseDatabase.getInstance().getReference("events/$keyEvent")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
+            if(!success) {}
+        } catch (e: Resources.NotFoundException) {
+        }
+
+
+        val refLinker = FirebaseDatabase.getInstance().getReference("linker/$keyEvent")
+        refLinker.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {}
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val date = p0.value as String
+                val ref = FirebaseDatabase.getInstance().getReference("events/$date/$keyEvent")
+                ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        val value = dataSnapshot.getValue(Event::class.java)
+                        if (value != null) {
+                            //INIT GOOGLE PLACE
+                            //Init google place
+                            val gg = SessionGooglePlace(context)
+                            gg.init()
+                            val placesClient = gg.createClient()
+
+                            //Search place in according to the ID
+                            val placeId : String = value.place.idPlace
+                            val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG)
+                            val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+
+                            placesClient.fetchPlace(request)
+                                .addOnSuccessListener {
+                                    val place : Place = it.place
+                                    val coords : LatLng? = place.latLng
+                                    if(coords != null){
+                                        mMap?.addMarker(MarkerOptions().position(coords).title(place.name))
+                                        mMap?.moveCamera(CameraUpdateFactory.newLatLng(coords))
+                                        mMap?.setMinZoomPreference(11F)
+                                    }
+                                }
+                                .addOnFailureListener {
+                                    //textView1.text = it.message
+                                }
+                        }
+                    }
+                })
             }
 
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val value = dataSnapshot.getValue(Event::class.java)
-                if (value != null) {
-                    //INIT GOOGLE PLACE
-                    //Init google place
-                    val gg = SessionGooglePlace(context)
-                    gg.init()
-                    val placesClient = gg.createClient()
-
-                    //Search place in according to the ID
-                    val placeId : String = value.place.idPlace
-                    val placeFields : List<Place.Field> = Arrays.asList(Place.Field.ID, Place.Field.LAT_LNG)
-                    val request : FetchPlaceRequest = FetchPlaceRequest.newInstance(placeId, placeFields)
-
-
-                    placesClient.fetchPlace(request)
-                        .addOnSuccessListener {
-                            val place : Place = it.place
-                            val coords : LatLng? = place.latLng
-                            if(coords != null){
-                                mMap?.addMarker(MarkerOptions().position(coords).title(place.name))
-                                mMap?.moveCamera(CameraUpdateFactory.newLatLng(coords))
-                                mMap?.setMinZoomPreference(11F)
-                            }
-                        }
-                        .addOnFailureListener {
-                            //textView1.text = it.message
-                        }
-                }
-            }
         })
-
     }
 
     override fun onClick(p0: View?) {
@@ -247,6 +276,11 @@ class EventInfoJojoActivity : AppCompatActivity(), OnMapReadyCallback, View.OnCl
             R.id.accessibility -> {
                 val intent = Intent(this, AddPeopleToEventActivity::class.java)
                 intent.putExtra("key", keyEvent)
+                startActivity(intent)
+            }
+            R.id.goChat -> {
+                val intent = Intent(this, ChatEvent::class.java)
+                intent.putExtra("keyChat", keyEvent)
                 startActivity(intent)
             }
             else ->{

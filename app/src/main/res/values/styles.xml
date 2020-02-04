@@ -1,9 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#fff</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">#fff</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/rubik</item>
@@ -11,6 +11,20 @@
         <item name="android:textSize">16sp</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
         <item name="android:textColorHint">#000</item>
+    </style>
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="android:textColorPrimary">#fff</item>
+    </style>
+
+    <style name="CalenderViewDateCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">#dedede</item>
+    </style>
+
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">#fff</item>
     </style>
 
     <style name="Toolbar" parent="AppTheme">
@@ -35,6 +49,15 @@
         <item name="android:textColorHint">@android:color/white</item>
         <item name="checkboxStyle">@style/MyCheckBoxStyle</item>
         <item name="android:checkboxStyle">@style/MyCheckBoxStyle</item>
+    </style>
+
+    <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/backgroundAlertDialog</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorPrimary">@color/colorText</item>
+        <item name="colorAccent">@color/colorText</item>
+        <item name="android:textColorSecondary">@color/colorText</item>
+        <item name="android:divider">@color/colorText</item>
     </style>
 
     <style name="DefaultNumberPickerTheme" parent="AppTheme">
@@ -68,6 +91,21 @@
         <item name="android:textColor">@drawable/checkbox</item>
         <item name="buttonTint">@drawable/checkbox</item>
     </style>
+
+    <style name="MySwitchStyle" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#46bdbf</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#f1f1f1
+        </item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42ffffff
+        </item>
+    </style>
+
+    <style name="MySeekBarTheme" parent="Theme.AppCompat"></style>
 
 
 </resources>

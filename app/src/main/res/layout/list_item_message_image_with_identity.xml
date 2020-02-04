@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:padding="10dp"
+        >
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+        <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_photo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:civ_circle_background_color="#fff"
+                />
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="100dp"
+            android:orientation="horizontal"
+            android:layout_marginEnd="100dp"
+            >
+
+        <TextView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:id="@+id/identity"
+        />
+
+        <ImageView
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:minWidth="120dp"
+                android:id="@+id/message_image"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:padding="8dp"
+                android:layout_below="@id/identity"
+                android:background="@drawable/rounded_message"
+                />
+
+        <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_below="@id/message_image"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="User name goes here" />
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -3,6 +3,7 @@ package com.example.notification
 import android.content.Context
 import android.widget.Toast
 import com.example.project.NotificationPushActivity
+import com.example.project.R
 import com.example.session.SessionUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -58,7 +59,7 @@ data class Notifications(
     fun updateSwitches(context: Context, child : String, value : Boolean){
         val ref = FirebaseDatabase.getInstance().getReference("users/${SessionUser(context).getIdFromUser()}/notificationsParam")
         ref.child(child).setValue(value).addOnSuccessListener {
-            Toast.makeText(context, "Update configuration !", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.notifications_push_toast), Toast.LENGTH_SHORT).show()
         }
     }
 }

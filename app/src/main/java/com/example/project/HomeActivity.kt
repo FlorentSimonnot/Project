@@ -5,18 +5,14 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
-import android.view.MenuItem
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.menu.DrawerMenu
 import com.example.menu.MenuCustom
@@ -25,16 +21,12 @@ import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionListener, View.OnClickListener{
     private lateinit var fragmentContainer  : FrameLayout
@@ -43,6 +35,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
     private lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var bottomMenu : MenuCustom
     private lateinit var createEventButton : FloatingActionButton
+
 
     val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener  { item ->
         when (item.itemId) {
@@ -87,6 +80,16 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        session.getNightMode()
+
+        if (!session.isLogin()) {
+            val logInIntent = Intent(this, LoginActivity::class.java)
+            logInIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK).or(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            finish()
+            this.startActivity(logInIntent)
+            this.overridePendingTransition(0, 0)
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
@@ -94,9 +97,6 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.home_title)
 
-        configLanguage()
-
-        //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         fragmentContainer = findViewById(R.id.HomeFragment)
 
@@ -108,53 +108,44 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
 
-        if (!session.isLogin()) {
-            val logInIntent = Intent(this, LoginActivity::class.java)
-            //Flags allow to block come back
-            logInIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-            this.finish()
-            startActivity(logInIntent)
-        }else {
+        //Verify if user has already seen the tutorial for beginner
+        FirebaseDatabase.getInstance().getReference("parameters/${session.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
 
-            //Verify if user has already seen the tutorial for beginner
-            FirebaseDatabase.getInstance().getReference("parameters/${session.getIdFromUser()}").addValueEventListener(object : ValueEventListener{
-                override fun onCancelled(p0: DatabaseError) {
+            override fun onDataChange(p0: DataSnapshot) {
+                if(!p0.hasChild("tutorialBeginner")){
+                    val intent = Intent(this@HomeActivity, Tutorial::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
                 }
+            }
 
-                override fun onDataChange(p0: DataSnapshot) {
-                    if(!p0.hasChild("tutorialBeginner")){
-                        val intent = Intent(this@HomeActivity, Tutorial::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                    }
-                }
+        })
 
-            })
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val bottomView : BottomNavigationView  = findViewById(R.id.nav_bottom)
+        createEventButton = findViewById(R.id.fab)
+        buttonLogOut = findViewById(R.id.logout)
+        buttonLogOut.setOnClickListener(this)
+        createEventButton.setOnClickListener(this)
 
-            val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-            val navView: NavigationView = findViewById(R.id.nav_view)
-            val bottomView : BottomNavigationView  = findViewById(R.id.nav_bottom)
-            createEventButton = findViewById(R.id.fab)
-            buttonLogOut = findViewById(R.id.logout)
-            buttonLogOut.setOnClickListener(this)
-            createEventButton.setOnClickListener(this)
+        val activity = this@HomeActivity
+        val toggle = ActionBarDrawerToggle(
+            activity, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
 
-            val activity = this@HomeActivity
-            val toggle = ActionBarDrawerToggle(
-                activity, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-            )
-            drawerLayout.addDrawerListener(toggle)
-            toggle.syncState()
+        val drawerMenu = DrawerMenu(this@HomeActivity, navView, this@HomeActivity)
+        bottomMenu = MenuCustom(this@HomeActivity, bottomView, this@HomeActivity, onNavigationItemSelectedListener)
 
-            val drawerMenu = DrawerMenu(this@HomeActivity, navView, this@HomeActivity)
-            bottomMenu = MenuCustom(this@HomeActivity, bottomView, this@HomeActivity, onNavigationItemSelectedListener)
+        drawerMenu.setInfo()
 
-            drawerMenu.setInfo()
+        loadFragment(HomeFragment(bottomMenu))
 
-            loadFragment(HomeFragment(bottomMenu))
-
-
-        }
+        //}
 
     }
 
@@ -162,8 +153,8 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         when(p0?.id){
             R.id.logout -> {
                 val logOutAlert = AlertDialog.Builder(this)
-                logOutAlert.setTitle("Log out?")
-                logOutAlert.setPositiveButton("Yes"){ _, _ ->
+                logOutAlert.setTitle(getString(R.string.log_out_dialog_title))
+                logOutAlert.setPositiveButton(getString(R.string.log_out_dialog_yes)){ _, _ ->
                     session.signOut()
                     googleSignInClient.signOut()
                     LoginManager.getInstance().logOut()
@@ -172,7 +163,7 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
                     finish()
                     startActivity(intent)
                 }
-                logOutAlert.setNegativeButton("No"){ _, _ ->
+                logOutAlert.setNegativeButton(getString(R.string.log_out_dialog_no)){ _, _ ->
 
                 }
                 logOutAlert.show()
@@ -208,7 +199,5 @@ class HomeActivity : AppCompatActivity(), HomeFragment.OnFragmentInteractionList
         super.onConfigurationChanged(newConfig)
     }
 
-    private fun configLanguage(){
-        FirebaseDatabase.getInstance().reference.child("parameters/${session.getIdFromUser()}/language").setValue(Locale.getDefault().displayLanguage)
-    }
+
 }

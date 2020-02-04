@@ -13,7 +13,7 @@ class AboutUsActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "About us"
+        supportActionBar?.title = getString(R.string.about_us_title)
     }
 
     override fun onSupportNavigateUp(): Boolean {

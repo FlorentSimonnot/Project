@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.EditText
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,9 +16,9 @@ import com.example.search.SearchAdapter
 import com.google.firebase.database.DataSnapshot
 import android.text.method.TextKeyListener.clear
 import android.view.View
-import android.widget.RelativeLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import com.example.search.SearchAdapterSuggestion
 import com.example.session.SessionUser
 import com.example.user.PrivacyAccount
@@ -29,7 +28,7 @@ import com.google.firebase.database.ValueEventListener
 
 
 
-class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, SearchAdapterSuggestion.OnItemListener {
+class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, SearchAdapterSuggestion.OnItemListener, View.OnClickListener {
 
     private lateinit var searchBar : EditText
     private lateinit var recyclerView : RecyclerView
@@ -39,11 +38,15 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
     private lateinit var searchAdapter : SearchAdapter
     private lateinit var searchAdapterSuggestions : SearchAdapterSuggestion
     private lateinit var suggestions : RelativeLayout
-
+    private lateinit var buttonDeleteInput : ImageButton
+    private lateinit var progressBar : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_bar)
+
+        progressBar = findViewById(R.id.progressBar)
+        progressBar.visibility = View.VISIBLE
 
         val toolbar : Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -54,10 +57,16 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
         recyclerView = findViewById(R.id.recyclerView)
         recyclerViewSuggestion = findViewById(R.id.recyclerViewSuggestion)
         suggestions = findViewById(R.id.suggestions)
+        buttonDeleteInput = findViewById(R.id.searchLogo)
+
+        buttonDeleteInput.setOnClickListener(this)
+        buttonDeleteInput.isClickable = false
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        val itemDeco = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+        itemDeco.setDrawable(ResourcesCompat.getDrawable(resources, R.drawable.divider, null)!!)
+        recyclerView.addItemDecoration(itemDeco)
 
         recyclerViewSuggestion.setHasFixedSize(true)
         recyclerViewSuggestion.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
@@ -65,9 +74,13 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
         searchBar.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 if (p0.toString().isNotEmpty()) {
+                    buttonDeleteInput.isClickable = true
+                    buttonDeleteInput.setImageDrawable(resources.getDrawable(R.drawable.ic_times))
                     suggestions.visibility = View.GONE
                     setAdapter(p0.toString(), this@SearchBarActivity)
                 } else {
+                    buttonDeleteInput.isClickable = false
+                    buttonDeleteInput.setImageDrawable(resources.getDrawable(R.drawable.ic_search_white_24dp))
                     users.clear()
                     recyclerView.removeAllViews()
                     suggestions.visibility = View.VISIBLE
@@ -136,7 +149,7 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
     }
 
     private fun setAdapterUsersSuggestion(context: Context){
-        var eventsJoined = ArrayList<String>()
+        val eventsJoined = ArrayList<String>()
         FirebaseDatabase.getInstance().getReference("users/${SessionUser(context).getIdFromUser()}/eventsJoined").addValueEventListener(object : ValueEventListener{
             override fun onCancelled(p0: DatabaseError) {}
 
@@ -144,7 +157,11 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
                 p0.children.forEach {
                     eventsJoined.add(it.key!!)
                 }
-
+                if(eventsJoined.size == 0){
+                    suggestions.visibility = View.GONE
+                    progressBar.visibility = View.GONE
+                    return
+                }
                 setAdapterUsersSuggestionAux(context, eventsJoined)
             }
 
@@ -160,11 +177,10 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
 
                 override fun onDataChange(p0: DataSnapshot) {
                     p0.children.forEach {
-                        if(it.child("status").value == "confirmed" && it.key != SessionUser(context).getIdFromUser()){
+                        if((it.child("status").value == "confirmed" || it.child("status").value == "creator") && it.key != SessionUser(context).getIdFromUser()){
                             users.add(it.key!!)
                         }
                     }
-
                     setAdapterUsersSuggestionAuxAux(context, users)
                 }
             })
@@ -173,21 +189,28 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
 
     private fun setAdapterUsersSuggestionAuxAux(context: Context, users : ArrayList<String>){
         var counter = 0
+        usersSuggestion.clear()
+        if(users.size == 0){
+            suggestions.visibility = View.GONE
+            progressBar.visibility = View.GONE
+            return
+        }
         users.forEachIndexed { index, it ->
             FirebaseDatabase.getInstance().getReference("users/$it").addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    usersSuggestion.clear()
-                    recyclerViewSuggestion.removeAllViews()
 
                     val user = dataSnapshot.getValue(User::class.java)
                     if (user != null) {
                         if (dataSnapshot.key != SessionUser(context).getIdFromUser()) {
+                            println("KEY : ${dataSnapshot.key}")
                             usersSuggestion.add(UserWithKey(user, dataSnapshot.key))
+                            println("DATA : ${usersSuggestion.size}")
                             counter++
                         }
                     }
 
                     if(index == users.size-1 || counter == 15){
+                        progressBar.visibility = View.GONE
                         if (usersSuggestion.size > 0) {
                             findViewById<RelativeLayout>(R.id.noResults).visibility = View.GONE
                             searchAdapterSuggestions = SearchAdapterSuggestion(
@@ -197,8 +220,6 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
                                 this@SearchBarActivity
                             )
                             recyclerViewSuggestion.adapter = searchAdapterSuggestions
-                        } else {
-                            suggestions.visibility = View.GONE
                         }
                     }
 
@@ -242,6 +263,15 @@ class SearchBarActivity : AppCompatActivity(), SearchAdapter.OnItemListener, Sea
                 val intent = Intent(this, PrivateUserActivity::class.java)
                 intent.putExtra("user", usersSuggestion[position].key)
                 startActivity(intent)
+            }
+        }
+    }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id){
+            R.id.searchLogo -> {
+                searchBar.text = Editable.Factory.getInstance().newEditable("")
+                usersSuggestion.clear()
             }
         }
     }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#60a3bc</color>
+    <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryTwo">#0277BD</color>
     <color name="colorPrimaryAlpha50">#E60277BD</color>
     <color name="colorPrimaryDark">#fff</color>
-    <color name="colorAccent">#eb2f06</color>
+    <color name="colorAccent">#b71c1c</color>
     <color name="background_light">#dedede</color>
     <color name="colorAccentDark">#fff</color>
     <color name="colorButtonAdded">#fdcb6e</color>
@@ -12,9 +12,29 @@
     <color name="colorDarkMode">#B3E5FC</color>
     <color name="colorGrey100">#F5F5F5</color>
     <color name="colorGrey100Alpha50">#E6F5F5F5</color>
-    <color name="colorBlueGrey900">#80263238</color>
+    <color name="colorBlueGrey900">#dedede</color>
     <color name="colorDark">#636e72</color>
     <color name="colorButtonPressed">#CFD8DC</color>
     <color name="colorGrey50">#FAFAFA</color>
-    <color name="backgroundColor">#303030</color>
+    <color name="backgroundColor">#424242</color>
+    <color name="backgroundEvent">#424242</color>
+    <color name="colorTextPrimary">#fff</color>
+    <color name="colorText">#fff</color>
+    <color name="colorTextTitleEventList">#212121</color>
+    <color name="colorTextPlaceEventList">#303030</color>
+    <color name="colorBackgroundMenu">#303030</color>
+    <color name="colorBackgroundTitleEvent">#212121</color>
+    <color name="colorSeparatorInfo">#E6F5F5F5</color>
+    <color name="colorNotificationNotSeen">#081B33</color>
+    <color name="colorSelector">#0097A7</color>
+    <color name="backgroundCalendar">#303030</color>
+    <color name="backgroundListView">#212121</color>
+    <color name="colorCircleMessageNotRead">#fff</color>
+    <color name="deleteNotification">#b71c1c</color>
+    <color name="backgroundAlertDialog">#212121</color>
+    <color name="colorMenuItemActive">#0097A7</color>
+    <color name="colorMenuItem">#dedede</color>
+    <color name="colorParameterTitle">#0097A7</color>
+    <color name="colorParameterSub">#fff</color>
+    <color name="backgroundPage">#424242</color>
 </resources>

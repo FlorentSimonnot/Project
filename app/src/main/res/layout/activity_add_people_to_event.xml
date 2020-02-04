@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".AddPeopleToEventActivity"
+        android:background="@color/backgroundColor"
         >
 
     <RelativeLayout
@@ -60,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/event_info_invite_friends_no_result"
                         android:gravity="center"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorText"
                         android:fontFamily="@font/rubik"
                         android:textSize="16sp"
                         android:layout_below="@id/image"

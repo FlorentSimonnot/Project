@@ -30,7 +30,6 @@
     <string name="client_id">314370239409-n8rhasb1b0pfjjm2f13qq6du7e0mho5m.apps.googleusercontent.com</string>
     <string name="title_activity_event_info">EventInfoActivity</string>
 
-    <string name="describe_privacy">With choosing private privacy users can only see your name or your events created and joined</string>
     <string name="description_test">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque rutrum velit eget felis tempus, a fringilla mi feugiat. Nullam ac augue ut sapien pharetra tincidunt. Praesent luctus nisi ut risus consequat pulvinar. Pellentesque hendrerit vitae sed.
     </string>
@@ -126,7 +125,11 @@
     <string name="filter_only_next">Only next events</string>
     <string name="events_filter_title">Filter</string>
     <string name="events_filter_message">Select a category of events</string>
+    <string name="events_filter_all_events">All events</string>
+    <string name="events_filter_only_finished">Only finished</string>
+    <string name="events_filter_only_next">Only next</string>
 
+    <!--NOTIFICATIONS PUSH-->
     <string name="notifications_social_title">Socials notifications</string>
     <string name="notifications_events_title">Events notifications</string>
     <string name="notification_receive_invitation">Receive notification if someone invite me</string>
@@ -139,6 +142,7 @@
     <string name="notification_title">Configurer les notifications</string>
     <string name="button_delete_all_notification">Supprimer toutes les notifications</string>
     <string name="event_info_invite_friends_no_result">No result found</string>
+    <string name="notifications_push_toast">Updated</string>
 
     <!--NAME OF SPORTS-->
     <string name="football">Fußball</string>
@@ -221,6 +225,7 @@
     <string name="event_info_cannot_invite">You cannot invite friends, your event is full</string>
     <string name="event_info_invite_toast">You have invited a friend</string>
     <string name="event_info_cancel_invitation_toast">You have canceled your invitation</string>
+    <string name="event_info_create_reminder">Create a reminder for this event</string>
     <string name="modify_event_title">Ändern Sie Ihr Ereignis</string>
     <string name="modify_event_name">Name</string>
     <string name="modify_event_sport">Sport</string>
@@ -302,6 +307,23 @@
     <string name="next_sign_in_male">Male</string>
     <string name="next_sign_in_female">Female</string>
     <string name="next_sign_in_other">Female</string>
+    <string name="next_sign_in_privacy_message">With choosing private privacy users can only see your name or your events created
+        and joined
+    </string>
+    <string name="next_sign_in_public">Public</string>
+    <string name="next_sign_in_private">Private</string>
+
+    <!--LOG OUT-->
+    <string name="log_out_dialog_title">Log out?</string>
+    <string name="log_out_dialog_yes">Yes</string>
+    <string name="log_out_dialog_no">No</string>
+
+    <!--ABOUT US-->
+    <string name="about_us_title">About us</string>
+    <string name="about_us_text">text</string>
+    <string name="about_us_contact_us">Contact us</string>
+    <string name="about_us_facebook">Like on Facebook</string>
+    <string name="about_us_twitter">Follow on Twitter</string>
 
     <string name="page1_title">Found event near your localisation</string>
     <string name="page1_content">
@@ -315,4 +337,41 @@
     <string name="page3_content">
         Create your sporting event whenever you want, where you want.
         You can create an event visible to all or only to your friends.</string>
+    <string name="tutorial_lets_go">Let\'s go!</string>
+
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+
+    <string name="discussion_turn_off">The admin turned off the discussion</string>
+
+    <string name="dark_theme">Dark Theme</string>
+    <string name="dark_theme_activate">Dark theme is activate</string>
+    <string name="dark_theme_deactivate">Dark theme is deactivate</string>
+
+    <string name="measuring_system">Measuring system</string>
+    <string name="measuring_system_sub_km">This application use kilometers</string>
+    <string name="measuring_system_sub_milles">This application use Miles</string>
+    <string name="sports_title">Sports</string>
+    <string name="sports">Select which sports have to be show</string>
+    <string name="myEvents_title">myEvents_title</string>
+    <string name="myEvents">myEvents</string>
+    <string name="myEventsShow">Afficher mes évènemens dans l\'accueil et sur la carte</string>
+
+    <!-- DAYS -->
+    <string-array name="days">
+        <item>S</item>
+        <item>M</item>
+        <item>D</item>
+        <item>M</item>
+        <item>D</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
+
+
 </resources>

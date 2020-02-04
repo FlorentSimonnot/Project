@@ -13,6 +13,7 @@
             android:layout_height="match_parent"
             android:id="@+id/event_info_layout"
             tools:ignore="MissingConstraints"
+            android:background="@color/backgroundColor"
             >
 
         <!--TOOLBAR-->
@@ -55,6 +56,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="No results found"
+                        android:textColor="@color/colorText"
+                        android:gravity="center_horizontal"
                         />
             </RelativeLayout>
 

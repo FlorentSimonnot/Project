@@ -16,6 +16,10 @@ enum class Sport() {
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.football)
         }
+
+        override fun getBackgroundEvent(): Int {
+            return R.drawable.foot
+        }
     },
     BASKETBALL{
         override fun getLogoSport(size: Int): Int {
@@ -29,6 +33,10 @@ enum class Sport() {
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.basketball)
         }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
     },
     CROSSFIT{
         override fun getLogoSport(size: Int): Int {
@@ -41,17 +49,25 @@ enum class Sport() {
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.crossfit)
         }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
     },
     HANDBALL{
         override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_handball
         }
         override fun getLogoForMarker(): Int {
-            return R.drawable.ic_football
+            return R.drawable.ic_handball
         }
 
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.handball)
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
     },
     CANOE{
@@ -65,6 +81,10 @@ enum class Sport() {
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.football)
         }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
     },
     GOLF{
         override fun getLogoSport(size: Int): Int {
@@ -76,6 +96,10 @@ enum class Sport() {
 
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.golf)
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
     },
     MUSCULATION{
@@ -89,6 +113,10 @@ enum class Sport() {
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.bodybuilding)
         }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
     },
     TENNISDETABLE{
         override fun getLogoSport(size: Int): Int {
@@ -100,6 +128,10 @@ enum class Sport() {
         }
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.table_tennis)
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
     },
     TENNIS{
@@ -114,6 +146,10 @@ enum class Sport() {
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.tennis)
         }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
     },
     TRAIL{
         override fun getLogoSport(size: Int): Int {
@@ -126,6 +162,10 @@ enum class Sport() {
 
         override fun getNameSport(context: Context): String {
             return context.resources.getString(R.string.football)
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
     },
     BASEBALL{
@@ -144,6 +184,10 @@ enum class Sport() {
             return R.drawable.ic_baseball
         }
 
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
+
     },
     VOLLEYBALL{
         override fun getNameSport(context: Context): String {
@@ -158,6 +202,10 @@ enum class Sport() {
             return R.drawable.ic_volleyball
         }
 
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
+
     },
     BADMINTON{
         override fun getNameSport(context: Context): String {
@@ -169,7 +217,16 @@ enum class Sport() {
         }
 
         override fun getLogoSport(size: Int): Int {
-            return R.drawable.ic_badminton
+            return when(size){
+                24 -> R.drawable.ic_badminton
+                70 -> R.drawable.ic_badminton_70dp
+                else -> R.drawable.ic_badminton
+            }
+            //return R.drawable.ic_badminton
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
 
     },
@@ -186,6 +243,10 @@ enum class Sport() {
             return R.drawable.ic_swimming
         }
 
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
+
     },
     PETANQUE{
         override fun getNameSport(context: Context): String {
@@ -198,6 +259,10 @@ enum class Sport() {
 
         override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_petanque
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
 
     },
@@ -214,6 +279,10 @@ enum class Sport() {
             return R.drawable.ic_rugby
         }
 
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
+
     },
     AMERICANFOOTBALL{
         override fun getNameSport(context: Context): String {
@@ -226,6 +295,10 @@ enum class Sport() {
 
         override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_american_football
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
 
     },
@@ -241,6 +314,10 @@ enum class Sport() {
         override fun getLogoSport(size: Int): Int {
             return R.drawable.ic_cyclist
         }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
+        }
     },
     ESCALADE{
         override fun getNameSport(context: Context): String {
@@ -251,7 +328,15 @@ enum class Sport() {
         }
 
         override fun getLogoSport(size: Int): Int {
-            return R.drawable.ic_climber
+            return when(size){
+                24 -> R.drawable.ic_climber
+                70 -> R.drawable.ic_climber_70dp
+                else -> R.drawable.ic_climber
+            }
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return R.drawable.climbing
         }
     },
     INIT{
@@ -265,6 +350,10 @@ enum class Sport() {
 
         override fun getNameSport(context: Context): String {
             return "OOPS"
+        }
+
+        override fun getBackgroundEvent(): Int {
+            return -1
         }
     }; //Add for instantiate sport and use whichSport
 
@@ -300,4 +389,5 @@ enum class Sport() {
     abstract fun getNameSport(context : Context) : String
     abstract fun getLogoSport(size : Int = 24) : Int
     abstract fun getLogoForMarker() : Int
+    abstract fun getBackgroundEvent() : Int
 }

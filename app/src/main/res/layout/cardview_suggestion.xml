@@ -35,19 +35,20 @@
                     android:layout_centerHorizontal="true"
                     android:id="@+id/image_view"
                     app:civ_border_color="@color/colorPrimary"
+                    app:civ_circle_background_color="#fff"
                     app:civ_border_width="1dp"
                     android:src="@drawable/ic_boy"/>
 
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Canada"
+                    android:text=""
                     android:layout_below="@+id/image_view"
                     android:id="@+id/name"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorText"
                     android:layout_marginBottom="5dp"
                     android:autoSizeTextType="uniform"
                     android:autoSizeMinTextSize="8sp"
